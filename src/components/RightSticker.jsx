@@ -12,5 +12,5 @@ const RightSticker = () => {
 export default RightSticker;
 
 const Header = styled.div`
-  position: relative;
+  position: absolute;
 `;
