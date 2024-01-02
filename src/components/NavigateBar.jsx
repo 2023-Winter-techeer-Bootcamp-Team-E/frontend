@@ -1,16 +1,62 @@
 import React from 'react';
+import styled from 'styled-components';
+import bell from '../../public/img/NavigateBar_bell.png'
+import arrow from '../../public/img/NavigateBar_arrow.png'
 
 const NavigateBar = () => {
+    let userName = '조진우';
     return (
-        <div className="navigation-bar">
-            <a href="https://vitejs.dev" target="_blank">
-                <img src={viteLogo} className="logo" alt="Vite logo" />
-            </a>
-            <a href="https://react.dev" target="_blank">
-                <img src={reactLogo} className="logo react" alt="React logo" />
-            </a>
-        </div>
+        <>
+            <NavBar>
+                <BellImg src={bell} />
+                <ProfName>환영합니다. {userName}님</ProfName>
+                <ProfArrow src={arrow}/>
+            </NavBar>
+        </>
     );
 }
 
+const NavBar = styled.div`
+position: absolute;
+top: 0;
+width: 108rem;
+height: 7.9375rem;
+background : #C1E3FF;
+`
+const BellImg = styled.img`
+position: absolute;
+width: 4.625rem;
+height: 4.625rem;
+left: 82.0625rem;
+right: 24.9375rem;
+top: 1.5625rem;
+bottom: 1.5625rem;
+`
+
+const ProfName = styled.div`
+width: 15.125rem;
+height: 1.125rem;
+flex-shrink: 0;
+position: absolute;
+left: 88.44rem;
+right: 4.44rem;
+top: 3.31rem;
+bottom: 3.5rem;
+color: #FFF;
+font-family: Arial Black;
+font-size: 1rem;
+font-style: normal;
+font-weight: 900;
+line-height: normal;
+`
+
+const ProfArrow = styled.img`
+position: absolute;
+width: 0.75rem;
+height: 0.75rem;
+left: 97.75rem;
+right: 3.5rem;
+bottom:3.44rem;
+top: 3.75rem;
+`
 export default NavigateBar;
