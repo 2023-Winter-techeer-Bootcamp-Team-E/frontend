@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { keyframes } from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SignUpBtn from '../components/SignIn_Up';
 import SmallSketchbook from '../components/SmallSketchbook';
 import sketbook from '../../public/img/HaruConnectingBook.png';
-import LoginBar from '../components/LoginBar';
+import LoginInput from '../components/LoginInput';
 
 
 function SignUpPage(props) {
@@ -16,7 +17,7 @@ function SignUpPage(props) {
   const [passwordMatch, setPasswordMatch] = useState('');
   const [idComment, setIdComment] = useState(' - 영문을 포함해 4자리 이상');
   const [idCommentColor, setIdCommentColor] = useState('#777777');
-  const [pwComment, setPwComment] = useState('- 안전한 일기 보관을 위해 8~16 영문 숫자, 특수문자를 사용하세요');
+  const [pwComment, setPwComment] = useState('- 안전한 일기 보관을 위해 8~16 자의 영문, 숫자, 특수문자를 사용하세요.');
   const [pwCommentColor, setPwCommentColor] = useState('#777777');
   const [pwMatchComment, setPwMatchComment] = useState('');
   const [pwMatchCommentColor, setPwMatchCommentColor] = useState('#777777');
@@ -26,13 +27,17 @@ function SignUpPage(props) {
   const [pwWrite, setPwWrite] = useState(0);
   const [pwMatchWrite, setPwMatchWrite] = useState(0);
   const [passwordCheck, setPasswordCheck] = useState(0);
-  
+
+  const navigate = useNavigate();
 
   const handleIdChange = (e) => {
     const inputId = e.target.value;
     setId(inputId);
-    if (inputId.length < 4 || !/[a-zA-Z]/.test(inputId)) {
-      setIdComment(' - 아이디는 4글자 이상에 영어와 숫자로만 이루어져있어야합니다.');
+
+    const validCharacters = /^[a-zA-Z0-9]+$/;
+
+    if (inputId.length < 4 || !/[a-zA-Z]/.test(inputId) || !validCharacters.test(inputId)) {
+      setIdComment(' - 아이디는 4글자 이상이며 영문과 숫자로만 이루어져야 합니다.');
       setIdCommentColor('#DD0000'); // 빨간색 글씨로 변경
       setIdWrite('0');
     } else {
@@ -44,7 +49,15 @@ function SignUpPage(props) {
 
 
   const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+    const inputUsername = e.target.value;
+    setUsername(inputUsername);
+
+    if (username !== '') {
+      setUsernameWrite('1');
+    } else {
+      setUsernameWrite('0');
+    }
+
   };
 
   const handlePasswordChange = (e) => {
@@ -61,7 +74,7 @@ function SignUpPage(props) {
       setPwWrite('1');
       setPasswordCheck(inputPw);
     } else {
-      setPwComment(' - 비밀번호에는 8~16 글자에 영문자, 숫자, 특수문자가 반드시 들어가야합니다.');
+      setPwComment(' - 비밀번호는 8~16자여야 하며, 영문자, 숫자, 특수문자를 반드시 포함해야 합니다.');
       setPwCommentColor('#DD0000'); // 빨간색 글씨로 변경
       setPwWrite('0');
       setPasswordCheck(inputPw);
@@ -72,7 +85,7 @@ function SignUpPage(props) {
     const inputPwMatch = e.target.value;
     setPasswordMatch(e.target.value);
     if (pwWrite == 0) {
-      setPwMatchComment(' - 초기 비밀번호 조건부터 맞춰주세요!');
+      setPwMatchComment(' - 초기 비밀번호의 조건을 먼저 맞춰주세요!');
       setPwMatchCommentColor('#DD0000'); // 빨간색 글씨로 변경
     }
     else {
@@ -93,12 +106,12 @@ function SignUpPage(props) {
     <BackLayout>
       <PageFrame>
         <SketDiv>
-          <SignUpText>나만의 일기장을 <br />만들어 볼까요?</SignUpText>
+          <SignUpText>나만의 일기장을 <br />만들어 볼까요?<br /></SignUpText>
 
           <SmallSketchbook />
 
           <UsernameInput>
-            <LoginBar
+            <LoginInput
               type="text"
               placeholder="닉네임"
               text={username}
@@ -107,7 +120,7 @@ function SignUpPage(props) {
           </UsernameInput>
 
           <IdInput>
-            <LoginBar
+            <LoginInput
               type="text"
               placeholder="아이디"
               text={id}
@@ -118,7 +131,7 @@ function SignUpPage(props) {
           <IdRequireText idCommentColor={idCommentColor}>{idComment}</IdRequireText>
 
           <PwInput>
-            <LoginBar
+            <Login
               type="password"
               placeholder="비밀번호"
               text={password}
@@ -129,7 +142,7 @@ function SignUpPage(props) {
           <PwRequireText pwCommentColor={pwCommentColor}>{pwComment}</PwRequireText>
 
           <PwMatchInput>
-            <LoginBar
+            <LoginInput
               type="password"
               placeholder="비밀번호 확인"
               text={passwordMatch}
@@ -140,8 +153,22 @@ function SignUpPage(props) {
           <PwMatchText pwMatchCommentColor={pwMatchCommentColor}>{pwMatchComment}</PwMatchText>
 
           <SignUpWrapper>
-            <SignUpBtn text="회원 가입" />
+            <SignUpBtn
+              text="회원 가입"
+              disabled={!(usernameWrite && idWrite && pwWrite && pwMatchWrite)}
+              onClick={() => {
+                console.log(usernameWrite);
+                console.log(idWrite);
+                console.log(pwWrite);
+                console.log(pwMatchWrite);
+                console.log("----------------");
+                if ((usernameWrite=='1') && (idWrite=='1') && (pwWrite=='1') && (pwMatchWrite == '1')) {
+                  navigate('/signin');
+                }
+              }}
+            />
           </SignUpWrapper>
+
 
         </SketDiv>
         <SketBook src={sketbook} />
@@ -161,7 +188,6 @@ const BackLayout = styled.div`
 `
 
 const PageFrame = styled.div`
-/* background : #AAA; */
   position: absolute;
   width: 108rem;
   height: 70rem;
@@ -204,6 +230,7 @@ left : 20%;
   position: absolute;
   z-index: 3;
   margin-top : 10%;
+  line-height: 1.2;
 `
 
 const SketBook = styled.img`

@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const LoginBar = ({ text, handleTextChange, placeholder, type }) => {
+const LoginInput = ({ text, handleTextChange, placeholder, type }) => {
  
   return (
-    <LoginBarContainer>
+    <LoginInputContainer>
       <TextInput
         type={type}
         value={text}
         onChange={handleTextChange}
         placeholder={placeholder}
       />
-    </LoginBarContainer>
+    </LoginInputContainer>
   );
 };
 
-const LoginBarContainer = styled.div`
+const LoginInputContainer = styled.div`
 
   width: 36.5625rem;
   height: 4.8125rem;

@@ -1,21 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SignIn_Up = ({text}) => {
+const SignIn_Up = ({ text, disabled, onClick }) => {
 
-    const handleButtonClick = () => {
-        console.log("Go To MainPage");
-    };
-    return (
-        <MainBtn onClick={handleButtonClick}>
-            <PlaceText>
-                {text}
-            </PlaceText>
-        </MainBtn>
-    );
+  const handleButtonClick = () => {
+    if (!disabled && onClick) {
+      onClick(); // 클릭 시 부모 컴포넌트로부터 전달된 함수 호출
+    }
+  };
+  return (
+    <MainBtn onClick={handleButtonClick} disabled={disabled}>
+      <PlaceText>
+        {text}
+      </PlaceText>
+    </MainBtn>
+  );
 };
 
-const MainBtn = styled.div`
+const MainBtn = styled.button`
 
   width: 36.5625rem;
   height: 4.8125rem;
@@ -23,8 +25,8 @@ const MainBtn = styled.div`
   border: 5px solid #C1E3FF;
   background: #B6DEFD;
   display: flex;
-  justify-content: center; /* 수평 가운데 정렬 */
-  align-items: center; /* 수직 가운데 정렬 */
+  justify-content: center;
+  align-items: center;
 `
 
 const PlaceText = styled.p`

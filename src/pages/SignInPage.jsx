@@ -1,76 +1,85 @@
 import React, { useState } from 'react';
 import { keyframes } from 'styled-components';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SignInBtn from '../components/SignIn_Up';
 import SmallSketchbook from '../components/SmallSketchbook';
 import sketbook from '../../public/img/HaruConnectingBook.png';
-import LoginBar from '../components/LoginBar';
+import LoginInput from '../components/LoginInput';
 
 
 function SignInPage(props) {
 
-    
-    const [id, setId] = useState('');
-    const [password, setPassword] = useState('');
-    const handleIdChange = (e) => {
-        setId(e.target.value);
-    };
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+  const [wrongPwAlert, setWrongPwAlert] = useState('');
+  const [wrongPwAlertColor, setWrongPwAlertColor] = useState('#DD0000');
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
+  //로그인 기능 사용 해 보려고 내꺼 임시로 만들어봄 ㅎ.ㅎ
+  const jinooId = 'jinoo0306';
+  const jinooPw = 'wlsn';
 
-    const handleSignIn = () => {
-        // 여기서는 간단하게 입력된 정보를 콘솔에 출력하고 MainPage로 이동하도록 하겠습니다.
-        console.log('Username:', username);
-        console.log('Password:', password);
+  const handleIdChange = (e) => {
+    setId(e.target.value);
+  };
 
-        // 실제로는 서버 요청 등을 통해 입력된 정보를 확인하고 로그인 처리를 해야 합니다.
-        // 로그인 처리 후 MainPage로 이동하도록 구현해야 합니다.
-        // 예를 들어, 다음과 같이 MainPage로 이동할 수 있습니다.
-        // props.history.push('/main'); // MainPage 경로로 이동
-    };
-    const GoToSignUp = () => {
-        console.log("Go To SignUp");
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    // 입력된 아이디와 비밀번호가 맞는지 확인
+    if (id === jinooId && password === jinooPw) {
+      navigate('/start');
+      setWrongPwAlert('로그인 중...');
+      setWrongPwAlertColor('#00A656')
+    } else {
+
+      setWrongPwAlert('아이디 또는 비밀번호가 일치하지 않습니다.');
     }
+  };
 
-    return (
-        <BackLayout>
-            <PageFrame>
-                <SketDiv>
-                    <SignInText>Login</SignInText>
+  return (
+    <BackLayout>
+      <PageFrame>
+        <SketDiv>
+          <SignInText>Login</SignInText>
 
-                    <SmallSketchbook />
-                    <IdInput>
-                        <LoginBar
-                            type="text"
-                            placeholder="아이디"
-                            text={id}
-                            handleTextChange={handleIdChange}
-                        />
-                    </IdInput>
+          <SmallSketchbook />
+          <IdInput>
+            <LoginInput
+              type="text"
+              placeholder="아이디"
+              text={id}
+              handleTextChange={handleIdChange}
+            />
+          </IdInput>
 
-                    <PwInput>
-                        <LoginBar
-                            type="password"
-                            placeholder="비밀번호"
-                            text={password}
-                            handleTextChange={handlePasswordChange}
-                        />
-                    </PwInput>
+          <PwInput>
+            <LoginInput
+              type="password"
+              placeholder="비밀번호"
+              text={password}
+              handleTextChange={handlePasswordChange}
+            />
+          </PwInput>
 
-                    <SignInInput>
-                        <SignInBtn text="일기장 펼치기" />
-                    </SignInInput>
+          <WrongPasswordAlert wrongPwAlertColor={wrongPwAlertColor}>{wrongPwAlert}</WrongPasswordAlert>
+          
+          <SignInInput>
+            {/* 로그인 버튼에 클릭 이벤트 추가 */}
+            <SignInBtn text="일기장 펼치기" onClick={handleLogin} />
+        </SignInInput>
 
-                    <Line />
+          <Line />
 
-                    <SignUpText onClick={GoToSignUp}>회원 가입</SignUpText>
-                </SketDiv>
-                <SketBook src={sketbook} />
-            </PageFrame>
-        </BackLayout>
-    );
+          <SignUpText to="/signup">회원 가입</SignUpText>
+        </SketDiv>
+        <SketBook src={sketbook} />
+      </PageFrame>
+    </BackLayout>
+  );
 }
 
 const BackLayout = styled.div`
@@ -148,6 +157,14 @@ const PwInput = styled.div`
     z-index : 2;
 `
 
+const WrongPasswordAlert = styled.p`
+  left: 20%;
+  position: absolute;
+  margin-top: 58%;
+  z-index: 2;
+  color: ${({ wrongPwAlertColor }) => wrongPwAlertColor};
+`;
+
 const SignInInput = styled.div`
     position : absolute;
     margin-top : 62%;
@@ -163,9 +180,9 @@ margin-top : 73%;
 z-index:2;
 `
 
-const SignUpText = styled.div`
+const SignUpText = styled(Link)`
 color: #C4C4C4;
-font-family: Arial Black;
+font-family: Arial;
 font-size: 1.25rem;
 font-style: normal;
 font-weight: 900;
@@ -173,6 +190,8 @@ line-height: normal;
 position : absolute;
 margin-top : 75%;
 z-index: 2;
+cursor: pointer; 
+text-decoration: none;
 `
 
 export default SignInPage;
