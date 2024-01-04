@@ -43,7 +43,7 @@ const PageFrame = styled.div`
   flex-direction: column; /* 세로로 정렬되도록 수정 */
   align-items: center;
   justify-content: center;
-  background: #aaaaaa;
+  background: #C1E3FF;
 `
 
 const BookWrapper = styled.div`
