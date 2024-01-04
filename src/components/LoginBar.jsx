@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const LoginBar = ({ initialText, placeholder }) => {
-  const [text, setText] = useState(initialText);
-
-  const handleTextChange = (e) => {
-    setText(e.target.value);
-  };
-
+const LoginBar = ({ text, handleTextChange, placeholder, type }) => {
+ 
   return (
     <LoginBarContainer>
       <TextInput
+        type={type}
         value={text}
         onChange={handleTextChange}
         placeholder={placeholder}
@@ -20,11 +16,9 @@ const LoginBar = ({ initialText, placeholder }) => {
 };
 
 const LoginBarContainer = styled.div`
-  position: absolute;
+
   width: 36.5625rem;
   height: 4.8125rem;
-  top: 30%;
-  left: 50%;
   flex-shrink: 0;
   border-radius: 1.25rem;
   border: 3px solid #C1E3FF;
@@ -35,8 +29,11 @@ const LoginBarContainer = styled.div`
 `;
 
 const TextInput = styled.input`
-  color: #C4C4C4;
-  font-family: 'Arial Black', sans-serif;
+position:absolute;
+height : 4rem;
+width : 33rem;
+  color: #000;
+  font-family: Arial;
   font-size: 1rem;
   font-style: normal;
   font-weight: 900;
@@ -44,7 +41,10 @@ const TextInput = styled.input`
   border: none;
   outline: none;
   text-align: left; /* 수정된 부분 */
-  left: -20%;
+  left:1rem;
+  &::placeholder {
+    color: #AAAAAA; /* 원하는 색상으로 변경하세요 */
+  }
 `;
 
 

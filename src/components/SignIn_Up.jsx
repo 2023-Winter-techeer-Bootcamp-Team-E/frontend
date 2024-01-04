@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SignIn_Up = ({ text }) => {
+const SignIn_Up = ({text}) => {
 
     const handleButtonClick = () => {
-        console.log("The button has been pressed.");
+        console.log("Go To MainPage");
     };
-
     return (
         <MainBtn onClick={handleButtonClick}>
             <PlaceText>
@@ -17,7 +16,7 @@ const SignIn_Up = ({ text }) => {
 };
 
 const MainBtn = styled.div`
-  position: absolute;
+
   width: 36.5625rem;
   height: 4.8125rem;
   border-radius: 1.25rem;
