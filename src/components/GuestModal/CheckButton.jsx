@@ -8,7 +8,6 @@ function CheckButton({ closeModal, isPasswordValid }) {
     if (isPasswordValid) {
       console.log('CheckButton clicked!');
       closeModal();
-
     } else {
       console.log('Invalid Password');
     }
@@ -56,5 +55,3 @@ const CheckButtonContainer = styled.div`
   }
 `;
 export default CheckButton;
-
-

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import bell from '../../public/img/NavigateBar_bell.png';
-import arrow from '../../public/img/NavigateBar_arrow.png';
+import bell from '../assets/img/NavigateBar_bell.png';
+import arrow from '../assets/img/NavigateBar_arrow.png';
 
 const NavigateBar = () => {
   let userName = '조진우';
@@ -17,6 +17,8 @@ const NavigateBar = () => {
 };
 
 const NavBar = styled.div`
+  position: absolute;
+  top: 0;
   width: 108rem;
   height: 7.9375rem;
   background: #c1e3ff;

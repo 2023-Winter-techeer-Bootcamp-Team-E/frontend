@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Sun from '../../public/img/Sun.png';
-import upbutton from '../../public/img/upbutton.png';
-import downbutton from '../../public/img/downbutton.png';
+import Sun from '../assets/img/Sun.png';
+import upbutton from '../assets/img/upbutton.png';
+import downbutton from '.../assets/img/downbutton.png';
 
 const BasicSticker = () => {
   const handleUpButtonClick = () => {
@@ -17,15 +17,15 @@ const BasicSticker = () => {
 
   return (
     <BasicStickerContainer>
-      <StyledSun src="/img/Sun.png" alt="Sun" />
+      <StyledSun src={Sun} alt="Sun" />
       <StyledUpButton
         onClick={handleUpButtonClick}
-        src="/img/upbutton.png"
+        src={upbutton}
         alt="UpButton"
       />
       <StyledDownButton
         onClick={handleDownButtonClick}
-        src="/img/downbutton.png"
+        src={downbutton}
         alt="DownButton"
       />
       <ScrollContainer />

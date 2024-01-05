@@ -4,12 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SignInBtn from '../components/SignIn_Up';
 import SmallSketchbook from '../components/SmallSketchbook';
-import sketbook from '../../public/img/HaruConnectingBook.png';
+import sketbook from '../assets/img/HaruConnectingBook.png';
 import LoginInput from '../components/LoginInput';
 
-
-function SignInPage(props) {
-
+function LoginPage(props) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [wrongPwAlert, setWrongPwAlert] = useState('');
@@ -33,9 +31,8 @@ function SignInPage(props) {
     if (id === jinooId && password === jinooPw) {
       navigate('/start');
       setWrongPwAlert('로그인 중...');
-      setWrongPwAlertColor('#00A656')
+      setWrongPwAlertColor('#00A656');
     } else {
-
       setWrongPwAlert('아이디 또는 비밀번호가 일치하지 않습니다.');
     }
   };
@@ -48,12 +45,14 @@ function SignInPage(props) {
 
           <SmallSketchbook />
           <IdInput>
-            {<LoginInput
-              type="text"
-              placeholder="아이디"
-              text={id}
-              handleTextChange={handleIdChange}
-            />}
+            {
+              <LoginInput
+                type="text"
+                placeholder="아이디"
+                text={id}
+                handleTextChange={handleIdChange}
+              />
+            }
           </IdInput>
 
           <PwInput>
@@ -65,11 +64,13 @@ function SignInPage(props) {
             />
           </PwInput>
 
-          <WrongPasswordAlert wrongPwAlertColor={wrongPwAlertColor}>{wrongPwAlert}</WrongPasswordAlert>
-          
+          <WrongPasswordAlert wrongPwAlertColor={wrongPwAlertColor}>
+            {wrongPwAlert}
+          </WrongPasswordAlert>
+
           <SignInInput>
             <SignInBtn text="일기장 펼치기" onClick={handleLogin} />
-        </SignInInput>
+          </SignInInput>
 
           <Line />
 
@@ -88,20 +89,20 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: #C1E3FF;
-`
+  background: #c1e3ff;
+`;
 
 const PageFrame = styled.div`
-/* background : #AAA; */
+  /* background : #AAA; */
   position: absolute;
   width: 108rem;
   height: 70rem;
-  top: 50%; 
-  left: 50%; 
-  transform: translate(-50%, -50%); 
-  display : flex;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
   place-items: center;
-`
+`;
 const slideUp = keyframes`
   0% {
     transform: translateY(10%);
@@ -113,19 +114,19 @@ const slideUp = keyframes`
   }
 `;
 const SketDiv = styled.div`
-  position : absolute;
-  width: 60.75rem;   
-  height: 59.8125rem;   
-  display: flex;   
-  justify-content: center;  
-  margin-top : 3%;   
-  margin-left : 2.314814815%;
-  
+  position: absolute;
+  width: 60.75rem;
+  height: 59.8125rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 3%;
+  margin-left: 2.314814815%;
+
   // 애니메이션 적용
   animation: ${slideUp} 1s ease-out;
-  `;
+`;
 const SignInText = styled.div`
-  color: #3CB5FA;
+  color: #3cb5fa;
   font-family: Arial Black;
   font-size: 6rem;
   font-style: normal;
@@ -133,28 +134,27 @@ const SignInText = styled.div`
   line-height: normal;
   position: absolute;
   z-index: 3;
-  margin-top : 10%;
-`
+  margin-top: 10%;
+`;
 
 const SketBook = styled.img`
-position : absolute;
-width: 42.6875rem;
-height: 51.875rem;
-flex-shrink: 0;
-margin-left : 60%;
-`
+  position: absolute;
+  width: 42.6875rem;
+  height: 51.875rem;
+  flex-shrink: 0;
+  margin-left: 60%;
+`;
 const IdInput = styled.div`
   position: absolute;
-  margin-top: 38%; 
+  margin-top: 38%;
   z-index: 2;
 `;
 
-
 const PwInput = styled.div`
-    position : absolute;
-    margin-top: 48%; 
-    z-index : 2;
-`
+  position: absolute;
+  margin-top: 48%;
+  z-index: 2;
+`;
 
 const WrongPasswordAlert = styled.p`
   left: 20%;
@@ -165,32 +165,32 @@ const WrongPasswordAlert = styled.p`
 `;
 
 const SignInInput = styled.div`
-    position : absolute;
-    margin-top : 62%;
-    z-index : 2;
-`
+  position: absolute;
+  margin-top: 62%;
+  z-index: 2;
+`;
 
 const Line = styled.hr`
-position : absolute;
-width: 46.93769rem;
-height: 0.0625rem;
-background: #E1E1E1;
-margin-top : 73%;
-z-index:2;
-`
+  position: absolute;
+  width: 46.93769rem;
+  height: 0.0625rem;
+  background: #e1e1e1;
+  margin-top: 73%;
+  z-index: 2;
+`;
 
 const SignUpText = styled(Link)`
-color: #C4C4C4;
-font-family: Arial;
-font-size: 1.25rem;
-font-style: normal;
-font-weight: 900;
-line-height: normal;
-position : absolute;
-margin-top : 75%;
-z-index: 2;
-cursor: pointer; 
-text-decoration: none;
-`
+  color: #c4c4c4;
+  font-family: Arial;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  position: absolute;
+  margin-top: 75%;
+  z-index: 2;
+  cursor: pointer;
+  text-decoration: none;
+`;
 
-export default SignInPage;
+export default LoginPage;
