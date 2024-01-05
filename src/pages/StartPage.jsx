@@ -57,7 +57,7 @@ const StartButtonWrapper = styled.div`
 
 const StyledStartBook = styled.img`
   position: relative;
-  left: 9%
+  left: 9%;
   width: 97%;
   height: 70%;
 `;
