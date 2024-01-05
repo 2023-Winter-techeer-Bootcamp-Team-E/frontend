@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Sun from '../assets/img/Sun.png';
 import upbutton from '../assets/img/upbutton.png';
-import downbutton from '.../assets/img/downbutton.png';
+import downbutton from '../assets/img/downbutton.png';
 
 const BasicSticker = () => {
   const handleUpButtonClick = () => {
