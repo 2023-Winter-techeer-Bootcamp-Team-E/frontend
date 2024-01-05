@@ -4,7 +4,7 @@ import Sun from '../../public/img/Sun.png';
 import upbutton from '../../public/img/upbutton.png';
 import downbutton from '../../public/img/downbutton.png';
 
-const BasicStickerScroll = () => {
+const BasicSticker = () => {
   const handleUpButtonClick = () => {
     // 버튼이 클릭되었을 때 수행할 작업을 이 함수에 추가하세요
     console.log('UpButton clicked!');
@@ -16,23 +16,26 @@ const BasicStickerScroll = () => {
   };
 
   return (
-    <div>
-      <BasicStickerContainer>
-        <StyledSun src="/img/Sun.png" alt="Sun" />
-        <StyledUpButton onClick={handleUpButtonClick} src="/img/upbutton.png" alt="UpButton" />
-        <StyledDownButton onClick={handleDownButtonClick} src="/img/downbutton.png" alt="DownButton" />
-        <ScrollContainer />
-      </BasicStickerContainer>
-    </div>
+    <BasicStickerContainer>
+      <StyledSun src="/img/Sun.png" alt="Sun" />
+      <StyledUpButton
+        onClick={handleUpButtonClick}
+        src="/img/upbutton.png"
+        alt="UpButton"
+      />
+      <StyledDownButton
+        onClick={handleDownButtonClick}
+        src="/img/downbutton.png"
+        alt="DownButton"
+      />
+      <ScrollContainer />
+    </BasicStickerContainer>
   );
 };
 
 const BasicStickerContainer = styled.div`
-  position: absolute;
-  top: 20%;
   width: 12rem;
   height: 35rem;
-  left: 2%;
   border-radius: 1.875rem;
   background: #e7eef9;
   text-align: center;
@@ -66,7 +69,7 @@ const StyledDownButton = styled.img`
   bottom: -12.5%;
   left: 50%;
   transform: translateX(-50%);
-  cursor: pointer; 
+  cursor: pointer;
 `;
 
 const ScrollContainer = styled.div`
@@ -81,4 +84,4 @@ const ScrollContainer = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-export default BasicStickerScroll;
+export default BasicSticker;
