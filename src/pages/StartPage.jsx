@@ -28,9 +28,9 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: #C1E3FF;
+  background: #c1e3ff;
   overflow: hidden;
-`
+`;
 
 const PageFrame = styled.div`
   position: absolute;
@@ -43,16 +43,16 @@ const PageFrame = styled.div`
   flex-direction: column; /* 세로로 정렬되도록 수정 */
   align-items: center;
   justify-content: center;
-  background: #C1E3FF;
-`
+  background: #c1e3ff;
+`;
 
 const BookWrapper = styled.div`
-   margin-top: 14.75%; 
+  margin-top: 14.75%;
 `;
 
 const StartButtonWrapper = styled.div`
   position: absolute;
-  margin-bottom: -22%; 
+  margin-bottom: -22%;
 `;
 
 const StyledStartBook = styled.img`

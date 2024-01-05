@@ -16,9 +16,6 @@ const RightSticker = () => {
 export default RightSticker;
 
 const RightStickerContainer = styled.div`
-  position: absolute;
-  top: 20%;
-  right: 1.5%;
   width: 12rem;
   height: 35rem;
   border-radius: 1.875rem;
