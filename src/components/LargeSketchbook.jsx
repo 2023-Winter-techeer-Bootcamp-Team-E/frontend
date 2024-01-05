@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import logo from '../../public/img/Logo_HaruConnecting.png';
-import spring from '../../public/img/LargeSpring.png';
+import logo from '../assets/img/Logo_HaruConnecting.png';
+import spring from '../assets/img/public/img/LargeSpring.png';
 
 const LargeSketchbook = () => {
   return (

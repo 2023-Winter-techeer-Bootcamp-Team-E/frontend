@@ -1,13 +1,14 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import Cloud1 from '../../public/img/Cloud1.png';
+import Cloud1 from '../assets/img/Cloud1.png';
+import Cloud2 from '../assets/img/Cloud2.png';
 
 const RightSticker = () => {
   return (
     <div>
       <RightStickerContainer>
-        <StyledCloud1 src="/img/Cloud1.png" alt="Cloud 1" />
-        <StyledCloud2 src="/img/Cloud2.png" alt="Cloud 2" />
+        <StyledCloud1 src={Cloud1} alt="Cloud 1" />
+        <StyledCloud2 src={Cloud2} alt="Cloud 2" />
       </RightStickerContainer>
     </div>
   );

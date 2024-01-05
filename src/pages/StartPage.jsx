@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import StartBookImg from '../../public/img/StartBookImg.png';
-import StartButton from '../components/StartButton';
+import StartBookImg from '../assets/img/StartBookImg.png';
+import StartButton from '../components/Start/StartButton';
 
 function StartPage() {
   return (

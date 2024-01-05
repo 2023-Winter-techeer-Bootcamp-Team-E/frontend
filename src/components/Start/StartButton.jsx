@@ -24,7 +24,7 @@ const StartButtonContainer = styled.div`
   width: 20.67em;
   height: 3.7rem;
   border-radius: 1.875rem;
-  background-color: #87D5F4;
+  background-color: #87d5f4;
   z-index: 10;
   cursor: pointer;
   box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.15); // 기본 그림자 스타일

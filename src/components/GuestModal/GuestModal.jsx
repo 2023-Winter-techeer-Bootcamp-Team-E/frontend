@@ -1,8 +1,10 @@
 // 게스트 모달 컴포넌트
 import { useState } from 'react';
 import styled from 'styled-components';
-import CheckButton from '../components/CheckButton';
-import GuestPwInput from '../components/GuestPwInput';
+import CheckButton from './CheckButton';
+import GuestPwInput from './GuestPwInput';
+import Cloud2 from '../../assets/img/Cloud2.png';
+import Logo_Shadow from '../../assets/img/Logo_Shadow.png';
 
 function GuestModal({ closeModal }) {
   const [password, setPassword] = useState('');
@@ -23,9 +25,12 @@ function GuestModal({ closeModal }) {
           text={password}
           handleTextChange={handlePasswordChange}
         />
-        <StyledCloud2 src="/img/Cloud2.png" alt="Cloud 2" />
-        <StyledLogo_Shadow src="/img/Logo_Shadow.png" alt="Logo_Shadow" />
-        <CheckButton closeModal={closeModal} isPasswordValid={isPasswordValid} />
+        <StyledCloud2 src={Cloud2} alt="Cloud 2" />
+        <StyledLogo_Shadow src={Logo_Shadow} alt="Logo_Shadow" />
+        <CheckButton
+          closeModal={closeModal}
+          isPasswordValid={isPasswordValid}
+        />
       </ModalContent>
     </ModalWrapper>
   );
@@ -46,7 +51,7 @@ const ModalWrapper = styled.div`
 `;
 // 모달 창
 const ModalContent = styled.div`
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   width: 49.0625rem;
   height: 44.37006rem;
   flex-shrink: 0;
@@ -60,11 +65,10 @@ const ModalContent = styled.div`
   position: relative;
 `;
 
-
 //비밀번호 설정해주세요 텍스트
 const PwMessage = styled.div`
-  color: #2C2C2C;
-  font-family: 'BMJUA';
+  color: #2c2c2c;
+  font-family: 'bmjua';
   font-size: 1.625rem;
   // font-style: normal;
   // font-weight: 400;

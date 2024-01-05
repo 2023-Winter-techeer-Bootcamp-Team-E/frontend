@@ -21,7 +21,7 @@ const GuestPwInputContainer = styled.div`
   height: 4.09844rem;
   flex-shrink: 0;
   border-radius: 1.25rem;
-  border: 3px solid #C1E3FF;
+  border: 3px solid #c1e3ff;
   background: #fff;
   left: 7.96rem;
   top: 15.32rem;
@@ -46,7 +46,7 @@ const TextInput = styled.input`
   text-align: center;
   left: 1rem;
   &::placeholder {
-    color: #AAAAAA;
+    color: #aaaaaa;
   }
 `;
 export default GuestPwInput;

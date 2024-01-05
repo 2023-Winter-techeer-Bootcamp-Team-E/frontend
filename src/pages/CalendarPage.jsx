@@ -5,7 +5,7 @@ import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import RightSticker from '../components/RightSticker';
 
-function MainPage(props) {
+function CalendarPage(props) {
   return (
     <BackLayout>
       <PageFrame>
@@ -85,4 +85,4 @@ const WrapperRightSticker = styled.div`
   top: 17.87rem;
   left: 91.7025rem;
 `;
-export default MainPage;
+export default CalendarPage;
