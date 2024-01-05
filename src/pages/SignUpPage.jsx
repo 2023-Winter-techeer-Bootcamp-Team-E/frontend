@@ -10,11 +10,13 @@ import LoginInput from '../components/LoginInput';
 
 function SignUpPage(props) {
 
-
-  const [id, setId] = useState('');
+  //닉네임, 아이디, 비밀번호, 비밀번호 확인
   const [username, setUsername] = useState('');
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordMatch, setPasswordMatch] = useState('');
+
+  // 오류 메시지 상태, 오류 메시지 글씨 색 상태 저장
   const [idComment, setIdComment] = useState(' - 영문을 포함해 4자리 이상');
   const [idCommentColor, setIdCommentColor] = useState('#777777');
   const [pwComment, setPwComment] = useState('- 안전한 일기 보관을 위해 8~16 자의 영문, 숫자, 특수문자를 사용하세요.');
@@ -22,14 +24,29 @@ function SignUpPage(props) {
   const [pwMatchComment, setPwMatchComment] = useState('');
   const [pwMatchCommentColor, setPwMatchCommentColor] = useState('#777777');
 
-  const [usernameWrite, setUsernameWrite] = useState(0);
-  const [idWrite, setIdWrite] = useState(0);
-  const [pwWrite, setPwWrite] = useState(0);
-  const [pwMatchWrite, setPwMatchWrite] = useState(0);
-  const [passwordCheck, setPasswordCheck] = useState(0);
+  //유효성 검사
+  const [usernameWrite, setUsernameWrite] = useState(false);
+  const [idWrite, setIdWrite] = useState(false);
+  const [pwWrite, setPwWrite] = useState(false);
+  const [pwMatchWrite, setPwMatchWrite] = useState(false);
+  const [passwordCheck, setPasswordCheck] = useState(false);
 
   const navigate = useNavigate();
 
+  //닉네임 설정
+  const handleUsernameChange = (e) => {
+    const inputUsername = e.target.value;
+    setUsername(inputUsername);
+
+    if (inputUsername !== '') {
+      setUsernameWrite(true);
+    } else {
+      setUsernameWrite(false);
+    }
+
+  };
+
+  //아이디 설정
   const handleIdChange = (e) => {
     const inputId = e.target.value;
     setId(inputId);
@@ -39,27 +56,15 @@ function SignUpPage(props) {
     if (inputId.length < 4 || !/[a-zA-Z]/.test(inputId) || !validCharacters.test(inputId)) {
       setIdComment(' - 아이디는 4글자 이상이며 영문과 숫자로만 이루어져야 합니다.');
       setIdCommentColor('#DD0000'); // 빨간색 글씨로 변경
-      setIdWrite('0');
+      setIdWrite(false);
     } else {
       setIdComment(' - 사용 가능한 아이디입니다.');
       setIdCommentColor('#00A656'); // 초록색 글씨로 변경
-      setIdWrite('1');
+      setIdWrite(true);
     }
   };
 
-
-  const handleUsernameChange = (e) => {
-    const inputUsername = e.target.value;
-    setUsername(inputUsername);
-
-    if (username !== '') {
-      setUsernameWrite('1');
-    } else {
-      setUsernameWrite('0');
-    }
-
-  };
-
+  //비밀번호 설정
   const handlePasswordChange = (e) => {
     const inputPw = e.target.value;
     const hasValidLength = inputPw.length >= 8 && inputPw.length <= 16;
@@ -71,32 +76,33 @@ function SignUpPage(props) {
     if (hasValidLength && hasLetter && hasNumber && hasSpecialChar) {
       setPwComment(' - 사용 가능한 비밀번호입니다.');
       setPwCommentColor('#00A656'); // 초록색 글씨로 변경
-      setPwWrite('1');
+      setPwWrite(true);
       setPasswordCheck(inputPw);
     } else {
       setPwComment(' - 비밀번호는 8~16자여야 하며, 영문자, 숫자, 특수문자를 반드시 포함해야 합니다.');
       setPwCommentColor('#DD0000'); // 빨간색 글씨로 변경
-      setPwWrite('0');
+      setPwWrite(false);
       setPasswordCheck(inputPw);
     }
   };
 
+  //비밀번호 확인 설정
   const handlePasswordMatchChange = (e) => {
     const inputPwMatch = e.target.value;
     setPasswordMatch(e.target.value);
-    if (pwWrite == 0) {
+    if (!pwWrite) { //초기 비밀번호 조건을 맞추지 않았을 때
       setPwMatchComment(' - 초기 비밀번호의 조건을 먼저 맞춰주세요!');
       setPwMatchCommentColor('#DD0000'); // 빨간색 글씨로 변경
     }
-    else {
+    else { //초기 비밀번호 조건을 맞췄을 때
       if (passwordCheck == inputPwMatch && inputPwMatch != '') {
         setPwMatchComment(' - 비밀번호가 일치합니다.');
         setPwMatchCommentColor('#00A656'); // 초록색 글씨로 변경
-        setPwMatchWrite('1');
+        setPwMatchWrite(true);
       } else {
         setPwMatchComment(' - 비밀번호가 틀립니다.');
         setPwMatchCommentColor('#DD0000'); // 빨간색 글씨로 변경
-        setPwMatchWrite('0');
+        setPwMatchWrite(false);
       }
     }
 
@@ -131,7 +137,7 @@ function SignUpPage(props) {
           <IdRequireText idCommentColor={idCommentColor}>{idComment}</IdRequireText>
 
           <PwInput>
-            <Login
+            <LoginInput
               type="password"
               placeholder="비밀번호"
               text={password}
@@ -162,7 +168,7 @@ function SignUpPage(props) {
                 console.log(pwWrite);
                 console.log(pwMatchWrite);
                 console.log("----------------");
-                if ((usernameWrite=='1') && (idWrite=='1') && (pwWrite=='1') && (pwMatchWrite == '1')) {
+                if (usernameWrite && idWrite && pwWrite && pwMatchWrite) {
                   navigate('/signin');
                 }
               }}
@@ -294,6 +300,5 @@ const SignUpWrapper = styled.div`
   margin-top: 82%;
   z-index: 2;
 `;
-
 
 export default SignUpPage;

@@ -48,4 +48,4 @@ width : 33rem;
 `;
 
 
-export default LoginBar;
+export default LoginInput;

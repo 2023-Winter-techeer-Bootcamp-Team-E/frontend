@@ -48,12 +48,12 @@ function SignInPage(props) {
 
           <SmallSketchbook />
           <IdInput>
-            <LoginInput
+            {<LoginInput
               type="text"
               placeholder="아이디"
               text={id}
               handleTextChange={handleIdChange}
-            />
+            />}
           </IdInput>
 
           <PwInput>
@@ -68,7 +68,6 @@ function SignInPage(props) {
           <WrongPasswordAlert wrongPwAlertColor={wrongPwAlertColor}>{wrongPwAlert}</WrongPasswordAlert>
           
           <SignInInput>
-            {/* 로그인 버튼에 클릭 이벤트 추가 */}
             <SignInBtn text="일기장 펼치기" onClick={handleLogin} />
         </SignInInput>
 
