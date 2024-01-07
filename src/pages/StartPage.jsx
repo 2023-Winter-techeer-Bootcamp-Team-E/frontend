@@ -2,18 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import Book from '../assets/img/Book.png';
 import StartButton from '../components/Start/StartButton';
-import EmptyLogo from '../assets/img/EmptyLogo.png'
-import Papers from '../assets/img/Papers.png'
+import EmptyLogo from '../assets/img/EmptyLogo.png';
+import Papers from '../assets/img/Papers.png';
 
-function StartPage({move}) {
+function StartPage({ move }) {
   return (
     <>
       <BackLayout>
         <PageFrame>
-
-        <PaperWrapper>
-        <StyledPapers src={Papers}/>
-        </PaperWrapper>
+          <PaperWrapper>
+            <StyledPapers src={Papers} />
+          </PaperWrapper>
 
           <BookWrapper>
             <StyledBook src={Book} />
@@ -21,15 +20,17 @@ function StartPage({move}) {
           <StartButtonWrapper>
             <StartButton move={move} />
           </StartButtonWrapper>
-          
+
           <StyledEmptyLogo>
-          <img src={EmptyLogo} />
+            <img src={EmptyLogo} />
             <div>
               <p>
-                하루<br/>연결
+                하루
+                <br />
+                연결
               </p>
             </div>
-          </StyledEmptyLogo>  
+          </StyledEmptyLogo>
         </PageFrame>
       </BackLayout>
     </>
@@ -92,14 +93,13 @@ const StyledPapers = styled.img`
   left: 3.5rem;
   top: -8.6rem;
   z-index: 1;
-
 `;
 
 const PaperWrapper = styled.div`
-display: flex;
-left: -6.75rem;
-top: 26.5rem;
-z-index: 1;
+  display: flex;
+  left: -6.75rem;
+  top: 26.5rem;
+  z-index: 1;
 `;
 
 //로고, 글씨
