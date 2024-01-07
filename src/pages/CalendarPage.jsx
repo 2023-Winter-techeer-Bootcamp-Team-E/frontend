@@ -5,12 +5,12 @@ import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import RightSticker from '../components/RightSticker';
 
-function CalendarPage(props) {
+function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   return (
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
-          <NavigateBar />
+          <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
 
         <WrapperLargeSketchbook>
