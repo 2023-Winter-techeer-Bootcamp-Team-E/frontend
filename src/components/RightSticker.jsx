@@ -2,28 +2,39 @@ import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import Cloud1 from '../assets/img/Cloud1.png';
 import Cloud2 from '../assets/img/Cloud2.png';
+import DateSetting from './CalendarPage/RightSticker/DateSetting';
+import SelectInnerPaper from './CalendarPage/RightSticker/SelectInnerPaper';
+import ShareLink from './CalendarPage/RightSticker/ShareLink';
 
 const RightSticker = () => {
-  const [diarySettingPage, setDiarySettingPage] = useState('1');
+  const [diarySettingPage, setDiarySettingPage] = useState(2);
+
+  const handleDiarySettingPageChange = (newPage) => {
+    setDiarySettingPage(newPage);
+  };
 
   const renderDiarySettingPage = () => {
-    // switch(diarySettingPage) {
-    //   case '1':
-    //     return (<ComponentOne />);
-    //   case '2':
-    //     return <ComponentTwo />;
-    //   case '3':
-    //     return <ComponentThree />;
-    //   default:
-    //     return null;
-    // }
+    switch (diarySettingPage) {
+      case 1:
+        return <DateSetting />;
+      case 2:
+        return <SelectInnerPaper />;
+      case 3:
+        return <ShareLink />;
+      default:
+        return null;
+    }
   };
 
   return (
     <RightStickerContainer>
       <StyledCloud1 src={Cloud1} alt="Cloud 1" />
       <StyledCloud2 src={Cloud2} alt="Cloud 2" />
-      <DiarySettingWindow>{renderDiarySettingPage()}</DiarySettingWindow>
+      {/* <DiarySettingWindow>{renderDiarySettingPage()}</DiarySettingWindow> */}
+
+      {diarySettingPage === 2 && (
+        <SelectInnerPaper onPageChange={handleDiarySettingPageChange} />
+      )}
     </RightStickerContainer>
   );
 };
