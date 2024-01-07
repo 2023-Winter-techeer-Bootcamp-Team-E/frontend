@@ -47,9 +47,8 @@ const FullModalContainer = styled.div`
 
 const StyledSadLogo = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0.56rem;
+  left: 7.95rem;
   width: 33.16231rem;
   height: 32.9375rem;
   flex-shrink: 0;
@@ -64,9 +63,8 @@ const StyledSadLogo = styled.div`
 
   div {
     position: absolute;
-    top: 50%;
-    left: 45%;
-    transform: translate(-50%, -50%);
+    top: 13.6rem;
+    left: 1.64rem;
     text-align: center;
     color: #2C2C2C;
     font-family: 'BMJUA', sans-serif;

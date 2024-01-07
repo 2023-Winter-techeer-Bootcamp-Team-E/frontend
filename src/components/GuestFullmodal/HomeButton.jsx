@@ -22,7 +22,6 @@ function HomeButton({closeModal}) {
         src={homebutton }
         alt="homebutton"
       />
-
   );
 }
 

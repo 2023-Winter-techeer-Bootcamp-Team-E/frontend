@@ -40,6 +40,7 @@ const StyledCloud1 = styled.img`
   height: 7.5625rem;
   right: 1.0625rem;
   top: -2.9375rem;
+<<<<<<< HEAD
   z-index: 10;
 `;
 const StyledCloud2 = styled.img`
