@@ -34,8 +34,8 @@ const BasicSticker = () => {
 };
 
 const BasicStickerContainer = styled.div`
-  width: 12rem;
-  height: 35rem;
+  width: 15.1875rem;
+  height: 41.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
   text-align: center;
@@ -44,10 +44,10 @@ const BasicStickerContainer = styled.div`
 const StyledSun = styled.img`
   position: absolute;
   z-index: 10;
-  width: 8.25rem;
-  height: 5.0625rem;
-  top: -10%;
-  left: -10%;
+  width: 10.25rem;
+  height: 7.0625rem;
+  top: -1.9375rem;
+  left: -2.6875rem;
 `;
 
 const StyledUpButton = styled.img`
@@ -55,10 +55,10 @@ const StyledUpButton = styled.img`
   height: 1.01106rem;
   z-index: 10;
   position: absolute;
-  bottom: -8.75%;
-  left: 50%;
-  transform: translateX(-50%);
-  cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
+  bottom: -3.12356rem;
+  left: 6.65625rem;
+
+  cursor: pointer; 
 `;
 
 const StyledDownButton = styled.img`
@@ -66,22 +66,22 @@ const StyledDownButton = styled.img`
   height: 1.01106rem;
   z-index: 10;
   position: absolute;
-  bottom: -12.5%;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: -4.5rem;
+  left: 6.65625rem;
+
   cursor: pointer;
 `;
 
 const ScrollContainer = styled.div`
-  width: 11.75rem;
+  width: 13.25rem;
   height: 3.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
   position: absolute;
-  bottom: -18%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  bottom: -4.75rem;
+  left: 1.1rem;
+
 `;
 
 export default BasicSticker;
