@@ -70,6 +70,9 @@ const StyledDownButton = styled.img`
   left: 6.65625rem;
 
   cursor: pointer;
+  &:hover {
+    transform: scale(1.05); // 호버 시 크기 증가
+  }
 `;
 
 const ScrollContainer = styled.div`

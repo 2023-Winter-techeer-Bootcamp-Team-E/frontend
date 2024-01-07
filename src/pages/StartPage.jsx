@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import Book from '../assets/img/Book.png';
 import StartButton from '../components/Start/StartButton';
 import EmptyLogo from '../assets/img/EmptyLogo.png'
-import leaf from '../assets/img/leaf.png'
-import YellowPaper from '../assets/img/YellowPaper.png'
 import Papers from '../assets/img/Papers.png'
 
 function StartPage({move}) {
@@ -33,7 +31,6 @@ function StartPage({move}) {
             </div>
           </StyledEmptyLogo>  
         </PageFrame>
-
       </BackLayout>
     </>
   );
@@ -61,19 +58,15 @@ const PageFrame = styled.div`
   flex-direction: column; /* 세로로 정렬되도록 수정 */
   align-items: center;
   justify-content: center;
-  // background: #c1e3ff;
-  background: #aaaa;
-
+  background: #c1e3ff;
   z-index: 1;
 `;
 
 //바로 시작하기 버튼 위치
 const StartButtonWrapper = styled.div`
   position: absolute;
-  // justify-content: end; 
-  // align-items: end;
   bottom: 13.8rem;
-  right: 43.665rem;
+  right: 39.665rem;
   z-index: 5;
 `;
 
@@ -86,10 +79,6 @@ const StyledBook = styled.img`
 `;
 
 const BookWrapper = styled.div`
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // height: 100%;
   position: absolute;
   right: 0rem;
   bottom: 4.08rem;
@@ -97,10 +86,11 @@ const BookWrapper = styled.div`
 
 //뒤에 종이들
 const StyledPapers = styled.img`
+  position: absolute;
   width: 86.41319rem;
   height: 52.98006rem;
-  // left: -6.75rem;
-  // top: 26.5rem;
+  left: 3.5rem;
+  top: -8.6rem;
   z-index: 1;
 
 `;
@@ -115,9 +105,8 @@ z-index: 1;
 //로고, 글씨
 const StyledEmptyLogo = styled.div`
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 39.1rem;
+  top: 17.1rem;
   width: 32.19981rem;
   height: 33.65313rem;
   flex-shrink: 0;
@@ -126,21 +115,16 @@ const StyledEmptyLogo = styled.div`
   img {
     position: relative;
     flex-shrink: 0;
+    left: 1rem;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 
   div {
     position: absolute;
-    top: 50%;
-    left: 46.5%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+    top: 8.55rem;
+    left: 11.97rem;
     font-size: 4.75rem;
     font-family: 'seolleim';
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-top: 0.5rem;
     line-height: 0.9;
   }

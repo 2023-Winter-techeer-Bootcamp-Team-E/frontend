@@ -28,8 +28,8 @@ const StartButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20.67em;
-  height: 3.7rem;
+  width: 25.875rem;
+  height: 4.625rem;
   border-radius: 1.875rem;
   background-color: #87d5f4;
   z-index: 10;
@@ -42,10 +42,12 @@ const StartButtonContainer = styled.div`
   }
 `;
 const StartMessage = styled.text`
-  color: #fff;
+  color: #FFF;
   font-family: Arial Black;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  font-style: normal;
   font-weight: 900;
+  line-height: normal;
   z-index: 10;
 `;
 export default StartButton;
