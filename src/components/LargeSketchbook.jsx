@@ -27,8 +27,8 @@ const LargeSpring = styled.img`
 `;
 const Logo = styled.img`
   position: absolute;
-  top: -8.881922675%;
-  left: 41.72986069%;
+  top: -6.125rem;
+  left: 43.03rem;
   width: 17.125rem;
   height: 12.25rem;
 `;

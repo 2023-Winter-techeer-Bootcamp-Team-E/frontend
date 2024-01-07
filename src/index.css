@@ -19,6 +19,11 @@
   src: url('../src/assets/fonts/BMJUA.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'seolleim';
+  src: url('../src/assets/Fonts/SEOLLEIMcool.ttf') format('truetype');
+}
+
 a {
   font-weight: 500;
   color: #646cff;

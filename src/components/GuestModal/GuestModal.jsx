@@ -70,9 +70,6 @@ const PwMessage = styled.div`
   color: #2c2c2c;
   font-family: 'bmjua';
   font-size: 1.625rem;
-  // font-style: normal;
-  // font-weight: 400;
-  // line-height: normal;
   position: absolute;
   top: 9.8rem;
   left: 8.15rem;

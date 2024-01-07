@@ -1,28 +1,35 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-function StartButton() {
+
+const StartButtonClick = (navigate) => {
+  navigate('././login');
+  console.log('StartButton clicked!');
+  move();
+};
+
+function StartButton({move}) {
   const [isHovered, setIsHovered] = useState(false);
-  const StartButtonClick = () => {
-    console.log('StartButton clicked!');
-  };
+  const navigate = useNavigate();
+
   return (
     <StartButtonContainer
-      onClick={StartButtonClick}
+      onClick={() => StartButtonClick(navigate)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       isHovered={isHovered}
-      // isHovered 상태를 prop으로 전달
     >
       <StartMessage>바로 시작하기</StartMessage>
     </StartButtonContainer>
   );
 }
+
 const StartButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20.67em;
-  height: 3.7rem;
+  width: 25.875rem;
+  height: 4.625rem;
   border-radius: 1.875rem;
   background-color: #87d5f4;
   z-index: 10;
@@ -35,10 +42,12 @@ const StartButtonContainer = styled.div`
   }
 `;
 const StartMessage = styled.text`
-  color: #fff;
+  color: #FFF;
   font-family: Arial Black;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  font-style: normal;
   font-weight: 900;
+  line-height: normal;
   z-index: 10;
 `;
 export default StartButton;
