@@ -83,6 +83,6 @@ const WrapperBasicSticker = styled.div`
 const WrapperRightSticker = styled.div`
   position: absolute;
   top: 17.87rem;
-  left: 91.7025rem;
+  margin-left: 84.19rem;
 `;
 export default CalendarPage;
