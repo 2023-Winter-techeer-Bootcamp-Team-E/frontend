@@ -1,13 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-function ProfileMenu(userId, userName) {
-  const handleHaruConnectingHelpClick = () => {
-    console.log('도움');
+function ProfileMenu({
+  userId = 'ProfileUserIdNull',
+  userName = 'ProfileUserIdNull',
+}) {
+  const navigate = useNavigate();
+
+  // tutorial 페이지로 이동
+  const handleHaruConnectingTutorialClick = () => {
+    navigate('/tutorial');
   };
 
+  //로그아웃 기능 구현
   const handleLogOutClick = () => {
-    console.log('로그아웃');
+    const confirmLogout = window.confirm('로그아웃하시겠습니까?');
+
+    if (confirmLogout) {
+      navigate('/login');
+      // 이건 페이지만 이동을 하는거지 로그아웃 기능이 없어서 로그아웃을 하는 기능을 넣어야함.
+    }
   };
   return (
     <ProfileMenuFrame>
@@ -25,16 +38,15 @@ function ProfileMenu(userId, userName) {
 
       <UserName>{userName}</UserName>
 
-      <HaruConnectingHelp onClick={handleHaruConnectingHelpClick}>
+      <HaruConnectingTutorial onClick={handleHaruConnectingTutorialClick}>
         하루 연결 도움말
-      </HaruConnectingHelp>
+      </HaruConnectingTutorial>
 
       <LogOut onClick={handleLogOutClick}>로그아웃</LogOut>
     </ProfileMenuFrame>
   );
 }
 
-// ProfileMenuFrame에 대한 스타일 적용
 const ProfileMenuFrame = styled.div`
   width: 14.25rem;
   height: 15.625rem;
@@ -46,7 +58,6 @@ const ProfileMenuFrame = styled.div`
   justify-content: center;
 `;
 
-// ProfileMenuTop에 대한 스타일 적용
 const ProfileMenuTop = styled.div`
   position: absolute;
   width: 14.25rem;
@@ -60,7 +71,6 @@ const ProfileMenuTop = styled.div`
   }
 `;
 
-// UserId에 대한 스타일 적용
 const UserId = styled.div`
   position: absolute;
   margin-top: 1.13rem;
@@ -76,7 +86,6 @@ const UserId = styled.div`
   line-height: normal;
 `;
 
-// UserName에 대한 스타일 적용
 const UserName = styled.div`
   position: absolute;
   margin-top: 3.06rem;
@@ -92,8 +101,7 @@ const UserName = styled.div`
   line-height: normal;
 `;
 
-// HaruConnectingHelp에 대한 스타일 적용
-const HaruConnectingHelp = styled.div`
+const HaruConnectingTutorial = styled.div`
   position: absolute;
   margin-top: 6.94rem;
   left: 1.06rem;
@@ -110,7 +118,6 @@ const HaruConnectingHelp = styled.div`
   text-decoration: none;
 `;
 
-// LogOut에 대한 스타일 적용
 const LogOut = styled.div`
   position: absolute;
   margin-top: 9.88rem;

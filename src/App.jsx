@@ -4,7 +4,7 @@ import CalendarPage from './pages/CalendarPage';
 import StartPage from './pages/StartPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
-import ProfileMenu from './components/CalendarPage/RightSticker/ProfileMenu';
+import TutorialPage from './pages/TutorialPage';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/menu" element={<ProfileMenu />} />
+        <Route path="/tutorial" element={<TutorialPage />} />
       </Routes>
     </Router>
   );
