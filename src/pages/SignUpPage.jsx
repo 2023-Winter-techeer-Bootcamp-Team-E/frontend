@@ -188,7 +188,7 @@ function SignUpPage(props) {
                 console.log(pwMatchWrite);
                 console.log('----------------');
                 if (usernameWrite && idWrite && pwWrite && pwMatchWrite) {
-                  navigate('/signin');
+                  navigate('/login');
                 }
               }}
             />

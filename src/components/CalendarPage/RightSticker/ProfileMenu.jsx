@@ -1,7 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function ProfileMenu(props) {
+function ProfileMenu(userId, userName) {
+  const handleHaruConnectingHelpClick = () => {
+    console.log('도움');
+  };
+
+  const handleLogOutClick = () => {
+    console.log('로그아웃');
+  };
   return (
     <ProfileMenuFrame>
       <ProfileMenuTop>
@@ -13,10 +20,16 @@ function ProfileMenu(props) {
           <rect y="30.0996" width="228" height="54.825" fill="#C6F1FF" />
         </svg>
       </ProfileMenuTop>
-      <UserId>UserIdNull</UserId>
-      <UserName>UserNameNull</UserName>
-      <HaruConnectingHelp>하루 연결 도움말</HaruConnectingHelp>
-      <LogOut>로그아웃</LogOut>
+
+      <UserId>{userId}</UserId>
+
+      <UserName>{userName}</UserName>
+
+      <HaruConnectingHelp onClick={handleHaruConnectingHelpClick}>
+        하루 연결 도움말
+      </HaruConnectingHelp>
+
+      <LogOut onClick={handleLogOutClick}>로그아웃</LogOut>
     </ProfileMenuFrame>
   );
 }
