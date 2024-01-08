@@ -24,6 +24,12 @@
   src: url('../src/assets/Fonts/SEOLLEIMcool.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'BigshotOne';
+  src: url('../src/assets/Fonts/BigshotOne-Regular.ttf') format('truetype');
+}
+
+
 a {
   font-weight: 500;
   color: #646cff;

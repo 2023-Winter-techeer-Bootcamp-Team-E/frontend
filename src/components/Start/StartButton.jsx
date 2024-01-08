@@ -8,7 +8,7 @@ const StartButtonClick = (navigate) => {
   move();
 };
 
-function StartButton({move}) {
+function StartButton() {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
