@@ -10,7 +10,7 @@ import SelectImgBtn from '../../../assets/img/SelectImgBtn.png';
 import MaskingTape1 from '../../../assets/img/MaskingTape1.png';
 import MaskingTape2 from '../../../assets/img/MaskingTape2.png';
 
-function SelectInnerPaper(props) {
+function SelectInnerPaper() {
   const [pageNum, setPageNum] = useState(1);
 
   const PageNumSub = () => {
@@ -23,10 +23,6 @@ function SelectInnerPaper(props) {
     if (pageNum < 6) {
       setPageNum((prevPageNum) => prevPageNum + 1); // 이전 상태를 가져와서 변경
     }
-  };
-
-  const handleCheckBtnClick = () => {
-    onPageChange(3);
   };
 
   const RotateImg = (pageNum) => {
@@ -62,7 +58,7 @@ function SelectInnerPaper(props) {
       <SelectImgLeftBtn src={SelectImgBtn} onClick={PageNumSub} />
       <SelectImgRightBtn src={SelectImgBtn} onClick={PageNumAdd} />
 
-      <CheckBtn onClick={handleCheckBtnClick}>확인</CheckBtn>
+      <CheckBtn>확인</CheckBtn>
     </PageFrame>
   );
 }

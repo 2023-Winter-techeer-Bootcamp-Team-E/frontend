@@ -9,10 +9,6 @@ import ShareLink from './CalendarPage/RightSticker/ShareLink';
 const RightSticker = () => {
   const [diarySettingPage, setDiarySettingPage] = useState(2);
 
-  const handleDiarySettingPageChange = (newPage) => {
-    setDiarySettingPage(newPage);
-  };
-
   const renderDiarySettingPage = () => {
     switch (diarySettingPage) {
       case 1:
@@ -22,7 +18,7 @@ const RightSticker = () => {
       case 3:
         return <ShareLink />;
       default:
-        return null;
+        return <p>오류 코드 : '{diarySettingPage}'</p>;
     }
   };
 
@@ -30,11 +26,7 @@ const RightSticker = () => {
     <RightStickerContainer>
       <StyledCloud1 src={Cloud1} alt="Cloud 1" />
       <StyledCloud2 src={Cloud2} alt="Cloud 2" />
-      {/* <DiarySettingWindow>{renderDiarySettingPage()}</DiarySettingWindow> */}
-
-      {diarySettingPage === 2 && (
-        <SelectInnerPaper onPageChange={handleDiarySettingPageChange} />
-      )}
+      <DiarySettingWindow>{renderDiarySettingPage()}</DiarySettingWindow>
     </RightStickerContainer>
   );
 };

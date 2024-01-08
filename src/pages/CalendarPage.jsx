@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import RightSticker from '../components/RightSticker';
+import WriteDiaryIcon from '../assets/img/WriteDiaryIcon.png';
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   return (
     <BackLayout>
@@ -17,7 +18,7 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
         <WrapperBasicSticker>
           <BasicSticker />
         </WrapperBasicSticker>
-        <Calendar />
+        <Calendar></Calendar>
         <WrapperRightSticker>
           <RightSticker />
         </WrapperRightSticker>
@@ -32,7 +33,7 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: #C1E3FF;
+  background: #c1e3ff;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -48,7 +49,7 @@ const PageFrame = styled.div`
 `;
 const Calendar = styled.div`
   border-radius: 1.875rem;
-  background: #FFFEE1;
+  background: #fffee1;
   position: absolute;
   width: 60rem;
   height: 40rem;
