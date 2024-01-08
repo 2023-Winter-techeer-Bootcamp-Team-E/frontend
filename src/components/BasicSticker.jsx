@@ -57,8 +57,10 @@ const StyledUpButton = styled.img`
   position: absolute;
   bottom: -3.12356rem;
   left: 6.65625rem;
-
   cursor: pointer; 
+  &:hover {
+    transform: scale(1.2); 
+  }
 `;
 
 const StyledDownButton = styled.img`
@@ -67,11 +69,11 @@ const StyledDownButton = styled.img`
   z-index: 10;
   position: absolute;
   bottom: -4.5rem;
-  left: 6.65625rem;
+  left: 6.66625rem;
 
   cursor: pointer;
   &:hover {
-    transform: scale(1.05); // 호버 시 크기 증가
+    transform: scale(1.2);
   }
 `;
 

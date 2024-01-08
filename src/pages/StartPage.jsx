@@ -67,7 +67,7 @@ const PageFrame = styled.div`
 const StartButtonWrapper = styled.div`
   position: absolute;
   bottom: 13.8rem;
-  right: 39.665rem;
+  right: 39.6rem;
   z-index: 5;
 `;
 
@@ -105,28 +105,26 @@ const PaperWrapper = styled.div`
 //로고, 글씨
 const StyledEmptyLogo = styled.div`
   position: absolute;
-  left: 39.1rem;
-  top: 17.1rem;
-  width: 32.19981rem;
-  height: 33.65313rem;
-  flex-shrink: 0;
+  left: 40.1rem;
   z-index: 10;
 
   img {
-    position: relative;
+    top: 17.1rem;
+    width: 32.19981rem;
+    height: 33.65313rem;
     flex-shrink: 0;
-    left: 1rem;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 
   div {
+    color: #2C2C2C;
     position: absolute;
     top: 8.55rem;
-    left: 11.97rem;
+    left: 10.4rem;
     font-size: 4.75rem;
     font-family: 'seolleim';
     margin-top: 0.5rem;
-    line-height: 0.9;
+    line-height: 1.0;
   }
 `;
 
