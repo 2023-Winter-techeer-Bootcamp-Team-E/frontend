@@ -124,7 +124,7 @@ const StyledEmptyLogo = styled.div`
     font-size: 4.75rem;
     font-family: 'seolleim';
     margin-top: 0.5rem;
-    line-height: 0.9;
+    line-height: 1.0;
   }
 `;
 

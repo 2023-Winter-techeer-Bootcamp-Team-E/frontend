@@ -44,6 +44,7 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull', move }
 
         <TextButton/>
 
+        {/* NicknameInput, TextSave는 직관적으로 보기 위해 임의로 나타냄 */}
         <NicknameInputContainer>
             <NicknameInput/>
         </NicknameInputContainer>
@@ -109,7 +110,7 @@ const WrapperRightSticker = styled.div`
 const WrapperDHomeButton = styled.div`
     position: absolute;
     right: 5.19rem;
-    bottom: 4.5rem;
+    bottom: 5.4rem;
     display: flex;
     z-index: 10;
 `;
@@ -117,7 +118,7 @@ const WrapperDHomeButton = styled.div`
 const WrapperSaveButton = styled.div`
     position: absolute;
     right: 8.56rem;
-    bottom: 4.31rem;
+    bottom: 5.31rem;
     display: flex;
     z-index: 10;
 `;

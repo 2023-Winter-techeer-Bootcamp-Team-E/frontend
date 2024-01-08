@@ -50,12 +50,12 @@ const StyledEmptyLogo2 = styled.div`
   div {
     color: #2C2C2C;
     position: absolute;
-    top: 4.55rem;
+    top: 2.4rem;
     left: 4.9rem;
-    font-size: 2.75rem;
+    font-size: 2.7rem;
     font-family: 'seolleim';
     margin-top: 0.5rem;
-    line-height: 0.9;
+    line-height: 1.0;
   }
 `;
 
