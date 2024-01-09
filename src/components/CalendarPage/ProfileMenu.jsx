@@ -136,6 +136,10 @@ const HaruConnectingTutorial = styled.div`
   line-height: normal;
   cursor: pointer;
   text-decoration: none;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const LogOut = styled.div`
@@ -153,6 +157,10 @@ const LogOut = styled.div`
   line-height: normal;
   cursor: pointer;
   text-decoration: none;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 export default ProfileMenu;

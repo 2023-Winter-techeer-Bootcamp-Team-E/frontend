@@ -325,6 +325,10 @@ const CheckBtn = styled.div`
   font-weight: 600;
   line-height: normal;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 const PageFrame = styled.div`
   width: 15.1875rem;
@@ -392,6 +396,11 @@ const CopyBtn = styled.button`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const Line = styled.hr`
@@ -438,6 +447,10 @@ const WriteDiaryBtn = styled.div`
   font-weight: 600;
   line-height: normal;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const BackButton = styled.img`
@@ -448,6 +461,10 @@ const BackButton = styled.img`
   height: 1.625rem;
   flex-shrink: 0;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const DiaryWritePenIcon = styled.img`

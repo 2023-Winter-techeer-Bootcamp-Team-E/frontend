@@ -89,6 +89,10 @@ const Notification = styled.div`
   padding-left: 1rem;
   margin-bottom: 1.44rem;
   flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.03);
+  }
 `;
 
 const BoldText = styled.span`
