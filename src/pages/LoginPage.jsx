@@ -29,7 +29,7 @@ function LoginPage(props) {
   const handleLogin = () => {
     // 입력된 아이디와 비밀번호가 맞는지 확인
     if (id === jinooId && password === jinooPw) {
-      navigate('/start');
+      navigate('/calendar');
       setWrongPwAlert('로그인 중...');
       setWrongPwAlertColor('#00A656');
     } else {
