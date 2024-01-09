@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
 import { useNavigate } from 'react-router-dom';
 
 function ProfileMenu({
@@ -15,13 +17,31 @@ function ProfileMenu({
 
   //로그아웃 기능 구현
   const handleLogOutClick = () => {
-    const confirmLogout = window.confirm('로그아웃하시겠습니까?');
+    Swal.fire({
+      title: '로그아웃하시겠습니까?',
+      text: '로그아웃 후에는 다시 되돌릴 수 없습니다!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네, 로그아웃합니다',
+      cancelButtonText: '취소',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // 로그아웃 동작 수행
+        // 여기에 로그아웃 로직을 추가하세요.
+        navigate('/login'); // 예시에서는 페이지 이동만 했습니다.
 
-    if (confirmLogout) {
-      navigate('/login');
-      // 이건 페이지만 이동을 하는거지 로그아웃 기능이 없어서 로그아웃을 하는 기능을 넣어야함.
-    }
+        // 로그아웃이 성공했다면 아래와 같이 알림창을 띄워줄 수 있습니다.
+        Swal.fire({
+          title: '로그아웃되었습니다!',
+          text: '로그아웃이 성공적으로 처리되었습니다.',
+          icon: 'success',
+        });
+      }
+    });
   };
+
   return (
     <ProfileMenuFrame>
       <ProfileMenuTop>

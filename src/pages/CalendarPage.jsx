@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
-import RightSticker from '../components/RightSticker';
-import WriteDiaryIcon from '../assets/img/WriteDiaryIcon.png';
+import DateNotification from '../components/CalendarPage/DateNotification';
+
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   return (
     <BackLayout>
@@ -18,10 +18,10 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
         <WrapperBasicSticker>
           <BasicSticker />
         </WrapperBasicSticker>
-        <Calendar></Calendar>
-        <WrapperRightSticker>
-          <RightSticker />
-        </WrapperRightSticker>
+        <Calendar />
+        <WrapperDateNotification>
+          <DateNotification />
+        </WrapperDateNotification>
       </PageFrame>
     </BackLayout>
   );
@@ -69,7 +69,7 @@ const WrapperBasicSticker = styled.div`
   top: 17rem;
   left: 4.56rem;
 `;
-const WrapperRightSticker = styled.div`
+const WrapperDateNotification = styled.div`
   position: absolute;
   top: 17.87rem;
   margin-left: 84.19rem;
