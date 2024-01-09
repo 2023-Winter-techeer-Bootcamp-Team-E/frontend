@@ -20,10 +20,10 @@ import MaskingTape2 from '../../assets/img/MaskingTape2.png';
 import BackBtn from '../../assets/img/BackBtn.png';
 import DiaryWritePen from '../../assets/img/DiaryWritePen.png';
 
-const RightSticker = () => {
+const DateNotification = () => {
   const navigate = useNavigate();
 
-  const [diarySettingPage, setDiarySettingPage] = useState(3);
+  const [diarySettingPage, setDiarySettingPage] = useState(2);
   const [pageNum, setPageNum] = useState(1);
 
   //날짜 임시 설정
@@ -476,4 +476,4 @@ const DiaryWritePenIcon = styled.img`
   flex-shrink: 0;
 `;
 
-export default RightSticker;
+export default DateNotification;
