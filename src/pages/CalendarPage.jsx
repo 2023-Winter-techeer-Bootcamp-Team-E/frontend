@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
-import RightSticker from '../components/RightSticker';
+import DateNotification from '../components/CalendarPage/DateNotification';
+
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   return (
     <BackLayout>
@@ -18,9 +19,9 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
           <BasicSticker />
         </WrapperBasicSticker>
         <Calendar />
-        <WrapperRightSticker>
-          <RightSticker />
-        </WrapperRightSticker>
+        <WrapperDateNotification>
+          <DateNotification />
+        </WrapperDateNotification>
       </PageFrame>
     </BackLayout>
   );
@@ -32,7 +33,7 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: #C1E3FF;
+  background: #c1e3ff;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -48,7 +49,7 @@ const PageFrame = styled.div`
 `;
 const Calendar = styled.div`
   border-radius: 1.875rem;
-  background: #FFFEE1;
+  background: #fffee1;
   position: absolute;
   width: 60rem;
   height: 40rem;
@@ -68,7 +69,7 @@ const WrapperBasicSticker = styled.div`
   top: 17rem;
   left: 4.56rem;
 `;
-const WrapperRightSticker = styled.div`
+const WrapperDateNotification = styled.div`
   position: absolute;
   top: 17.87rem;
   margin-left: 84.19rem;

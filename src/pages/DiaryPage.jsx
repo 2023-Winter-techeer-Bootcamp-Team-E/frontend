@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
-import RightSticker from '../components/RightSticker';
+import RightSticker from '../components/DiaryPage/RightSticker';
 import DHomeButton from '../components/DiaryPage/DHomeButton';
 import SaveButton from '../components/DiaryPage/SaveButton';
 import TextButton from '../components/DiaryPage/TextButton';
@@ -11,11 +11,14 @@ import NicknameInput from '../components/DiaryPage/NicknameInput';
 import TextSave from '../components/DiaryPage/TextSaveButton';
 
 //NicknameInput, TextSave는 직관적으로 보기 위해 임의로 나타냄
-function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
+function CalendarPage({
+  userName = 'userNameNull',
+  userId = 'userIdNull',
+  move,
+}) {
   return (
     <BackLayout>
       <PageFrame>
-
         <WrapperNavigateBar>
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
@@ -35,24 +38,23 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull', move }
         </WrapperRightSticker>
 
         <WrapperDHomeButton>
-            <DHomeButton move={move}/>
+          <DHomeButton move={move} />
         </WrapperDHomeButton>
 
         <WrapperSaveButton>
-            <SaveButton/>
+          <SaveButton />
         </WrapperSaveButton>
 
-        <TextButton/>
+        <TextButton />
 
         {/* NicknameInput, TextSave는 직관적으로 보기 위해 임의로 나타냄 */}
         <NicknameInputContainer>
-            <NicknameInput/>
+          <NicknameInput />
         </NicknameInputContainer>
 
         <TextSaveContainer>
-            <TextSave/>
+          <TextSave />
         </TextSaveContainer>
-
       </PageFrame>
     </BackLayout>
   );
@@ -64,11 +66,10 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: #C1E3FF;
+  background: #c1e3ff;
   justify-content: center;
   align-items: center;
   display: flex;
-
 `;
 const PageFrame = styled.div`
   /* background: #AAAAAA; */
@@ -81,7 +82,7 @@ const PageFrame = styled.div`
 `;
 const Diary = styled.div`
   border-radius: 1.875rem;
-  background: #FFFEE1;
+  background: #fffee1;
   position: absolute;
   width: 65.0625rem;
   height: 50.875rem;
@@ -108,35 +109,35 @@ const WrapperRightSticker = styled.div`
 `;
 
 const WrapperDHomeButton = styled.div`
-    position: absolute;
-    right: 5.19rem;
-    bottom: 5.4rem;
-    display: flex;
-    z-index: 10;
+  position: absolute;
+  right: 5.19rem;
+  bottom: 5.4rem;
+  display: flex;
+  z-index: 10;
 `;
 
 const WrapperSaveButton = styled.div`
-    position: absolute;
-    right: 8.56rem;
-    bottom: 5.31rem;
-    display: flex;
-    z-index: 10;
+  position: absolute;
+  right: 8.56rem;
+  bottom: 5.31rem;
+  display: flex;
+  z-index: 10;
 `;
 
 //임의의 값_ 위치 이동함
 const NicknameInputContainer = styled.div`
-    position: absolute;
-    left: 34.4375rem;
-    top: 32.1875rem;
-    display: flex;
-    z-index: 10;
+  position: absolute;
+  left: 34.4375rem;
+  top: 32.1875rem;
+  display: flex;
+  z-index: 10;
 `;
 
 const TextSaveContainer = styled.div`
-    position: absolute;
-    left: 46.4375rem;
-    top: 32.3rem;
-    display: flex;
-    z-index: 10;
+  position: absolute;
+  left: 46.4375rem;
+  top: 32.3rem;
+  display: flex;
+  z-index: 10;
 `;
 export default CalendarPage;
