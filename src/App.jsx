@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import TutorialPage from './pages/TutorialPage';
 import DiaryPage from './pages/DiaryPage';
+import Calender from './components/CalendarPage/Calender';
 
 function App() {
   return (
