@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
@@ -10,7 +10,6 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   return (
     <BackLayout>
       <PageFrame>
-
         <WrapperNavigateBar>
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
@@ -30,7 +29,6 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
         <WrapperDateNotification>
           <DateNotification />
         </WrapperDateNotification>
-
       </PageFrame>
     </BackLayout>
   );
@@ -56,14 +54,16 @@ const PageFrame = styled.div`
   top: 0;
   justify-content: center;
 `;
-const WrapperCalendar = styled.div`
+const Calendar = styled.div`
+  border-radius: 1.875rem;
+  background: #fffee1;
   position: absolute;
   width: 60rem;
   height: 45rem;
   margin-top: 17rem;
   flex-shrink: 0;
   z-index: 2;
-  background: #D7D7EF;
+  background: #d7d7ef;
   border-radius: 1.5rem;
 `;
 const WrapperNavigateBar = styled.div`
