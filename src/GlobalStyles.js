@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
-import MinScreenWarning from './components/\bMinScreenWarning';
+import MinScreenWarning from './components/MinScreenWarning';
 
 const GlobalStyles = createGlobalStyle`
   ${reset}
