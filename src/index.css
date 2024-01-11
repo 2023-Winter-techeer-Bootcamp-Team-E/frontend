@@ -13,6 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@media screen and (min-width: 1090px) {
+  #help {
+    color: rgba(0, 0, 0, 0);
+  }
+}
+
 @font-face {
   font-family: 'bmjua';
   font-weight: 400;
