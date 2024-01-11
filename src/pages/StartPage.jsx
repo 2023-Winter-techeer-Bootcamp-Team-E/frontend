@@ -44,9 +44,10 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: #c1e3ff;
+  background: linear-gradient(to bottom, #c1e3ff 60%, #ffffff);
   overflow: hidden;
 `;
+
 
 const PageFrame = styled.div`
   position: absolute;
@@ -59,7 +60,7 @@ const PageFrame = styled.div`
   flex-direction: column; /* 세로로 정렬되도록 수정 */
   align-items: center;
   justify-content: center;
-  background: #c1e3ff;
+  // background: #c1e3ff;
   z-index: 1;
 `;
 
