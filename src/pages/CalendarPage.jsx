@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
@@ -54,9 +54,7 @@ const PageFrame = styled.div`
   top: 0;
   justify-content: center;
 `;
-const Calendar = styled.div`
-  border-radius: 1.875rem;
-  background: #fffee1;
+const WrapperCalendar = styled.div`
   position: absolute;
   width: 60rem;
   height: 45rem;
