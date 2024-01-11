@@ -13,9 +13,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media screen and (min-width: 1090px) {
+#help {
+  display: none; /* 초기 상태에서 숨김 */
+}
+
+@media screen and (max-width: 1090px) {
+  #root {
+    display: none;
+  }
   #help {
-    color: rgba(0, 0, 0, 0);
+    display: block;
+    background-color: #c1e3ff;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    margin: 0;
   }
 }
 
