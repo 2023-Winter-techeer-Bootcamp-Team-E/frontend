@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { keyframes } from 'styled-components';
+import { keyframes, css } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SignInBtn from '../components/SignIn_Up';
@@ -12,10 +12,11 @@ function LoginPage(props) {
   const [password, setPassword] = useState('');
   const [wrongPwAlert, setWrongPwAlert] = useState('');
   const [wrongPwAlertColor, setWrongPwAlertColor] = useState('#DD0000');
+  const [shake, setShake] = useState(false);
 
   //로그인 기능 사용 해 보려고 내꺼 임시로 만들어봄 ㅎ.ㅎ
-  const jinooId = 'jinoo0306';
-  const jinooPw = 'wlsn';
+  const jinooId = 'gkfn';
+  const jinooPw = 'gkfn';
 
   const handleIdChange = (e) => {
     setId(e.target.value);
@@ -34,6 +35,10 @@ function LoginPage(props) {
       setWrongPwAlertColor('#00A656');
     } else {
       setWrongPwAlert('아이디 또는 비밀번호가 일치하지 않습니다.');
+      setShake(true); // 흔들리는 애니메이션 활성화
+      setTimeout(() => {
+        setShake(false); // 0.4초 후에 애니메이션 비활성화
+      }, 400);
     }
   };
 
@@ -64,7 +69,9 @@ function LoginPage(props) {
             />
           </PwInput>
 
-          <WrongPasswordAlert wrongPwAlertColor={wrongPwAlertColor}>
+          <WrongPasswordAlert
+            wrongPwAlertColor={wrongPwAlertColor}
+            shake={shake}>
             {wrongPwAlert}
           </WrongPasswordAlert>
 
@@ -122,7 +129,6 @@ const SketDiv = styled.div`
   margin-top: 3%;
   margin-left: 2.314814815%;
 
-  // 애니메이션 적용
   animation: ${slideUp} 1s ease-out;
 `;
 const SignInText = styled.div`
@@ -156,12 +162,36 @@ const PwInput = styled.div`
   z-index: 2;
 `;
 
-const WrongPasswordAlert = styled.p`
+const shakeAnimation = keyframes`
+  0% {
+    transform: translateX(-5px);
+  }
+  25% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+`;
+
+const WrongPasswordAlert = styled.div`
   left: 20%;
   position: absolute;
   margin-top: 58%;
   z-index: 2;
   color: ${({ wrongPwAlertColor }) => wrongPwAlertColor};
+  animation: ${({ shake }) =>
+    shake
+      ? css`
+          ${shakeAnimation} 0.4s ease-in-out forwards
+        `
+      : 'none'};
 `;
 
 const SignInInput = styled.div`
