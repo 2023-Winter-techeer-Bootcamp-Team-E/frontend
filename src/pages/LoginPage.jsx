@@ -6,6 +6,7 @@ import SignInBtn from '../components/SignIn_Up';
 import SmallSketchbook from '../components/SmallSketchbook';
 import sketbook from '../assets/img/HaruConnectingBook.png';
 import LoginInput from '../components/LoginInput';
+import axios from 'axios';
 
 function LoginPage(props) {
   const [id, setId] = useState('');
@@ -15,8 +16,8 @@ function LoginPage(props) {
   const [shake, setShake] = useState(false);
 
   //로그인 기능 사용 해 보려고 내꺼 임시로 만들어봄 ㅎ.ㅎ
-  const jinooId = 'gkfn';
-  const jinooPw = 'gkfn';
+  const adminId = 'admin';
+  const adminPw = 'admin';
 
   const handleIdChange = (e) => {
     setId(e.target.value);
@@ -29,7 +30,7 @@ function LoginPage(props) {
 
   const handleLogin = () => {
     // 입력된 아이디와 비밀번호가 맞는지 확인
-    if (id === jinooId && password === jinooPw) {
+    if (id === adminId && password === adminPw) {
       navigate('/calendar');
       setWrongPwAlert('로그인 중...');
       setWrongPwAlertColor('#00A656');
