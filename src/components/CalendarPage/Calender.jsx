@@ -1,19 +1,8 @@
 import React, { useState } from 'react';
-import {
-  format,
-  addMonths,
-  subMonths,
-  startOfMonth,
-  endOfMonth,
-  startOfWeek,
-  endOfWeek,
-  isSameMonth,
-  isSameDay,
-  addDays,
-} from 'date-fns';
-import './Calendar.css';
-import CalendarRightBtn from '../../assets/img/CalendarRightBtn.png';
-import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay, addDays } from 'date-fns';
+import "./Calendar.css";
+import CalendarRightBtn from '../../assets/img/CalendarRightBtn.png'
+import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png'
 
 // useStore 함수 대신 간단한 상태 저장을 위한 useState 사용
 const useSimpleStore = (initialState) => {
@@ -105,8 +94,8 @@ const RenderCells = ({
                   </span>
                 ))}
           </span>
-          {/* ... (기존 코드) */}
-        </div>,
+        </div>
+
       );
       day = addDays(day, 1);
     }
@@ -141,20 +130,8 @@ const Calender = ({ list, exist }) => {
           <span className="topyear">{format(currentMonth, 'yyyy')}</span>
           {format(currentMonth, 'MMMMMMMM')}
         </div>
-        {/* <BsFillArrowLeftCircleFill className='leftBtn' size="25" onClick={prevMonth} />
-        <BsFillArrowRightCircleFill className='rightBtn' size="25" onClick={nextMonth} /> */}
-        <img
-          src={CalendarLeftBtn}
-          className="leftBtn"
-          onClick={prevMonth}
-          alt="Previous Month"
-        />
-        <img
-          src={CalendarRightBtn}
-          className="rightBtn"
-          onClick={nextMonth}
-          alt="Next Month"
-        />
+         <img src={CalendarLeftBtn} className='leftBtn' onClick={prevMonth} alt="Previous Month" />
+        <img src={CalendarRightBtn} className='rightBtn' onClick={nextMonth} alt="Next Month" />
         <RenderDays />
         <RenderCells
           currentMonth={currentMonth}
