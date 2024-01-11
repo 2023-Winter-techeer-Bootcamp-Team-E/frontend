@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import Book from '../assets/img/Book.png';
+import { keyframes } from 'styled-components';
+import Book2 from '../assets/img/Book2.png';
 import StartButton from '../components/Start/StartButton';
 import EmptyLogo from '../assets/img/EmptyLogo.png';
-import Papers from '../assets/img/Papers.png';
+import Papers2 from '../assets/img/Papers2.png';
 
 function StartPage({ move }) {
   return (
@@ -11,11 +12,11 @@ function StartPage({ move }) {
       <BackLayout>
         <PageFrame>
           <PaperWrapper>
-            <StyledPapers src={Papers} />
+            <StyledPapers src={Papers2} />
           </PaperWrapper>
 
           <BookWrapper>
-            <StyledBook src={Book} />
+            <StyledBook src={Book2} />
           </BookWrapper>
           <StartButtonWrapper>
             <StartButton move={move} />
@@ -44,9 +45,10 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: #c1e3ff;
+  background: linear-gradient(to bottom, #c1e3ff 60%, #ffffff);
   overflow: hidden;
 `;
+
 
 const PageFrame = styled.div`
   position: absolute;
@@ -59,7 +61,7 @@ const PageFrame = styled.div`
   flex-direction: column; /* 세로로 정렬되도록 수정 */
   align-items: center;
   justify-content: center;
-  background: #c1e3ff;
+  // background: #c1e3ff;
   z-index: 1;
 `;
 
@@ -67,32 +69,43 @@ const PageFrame = styled.div`
 const StartButtonWrapper = styled.div`
   position: absolute;
   bottom: 13.8rem;
-  right: 39.6rem;
+  right: 40.6rem;
   z-index: 5;
 `;
 
 //책 이미지
 const StyledBook = styled.img`
-  width: 98.74094rem;
-  height: 61.61106rem;
-
+  width: 64.08319rem;
+  height: 40.64706rem;
   z-index: 4;
 `;
 
 const BookWrapper = styled.div`
   position: absolute;
-  right: 0rem;
+  right: 21.9rem;
   bottom: 4.08rem;
+`;
+
+const slideUp = keyframes`
+  0% {
+    transform: translateY(9%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 `;
 
 //뒤에 종이들
 const StyledPapers = styled.img`
   position: absolute;
-  width: 86.41319rem;
-  height: 52.98006rem;
-  left: 3.5rem;
-  top: -8.6rem;
+  width: 111.05256rem;
+  height: 70.87131rem;
+  left: -1.3rem;
+  top: -13rem;
   z-index: 1;
+  animation: ${slideUp} 0.5s ease-out;
 `;
 
 const PaperWrapper = styled.div`
@@ -105,11 +118,13 @@ const PaperWrapper = styled.div`
 //로고, 글씨
 const StyledEmptyLogo = styled.div`
   position: absolute;
-  left: 40.1rem;
+  left: 37.3rem;
   z-index: 10;
+  top: 16.2rem;
+  animation: ${slideUp} 1s ease-out;
+
 
   img {
-    top: 17.1rem;
     width: 32.19981rem;
     height: 33.65313rem;
     flex-shrink: 0;

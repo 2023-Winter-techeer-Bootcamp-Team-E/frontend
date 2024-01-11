@@ -1,9 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
+import Calender from '../components/CalendarPage/Calender';
 
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   return (
@@ -12,13 +13,19 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
         <WrapperNavigateBar>
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
+
         <WrapperLargeSketchbook>
           <LargeSketchbook />
         </WrapperLargeSketchbook>
+
         <WrapperBasicSticker>
           <BasicSticker />
         </WrapperBasicSticker>
-        <Calendar />
+
+        <WrapperCalendar>
+          <Calender />
+        </WrapperCalendar>
+
         <WrapperDateNotification>
           <DateNotification />
         </WrapperDateNotification>
@@ -26,6 +33,7 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
     </BackLayout>
   );
 }
+
 const BackLayout = styled.div`
   position: absolute;
   top: 0;
@@ -33,13 +41,13 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: #c1e3ff;
+  background: linear-gradient(to bottom, #c1e3ff 60%, #ffffff);
   justify-content: center;
   align-items: center;
   display: flex;
 `;
 const PageFrame = styled.div`
-  /* background: #AAAAAA; */
+
   position: absolute;
   width: 108rem;
   height: 70rem;
@@ -47,16 +55,17 @@ const PageFrame = styled.div`
   top: 0;
   justify-content: center;
 `;
-const Calendar = styled.div`
-  border-radius: 1.875rem;
-  background: #fffee1;
+const WrapperCalendar = styled.div`
   position: absolute;
   width: 60rem;
-  height: 40rem;
-  top: 18.88rem;
+  height: 45rem;
+  margin-top: 17rem;
   flex-shrink: 0;
   z-index: 2;
+  background: #d7d7ef;
+  border-radius: 1.5rem;
 `;
+
 const WrapperNavigateBar = styled.div`
   position: absolute;
 `;
@@ -74,4 +83,5 @@ const WrapperDateNotification = styled.div`
   top: 17.87rem;
   margin-left: 84.19rem;
 `;
+
 export default CalendarPage;

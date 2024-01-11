@@ -35,6 +35,11 @@
   src: url('../src/assets/Fonts/BigshotOne-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'mong';
+  src: url('../src/assets/Fonts/mongmong.ttf') format('truetype');
+}
+
 a {
   font-weight: 500;
   color: #646cff;

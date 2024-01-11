@@ -66,13 +66,12 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: #c1e3ff;
+  background: linear-gradient(to bottom, #c1e3ff 60%, #ffffff);
   justify-content: center;
   align-items: center;
   display: flex;
 `;
 const PageFrame = styled.div`
-  /* background: #AAAAAA; */
   position: absolute;
   width: 108rem;
   height: 70rem;
