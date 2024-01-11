@@ -6,13 +6,14 @@ import SignUpBtn from '../components/SignIn_Up';
 import SmallSketchbook from '../components/SmallSketchbook';
 import sketbook from '../assets/img/HaruConnectingBook.png';
 import LoginInput from '../components/LoginInput';
+import axios from 'axios';
 
 function SignUpPage(props) {
-  //닉네임, 아이디, 비밀번호, 비밀번호 확인
   const [username, setUsername] = useState('');
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordMatch, setPasswordMatch] = useState('');
+
 
   // 오류 메시지 상태, 오류 메시지 글씨 색 상태 저장
   const [usernameComment, setUsernameComment] = useState('');
@@ -41,7 +42,6 @@ function SignUpPage(props) {
 
   const navigate = useNavigate();
 
-  //닉네임 설정
   const handleUsernameChange = (e) => {
     const inputUsername = e.target.value;
     setUsername(inputUsername);
@@ -54,7 +54,6 @@ function SignUpPage(props) {
     setUsernameComment('');
   };
 
-  //아이디 설정
   const handleIdChange = (e) => {
     const inputId = e.target.value;
     setId(inputId);
@@ -69,16 +68,15 @@ function SignUpPage(props) {
       setIdComment(
         ' - 아이디는 4글자 이상이며 영문과 숫자로만 이루어져야 합니다.',
       );
-      setIdCommentColor('#DD0000'); // 빨간색 글씨로 변경
+      setIdCommentColor('#DD0000');
       setIdWrite(false);
     } else {
       setIdComment(' - 사용 가능한 아이디입니다.');
-      setIdCommentColor('#00A656'); // 초록색 글씨로 변경
+      setIdCommentColor('#00A656');
       setIdWrite(true);
     }
   };
 
-  //비밀번호 설정
   const handlePasswordChange = (e) => {
     const inputPw = e.target.value;
     const hasValidLength = inputPw.length >= 8 && inputPw.length <= 16;
@@ -91,41 +89,61 @@ function SignUpPage(props) {
 
     if (hasValidLength && hasLetter && hasNumber && hasSpecialChar) {
       setPwComment(' - 사용 가능한 비밀번호입니다.');
-      setPwCommentColor('#00A656'); // 초록색 글씨로 변경
+      setPwCommentColor('#00A656');
       setPwWrite(true);
       setPasswordCheck(inputPw);
     } else {
       setPwComment(
         ' - 비밀번호는 8~16자여야 하며, 영문자, 숫자, 특수문자를 반드시 포함해야 합니다.',
       );
-      setPwCommentColor('#DD0000'); // 빨간색 글씨로 변경
+      setPwCommentColor('#DD0000');
       setPwWrite(false);
       setPasswordCheck(inputPw);
     }
   };
 
-  //비밀번호 확인 설정
   const handlePasswordMatchChange = (e) => {
     const inputPwMatch = e.target.value;
     setPasswordMatch(e.target.value);
     if (!pwWrite) {
-      //초기 비밀번호 조건을 맞추지 않았을 때
       setPwMatchComment(' - 초기 비밀번호의 조건을 먼저 맞춰주세요!');
-      setPwMatchCommentColor('#DD0000'); // 빨간색 글씨로 변경
+      setPwMatchCommentColor('#DD0000');
     } else {
-      //초기 비밀번호 조건을 맞췄을 때
-      if (passwordCheck == inputPwMatch && inputPwMatch != '') {
+      if (passwordCheck == inputPwMatch && inputPwMatch !== '') {
         setPwMatchComment(' - 비밀번호가 일치합니다.');
-        setPwMatchCommentColor('#00A656'); // 초록색 글씨로 변경
+        setPwMatchCommentColor('#00A656');
         setPwMatchWrite(true);
       } else {
         setPwMatchComment(' - 비밀번호가 틀립니다.');
-        setPwMatchCommentColor('#DD0000'); // 빨간색 글씨로 변경
+        setPwMatchCommentColor('#DD0000');
         setPwMatchWrite(false);
       }
     }
   };
 
+  //api
+  const handleSignUp = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/api/v1/members/signup/',
+        {
+          login_id: id,
+          nickname: username,
+          password: password,
+        }
+      );
+
+      if (response.data.code === 'M001' && response.status === 201) {
+        console.log('회원가입 완료');
+        navigate('/login');
+      } else {
+        console.error('회원가입 실패:', response.data.message);
+      }
+    } catch (error) {
+      console.error('API 호출 중 오류 발생:', error);
+    }
+  }
+  
   useEffect(() => {
     const resetShakeStates = () => {
       if (usernameShake) {
@@ -243,17 +261,13 @@ function SignUpPage(props) {
             <SignUpBtn
               text="회원 가입"
               onClick={() => {
-                console.log(usernameWrite);
-                console.log(idWrite);
-                console.log(pwWrite);
-                console.log(pwMatchWrite);
-                console.log('----------------');
                 if (usernameWrite && idWrite && pwWrite && pwMatchWrite) {
-                  navigate('/login');
+                  handleSignUp();
                 } else {
                   InputError();
                 }
               }}
+
             />
           </SignUpWrapper>
         </SketDiv>
@@ -283,6 +297,7 @@ const PageFrame = styled.div`
   display: flex;
   place-items: center;
 `;
+
 const slideUp = keyframes`
   0% {
     transform: translateY(10%);
@@ -293,6 +308,7 @@ const slideUp = keyframes`
     opacity: 1;
   }
 `;
+
 const shakeAnimation = keyframes`
   0% {
     transform: translateX(-5px);
@@ -310,6 +326,7 @@ const shakeAnimation = keyframes`
     transform: translateX(0);
   }
 `;
+
 const SketDiv = styled.div`
   position: absolute;
   width: 60.75rem;
@@ -319,9 +336,9 @@ const SketDiv = styled.div`
   margin-top: 3%;
   margin-left: 2.314814815%;
 
-  // 애니메이션 적용
   animation: ${slideUp} 1s ease-out;
 `;
+
 const SignUpText = styled.div`
   left: 20%;
   color: #3cb5fa;
@@ -343,6 +360,7 @@ const SketBook = styled.img`
   flex-shrink: 0;
   margin-left: 60%;
 `;
+
 const UsernameInput = styled.div`
   position: absolute;
   margin-top: 27%;
