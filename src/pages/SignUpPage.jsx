@@ -207,7 +207,7 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: #c1e3ff;
+  background: linear-gradient(to bottom, #c1e3ff 60%, #ffffff);
 `;
 
 const PageFrame = styled.div`
