@@ -6,10 +6,14 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import TutorialPage from './pages/TutorialPage';
 import DiaryPage from './pages/DiaryPage';
+import GlobalStyles from './GlobalStyles';
+import MinScreenWarning from './components/\bMinScreenWarning';
 
 function App() {
   return (
     <Router>
+      <GlobalStyles />
+      <MinScreenWarning />
       <Routes>
         <Route path="/" element={<StartPage />} />
         <Route path="/calendar" element={<CalendarPage />} />
