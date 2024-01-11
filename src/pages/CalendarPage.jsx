@@ -4,24 +4,33 @@ import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
+import Calender from '../components/CalendarPage/Calender';
 
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   return (
     <BackLayout>
       <PageFrame>
+
         <WrapperNavigateBar>
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
+
         <WrapperLargeSketchbook>
           <LargeSketchbook />
         </WrapperLargeSketchbook>
+
         <WrapperBasicSticker>
           <BasicSticker />
         </WrapperBasicSticker>
-        <Calendar />
+
+        <WrapperCalendar>
+          <Calender />
+        </WrapperCalendar>
+
         <WrapperDateNotification>
           <DateNotification />
         </WrapperDateNotification>
+
       </PageFrame>
     </BackLayout>
   );
@@ -47,15 +56,15 @@ const PageFrame = styled.div`
   top: 0;
   justify-content: center;
 `;
-const Calendar = styled.div`
-  border-radius: 1.875rem;
-  background: #fffee1;
+const WrapperCalendar = styled.div`
   position: absolute;
   width: 60rem;
-  height: 40rem;
-  top: 18.88rem;
+  height: 45rem;
+  margin-top: 17rem;
   flex-shrink: 0;
   z-index: 2;
+  background: #D7D7EF;
+  border-radius: 1.5rem;
 `;
 const WrapperNavigateBar = styled.div`
   position: absolute;
