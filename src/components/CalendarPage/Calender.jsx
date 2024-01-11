@@ -17,19 +17,34 @@ const useSimpleStore = (initialState) => {
 
 const RenderDays = () => {
   const days = [];
-  const date = ['SUNDAY', 'MONDAY', 'THUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+  const date = [
+    'SUNDAY',
+    'MONDAY',
+    'THUESDAY',
+    'WEDNESDAY',
+    'THURSDAY',
+    'FRIDAY',
+    'SATURDAY',
+  ];
 
   for (let i = 0; i < 7; i++) {
     days.push(
-      <div className='dayscol' key={i}>
+      <div className="dayscol" key={i}>
         {date[i]}
-      </div>
+      </div>,
     );
   }
-  return <div className='days row'>{days}</div>;
+  return <div className="days row">{days}</div>;
 };
 
-const RenderCells = ({ currentMonth, today, list, exist, selectedDate, onDateClick }) => {
+const RenderCells = ({
+  currentMonth,
+  today,
+  list,
+  exist,
+  selectedDate,
+  onDateClick,
+}) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -63,29 +78,35 @@ const RenderCells = ({ currentMonth, today, list, exist, selectedDate, onDateCli
                     : 'valid'
           }`}
           key={day}
-          onClick={() => onDateClick(cloneDay)}
-        >
+          onClick={() => onDateClick(cloneDay)}>
           <span>
             {formattedDate}
-            {Array.isArray(list) && list.filter(x => new Date(x.diary_date).toDateString() === cloneDay.toDateString())
-              .map((data, index) => (
-                <span key={index} className="listemoji">
-                  {data.emoji}
-                </span>
-              ))}
+            {Array.isArray(list) &&
+              list
+                .filter(
+                  (x) =>
+                    new Date(x.diary_date).toDateString() ===
+                    cloneDay.toDateString(),
+                )
+                .map((data, index) => (
+                  <span key={index} className="listemoji">
+                    {data.emoji}
+                  </span>
+                ))}
           </span>
         </div>
+
       );
       day = addDays(day, 1);
     }
     rows.push(
-      <div className='bodyrow' key={day}>
+      <div className="bodyrow" key={day}>
         {days}
-      </div>
+      </div>,
     );
     days = [];
   }
-  return <div className='calenderbody'>{rows}</div>;
+  return <div className="calenderbody">{rows}</div>;
 };
 
 const Calender = ({ list, exist }) => {
@@ -103,16 +124,22 @@ const Calender = ({ list, exist }) => {
     // setChoicedDate(day);  // 사용하지 않는 상태 관리 함수 주석 처리
   };
   return (
-    <div className='listcontainer'>
-      <div className='calender'>
-        <div className='listname'>               
+    <div className="listcontainer">
+      <div className="calender">
+        <div className="listname">
           <span className="topyear">{format(currentMonth, 'yyyy')}</span>
           {format(currentMonth, 'MMMMMMMM')}
         </div>
          <img src={CalendarLeftBtn} className='leftBtn' onClick={prevMonth} alt="Previous Month" />
         <img src={CalendarRightBtn} className='rightBtn' onClick={nextMonth} alt="Next Month" />
         <RenderDays />
-        <RenderCells currentMonth={currentMonth} today={today} list={list} exist={exist} selectedDate={selectedDate} onDateClick={onDateClick}></RenderCells>
+        <RenderCells
+          currentMonth={currentMonth}
+          today={today}
+          list={list}
+          exist={exist}
+          selectedDate={selectedDate}
+          onDateClick={onDateClick}></RenderCells>
       </div>
     </div>
   );
