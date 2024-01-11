@@ -61,29 +61,6 @@ const GlobalStyles = createGlobalStyle`
         @content;
       }
     }
-    .min-screen-warning {
-      display: none; // 기본적으로 숨김
-    }
-    @media (max-width: 1090px) {
-      .min-screen-warning {
-        display: block;
-      }
-    }
-    @media screen and (max-width: 1090px) {
-      #root {
-        display: none;
-      }
-      #help {
-        color: black;
-        display: flex;
-        height: 100vh;
-        justify-content: center;
-        align-items: center;
-        font-size: 40px;
-        font-weight: bold;
-        z-index: 10;
-      }
-    }
 
     html {
       /* font-size: 53.125%; // 1rem = 8.5px; */
