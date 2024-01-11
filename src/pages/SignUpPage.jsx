@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { keyframes } from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { keyframes, css } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import SignUpBtn from '../components/SignIn_Up';
 import SmallSketchbook from '../components/SmallSketchbook';
@@ -14,6 +14,10 @@ function SignUpPage(props) {
   const [password, setPassword] = useState('');
   const [passwordMatch, setPasswordMatch] = useState('');
 
+
+  // 오류 메시지 상태, 오류 메시지 글씨 색 상태 저장
+  const [usernameComment, setUsernameComment] = useState('');
+  const [usernameCommentColor, setUsernameCommentColor] = useState('#DD0000');
   const [idComment, setIdComment] = useState(' - 영문을 포함해 4자리 이상');
   const [idCommentColor, setIdCommentColor] = useState('#777777');
   const [pwComment, setPwComment] = useState(
@@ -23,6 +27,13 @@ function SignUpPage(props) {
   const [pwMatchComment, setPwMatchComment] = useState('');
   const [pwMatchCommentColor, setPwMatchCommentColor] = useState('#777777');
 
+  //흔들리는 애니메이션
+  const [usernameShake, setUsernameShake] = useState(false);
+  const [idShake, setIdShake] = useState(false);
+  const [pwShake, setPwShake] = useState(false);
+  const [pwMatchShake, setPwMatchShake] = useState(false);
+
+  //유효성 검사
   const [usernameWrite, setUsernameWrite] = useState(false);
   const [idWrite, setIdWrite] = useState(false);
   const [pwWrite, setPwWrite] = useState(false);
@@ -40,6 +51,7 @@ function SignUpPage(props) {
     } else {
       setUsernameWrite(false);
     }
+    setUsernameComment('');
   };
 
   const handleIdChange = (e) => {
@@ -130,6 +142,51 @@ function SignUpPage(props) {
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error);
     }
+  }
+  
+  useEffect(() => {
+    const resetShakeStates = () => {
+      if (usernameShake) {
+        setUsernameShake(false); // 초기화
+      }
+      if (idShake) {
+        setIdShake(false); // 초기화
+      }
+      if (pwShake) {
+        setPwShake(false); // 초기화
+      }
+      if (pwMatchShake) {
+        setPwMatchShake(false); // 초기화
+      }
+    };
+
+    const delay = 500; // 0.5초 딜레이
+
+    const timeoutId = setTimeout(resetShakeStates, delay);
+
+    return () => clearTimeout(timeoutId); // cleanup 함수
+  }, [usernameShake, idShake, pwShake, pwMatchShake]);
+
+  const InputError = () => {
+    if (!usernameWrite) {
+      setUsernameComment(' - 닉네임을 입력하세요');
+      setUsernameShake(true);
+    }
+    if (!idWrite) {
+      setIdComment(' - 아이디를 조건에 맞게 입력하세요');
+      setIdCommentColor('#DD0000');
+      setIdShake(true);
+    }
+    if (!pwWrite) {
+      setPwComment(' - 비밀번호를 조건에 맞게 입력하세요');
+      setPwCommentColor('#DD0000');
+      setPwShake(true);
+    }
+    if (!pwMatchWrite) {
+      setPwMatchComment(' - 비밀번호를 다시 확인해 주세요');
+      setPwMatchCommentColor('#DD0000');
+      setPwMatchShake(true);
+    }
   };
 
   return (
@@ -153,6 +210,12 @@ function SignUpPage(props) {
             />
           </UsernameInput>
 
+          <UsernameRequireText
+            usernameCommentColor={usernameCommentColor}
+            shake={usernameShake}>
+            {usernameComment}
+          </UsernameRequireText>
+
           <IdInput>
             <LoginInput
               type="text"
@@ -162,7 +225,7 @@ function SignUpPage(props) {
             />
           </IdInput>
 
-          <IdRequireText idCommentColor={idCommentColor}>
+          <IdRequireText idCommentColor={idCommentColor} shake={idShake}>
             {idComment}
           </IdRequireText>
 
@@ -175,7 +238,7 @@ function SignUpPage(props) {
             />
           </PwInput>
 
-          <PwRequireText pwCommentColor={pwCommentColor}>
+          <PwRequireText pwCommentColor={pwCommentColor} shake={pwShake}>
             {pwComment}
           </PwRequireText>
 
@@ -188,15 +251,23 @@ function SignUpPage(props) {
             />
           </PwMatchInput>
 
-          <PwMatchText pwMatchCommentColor={pwMatchCommentColor}>
+          <PwMatchRequireText
+            pwMatchCommentColor={pwMatchCommentColor}
+            shake={pwMatchShake}>
             {pwMatchComment}
-          </PwMatchText>
+          </PwMatchRequireText>
 
           <SignUpWrapper>
             <SignUpBtn
               text="회원 가입"
-              disabled={!(usernameWrite && idWrite && pwWrite && pwMatchWrite)}
-              onClick={handleSignUp}
+              onClick={() => {
+                if (usernameWrite && idWrite && pwWrite && pwMatchWrite) {
+                  handleSignUp();
+                } else {
+                  InputError();
+                }
+              }}
+
             />
           </SignUpWrapper>
         </SketDiv>
@@ -235,6 +306,24 @@ const slideUp = keyframes`
   100% {
     transform: translateY(0);
     opacity: 1;
+  }
+`;
+
+const shakeAnimation = keyframes`
+  0% {
+    transform: translateX(-5px);
+  }
+  25% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
   }
 `;
 
@@ -278,6 +367,20 @@ const UsernameInput = styled.div`
   z-index: 2;
 `;
 
+const UsernameRequireText = styled.p`
+  left: 20%;
+  position: absolute;
+  margin-top: 36%;
+  z-index: 2;
+  color: ${({ usernameCommentColor }) => usernameCommentColor};
+  animation: ${({ shake }) =>
+    shake
+      ? css`
+          ${shakeAnimation} 0.4s ease-in-out forwards
+        `
+      : 'none'};
+`;
+
 const IdInput = styled.div`
   position: absolute;
   margin-top: 41%;
@@ -291,6 +394,12 @@ const IdRequireText = styled.p`
   margin-top: 50%;
   z-index: 2;
   color: ${({ idCommentColor }) => idCommentColor};
+  animation: ${({ shake }) =>
+    shake
+      ? css`
+          ${shakeAnimation} 0.4s ease-in-out forwards
+        `
+      : 'none'};
 `;
 
 const PwInput = styled.div`
@@ -305,6 +414,12 @@ const PwRequireText = styled.p`
   margin-top: 64%;
   z-index: 2;
   color: ${({ pwCommentColor }) => pwCommentColor};
+  animation: ${({ shake }) =>
+    shake
+      ? css`
+          ${shakeAnimation} 0.4s ease-in-out forwards
+        `
+      : 'none'};
 `;
 
 const PwMatchInput = styled.div`
@@ -313,12 +428,18 @@ const PwMatchInput = styled.div`
   z-index: 2;
 `;
 
-const PwMatchText = styled.p`
+const PwMatchRequireText = styled.p`
   left: 20%;
   position: absolute;
   margin-top: 78%;
   z-index: 2;
   color: ${({ pwMatchCommentColor }) => pwMatchCommentColor};
+  animation: ${({ shake }) =>
+    shake
+      ? css`
+          ${shakeAnimation} 0.4s ease-in-out forwards
+        `
+      : 'none'};
 `;
 
 const SignUpWrapper = styled.div`

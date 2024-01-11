@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
@@ -10,7 +10,6 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   return (
     <BackLayout>
       <PageFrame>
-
         <WrapperNavigateBar>
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
@@ -30,11 +29,11 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
         <WrapperDateNotification>
           <DateNotification />
         </WrapperDateNotification>
-
       </PageFrame>
     </BackLayout>
   );
 }
+
 const BackLayout = styled.div`
   position: absolute;
   top: 0;
@@ -63,9 +62,10 @@ const WrapperCalendar = styled.div`
   margin-top: 17rem;
   flex-shrink: 0;
   z-index: 2;
-  background: #D7D7EF;
+  background: #d7d7ef;
   border-radius: 1.5rem;
 `;
+
 const WrapperNavigateBar = styled.div`
   position: absolute;
 `;
@@ -83,4 +83,5 @@ const WrapperDateNotification = styled.div`
   top: 17.87rem;
   margin-left: 84.19rem;
 `;
+
 export default CalendarPage;
