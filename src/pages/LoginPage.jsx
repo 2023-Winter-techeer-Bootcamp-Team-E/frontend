@@ -16,8 +16,8 @@ function LoginPage(props) {
   const [shake, setShake] = useState(false);
 
   //로그인 기능 사용 해 보려고 내꺼 임시로 만들어봄 ㅎ.ㅎ
-  const adminId = 'admin';
-  const adminPw = 'admin';
+  // const adminId = 'admin';
+  // const adminPw = 'admin';
 
   const handleIdChange = (e) => {
     setId(e.target.value);
@@ -28,24 +28,46 @@ function LoginPage(props) {
   };
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // 입력된 아이디와 비밀번호가 맞는지 확인
-    if (id === adminId && password === adminPw) {
-      navigate('/calendar');
-      setWrongPwAlert('로그인 중...');
-      setWrongPwAlertColor('#00A656');
-    } else {
-      setWrongPwAlert('아이디 또는 비밀번호가 일치하지 않습니다.');
-      setShake(true); // 흔들리는 애니메이션 활성화
-      setTimeout(() => {
-        setShake(false); // 0.4초 후에 애니메이션 비활성화
-      }, 400);
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/v1/members/login/',
+        {
+          login_id: id,
+          password: password,
+        },
+      );
+      if (response.data.code === 'A001' && response.status === 200) {
+        console.log('로그인 성공');
+        navigate('/calendar');
+        setWrongPwAlert('로그인 중...');
+        setWrongPwAlertColor('#00A656');
+      } else {
+        console.log('로그인 실패');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log('로그인 실패 : ', error.response.message);
+        setWrongPwAlert('아이디 또는 비밀번호가 일치하지 않습니다.');
+        setShake(true); // 흔들리는 애니메이션 활성화
+        setTimeout(() => {
+          setShake(false); // 0.4초 후에 애니메이션 비활성화
+        }, 400);
+      } else {
+        // 기타 오류인 경우
+        console.error('API 호출 중 오류 발생 : ', error);
+      }
     }
   };
-
+  const handleKeyDown = (e) => {
+    // 엔터 키가 눌렸을 때 로그인 함수 호출
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
   return (
     <BackLayout>
-      <PageFrame>
+      <PageFrame onKeyDown={handleKeyDown}>
         <SketDiv>
           <SignInText>Login</SignInText>
 
