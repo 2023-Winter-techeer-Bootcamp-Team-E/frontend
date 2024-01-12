@@ -28,21 +28,6 @@ function LoginPage(props) {
   };
   const navigate = useNavigate();
 
-  // const handleLogin = () => {
-  //   // 입력된 아이디와 비밀번호가 맞는지 확인
-  //   if (id === adminId && password === adminPw) {
-  //     navigate('/calendar');
-  //     setWrongPwAlert('로그인 중...');
-  //     setWrongPwAlertColor('#00A656');
-  //   } else {
-  //     setWrongPwAlert('아이디 또는 비밀번호가 일치하지 않습니다.');
-  //     setShake(true); // 흔들리는 애니메이션 활성화
-  //     setTimeout(() => {
-  //       setShake(false); // 0.4초 후에 애니메이션 비활성화
-  //     }, 400);
-  //   }
-  // };
-
   const handleLogin = async () => {
     try {
       const response = await axios.post(
@@ -58,30 +43,21 @@ function LoginPage(props) {
         setWrongPwAlert('로그인 중...');
         setWrongPwAlertColor('#00A656');
       } else {
-        console.log('로그인 실패 : ', response.data.message);
+        console.log('로그인 실패');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log('로그인 실패 : ', error.response.message);
         setWrongPwAlert('아이디 또는 비밀번호가 일치하지 않습니다.');
         setShake(true); // 흔들리는 애니메이션 활성화
         setTimeout(() => {
           setShake(false); // 0.4초 후에 애니메이션 비활성화
         }, 400);
+      } else {
+        // 기타 오류인 경우
+        console.error('API 호출 중 오류 발생 : ', error);
       }
-    } catch (e) {
-      console.log('로그인 실패 : ', response.data.message);
-      setWrongPwAlert('아이디 또는 비밀번호가 일치하지 않습니다.');
-      setShake(true); // 흔들리는 애니메이션 활성화
-      setTimeout(() => {
-        setShake(false); // 0.4초 후에 애니메이션 비활성화
-      }, 400);
     }
-    // catch (e) {
-    //   if (axios.isAxiosError(e)) {
-    //     // Axios 오류인 경우
-    //     console.error('Axios 오류 발생 : ', response.data);
-    //   } else {
-    //     // 기타 오류인 경우
-    //     console.error('API 호출 중 오류 발생 : ', e);
-    //   }
-    // }
   };
 
   return (

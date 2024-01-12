@@ -8,12 +8,12 @@ import './DateNotification.css';
 // 이미지 import
 import Cloud1 from '../../assets/img/Cloud1.png';
 import Cloud2 from '../../assets/img/Cloud2.png';
-import InnerImg1 from '../../assets/img/InnerImg1.png';
-import InnerImg2 from '../../assets/img/InnerImg2.png';
-import InnerImg3 from '../../assets/img/InnerImg3.png';
-import InnerImg4 from '../../assets/img/InnerImg4.png';
-import InnerImg5 from '../../assets/img/InnerImg5.png';
-import InnerImg6 from '../../assets/img/InnerImg6.png';
+import InnerImg1 from '../../assets/img/InnerImg/SelectInnerImg1.png';
+import InnerImg2 from '../../assets/img/InnerImg/SelectInnerImg2.png';
+import InnerImg3 from '../../assets/img/InnerImg/SelectInnerImg3.png';
+import InnerImg4 from '../../assets/img/InnerImg/SelectInnerImg4.png';
+import InnerImg5 from '../../assets/img/InnerImg/SelectInnerImg5.png';
+import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
 import SelectImgBtn from '../../assets/img/SelectImgBtn.png';
 import MaskingTape1 from '../../assets/img/MaskingTape1.png';
 import MaskingTape2 from '../../assets/img/MaskingTape2.png';
