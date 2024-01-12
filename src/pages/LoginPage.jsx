@@ -59,10 +59,15 @@ function LoginPage(props) {
       }
     }
   };
-
+  const handleKeyDown = (e) => {
+    // 엔터 키가 눌렸을 때 로그인 함수 호출
+    if (e.key === 'Enter') {
+      handleLogin();
+    }
+  };
   return (
     <BackLayout>
-      <PageFrame>
+      <PageFrame onKeyDown={handleKeyDown}>
         <SketDiv>
           <SignInText>Login</SignInText>
 
