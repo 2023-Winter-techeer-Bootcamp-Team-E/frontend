@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import axios from 'axios';  // axios 추가
 import { useNavigate } from 'react-router-dom';
 
 function ProfileMenu({
@@ -10,12 +11,10 @@ function ProfileMenu({
 }) {
   const navigate = useNavigate();
 
-  // tutorial 페이지로 이동
   const handleHaruConnectingTutorialClick = () => {
     navigate('/tutorial');
   };
 
-  //로그아웃 기능 구현
   const handleLogOutClick = () => {
     Swal.fire({
       title: '로그아웃하시겠습니까?',
@@ -26,18 +25,37 @@ function ProfileMenu({
       cancelButtonColor: '#d33',
       confirmButtonText: '네, 로그아웃합니다',
       cancelButtonText: '취소',
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        // 로그아웃 동작 수행
-        // 여기에 로그아웃 로직을 추가하세요.
-        navigate('/login'); // 예시에서는 페이지 이동만 했습니다.
+        try {
+          const response = await axios.post(
+            'http://127.0.0.1:8000/api/v1/members/logout/',
+            {},
+          );
 
-        // 로그아웃이 성공했다면 아래와 같이 알림창을 띄워줄 수 있습니다.
-        Swal.fire({
-          title: '로그아웃되었습니다!',
-          text: '로그아웃이 성공적으로 처리되었습니다.',
-          icon: 'success',
-        });
+          if (response.data.code === 'A002' && response.status === 200) {
+            Swal.fire({
+              title: '로그아웃되었습니다!',
+              text: '로그아웃이 성공적으로 처리되었습니다.',
+              icon: 'success',
+            });
+            navigate('/login');
+          } else {
+            console.error('로그아웃 실패:', response.data.message);
+            Swal.fire({
+              title: '로그아웃 실패',
+              text: '로그아웃 중에 문제가 발생했습니다.',
+              icon: 'error',
+            });
+          }
+        } catch (error) {
+          console.error('API 호출 중 오류 발생:', error);
+          Swal.fire({
+            title: '로그아웃 실패',
+            text: '로그아웃 중에 문제가 발생했습니다.',
+            icon: 'error',
+          });
+        }
       }
     });
   };
