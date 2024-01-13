@@ -45,9 +45,9 @@ const BackLayout = styled.div`
   justify-content: center;
   align-items: center;
   display: flex;
+  overflow-y: hidden;
 `;
 const PageFrame = styled.div`
-
   position: absolute;
   width: 108rem;
   height: 70rem;

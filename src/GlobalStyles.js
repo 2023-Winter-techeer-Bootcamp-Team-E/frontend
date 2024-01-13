@@ -15,7 +15,7 @@ const GlobalStyles = createGlobalStyle`
         margin: 0;
         padding: 0;
         border: 0;
-        font-size: 10px;
+        font-size: 0.74rem;
         vertical-align: baseline;
     }
     body{
@@ -51,6 +51,7 @@ const GlobalStyles = createGlobalStyle`
         @content;
       }
     } */
+    
     @mixin desktop {
       @media (min-width: #{$desktop}) {
         @content;
@@ -63,7 +64,7 @@ const GlobalStyles = createGlobalStyle`
     }
 
     html {
-      /* font-size: 53.125%; // 1rem = 8.5px; */
+      /* font-size: 100%; // 1rem = 8.5px; */
       /* @include tablet {
         font-size: 62.5%; // 1rem = 10px;
       } */
@@ -73,9 +74,6 @@ const GlobalStyles = createGlobalStyle`
       @include widedesktop {
         font-size: 120%; // 1rem = 19.2px;
       }
-    }
-    .over_hidden {
-      overflow: hidden;
     }
 `;
 

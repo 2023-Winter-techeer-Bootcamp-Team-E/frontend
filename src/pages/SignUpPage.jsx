@@ -14,7 +14,6 @@ function SignUpPage(props) {
   const [password, setPassword] = useState('');
   const [passwordMatch, setPasswordMatch] = useState('');
 
-
   // 오류 메시지 상태, 오류 메시지 글씨 색 상태 저장
   const [usernameComment, setUsernameComment] = useState('');
   const [usernameCommentColor, setUsernameCommentColor] = useState('#DD0000');
@@ -130,7 +129,7 @@ function SignUpPage(props) {
           login_id: id,
           nickname: username,
           password: password,
-        }
+        },
       );
 
       if (response.data.code === 'M001' && response.status === 201) {
@@ -142,8 +141,8 @@ function SignUpPage(props) {
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error);
     }
-  }
-  
+  };
+
   useEffect(() => {
     const resetShakeStates = () => {
       if (usernameShake) {
@@ -267,7 +266,6 @@ function SignUpPage(props) {
                   InputError();
                 }
               }}
-
             />
           </SignUpWrapper>
         </SketDiv>
@@ -285,6 +283,7 @@ const BackLayout = styled.div`
   height: 100%;
   flex-shrink: 0;
   background: linear-gradient(to bottom, #c1e3ff 60%, #ffffff);
+  overflow-y: hidden;
 `;
 
 const PageFrame = styled.div`

@@ -120,6 +120,7 @@ const BackLayout = styled.div`
   height: 100%;
   flex-shrink: 0;
   background: linear-gradient(to bottom, #c1e3ff 60%, #ffffff);
+  overflow-y: hidden;
 `;
 
 const PageFrame = styled.div`
