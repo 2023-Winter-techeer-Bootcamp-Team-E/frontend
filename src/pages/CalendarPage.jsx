@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
@@ -7,6 +7,10 @@ import DateNotification from '../components/CalendarPage/DateNotification';
 import Calender from '../components/CalendarPage/Calender';
 
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
+  const [diarySettingPage, setDiarySettingPage] = useState(1);
+  function onSetDiarySetting(diarySetting) {
+    setDiarySettingPage(diarySetting);
+  }
   return (
     <BackLayout>
       <PageFrame>
@@ -47,7 +51,6 @@ const BackLayout = styled.div`
   display: flex;
 `;
 const PageFrame = styled.div`
-
   position: absolute;
   width: 108rem;
   height: 70rem;

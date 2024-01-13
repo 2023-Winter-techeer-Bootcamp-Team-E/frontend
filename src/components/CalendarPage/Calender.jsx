@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   format,
   addMonths,
@@ -10,21 +11,13 @@ import {
   isSameMonth,
   isSameDay,
   addDays,
+  isAfter,
 } from 'date-fns';
 import './Calendar.css';
 import CalendarRightBtn from '../../assets/img/CalendarRightBtn.png';
 import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
-
-// useStore 함수 대신 간단한 상태 저장을 위한 useState 사용
-// const useSimpleStore = (initialState) => {
-//   const [state, setState] = useState(initialState);
-
-//   const setSimpleState = (newState) => {
-//     setState((prevState) => ({ ...prevState, ...newState }));
-//   };
-
-//   return [state, setSimpleState];
-// };
+import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
+import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
 
 const RenderDays = () => {
   const days = [];
@@ -54,18 +47,62 @@ const RenderCells = ({
   list,
   selectedDate,
   onDateClick,
+  diaryData, // Add diaryData as a prop
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
-  // const [add, setAdd] = useState(true);
-  // const [choiceDate, setChoicedDate] = useSimpleStore(new Date());
   const rows = [];
   let days = [];
   let day = startDate;
   let formattedDate = '';
 
+  function UpdateDiarySettingPage() {
+    props.UpdateDiarySettingPage(2);
+  }
+
+  useEffect(() => {
+    // Fetch diary data here
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `/api/v1/calendars/{member_id}?year=${format(
+            currentMonth,
+            'yyyy',
+          )}&month=${format(currentMonth, 'M')}&date=${format(
+            selectedDate,
+            'd',
+          )}`,
+        );
+        const { data } = response;
+        setDiaryData(data); // Assuming the API response contains an array of diary data
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [currentMonth, selectedDate]);
+
+  const handleClick = (day) => {
+    const isFutureDate = isAfter(day, new Date());
+
+    if (!isFutureDate && isSameDay(day, selectedDate)) {
+      return (
+        <img
+          className="GoToDiaryBtn"
+          src={
+            diaryData.some((data) => data.is_expiry === 'true')
+              ? DiaryViewIcon
+              : DiaryWriteIcon
+          }
+          alt="Go to Diary"
+          onClick={UpdateDiarySettingPage}
+        />
+      );
+    }
+  };
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
@@ -85,11 +122,6 @@ const RenderCells = ({
           }`}
           key={day}
           onClick={() => onDateClick(cloneDay)}>
-          {isSameDay(day, selectedDate) && (
-            <img className="" type="button">
-              Click me!
-            </img>
-          )}
           <span>
             {formattedDate}
             {Array.isArray(list) &&
@@ -105,6 +137,7 @@ const RenderCells = ({
                   </span>
                 ))}
           </span>
+          {handleClick(day)}
         </div>,
       );
       day = addDays(day, 1);
@@ -122,6 +155,7 @@ const RenderCells = ({
 const Calender = ({ list, exist }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [diaryData, setDiaryData] = useState([]); // Add diaryData state
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
   };
@@ -133,6 +167,7 @@ const Calender = ({ list, exist }) => {
     setSelectedDate(day);
     console.log(day);
   };
+
   return (
     <div className="listcontainer">
       <div className="calender">
@@ -157,9 +192,10 @@ const Calender = ({ list, exist }) => {
           currentMonth={currentMonth}
           today={today}
           list={list}
-          // exist={exist}
           selectedDate={selectedDate}
-          onDateClick={onDateClick}></RenderCells>
+          onDateClick={onDateClick}
+          diaryData={diaryData} // Pass diaryData as a prop
+        />
       </div>
     </div>
   );
