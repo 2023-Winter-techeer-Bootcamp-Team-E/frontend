@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay, addDays } from 'date-fns';
-import "./Calendar.css";
-import CalendarRightBtn from '../../assets/img/CalendarRightBtn.png'
-import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png'
+import {
+  format,
+  addMonths,
+  subMonths,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  isSameMonth,
+  isSameDay,
+  addDays,
+} from 'date-fns';
+import './Calendar.css';
+import CalendarRightBtn from '../../assets/img/CalendarRightBtn.png';
+import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 
 // useStore 함수 대신 간단한 상태 저장을 위한 useState 사용
-const useSimpleStore = (initialState) => {
-  const [state, setState] = useState(initialState);
+// const useSimpleStore = (initialState) => {
+//   const [state, setState] = useState(initialState);
 
-  const setSimpleState = (newState) => {
-    setState((prevState) => ({ ...prevState, ...newState }));
-  };
+//   const setSimpleState = (newState) => {
+//     setState((prevState) => ({ ...prevState, ...newState }));
+//   };
 
-  return [state, setSimpleState];
-};
+//   return [state, setSimpleState];
+// };
 
 const RenderDays = () => {
   const days = [];
@@ -41,7 +52,6 @@ const RenderCells = ({
   currentMonth,
   today,
   list,
-  exist,
   selectedDate,
   onDateClick,
 }) => {
@@ -49,16 +59,12 @@ const RenderCells = ({
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
-  const [add, setAdd] = useState(true);
-  const [choiceDate, setChoicedDate] = useSimpleStore(new Date());
+  // const [add, setAdd] = useState(true);
+  // const [choiceDate, setChoicedDate] = useSimpleStore(new Date());
   const rows = [];
   let days = [];
   let day = startDate;
   let formattedDate = '';
-
-  const pageMove = () => {
-    setChoicedDate(new Date());
-  };
 
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
@@ -79,6 +85,11 @@ const RenderCells = ({
           }`}
           key={day}
           onClick={() => onDateClick(cloneDay)}>
+          {isSameDay(day, selectedDate) && (
+            <img className="" type="button">
+              Click me!
+            </img>
+          )}
           <span>
             {formattedDate}
             {Array.isArray(list) &&
@@ -94,8 +105,7 @@ const RenderCells = ({
                   </span>
                 ))}
           </span>
-        </div>
-
+        </div>,
       );
       day = addDays(day, 1);
     }
@@ -121,7 +131,7 @@ const Calender = ({ list, exist }) => {
   };
   const onDateClick = (day) => {
     setSelectedDate(day);
-    // setChoicedDate(day);  // 사용하지 않는 상태 관리 함수 주석 처리
+    console.log(day);
   };
   return (
     <div className="listcontainer">
@@ -130,14 +140,24 @@ const Calender = ({ list, exist }) => {
           <span className="topyear">{format(currentMonth, 'yyyy')}</span>
           {format(currentMonth, 'MMMMMMMM')}
         </div>
-         <img src={CalendarLeftBtn} className='leftBtn' onClick={prevMonth} alt="Previous Month" />
-        <img src={CalendarRightBtn} className='rightBtn' onClick={nextMonth} alt="Next Month" />
+        <img
+          src={CalendarLeftBtn}
+          className="leftBtn"
+          onClick={prevMonth}
+          alt="Previous Month"
+        />
+        <img
+          src={CalendarRightBtn}
+          className="rightBtn"
+          onClick={nextMonth}
+          alt="Next Month"
+        />
         <RenderDays />
         <RenderCells
           currentMonth={currentMonth}
           today={today}
           list={list}
-          exist={exist}
+          // exist={exist}
           selectedDate={selectedDate}
           onDateClick={onDateClick}></RenderCells>
       </div>
