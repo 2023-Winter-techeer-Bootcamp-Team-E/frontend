@@ -22,13 +22,14 @@
     display: none;
   }
   #help {
-    display: block;
+    display: flex;
     background-color: #c1e3ff;
-    height: 100vh;
+    width: auto;
+    height: auto;
     justify-content: center;
     align-items: center;
-    z-index: 10;
     margin: 0;
+    overflow-y: hidden;
   }
 }
 

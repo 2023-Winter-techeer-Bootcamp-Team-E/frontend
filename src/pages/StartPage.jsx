@@ -25,11 +25,11 @@ function StartPage({ move }) {
           <StyledEmptyLogo>
             <img src={EmptyLogo} />
             <div>
-              <p>
+              <StyledText>
                 하루
                 <br />
                 연결
-              </p>
+              </StyledText>
             </div>
           </StyledEmptyLogo>
         </PageFrame>
@@ -48,7 +48,6 @@ const BackLayout = styled.div`
   background: linear-gradient(to bottom, #c1e3ff 60%, #ffffff);
   overflow: hidden;
 `;
-
 
 const PageFrame = styled.div`
   position: absolute;
@@ -123,24 +122,21 @@ const StyledEmptyLogo = styled.div`
   top: 16.2rem;
   animation: ${slideUp} 1s ease-out;
 
-
   img {
     width: 32.19981rem;
     height: 33.65313rem;
     flex-shrink: 0;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
-
-  div {
-    color: #2C2C2C;
-    position: absolute;
-    top: 8.55rem;
-    left: 10.4rem;
-    font-size: 4.75rem;
-    font-family: 'seolleim';
-    margin-top: 0.5rem;
-    line-height: 1.0;
-  }
 `;
 
+const StyledText = styled.text`
+  color: #2c2c2c;
+  position: absolute;
+  top: 12.2rem;
+  left: 10.4rem;
+  font-size: 4.75rem;
+  font-family: 'seolleim';
+  line-height: 1;
+`;
 export default StartPage;

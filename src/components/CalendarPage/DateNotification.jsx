@@ -248,7 +248,7 @@ const DiarySettingText = styled.div`
   position: absolute;
   width: 10rem;
   color: #000;
-  font-family: Ownglyph mongmongdays;
+  font-family: 'mong';
   font-size: 1.125rem;
   font-style: normal;
   font-weight: 400;

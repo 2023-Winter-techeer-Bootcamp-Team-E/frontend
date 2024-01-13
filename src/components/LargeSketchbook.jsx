@@ -10,9 +10,11 @@ const LargeSketchbook = () => {
       <StyledEmptyLogo2>
         <img src={EmptyLogo2} alt="EmptyLogo2" />
         <div>
-          <p>
-            하루<br/>연결
-          </p>
+          <StyledText>
+            하루
+            <br />
+            연결
+          </StyledText>
         </div>
       </StyledEmptyLogo2>
       <LargeSpring src={spring} style={{ left: '62.56571775%' }} />
@@ -21,8 +23,8 @@ const LargeSketchbook = () => {
 };
 
 const LargeSketch = styled.div`
-  width: 103.1875rem;
-  height: 58.6875rem;
+  width: 103.1875rem; // 130.25rem
+  height: 58.6875rem; // 75.7rem
   flex-shrink: 0;
   background: #fff;
 `;
@@ -41,18 +43,16 @@ const StyledEmptyLogo2 = styled.div`
     width: 17.125rem;
     height: 12.25rem;
   }
-
-  div {
-    color: #2C2C2C;
-    position: absolute;
-    top: 2.4rem;
-    left: 4.9rem;
-    font-size: 2.7rem;
-    font-family: 'seolleim';
-    margin-top: 0.5rem;
-    line-height: 1.0;
-  }
 `;
 
+const StyledText = styled.text`
+  position: relative;
+  color: #2c2c2c;
+  bottom: 7rem;
+  left: 5rem;
+  font-size: 2.4rem;
+  font-family: 'seolleim';
+  line-height: 1;
+`;
 
 export default LargeSketchbook;
