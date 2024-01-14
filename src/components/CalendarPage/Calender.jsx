@@ -18,7 +18,7 @@ import CalendarRightBtn from '../../assets/img/CalendarRightBtn.png';
 import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
-
+const [diaryData, setDiaryData] = useState([]);
 const RenderDays = () => {
   const days = [];
   const date = [
@@ -60,7 +60,7 @@ const RenderCells = ({
   let formattedDate = '';
 
   function UpdateDiarySettingPage() {
-    UpdateDiarySettingPage(2);
+    props.onSetDiarySetting(2);
   }
   useEffect(() => {
     // Fetch diary data here
@@ -99,7 +99,7 @@ const RenderCells = ({
           }
           alt="Go to Diary"
           onClick={() => {
-            UpdateDiarySettingPage(2);
+            UpdateDiarySettingPage;
           }}
         />
       );
@@ -157,7 +157,7 @@ const RenderCells = ({
 const Calender = ({ list, exist }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [diaryData, setDiaryData] = useState([]); // Add diaryData state
+  // Add diaryData state
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
   };
