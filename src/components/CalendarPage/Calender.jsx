@@ -47,7 +47,8 @@ const RenderCells = ({
   list,
   selectedDate,
   onDateClick,
-  diaryData, // Add diaryData as a prop
+  diaryData,
+  UpdateDiarySettingPage,
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -59,9 +60,8 @@ const RenderCells = ({
   let formattedDate = '';
 
   function UpdateDiarySettingPage() {
-    props.UpdateDiarySettingPage(2);
+    UpdateDiarySettingPage(2);
   }
-
   useEffect(() => {
     // Fetch diary data here
     const fetchData = async () => {
@@ -98,7 +98,9 @@ const RenderCells = ({
               : DiaryWriteIcon
           }
           alt="Go to Diary"
-          onClick={UpdateDiarySettingPage}
+          onClick={() => {
+            UpdateDiarySettingPage(2);
+          }}
         />
       );
     }

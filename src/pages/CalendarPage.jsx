@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
@@ -10,6 +10,7 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   const [diarySettingPage, setDiarySettingPage] = useState(1);
   function onSetDiarySetting(diarySetting) {
     setDiarySettingPage(diarySetting);
+    console.log('받아온 값 : ', diarySetting);
   }
   return (
     <BackLayout>
@@ -27,7 +28,7 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
         </WrapperBasicSticker>
 
         <WrapperCalendar>
-          <Calender />
+          <Calender UpdateDiarySettingPage={onSetDiarySetting} />
         </WrapperCalendar>
 
         <WrapperDateNotification>
