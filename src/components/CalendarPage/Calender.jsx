@@ -18,7 +18,7 @@ import CalendarRightBtn from '../../assets/img/CalendarRightBtn.png';
 import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
-const [diaryData, setDiaryData] = useState([]);
+
 const RenderDays = () => {
   const days = [];
   const date = [
@@ -48,7 +48,6 @@ const RenderCells = ({
   selectedDate,
   onDateClick,
   diaryData,
-  UpdateDiarySettingPage,
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -58,32 +57,6 @@ const RenderCells = ({
   let days = [];
   let day = startDate;
   let formattedDate = '';
-
-  function UpdateDiarySettingPage() {
-    props.onSetDiarySetting(2);
-  }
-  useEffect(() => {
-    // Fetch diary data here
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `/api/v1/calendars/{member_id}?year=${format(
-            currentMonth,
-            'yyyy',
-          )}&month=${format(currentMonth, 'M')}&date=${format(
-            selectedDate,
-            'd',
-          )}`,
-        );
-        const { data } = response;
-        setDiaryData(data); // Assuming the API response contains an array of diary data
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, [currentMonth, selectedDate]);
 
   const handleClick = (day) => {
     const isFutureDate = isAfter(day, new Date());
@@ -99,12 +72,13 @@ const RenderCells = ({
           }
           alt="Go to Diary"
           onClick={() => {
-            UpdateDiarySettingPage;
+            () => {};
           }}
         />
       );
     }
   };
+
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
@@ -154,10 +128,10 @@ const RenderCells = ({
   return <div className="calenderbody">{rows}</div>;
 };
 
-const Calender = ({ list, exist }) => {
+const Calender = ({ list }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  // Add diaryData state
+  const [diaryData, setDiaryData] = useState([]); // Add diaryData state
   const prevMonth = () => {
     setCurrentMonth(subMonths(currentMonth, 1));
   };
