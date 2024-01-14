@@ -7,6 +7,8 @@ import SmallSketchbook from '../components/SmallSketchbook';
 import sketbook from '../assets/img/HaruConnectingBook.png';
 import LoginInput from '../components/LoginInput';
 import axios from 'axios';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
 
 function SignUpPage(props) {
   const [username, setUsername] = useState('');
@@ -70,7 +72,7 @@ function SignUpPage(props) {
       setIdCommentColor('#DD0000');
       setIdWrite(false);
     } else {
-      setIdComment(' - 사용 가능한 아이디입니다.');
+      setIdComment(' - 조건이 일치하는 아이디입니다.');
       setIdCommentColor('#00A656');
       setIdWrite(true);
     }
@@ -137,6 +139,8 @@ function SignUpPage(props) {
         navigate('/login');
       } else {
         console.error('회원가입 실패:', response.data.message);
+        Swal.fire("이미 존재하는 로그인 ID입니다. ");
+
       }
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error);
@@ -188,9 +192,16 @@ function SignUpPage(props) {
     }
   };
 
+  const handleKeyDown = (e) => {
+    // 엔터 키가 눌렸을 때 로그인 함수 호출
+    if (e.key === 'Enter') {
+      handleSignUp();
+    }
+  };  
+
   return (
     <BackLayout>
-      <PageFrame>
+      <PageFrame onKeyDown={handleKeyDown}>
         <SketDiv>
           <SignUpText>
             나만의 일기장을 <br />
