@@ -22,10 +22,12 @@ import DiaryWritePen from '../../assets/img/DiaryWritePen.png';
 import RightNotificationImgLogo from '../../assets/img/RightNotificationImgLogo.png';
 import RightNotificationImgBubble from '../../assets/img/RightNotificationImgBubble.png';
 
-const DateNotification = () => {
+const DateNotification = ({ updateDiarySettingPage }) => {
   const navigate = useNavigate();
 
-  const [diarySettingPage, setDiarySettingPage] = useState(2);
+  const [diarySettingPage, setDiarySettingPage] = useState(
+    updateDiarySettingPage,
+  );
   const [pageNum, setPageNum] = useState(1);
 
   //날짜 임시 설정
@@ -36,21 +38,21 @@ const DateNotification = () => {
   const diarySettingRef = useRef(null);
   const maxInnerPaper = 6; //속지 종류 수
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        diarySettingRef.current &&
-        !diarySettingRef.current.contains(event.target)
-      ) {
-        setDiarySettingPage(1);
-      }
-    }
+  // useEffect(() => {
+  //   function handleClickOutside(event) {
+  //     if (
+  //       diarySettingRef.current &&
+  //       !diarySettingRef.current.contains(event.target)
+  //     ) {
+  //       setDiarySettingPage(1);
+  //     }
+  //   }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [diarySettingRef]);
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, [diarySettingRef]);
 
   const PageNumSub = () => {
     if (pageNum > 1) {

@@ -5,40 +5,30 @@ import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
 import Calender from '../components/CalendarPage/Calender';
-
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   const [diarySettingPage, setDiarySettingPage] = useState(1);
-  function onSetDiarySetting(diarySetting) {
-    setDiarySettingPage(diarySetting);
-    console.log('받아온 값 : ', diarySetting);
-  }
   return (
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
-
         <WrapperLargeSketchbook>
           <LargeSketchbook />
         </WrapperLargeSketchbook>
-
         <WrapperBasicSticker>
           <BasicSticker />
         </WrapperBasicSticker>
-
         <WrapperCalendar>
-          <Calender UpdateDiarySettingPage={onSetDiarySetting} />
+          <Calender setDiarySettingPage={setDiarySettingPage} />
         </WrapperCalendar>
-
         <WrapperDateNotification>
-          <DateNotification />
+          <DateNotification updateDiarySettingPage={diarySettingPage} />
         </WrapperDateNotification>
       </PageFrame>
     </BackLayout>
   );
 }
-
 const BackLayout = styled.div`
   position: absolute;
   top: 0;
@@ -69,7 +59,6 @@ const WrapperCalendar = styled.div`
   background: #d7d7ef;
   border-radius: 1.5rem;
 `;
-
 const WrapperNavigateBar = styled.div`
   position: absolute;
 `;
@@ -87,5 +76,4 @@ const WrapperDateNotification = styled.div`
   top: 17.87rem;
   margin-left: 84.19rem;
 `;
-
 export default CalendarPage;

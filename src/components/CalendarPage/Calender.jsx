@@ -18,7 +18,6 @@ import CalendarRightBtn from '../../assets/img/CalendarRightBtn.png';
 import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
-
 const RenderDays = () => {
   const days = [];
   const date = [
@@ -30,7 +29,6 @@ const RenderDays = () => {
     'FRIDAY',
     'SATURDAY',
   ];
-
   for (let i = 0; i < 7; i++) {
     days.push(
       <div className="dayscol" key={i}>
@@ -40,7 +38,6 @@ const RenderDays = () => {
   }
   return <div className="days row">{days}</div>;
 };
-
 const RenderCells = ({
   currentMonth,
   today,
@@ -48,6 +45,7 @@ const RenderCells = ({
   selectedDate,
   onDateClick,
   diaryData,
+  setDiarySettingPage,
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -57,10 +55,9 @@ const RenderCells = ({
   let days = [];
   let day = startDate;
   let formattedDate = '';
-
+  //기존 handleClick함수, 나중에 API연결 제대로 하고 손 볼 예정
   const handleClick = (day) => {
     const isFutureDate = isAfter(day, new Date());
-
     if (!isFutureDate && isSameDay(day, selectedDate)) {
       return (
         <img
@@ -71,14 +68,11 @@ const RenderCells = ({
               : DiaryWriteIcon
           }
           alt="Go to Diary"
-          onClick={() => {
-            () => {};
-          }}
+          onClick={() => setDiarySettingPage(2)}
         />
       );
     }
   };
-
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, 'd');
@@ -127,8 +121,7 @@ const RenderCells = ({
   }
   return <div className="calenderbody">{rows}</div>;
 };
-
-const Calender = ({ list }) => {
+const Calender = ({ list, setDiarySettingPage }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [diaryData, setDiaryData] = useState([]); // Add diaryData state
@@ -143,7 +136,24 @@ const Calender = ({ list }) => {
     setSelectedDate(day);
     console.log(day);
   };
-
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `/api/v1/calendars/{member_id}?year=${format(
+            selectedDate,
+            'yyyy',
+          )}&month=${format(selectedDate, 'M')}`,
+        );
+        // Check if 'diaries' property exists in the response data
+        const diaries = response.data.data.diaries || [];
+        setDiaryData(diaries);
+      } catch (error) {
+        console.error('Error fetching diary data:', error);
+      }
+    };
+    fetchData();
+  }, [selectedDate]);
   return (
     <div className="listcontainer">
       <div className="calender">
@@ -171,10 +181,10 @@ const Calender = ({ list }) => {
           selectedDate={selectedDate}
           onDateClick={onDateClick}
           diaryData={diaryData} // Pass diaryData as a prop
+          setDiarySettingPage={setDiarySettingPage}
         />
       </div>
     </div>
   );
 };
-
 export default Calender;
