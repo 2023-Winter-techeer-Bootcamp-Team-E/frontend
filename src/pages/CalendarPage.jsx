@@ -1,12 +1,17 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+// CalendarPage.jsx
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
-import Calender from '../components/CalendarPage/Calender';
+import Calendar from '../components/CalendarPage/Calendar';
 
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
+  const [diarySettingPage, setDiarySettingPage] = useState(1);
+  const [diaryMonth, setDiaryMonth] = useState(0);
+  const [diaryDay, setDiaryDay] = useState(0);
+
   return (
     <BackLayout>
       <PageFrame>
@@ -23,11 +28,24 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
         </WrapperBasicSticker>
 
         <WrapperCalendar>
-          <Calender />
+          <Calendar
+            setDiarySettingPage={setDiarySettingPage}
+            diaryMonth={diaryMonth}
+            setDiaryMonth={setDiaryMonth}
+            diaryDay={diaryDay}
+            setDiaryDay={setDiaryDay}
+          />
         </WrapperCalendar>
 
         <WrapperDateNotification>
-          <DateNotification />
+          <DateNotification
+            diarySettingPage={diarySettingPage}
+            setDiarySettingPage={setDiarySettingPage}
+            diaryMonth={diaryMonth}
+            setDiaryMonth={setDiaryMonth}
+            diaryDay={diaryDay}
+            setDiaryDay={setDiaryDay}
+          />
         </WrapperDateNotification>
       </PageFrame>
     </BackLayout>
