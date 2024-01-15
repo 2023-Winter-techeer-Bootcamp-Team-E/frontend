@@ -143,16 +143,27 @@ const RenderCells = ({
   return <div className="calendarbody">{generateCalendarRows()}</div>;
 };
 
-const Calendar = ({ list, setDiarySettingPage }) => {
+const Calendar = ({
+  list,
+  setDiarySettingPage,
+  diaryMonth,
+  setDiaryMonth,
+  diaryDay,
+  setDiaryDay,
+}) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [diaryData, setDiaryData] = useState([]);
+  // const [diaryMonth, setDiaryMonth] = useState(format(new Date(), 'M'));
+  // const [diaryDay, setDiaryDay] = useState(format(new Date(), 'd'));
 
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
   const today = new Date();
   const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
   const onDateClick = (day) => {
     setSelectedDate(day);
+    setDiaryMonth(format(day, 'M'));
+    setDiaryDay(format(day, 'd'));
     console.log(day);
   };
 

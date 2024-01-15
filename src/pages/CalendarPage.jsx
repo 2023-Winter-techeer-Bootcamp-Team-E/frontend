@@ -28,7 +28,13 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
         </WrapperBasicSticker>
 
         <WrapperCalendar>
-          <Calendar setDiarySettingPage={setDiarySettingPage} />
+          <Calendar
+            setDiarySettingPage={setDiarySettingPage}
+            diaryMonth={diaryMonth}
+            setDiaryMonth={setDiaryMonth}
+            diaryDay={diaryDay}
+            setDiaryDay={setDiaryDay}
+          />
         </WrapperCalendar>
 
         <WrapperDateNotification>
