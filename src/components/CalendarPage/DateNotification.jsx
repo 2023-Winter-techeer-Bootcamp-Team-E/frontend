@@ -1,3 +1,4 @@
+// DateNotification.jsx
 import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -24,18 +25,26 @@ import DiaryWritePen from '../../assets/img/DiaryWritePen.png';
 import RightNotificationImgLogo from '../../assets/img/RightNotificationImgLogo.png';
 import RightNotificationImgBubble from '../../assets/img/RightNotificationImgBubble.png';
 
-const DateNotification = () => {
+const DateNotification = ({
+  diarySettingPage,
+  setDiarySettingPage,
+  diaryMonth,
+  setDiaryMonth,
+  diaryDay,
+  setDiaryDay,
+}) => {
   const navigate = useNavigate();
 
-  const [diarySettingPage, setDiarySettingPage] = useState(2);
+  // const [diarySettingPage, setDiarySettingPage] = useState(2);
   const [pageNum, setPageNum] = useState(1);
 
   //날짜 임시 설정
   const[diaryYear, setDiaryYear] = useState(2024);
-  const [diaryMonth, setDiaryMonth] = useState(12);
-  const [diaryDay, setDiaryDay] = useState(12);
-  // const [shareURL, setShareURL] = useState('https://blog.naver.com/hijinoo_');
+//   const [diaryMonth, setDiaryMonth] = useState(12);
+//   const [diaryDay, setDiaryDay] = useState(12);
+  const [shareURL, setShareURL] = useState('https://blog.naver.com/hijinoo_');
   const [diaryId, setDiaryId] = useState(null);
+
 
   const diarySettingRef = useRef(null);
   const maxInnerPaper = 6; //속지 종류 수
