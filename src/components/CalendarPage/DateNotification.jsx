@@ -1,3 +1,4 @@
+// DateNotification.jsx
 import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -22,37 +23,42 @@ import DiaryWritePen from '../../assets/img/DiaryWritePen.png';
 import RightNotificationImgLogo from '../../assets/img/RightNotificationImgLogo.png';
 import RightNotificationImgBubble from '../../assets/img/RightNotificationImgBubble.png';
 
-const DateNotification = ({ updateDiarySettingPage }) => {
+const DateNotification = ({
+  diarySettingPage,
+  setDiarySettingPage,
+  diaryMonth,
+  setDiaryMonth,
+  diaryDay,
+  setDiaryDay,
+}) => {
   const navigate = useNavigate();
 
-  const [diarySettingPage, setDiarySettingPage] = useState(
-    updateDiarySettingPage,
-  );
+  // const [diarySettingPage, setDiarySettingPage] = useState(2);
   const [pageNum, setPageNum] = useState(1);
 
   //날짜 임시 설정
-  const [diaryMonth, setDiaryMonth] = useState(3);
-  const [diaryDay, setDiaryDay] = useState(6);
+  // const [diaryMonth, setDiaryMonth] = useState(3);
+  // const [diaryDay, setDiaryDay] = useState(6);
   const [shareURL, setShareURL] = useState('https://blog.naver.com/hijinoo_');
 
   const diarySettingRef = useRef(null);
   const maxInnerPaper = 6; //속지 종류 수
 
-  // useEffect(() => {
-  //   function handleClickOutside(event) {
-  //     if (
-  //       diarySettingRef.current &&
-  //       !diarySettingRef.current.contains(event.target)
-  //     ) {
-  //       setDiarySettingPage(1);
-  //     }
-  //   }
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        diarySettingRef.current &&
+        !diarySettingRef.current.contains(event.target)
+      ) {
+        setDiarySettingPage(1);
+      }
+    }
 
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, [diarySettingRef]);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [diarySettingRef]);
 
   const PageNumSub = () => {
     if (pageNum > 1) {

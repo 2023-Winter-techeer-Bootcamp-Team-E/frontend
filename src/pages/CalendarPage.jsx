@@ -1,34 +1,51 @@
+// CalendarPage.jsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
-import Calender from '../components/CalendarPage/Calender';
+import Calendar from '../components/CalendarPage/Calendar';
+
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   const [diarySettingPage, setDiarySettingPage] = useState(1);
+  const [diaryMonth, setDiaryMonth] = useState(0);
+  const [diaryDay, setDiaryDay] = useState(0);
+
   return (
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
+
         <WrapperLargeSketchbook>
           <LargeSketchbook />
         </WrapperLargeSketchbook>
+
         <WrapperBasicSticker>
           <BasicSticker />
         </WrapperBasicSticker>
+
         <WrapperCalendar>
-          <Calender setDiarySettingPage={setDiarySettingPage} />
+          <Calendar setDiarySettingPage={setDiarySettingPage} />
         </WrapperCalendar>
+
         <WrapperDateNotification>
-          <DateNotification updateDiarySettingPage={diarySettingPage} />
+          <DateNotification
+            diarySettingPage={diarySettingPage}
+            setDiarySettingPage={setDiarySettingPage}
+            diaryMonth={diaryMonth}
+            setDiaryMonth={setDiaryMonth}
+            diaryDay={diaryDay}
+            setDiaryDay={setDiaryDay}
+          />
         </WrapperDateNotification>
       </PageFrame>
     </BackLayout>
   );
 }
+
 const BackLayout = styled.div`
   position: absolute;
   top: 0;
@@ -59,6 +76,7 @@ const WrapperCalendar = styled.div`
   background: #d7d7ef;
   border-radius: 1.5rem;
 `;
+
 const WrapperNavigateBar = styled.div`
   position: absolute;
 `;
@@ -76,4 +94,5 @@ const WrapperDateNotification = styled.div`
   top: 17.87rem;
   margin-left: 84.19rem;
 `;
+
 export default CalendarPage;
