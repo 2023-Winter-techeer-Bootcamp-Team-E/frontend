@@ -5,6 +5,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import { useNavigate } from 'react-router-dom';
 import './DateNotification.css';
+import axios from 'axios';
+import { baseInstance } from '../../api/config';
 
 // 이미지 import
 import Cloud1 from '../../assets/img/Cloud1.png';
@@ -37,9 +39,12 @@ const DateNotification = ({
   const [pageNum, setPageNum] = useState(1);
 
   //날짜 임시 설정
-  // const [diaryMonth, setDiaryMonth] = useState(3);
-  // const [diaryDay, setDiaryDay] = useState(6);
+  const[diaryYear, setDiaryYear] = useState(2024);
+//   const [diaryMonth, setDiaryMonth] = useState(12);
+//   const [diaryDay, setDiaryDay] = useState(12);
   const [shareURL, setShareURL] = useState('https://blog.naver.com/hijinoo_');
+  const [diaryId, setDiaryId] = useState(null);
+
 
   const diarySettingRef = useRef(null);
   const maxInnerPaper = 6; //속지 종류 수
@@ -128,11 +133,35 @@ const DateNotification = ({
         return null;
     }
   };
+  
+  const createDiary = async () => {
+    try {
+      const response = await baseInstance.post(
+        '/diaries',
+        {
+          year_month: `${diaryYear}-${diaryMonth}`,
+          day: `${diaryDay}`,
+          diary_bg_id: PageNum,
+        },
+      );
+      if (response.data.code === 'D001' && response.status === 200) {
+        console.log('일기장 생성 성공');
+        setShareURL(response.data.sns_link); // sns_link를 state에 저장
+        setDiaryId(response.data.diary_id); //diary_id를 state에 저장
+        setDiarySettingPage(3); // 페이지 변경
+    } else {
+      console.log('일기장 생성 실패');
+    }
+  } catch (error) {
+    console.error('API 호출 중 오류 발생 : ', error);
+  }
+};
 
   const renderDiarySettingPage = () => {
     switch (diarySettingPage) {
-      case 1:
-        return (
+    case 1:
+    return (
+    
           <DiarySettingWindow>
             <DiarySettingImgLogo src={RightNotificationImgLogo} />
             <DiarySettingImgBubble src={RightNotificationImgBubble} />
@@ -158,7 +187,7 @@ const DateNotification = ({
             <SelectImgLeftBtn src={SelectImgBtn} onClick={PageNumSub} />
             <SelectImgRightBtn src={SelectImgBtn} onClick={PageNumAdd} />
 
-            <CheckBtn onClick={() => setDiarySettingPage(3)}>확인</CheckBtn>
+            <CheckBtn onClick={createDiary}>확인</CheckBtn>
           </DiarySettingWindow>
         );
       case 3:
