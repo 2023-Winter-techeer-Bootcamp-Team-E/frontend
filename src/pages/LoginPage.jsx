@@ -7,6 +7,7 @@ import SmallSketchbook from '../components/SmallSketchbook';
 import sketbook from '../assets/img/HaruConnectingBook.png';
 import LoginInput from '../components/LoginInput';
 import axios from 'axios';
+import { baseInstance } from '../api/config';
 
 function LoginPage(props) {
   const [id, setId] = useState('');
@@ -30,8 +31,8 @@ function LoginPage(props) {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        'http://127.0.0.1:8000/api/v1/members/login/',
+      const response = await baseInstance.post(
+        '/members/login/',
         {
           login_id: id,
           password: password,
