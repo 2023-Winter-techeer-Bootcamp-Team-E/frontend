@@ -54,6 +54,7 @@ const RenderCells = ({
   selectedDate,
   onDateClick,
   setDiarySettingPage,
+  existingDiaryDates,
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -163,6 +164,8 @@ const Calendar = ({
     console.log(day);
   };
 
+  const [existingDiaryDates, setExistingDiaryDates] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const yearMonth = format(currentMonth, 'yyyy-MM');
@@ -173,6 +176,12 @@ const Calendar = ({
         if (response.status === 200 && response.data.code === 'C001') {
           console.log(`${yearMonth} 달력 조회 성공!`);
           setDiaryData(response.data.diaries);
+
+          setExistingDiaryDates(
+            response.data.diaries
+              .filter((diary) => !diary.is_expired)
+              .map((diary) => Number(diary.day)),
+          );
         }
       } catch (error) {
         console.log(`${yearMonth} 달력 조회 실패`);
@@ -181,6 +190,11 @@ const Calendar = ({
     // 페이지 로딩시에 API 호출
     fetchData();
   }, [currentMonth]);
+
+  // // existingDiaryDates 업데이트 이후 값 출력
+  // useEffect(() => {
+  //   console.log('일기가 존재하는 날 :', existingDiaryDates);
+  // }, [existingDiaryDates]);
 
   return (
     <div className="listcontainer">
@@ -210,6 +224,7 @@ const Calendar = ({
           onDateClick={onDateClick}
           diaryData={diaryData}
           setDiarySettingPage={setDiarySettingPage}
+          existingDiaryDates={existingDiaryDates}
         />
       </div>
     </div>
