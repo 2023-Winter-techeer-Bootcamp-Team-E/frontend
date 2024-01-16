@@ -53,7 +53,6 @@ const RenderCells = ({
   list,
   selectedDate,
   onDateClick,
-  diaryData,
   setDiarySettingPage,
 }) => {
   const monthStart = startOfMonth(currentMonth);
@@ -71,21 +70,8 @@ const RenderCells = ({
     const isPastMonth = isBefore(day, startOfMonth(currentMonth));
     const isNextMonth = isAfter(day, endOfMonth(currentMonth));
 
-    let diaryBtn = null;
-    if (!isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day)) {
-      diaryBtn = (
-        <img
-          className="GoToDiaryBtn"
-          src={
-            diaryData.some((data) => data.is_expiry === 'true')
-              ? DiaryViewIcon
-              : DiaryWriteIcon
-          }
-          alt="Go to Diary"
-          onClick={() => setDiarySettingPage(2)}
-        />
-      );
-    }
+    const shouldShowDiaryBtn =
+      !isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day);
 
     return (
       <div
@@ -112,7 +98,14 @@ const RenderCells = ({
                 {data.emoji}
               </span>
             ))}
-        {diaryBtn}
+        {shouldShowDiaryBtn && (
+          <img
+            className="GoToDiaryBtn"
+            src={DiaryWriteIcon}
+            alt="Go to Diary"
+            onClick={() => setDiarySettingPage(2)}
+          />
+        )}
       </div>
     );
   };
