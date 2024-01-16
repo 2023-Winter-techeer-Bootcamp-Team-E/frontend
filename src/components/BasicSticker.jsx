@@ -7,42 +7,48 @@ import downbutton from '../assets/img/downbutton.png';
 
 function BasicSticker() {
   const [stickerPageNum, setStickerPageNum] = useState(1);
+  const [stickerImages, setStickerImages] = useState([]);
+
+  useEffect(() => {
+    // API 호출 함수
+    const fetchStickerImages = async () => {
+      try {
+        // API 호출 및 데이터 수신
+        const response = await baseInstance.get(
+          `/static/stickers?page=${stickerPageNum}`,
+        );
+        const data = response.data.data;
+
+        // 이미지 URL을 상태에 업데이트
+        setStickerImages(data.st_image_urls);
+      } catch (error) {
+        console.error('Error fetching sticker images:', error);
+      }
+    };
+
+    // 페이지 번호가 변경될 때마다 API 호출
+    fetchStickerImages();
+  }, [stickerPageNum]); // stickerPageNum이 변경될 때마다 useEffect가 실행
 
   const handleUpButtonClick = () => {
-    // 버튼이 클릭되었을 때 수행할 작업을 이 함수에 추가하세요
-    console.log('UpButton clicked!');
+    if (stickerPageNum > 1) {
+      setStickerPageNum((prevPageNum) => prevPageNum - 1);
+    }
   };
 
   const handleDownButtonClick = () => {
-    // 버튼이 클릭되었을 때 수행할 작업을 이 함수에 추가하세요
-    console.log('DownButton clicked!');
+    if (stickerPageNum < 7) {
+      setStickerPageNum((prevPageNum) => prevPageNum + 1);
+    }
   };
 
   return (
     <BasicStickerContainer>
-      <StaticStickerBox1>
-        <StaticSticker />
-      </StaticStickerBox1>
-
-      <StaticStickerBox2>
-        <StaticSticker />
-      </StaticStickerBox2>
-
-      <StaticStickerBox3>
-        <StaticSticker />
-      </StaticStickerBox3>
-
-      <StaticStickerBox4>
-        <StaticSticker />
-      </StaticStickerBox4>
-
-      <StaticStickerBox5>
-        <StaticSticker />
-      </StaticStickerBox5>
-
-      <StaticStickerBox6>
-        <StaticSticker />
-      </StaticStickerBox6>
+      {stickerImages.map((image, index) => (
+        <StaticStickerBox key={index}>
+          <StaticSticker src={image} alt={`Sticker ${index + 1}`} />
+        </StaticStickerBox>
+      ))}
 
       <StyledSun src={Sun} alt="Sun" />
       <StyledUpButton
@@ -65,9 +71,14 @@ const BasicStickerContainer = styled.div`
   height: 41.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
-  display: flex;
-  align-items: center; /* 수직으로 늘어날 수 있도록 설정 */
-  justify-content: center; /* 수평으로 늘어날 수 있도록 설정 */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  align-items: stretch;
+  justify-content: center;
+  position: relative;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 `;
 
 const StyledSun = styled.img`
@@ -117,80 +128,23 @@ const ScrollContainer = styled.div`
   left: 1.1rem;
 `;
 
-const StaticStickerBox1 = styled.div`
+const StaticStickerBox = styled.div`
   align-items: center;
   justify-content: center;
   display: flex;
-  position: absolute;
   width: 7.625rem;
-  height: 10rem;
-  top: 6rem;
-  left: 0;
-  background: #ffdada;
+  height: 100%;
   z-index: 10;
 `;
-const StaticStickerBox2 = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  position: absolute;
-  width: 7.625rem;
-  height: 10rem;
-  top: 6rem;
-  left: 7.625rem;
-  background: #ffecda;
-  z-index: 10;
-`;
-const StaticStickerBox3 = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  position: absolute;
-  width: 7.625rem;
-  height: 10rem;
-  top: 16rem;
-  left: 0;
-  background: #fcffda;
-  z-index: 10;
-`;
-const StaticStickerBox4 = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  position: absolute;
-  width: 7.625rem;
-  height: 10rem;
-  top: 16rem;
-  left: 7.625rem;
-  background: #e4ffda;
-  z-index: 10;
-`;
-const StaticStickerBox5 = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  position: absolute;
-  width: 7.625rem;
-  height: 10rem;
-  top: 26rem;
-  left: 0rem;
-  background: #daedff;
-  z-index: 10;
-`;
-const StaticStickerBox6 = styled.div`
-  position: absolute;
-  width: 7.625rem;
-  height: 10rem;
-  top: 26rem;
-  left: 7.625rem;
-  background: #fedaff;
-  z-index: 10;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-`;
+
 const StaticSticker = styled.img`
   position: absolute;
   width: 6.5rem;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
+
 export default BasicSticker;
