@@ -31,13 +31,10 @@ function LoginPage(props) {
 
   const handleLogin = async () => {
     try {
-      const response = await baseInstance.post(
-        '/members/login/',
-        {
-          login_id: id,
-          password: password,
-        },
-      );
+      const response = await baseInstance.post('/members/login/', {
+        login_id: id,
+        password: password,
+      });
       if (response.data.code === 'A001' && response.status === 200) {
         console.log('로그인 성공');
         navigate('/calendar');

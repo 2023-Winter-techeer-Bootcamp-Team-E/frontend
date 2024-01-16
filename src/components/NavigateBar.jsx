@@ -8,22 +8,16 @@ import NotificationMenu from './CalendarPage/NotificationMenu';
 const NavigateBar = ({
   userName = 'NavigatgeBarUserNameNull',
   userId = 'NavigateBarUserIdNull',
-  isNotifyMenuOpen, // 추가: NavigateBar에서 prop으로 받아옴
-  isProfMenuOpen, // 추가: NavigateBar에서 prop으로 받아옴
-  handleNotifyArrowClick, // 추가: NavigateBar에서 prop으로 받아옴
-  handleProfArrowClick, // 추가: NavigateBar에서 prop으로 받아옴
 }) => {
+  const [isProfMenuOpen, setIsProfMenuOpen] = useState(false);
+  const [isNotifyMenuOpen, setIsNotifyMenuOpen] = useState(false);
   const profMenuRef = useRef(null);
   const notifyMenuRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profMenuRef.current && !profMenuRef.current.contains(event.target)) {
-      }
-      if (
-        notifyMenuRef.current &&
-        !notifyMenuRef.current.contains(event.target)
-      ) {
+        setIsProfMenuOpen(false);
       }
     };
 
@@ -32,6 +26,30 @@ const NavigateBar = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        notifyMenuRef.current &&
+        !notifyMenuRef.current.contains(event.target)
+      ) {
+        setIsNotifyMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleProfArrowClick = () => {
+    setIsProfMenuOpen(!isProfMenuOpen);
+  };
+
+  const handleNotifyArrowClick = () => {
+    setIsNotifyMenuOpen(!isNotifyMenuOpen);
+  };
 
   return (
     <NavBar>
