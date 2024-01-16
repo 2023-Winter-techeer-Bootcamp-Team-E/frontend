@@ -54,7 +54,7 @@ const RenderCells = ({
   selectedDate,
   onDateClick,
   setDiarySettingPage,
-  existingDiaryDates,
+  diaryInfoArray,
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -70,9 +70,12 @@ const RenderCells = ({
     const isFutureDate = isAfter(day, new Date());
     const isPastMonth = isBefore(day, startOfMonth(currentMonth));
     const isNextMonth = isAfter(day, endOfMonth(currentMonth));
-
     const shouldShowDiaryBtn =
       !isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day);
+
+    const diaryInfo = diaryInfoArray.find(
+      (diary) => diary.day === formattedDate,
+    );
 
     return (
       <div
@@ -99,12 +102,20 @@ const RenderCells = ({
                 {data.emoji}
               </span>
             ))}
-        {shouldShowDiaryBtn && (
+        {shouldShowDiaryBtn && !diaryInfo && (
           <img
-            className="GoToDiaryBtn"
+            className="GoToSelectInnerPaperBtn"
             src={DiaryWriteIcon}
             alt="Go to Diary"
             onClick={() => setDiarySettingPage(2)}
+          />
+        )}
+        {diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth && (
+          <img
+            className="GoToShareURLBtn"
+            src={DiaryEditIcon}
+            alt="Go to Diary"
+            onClick={() => setDiarySettingPage(3)}
           />
         )}
       </div>
@@ -151,7 +162,6 @@ const Calendar = ({
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [diaryData, setDiaryData] = useState([]);
-  const [calendarsData, setCalendarsData] = useState([]);
 
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
   const today = new Date();
@@ -164,7 +174,7 @@ const Calendar = ({
     console.log(day);
   };
 
-  const [existingDiaryDates, setExistingDiaryDates] = useState([]);
+  const [diaryInfoArray, setDiaryInfoArray] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -173,28 +183,38 @@ const Calendar = ({
         const response = await baseInstance.get(
           `/calendars/?year_month=${yearMonth}`,
         );
-        if (response.status === 200 && response.data.code === 'C001') {
+        if (response.data) {
           console.log(`${yearMonth} 달력 조회 성공!`);
           setDiaryData(response.data.diaries);
 
-          setExistingDiaryDates(
-            response.data.diaries
-              .filter((diary) => !diary.is_expired)
-              .map((diary) => Number(diary.day)),
-          );
+          // Extracting day and is_expiry values and updating diaryInfoArray state
+          const updatedDiaryInfoArray = response.data.diaries.map((diary) => ({
+            day: diary.day,
+            isExpiry: diary.is_expiry,
+          }));
+
+          setDiaryInfoArray(updatedDiaryInfoArray);
         }
       } catch (error) {
         console.log(`${yearMonth} 달력 조회 실패`);
       }
     };
+
     // 페이지 로딩시에 API 호출
     fetchData();
   }, [currentMonth]);
 
-  // // existingDiaryDates 업데이트 이후 값 출력
   // useEffect(() => {
-  //   console.log('일기가 존재하는 날 :', existingDiaryDates);
-  // }, [existingDiaryDates]);
+  //   // diary값을 잘 가져오는지 확인하기 위한 useEffect훅입니당 나중에 지울게요!
+  //   console.log('Diary Info Array:', diaryInfoArray);
+  //   const existingDiaries = diaryInfoArray.filter((diary) => !diary.isExpiry);
+
+  //   existingDiaries.forEach((diary) => {
+  //     console.log(
+  //       `일기가 존재하는 날 : ${diary.day}, is_expiry값 : ${diary.isExpiry}`,
+  //     );
+  //   });
+  // }, [diaryInfoArray]);
 
   return (
     <div className="listcontainer">
@@ -224,7 +244,7 @@ const Calendar = ({
           onDateClick={onDateClick}
           diaryData={diaryData}
           setDiarySettingPage={setDiarySettingPage}
-          existingDiaryDates={existingDiaryDates}
+          diaryInfoArray={diaryInfoArray}
         />
       </div>
     </div>

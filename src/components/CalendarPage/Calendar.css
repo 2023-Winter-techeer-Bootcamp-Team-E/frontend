@@ -223,7 +223,7 @@
   color: rgb(205, 111, 111);
 }
 
-.GoToDiaryBtn {
+.GoToSelectInnerPaperBtn {
   width: 2.875rem;
   height: 2.8125rem;
   flex-shrink: 0;
@@ -235,8 +235,24 @@
   transition: all 0.15s ease;
 }
 
-.GoToDiaryBtn:hover {
-  width: 3.125rem; /* 호버 시 크기를 키웁니다. */
-  height: 3.125rem; /* 호버 시 크기를 키웁니다. */
+.GoToSelectInnerPaperBtn:hover {
+  width: 3.125rem;
+  height: 3.125rem;
   box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.25); /* 호버 시 그림자도 조절합니다. */
+}
+
+.GoToShareURLBtn {
+  /* width: 2.875rem; */
+  height: 2.8125rem;
+  flex-shrink: 0;
+  position: absolute;
+  margin-top: 1rem;
+  /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.GoToShareURLBtn:hover {
+  height: 3.125rem;
+  /* box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.25); */
 }
