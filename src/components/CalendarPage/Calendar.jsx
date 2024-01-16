@@ -1,6 +1,5 @@
 // Calendar.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { baseInstance } from '../../api/config.js';
 import {
   format,
