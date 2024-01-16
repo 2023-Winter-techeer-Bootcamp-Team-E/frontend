@@ -56,22 +56,22 @@ const NavigateBar = ({
       <BellImg
         src={bell}
         onClick={handleNotifyArrowClick}
-        isOpen={isNotifyMenuOpen}
+        isopen={isNotifyMenuOpen}
       />
       <ProfWrapper>
         <ProfName>환영합니다. {userName}님</ProfName>
         <ProfArrow
           src={arrow}
           onClick={handleProfArrowClick}
-          isOpen={isProfMenuOpen}
+          isopen={isProfMenuOpen}
         />
       </ProfWrapper>
 
-      <ProfileMenuWrapper ref={profMenuRef} isOpen={isProfMenuOpen}>
+      <ProfileMenuWrapper ref={profMenuRef} isopen={isProfMenuOpen}>
         <ProfileMenu userId={userId} userName={userName} />
       </ProfileMenuWrapper>
 
-      <NotificationMenuWrapper ref={notifyMenuRef} isOpen={isNotifyMenuOpen}>
+      <NotificationMenuWrapper ref={notifyMenuRef} isopen={isNotifyMenuOpen}>
         <NotificationMenu />
       </NotificationMenuWrapper>
     </NavBar>
@@ -157,7 +157,7 @@ const ProfArrow = styled.img`
   margin-left: 1rem;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
-  transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0)')};
+  transform: ${({ isopen }) => (isopen ? 'rotate(180deg)' : 'rotate(0)')};
 `;
 
 const ProfileMenuWrapper = styled.div`
@@ -168,8 +168,8 @@ const ProfileMenuWrapper = styled.div`
   animation-duration: 0.5s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: both;
-  animation-name: ${({ isOpen }) => (isOpen ? slideDown : slideUp)};
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  animation-name: ${({ isopen }) => (isopen ? slideDown : slideUp)};
+  display: ${({ isopen }) => (isopen ? 'block' : 'none')};
 `;
 
 const NotificationMenuWrapper = styled.div`
@@ -180,8 +180,8 @@ const NotificationMenuWrapper = styled.div`
   animation-duration: 0.5s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: both;
-  animation-name: ${({ isOpen }) => (isOpen ? slideDown : slideUp)};
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+  animation-name: ${({ isopen }) => (isopen ? slideDown : slideUp)};
+  display: ${({ isopen }) => (isopen ? 'block' : 'none')};
   cursor: pointer;
 `;
 

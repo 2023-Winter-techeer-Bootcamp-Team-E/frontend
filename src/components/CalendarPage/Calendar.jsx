@@ -110,14 +110,25 @@ const RenderCells = ({
             onClick={() => setDiarySettingPage(2)}
           />
         )}
-        {diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth && (
-          <img
-            className="GoToShareURLBtn"
-            src={DiaryEditIcon}
-            alt="Go to Diary"
-            onClick={() => setDiarySettingPage(3)}
-          />
-        )}
+        {diaryInfo &&
+          !isFutureDate &&
+          !isPastMonth &&
+          !isNextMonth &&
+          (diaryInfo.isExpiry ? (
+            <img
+              className="GoToShareURLBtn"
+              src={DiaryViewIcon}
+              alt="Go to Diary"
+              onClick={() => console.log('view 버튼 눌림')}
+            />
+          ) : (
+            <img
+              className="GoToShareURLBtn"
+              src={DiaryEditIcon}
+              alt="Go to Diary"
+              onClick={() => setDiarySettingPage(3)}
+            />
+          ))}
       </div>
     );
   };
@@ -197,24 +208,12 @@ const Calendar = ({
         }
       } catch (error) {
         console.log(`${yearMonth} 달력 조회 실패`);
+        setDiaryInfoArray([]);
       }
     };
 
-    // 페이지 로딩시에 API 호출
     fetchData();
   }, [currentMonth]);
-
-  // useEffect(() => {
-  //   // diary값을 잘 가져오는지 확인하기 위한 useEffect훅입니당 나중에 지울게요!
-  //   console.log('Diary Info Array:', diaryInfoArray);
-  //   const existingDiaries = diaryInfoArray.filter((diary) => !diary.isExpiry);
-
-  //   existingDiaries.forEach((diary) => {
-  //     console.log(
-  //       `일기가 존재하는 날 : ${diary.day}, is_expiry값 : ${diary.isExpiry}`,
-  //     );
-  //   });
-  // }, [diaryInfoArray]);
 
   return (
     <div className="listcontainer">
