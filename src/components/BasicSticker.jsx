@@ -141,9 +141,10 @@ const StaticSticker = styled.img`
   position: absolute;
   width: 6.5rem;
   transition: transform 0.3s ease;
+  cursor: pointer;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.15);
   }
 `;
 
