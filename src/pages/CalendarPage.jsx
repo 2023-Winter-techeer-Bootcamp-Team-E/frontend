@@ -65,6 +65,7 @@ const BackLayout = styled.div`
   display: flex;
   overflow-y: hidden;
 `;
+
 const PageFrame = styled.div`
   position: absolute;
   width: 108rem;
@@ -73,6 +74,7 @@ const PageFrame = styled.div`
   top: 0;
   justify-content: center;
 `;
+
 const WrapperCalendar = styled.div`
   position: absolute;
   width: 60rem;
