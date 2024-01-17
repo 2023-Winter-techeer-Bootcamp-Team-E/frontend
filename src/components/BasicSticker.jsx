@@ -1,22 +1,55 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { baseInstance } from '../api/config.js';
 import styled from 'styled-components';
 import Sun from '../assets/img/Sun.png';
 import upbutton from '../assets/img/upbutton.png';
 import downbutton from '../assets/img/downbutton.png';
 
-const BasicSticker = () => {
+function BasicSticker() {
+  const [stickerPageNum, setStickerPageNum] = useState(1);
+  const [stickerImages, setStickerImages] = useState([]);
+
+  useEffect(() => {
+    // API 호출 함수
+    const fetchStickerImages = async () => {
+      try {
+        // API 호출 및 데이터 수신
+        const response = await baseInstance.get(
+          `/static/stickers?page=${stickerPageNum}`,
+        );
+        const data = response.data.data;
+
+        // 이미지 URL을 상태에 업데이트
+        setStickerImages(data.st_image_urls);
+      } catch (error) {
+        console.error('Error fetching sticker images:', error);
+      }
+    };
+
+    // 페이지 번호가 변경될 때마다 API 호출
+    fetchStickerImages();
+  }, [stickerPageNum]); // stickerPageNum이 변경될 때마다 useEffect가 실행
+
   const handleUpButtonClick = () => {
-    // 버튼이 클릭되었을 때 수행할 작업을 이 함수에 추가하세요
-    console.log('UpButton clicked!');
+    if (stickerPageNum > 1) {
+      setStickerPageNum((prevPageNum) => prevPageNum - 1);
+    }
   };
 
   const handleDownButtonClick = () => {
-    // 버튼이 클릭되었을 때 수행할 작업을 이 함수에 추가하세요
-    console.log('DownButton clicked!');
+    if (stickerPageNum < 7) {
+      setStickerPageNum((prevPageNum) => prevPageNum + 1);
+    }
   };
 
   return (
     <BasicStickerContainer>
+      {stickerImages.map((image, index) => (
+        <StaticStickerBox key={index}>
+          <StaticSticker src={image} alt={`Sticker ${index + 1}`} />
+        </StaticStickerBox>
+      ))}
+
       <StyledSun src={Sun} alt="Sun" />
       <StyledUpButton
         onClick={handleUpButtonClick}
@@ -31,14 +64,21 @@ const BasicSticker = () => {
       <ScrollContainer />
     </BasicStickerContainer>
   );
-};
+}
 
 const BasicStickerContainer = styled.div`
-  width: 15.1875rem;
+  width: 15.25rem;
   height: 41.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
-  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  align-items: stretch;
+  justify-content: center;
+  position: relative;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 `;
 
 const StyledSun = styled.img`
@@ -57,9 +97,9 @@ const StyledUpButton = styled.img`
   position: absolute;
   bottom: -3.12356rem;
   left: 6.65625rem;
-  cursor: pointer; 
+  cursor: pointer;
   &:hover {
-    transform: scale(1.2); 
+    transform: scale(1.2);
   }
 `;
 
@@ -86,7 +126,26 @@ const ScrollContainer = styled.div`
   position: absolute;
   bottom: -4.75rem;
   left: 1.1rem;
+`;
 
+const StaticStickerBox = styled.div`
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 7.625rem;
+  height: 100%;
+  z-index: 10;
+`;
+
+const StaticSticker = styled.img`
+  position: absolute;
+  width: 6.5rem;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.15);
+  }
 `;
 
 export default BasicSticker;
