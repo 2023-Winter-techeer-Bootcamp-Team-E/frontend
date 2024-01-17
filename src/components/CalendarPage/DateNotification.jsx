@@ -35,13 +35,10 @@ const DateNotification = ({
 }) => {
   const navigate = useNavigate();
 
-  // const [diarySettingPage, setDiarySettingPage] = useState(2);
   const [pageNum, setPageNum] = useState(1);
 
   //날짜 임시 설정
   const[diaryYear, setDiaryYear] = useState(2024);
-//   const [diaryMonth, setDiaryMonth] = useState(12);
-//   const [diaryDay, setDiaryDay] = useState(12);
   const [shareURL, setShareURL] = useState(null);
   const [diaryId, setDiaryId] = useState(null);
 
