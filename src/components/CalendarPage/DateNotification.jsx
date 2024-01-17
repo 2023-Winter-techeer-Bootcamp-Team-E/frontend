@@ -38,7 +38,7 @@ const DateNotification = ({
   const [pageNum, setPageNum] = useState(1);
 
   //날짜 임시 설정
-  const[diaryYear, setDiaryYear] = useState(2024);
+  // const[diaryYear, setDiaryYear] = useState(2024);
   const [shareURL, setShareURL] = useState(null);
   const [diaryId, setDiaryId] = useState(null);
 
