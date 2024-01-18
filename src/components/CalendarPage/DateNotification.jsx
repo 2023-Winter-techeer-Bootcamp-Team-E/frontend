@@ -31,7 +31,8 @@ const DateNotification = ({
   diaryMonth,
   setDiaryMonth,
   diaryDay,
-  setDiaryDay,
+  setShareURL,
+  shareURL,
 }) => {
   const navigate = useNavigate();
 
@@ -39,10 +40,8 @@ const DateNotification = ({
   const [pageNum, setPageNum] = useState(1);
 
   //날짜 임시 설정
-  const[diaryYear, setDiaryYear] = useState(2024);
-//   const [diaryMonth, setDiaryMonth] = useState(12);
-//   const [diaryDay, setDiaryDay] = useState(12);
-  const [shareURL, setShareURL] = useState(null);
+  // const[diaryYear, setDiaryYear] = useState(2024);
+  // const [shareURL, setShareURL] = useState(null);
   const [diaryId, setDiaryId] = useState(null);
 
 
@@ -139,7 +138,6 @@ const DateNotification = ({
       const response = await baseInstance.post(
         '/diaries/',
         {
-          // day: `${diaryYear}-${diaryMonth}-${diaryDay}`,
           day: `${diaryDay}`,
           diary_bg_id: pageNum,
         },

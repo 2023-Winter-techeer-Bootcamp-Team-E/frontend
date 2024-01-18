@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
@@ -7,15 +7,35 @@ import RightSticker from '../components/DiaryPage/RightSticker';
 import DHomeButton from '../components/DiaryPage/DHomeButton';
 import SaveButton from '../components/DiaryPage/SaveButton';
 import TextButton from '../components/DiaryPage/TextButton';
-import NicknameInput from '../components/DiaryPage/NicknameInput';
-import TextSave from '../components/DiaryPage/TextSaveButton';
+import Stickers from '../components/Stickers';
+import TextBox from '../components/DiaryPage/TextBox';
 
 //NicknameInput, TextSave는 직관적으로 보기 위해 임의로 나타냄
-function CalendarPage({
-  userName = 'userNameNull',
-  userId = 'userIdNull',
-  move,
-}) {
+function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
+  const [showTextBox, setShowTextBox] = useState(false);
+  const [showStickers, setShowStickers] = useState(true);
+  const [initialPosition, setInitialPosition] = useState({ x: 120, y: 160 });
+  const [selectedSticker, setSelectedSticker] = useState(null);
+  const diaryRef = useRef(null);
+
+  const handleDeleteTextBox = () => {
+    setShowTextBox(false);
+  };
+
+  const handleTextButtonClick = () => {
+    setShowTextBox(true);
+    setInitialPosition({ x: 120, y: 160 }); // 'Diary' 컴포넌트 내부 위치로 초기화
+  };
+
+  const handleStickerSelect = (image) => {
+    setSelectedSticker(image); // 선택한 이미지 URL을 상태로 저장
+    setInitialPosition({ x: 120, y: 100 });
+  };
+
+  const handleDeleteStickers = () => {
+    setShowStickers(false);
+  };
+
   return (
     <BackLayout>
       <PageFrame>
@@ -27,11 +47,7 @@ function CalendarPage({
           <LargeSketchbook />
         </WrapperLargeSketchbook>
 
-        <WrapperBasicSticker>
-          <BasicSticker />
-        </WrapperBasicSticker>
-
-        <Diary />
+        <Diary ref={diaryRef} />
 
         <WrapperRightSticker>
           <RightSticker />
@@ -45,16 +61,26 @@ function CalendarPage({
           <SaveButton />
         </WrapperSaveButton>
 
-        <TextButton />
+        <WrapperBasicSticker>
+          <BasicSticker onStickerSelect={handleStickerSelect} />
+        </WrapperBasicSticker>
+        {selectedSticker && (
+          <Stickers
+            onDelete={handleDeleteStickers}
+            image={selectedSticker}
+            bounds={diaryRef}
+            initialPosition={initialPosition}
+          />
+        )}
 
-        {/* NicknameInput, TextSave는 직관적으로 보기 위해 임의로 나타냄 */}
-        <NicknameInputContainer>
-          <NicknameInput />
-        </NicknameInputContainer>
-
-        <TextSaveContainer>
-          <TextSave />
-        </TextSaveContainer>
+        <TextButton onClick={handleTextButtonClick} />
+        {showTextBox && (
+          <TextBox
+            onDelete={handleDeleteTextBox}
+            bounds={diaryRef}
+            initialPosition={initialPosition}
+          />
+        )}
       </PageFrame>
     </BackLayout>
   );
@@ -88,7 +114,6 @@ const Diary = styled.div`
   height: 50.875rem;
   top: 14.6rem;
   flex-shrink: 0;
-  z-index: 2;
 `;
 const WrapperNavigateBar = styled.div`
   position: absolute;
@@ -140,4 +165,4 @@ const TextSaveContainer = styled.div`
   display: flex;
   z-index: 10;
 `;
-export default CalendarPage;
+export default DiaryPage;
