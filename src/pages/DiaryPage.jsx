@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
@@ -8,7 +9,16 @@ import DHomeButton from '../components/DiaryPage/DHomeButton';
 import SaveButton from '../components/DiaryPage/SaveButton';
 import TextButton from '../components/DiaryPage/TextButton';
 import NicknameInput from '../components/DiaryPage/NicknameInput';
+
 import TextSave from '../components/DiaryPage/TextSaveButton';
+import MainInnerImg1 from '../assets/img/InnerImg/MainInnerImg1.png';
+import MainInnerImg2 from '../assets/img/InnerImg/MainInnerImg2.png';
+import MainInnerImg3 from '../assets/img/InnerImg/MainInnerImg3.png';
+import MainInnerImg4 from '../assets/img/InnerImg/MainInnerImg4.png';
+import MainInnerImg5 from '../assets/img/InnerImg/MainInnerImg5.png';
+import MainInnerImg6 from '../assets/img/InnerImg/MainInnerImg6.png';
+import DiaryInnerPaintingDog from '../assets/img/InnerImg/DiaryInnerPaintingDog.png';
+import DiaryInnerPaintingInfo from '../assets/img/InnerImg/DiaryInnerPaintingInfo.png';
 
 //NicknameInput, TextSave는 직관적으로 보기 위해 임의로 나타냄
 function CalendarPage({
@@ -16,6 +26,12 @@ function CalendarPage({
   userId = 'userIdNull',
   move,
 }) {
+  const [innerPageNum, setInnerPageNum] = useState(1);
+
+  function InnerPaperRotate() {
+    return <InnerPaperImg></InnerPaperImg>;
+  }
+
   return (
     <BackLayout>
       <PageFrame>
@@ -31,7 +47,7 @@ function CalendarPage({
           <BasicSticker />
         </WrapperBasicSticker>
 
-        <Diary />
+        {InnerPaperRotate}
 
         <WrapperRightSticker>
           <RightSticker />
@@ -80,9 +96,7 @@ const PageFrame = styled.div`
   top: 0;
   justify-content: center;
 `;
-const Diary = styled.div`
-  border-radius: 1.875rem;
-  background: #fffee1;
+const InnerPaperImg = styled.img`
   position: absolute;
   width: 65.0625rem;
   height: 50.875rem;
