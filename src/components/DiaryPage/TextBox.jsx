@@ -38,16 +38,9 @@ const TextSaveClick = () => {
     });
 };
 
-function TextBox({
-  username,
-  dirmonth,
-  dirday,
-  onDelete,
-  bounds,
-  initialPosition,
-}) {
+function TextBox({ username, dirmonth, dirday, onDelete, bounds }) {
   const [size, setSize] = useState({ width: 300, height: 100 });
-  const [position, setPosition] = useState(initialPosition);
+  const [position, setPosition] = useState({ x: 100, y: 100 });
 
   const placeholder = `${username}님과 ${dirmonth}월 ${dirday}일의 일상을 공유해봐요!`;
 
