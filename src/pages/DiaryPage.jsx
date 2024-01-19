@@ -22,7 +22,6 @@ import TextBox from '../components/DiaryPage/TextBox';
 
 function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   const [showTextBox, setShowTextBox] = useState(false);
-  const [showStickers, setShowStickers] = useState(true);
   const [initialPosition, setInitialPosition] = useState({ x: 120, y: 160 });
   const [selectedSticker, setSelectedSticker] = useState(null);
   const diaryRef = useRef(null);
@@ -42,7 +41,7 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   };
 
   const handleDeleteStickers = () => {
-    setShowStickers(false);
+    setSelectedSticker(false);
   };
 
   const [innerPageNum, setInnerPageNum] = useState(2); //속지 ID 설정 여거 수정하면 돼 유진쓰
