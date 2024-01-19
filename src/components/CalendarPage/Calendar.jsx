@@ -1,4 +1,3 @@
-// Calendar.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { baseInstance } from '../../api/config.js';
@@ -162,7 +161,7 @@ const Calendar = ({
   setDiaryDay,
   diaryDay,
   shareURL,
-  setShareURL
+  setShareURL,
 }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
