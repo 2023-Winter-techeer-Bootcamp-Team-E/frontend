@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+//LoginPage.jsx
+import React, { useState, useEffect } from 'react';
 import { keyframes, css } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import useUserInfoStore from '../store/UserInfoStore';
@@ -16,6 +17,7 @@ const LoginPage = () => {
   const [wrongPwAlert, setWrongPwAlert] = useState('');
   const [wrongPwAlertColor, setWrongPwAlertColor] = useState('#DD0000');
   const [shake, setShake] = useState(false);
+  const userInfoStore = useUserInfoStore();
   const navigate = useNavigate();
 
   const handleIdChange = (e) => setId(e.target.value);
@@ -29,17 +31,17 @@ const LoginPage = () => {
       });
       if (response.data.code === 'A001' && response.status === 200) {
         console.log('로그인 성공');
-        navigate('/calendar');
+        // 기존 상태를 삭제하고 새로운 상태를 저장
+        localStorage.removeItem('loggedInUserId');
+        userInfoStore.removeUserInfo(localStorage.getItem('loggedInUserId'));
 
-        // 유저 정보를 Zustand 스토어에 추가
-        useUserInfoStore((state) =>
-          state.addUserInfo(
-            response.data.userId,
-            response.data.nickname,
-            password,
-          ),
-        );
-        console.log('Zustand 스토어에 추가된 유저 정보:', state.userInfoList);
+        const { nickname } = response.data; // API 응답에서 nickname 추출
+
+        localStorage.setItem('loggedInUserId', id);
+        localStorage.setItem('loggedInUserNickname', nickname);
+        userInfoStore.addUserInfo(id, nickname); // nickname으로 업데이트
+
+        navigate('/calendar');
         setWrongPwAlert('로그인 중...');
         setWrongPwAlertColor('#00A656');
       } else {

@@ -1,18 +1,35 @@
+//NavigateBar.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import bell from '../assets/img/NavigateBar_bell.png';
 import arrow from '../assets/img/NavigateBar_arrow.png';
 import ProfileMenu from './CalendarPage/ProfileMenu';
 import NotificationMenu from './CalendarPage/NotificationMenu';
+import useUserInfoStore from '../store/UserInfoStore';
 
-const NavigateBar = ({
-  userName = 'NavigatgeBarUserNameNull',
-  userId = 'NavigateBarUserIdNull',
-}) => {
+const NavigateBar = () => {
   const [isProfMenuOpen, setIsProfMenuOpen] = useState(false);
   const [isNotifyMenuOpen, setIsNotifyMenuOpen] = useState(false);
   const profMenuRef = useRef(null);
   const notifyMenuRef = useRef(null);
+  const userInfoStore = useUserInfoStore();
+  const { userInfoList, addUserInfo } = userInfoStore;
+
+  useEffect(() => {
+    const loggedInUserId = localStorage.getItem('loggedInUserId');
+    const loggedInUserNickname = localStorage.getItem('loggedInUserNickname');
+
+    if (loggedInUserId && loggedInUserNickname) {
+      userInfoStore.removeUserInfo(loggedInUserId);
+      userInfoStore.addUserInfo(loggedInUserId, loggedInUserNickname);
+    }
+  }, [userInfoStore.addUserInfo]);
+
+  const user =
+    userInfoList.length > 0
+      ? userInfoList[0]
+      : { id: 'null', nickname: 'null' };
+  const { id, nickname } = user;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -59,7 +76,7 @@ const NavigateBar = ({
         isopen={isNotifyMenuOpen}
       />
       <ProfWrapper>
-        <ProfName>환영합니다. {userName}님</ProfName>
+        <ProfName>환영합니다. {nickname}님</ProfName>
         <ProfArrow
           src={arrow}
           onClick={handleProfArrowClick}
@@ -68,7 +85,7 @@ const NavigateBar = ({
       </ProfWrapper>
 
       <ProfileMenuWrapper ref={profMenuRef} isopen={isProfMenuOpen}>
-        <ProfileMenu userId={userId} userName={userName} />
+        <ProfileMenu userId={id} userName={nickname} />
       </ProfileMenuWrapper>
 
       <NotificationMenuWrapper ref={notifyMenuRef} isopen={isNotifyMenuOpen}>
@@ -144,8 +161,8 @@ const ProfWrapper = styled.div`
 
 const ProfName = styled.div`
   color: #fff;
-  font-family: Arial Black;
-  font-size: 1.5rem;
+  font-family: 'bmjua';
+  font-size: 1.625rem;
   font-style: normal;
   font-weight: 900;
   line-height: normal;

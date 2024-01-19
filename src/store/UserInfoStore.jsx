@@ -1,15 +1,17 @@
 import create from 'zustand';
 
-export const useUserInfoStore = create((set) => ({
+const useUserInfoStore = create((set) => ({
   userInfoList: [],
-  addUserInfo: (userId, nickname, password) => {
+  addUserInfo: (id, nickname) => {
     set((state) => ({
-      userInfoList: [...state.userInfoList, { userId, nickname, password }],
+      userInfoList: [...state.userInfoList, { id, nickname }],
     }));
   },
-  removeUserInfo: (userId) =>
+  getUserInfo: (get) => (id) =>
+    get().userInfoList.find((user) => user.id === id),
+  removeUserInfo: (id) =>
     set((prev) => ({
-      userInfoList: prev.userInfoList.filter((e) => e.userId !== userId),
+      userInfoList: prev.userInfoList.filter((e) => e.id !== id),
     })),
 }));
 

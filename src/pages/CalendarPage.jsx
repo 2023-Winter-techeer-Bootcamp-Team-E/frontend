@@ -6,7 +6,7 @@ import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
 import Calendar from '../components/CalendarPage/Calendar';
 
-function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
+function CalendarPage() {
   const [diarySettingPage, setDiarySettingPage] = useState(1);
   const [shareURL, setShareURL] = useState('https://www.naver.com');
   const [diaryMonth, setDiaryMonth] = useState(0);
@@ -16,7 +16,7 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
-          <NavigateBar userName={userName} userId={userId} />
+          <NavigateBar />
         </WrapperNavigateBar>
 
         <WrapperLargeSketchbook>

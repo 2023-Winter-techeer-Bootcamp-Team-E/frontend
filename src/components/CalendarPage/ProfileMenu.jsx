@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { baseInstance } from '../../api/config';
+import useUserInfoStore from '../../store/UserInfoStore';
 function ProfileMenu({
   userId = 'ProfileUserIdNull',
   userName = 'ProfileUserIdNull',
 }) {
   const navigate = useNavigate();
+  const userInfoStore = useUserInfoStore();
   const handleHaruConnectingTutorialClick = () => {
     navigate('/tutorial');
   };
@@ -33,6 +35,10 @@ function ProfileMenu({
               text: '로그아웃이 성공적으로 처리되었습니다.',
               icon: 'success',
             }).then(() => {
+              userInfoStore.removeUserInfo(
+                localStorage.getItem('loggedInUserId'),
+              );
+              localStorage.removeItem('loggedInUserId');
               navigate('/'); // 여기서 네비게이션 호출
               deleteCookie('sessionId'); // 쿠키 삭제 함수 호출
             });
