@@ -117,6 +117,7 @@ const ContainerDiv = styled.div`
 
 const CloseButton = styled.span`
   background-color: #f26c60;
+  pointer-events: auto;
   color: white;
   width: 2rem;
   height: 2rem;
@@ -127,6 +128,7 @@ const CloseButton = styled.span`
   align-items: center;
   border-radius: 100%;
   position: absolute;
+  z-index: 1000;
   top: -10px; // 위치 조정
   right: -10px;
 

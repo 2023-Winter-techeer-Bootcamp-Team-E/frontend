@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ResizableRect from 'react-resizable-rotatable-draggable';
-// import cloud from '../assets/img/cloud.png';
 import styled from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
@@ -43,10 +42,12 @@ function Stickers({ onDelete, image, bounds, initialPosition }) {
   const [position, setPosition] = useState({
     width2: 100,
     height2: 100,
-    top: initialPosition.y,
-    left: initialPosition.x,
+    // top: initialPosition.y,
+    // left: initialPosition.x,
+    top2: 100,
+    left2: 100,
     rotate2: 0,
-    initialPosition,
+    // initialPosition,
   });
 
   // eslint-disable-next-line no-unused-vars
@@ -65,6 +66,7 @@ function Stickers({ onDelete, image, bounds, initialPosition }) {
     }));
   };
   const handleRotate = (rotateAngle2) => {
+    console.log('회전');
     setPosition((prevState) => ({
       ...prevState,
       rotate2: rotateAngle2,
@@ -72,10 +74,23 @@ function Stickers({ onDelete, image, bounds, initialPosition }) {
   };
 
   const handleDrag = (deltaX, deltaY) => {
+    // 현재 드래그 이동량을 출력합니다.
+    console.log('Drag delta:', deltaX, deltaY);
+
+    // 새로운 위치를 계산합니다.
+    const newPosition = {
+      top2: position.top2 + deltaY,
+      left2: position.left2 + deltaX,
+    };
+
+    // 새 위치를 출력합니다.
+    console.log('New position:', newPosition);
+
+    // 상태를 업데이트합니다.
     setPosition((prevState) => ({
       ...prevState,
-      top2: position.top + deltaY,
-      left2: position.left + deltaX,
+      top2: position.top2 + deltaY,
+      left2: position.left2 + deltaX,
     }));
   };
 
@@ -83,44 +98,44 @@ function Stickers({ onDelete, image, bounds, initialPosition }) {
     <>
       <div
         style={{
-          left: position.left,
-          top: position.top,
+          width: position.width2,
+          height: position.height2,
           position: 'absolute',
           zIndex: 1,
         }}>
         <CloseButton
           onClick={onDelete}
           style={{
-            left: position.left + position.width2 - 20,
-            top: position.top - 10,
+            left: position.left2 + position.width2 - 20,
+            top: position.top2 - 10,
             zIndex: 200,
           }}
         />
         <ImgSaveBtn
           onClick={ImgSaveClick}
           style={{
-            left: position.left + position.width2 - 35,
-            top: position.top + position.height2 + 10,
+            left: position.left2 + position.width2 - 35,
+            top: position.top2 + position.height2 + 10,
           }}>
           저장
         </ImgSaveBtn>
         <img
           src={image}
           style={{
-            zIndex: 100,
             width: position.width2,
             height: position.height2,
-            left: position.left + 1,
-            top: position.top + 1,
+            left: position.left2 + 1,
+            top: position.top2 + 1,
             rotate: `${position.rotate2}deg`,
             position: 'absolute',
           }}
           alt="Selected Sticker"
         />
         <ResizableRect
+          style={{ zIndex: 1000 }}
           bounds={bounds.current}
-          left={position.left}
-          top={position.top}
+          left={position.left2}
+          top={position.top2}
           width={position.width2}
           height={position.height2}
           rotateAngle={position.rotate2}
