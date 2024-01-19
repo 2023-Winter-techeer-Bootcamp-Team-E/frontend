@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { keyframes, css } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import useUserInfoStore from '../store/UserInfoListStore';
+import useUserInfoStore from '../store/UserInfoStore';
 import styled from 'styled-components';
 import SignInBtn from '../components/SignIn_Up';
 import SmallSketchbook from '../components/SmallSketchbook';
