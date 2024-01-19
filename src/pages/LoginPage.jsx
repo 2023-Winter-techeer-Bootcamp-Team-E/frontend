@@ -16,10 +16,6 @@ function LoginPage(props) {
   const [wrongPwAlertColor, setWrongPwAlertColor] = useState('#DD0000');
   const [shake, setShake] = useState(false);
 
-  //로그인 기능 사용 해 보려고 내꺼 임시로 만들어봄 ㅎ.ㅎ
-  // const adminId = 'admin';
-  // const adminPw = 'admin';
-
   const handleIdChange = (e) => {
     setId(e.target.value);
   };

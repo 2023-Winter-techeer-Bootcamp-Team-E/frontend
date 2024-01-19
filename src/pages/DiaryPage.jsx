@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 
 import LargeSketchbook from '../components/LargeSketchbook';
@@ -9,7 +9,6 @@ import DHomeButton from '../components/DiaryPage/DHomeButton';
 import SaveButton from '../components/DiaryPage/SaveButton';
 import TextButton from '../components/DiaryPage/TextButton';
 import NicknameInput from '../components/DiaryPage/NicknameInput';
-
 import TextSave from '../components/DiaryPage/TextSaveButton';
 import MainInnerImg1 from '../assets/img/InnerImg/MainInnerImg1.png';
 import MainInnerImg2 from '../assets/img/InnerImg/MainInnerImg2.png';
@@ -19,18 +18,55 @@ import MainInnerImg5 from '../assets/img/InnerImg/MainInnerImg5.png';
 import MainInnerImg6 from '../assets/img/InnerImg/MainInnerImg6.png';
 import DiaryInnerPaintingDog from '../assets/img/InnerImg/DiaryInnerPaintingDog.png';
 import DiaryInnerPaintingInfo from '../assets/img/InnerImg/DiaryInnerPaintingInfo.png';
-
+import Stickers from '../components/Stickers';
+import TextBox from '../components/DiaryPage/TextBox';
 //NicknameInput, TextSave는 직관적으로 보기 위해 임의로 나타냄
-function CalendarPage({
-  userName = 'userNameNull',
-  userId = 'userIdNull',
-  move,
-}) {
-  const [innerPageNum, setInnerPageNum] = useState(1);
 
-  function InnerPaperRotate() {
-    return <InnerPaperImg></InnerPaperImg>;
-  }
+function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
+  const [showTextBox, setShowTextBox] = useState(false);
+  const [showStickers, setShowStickers] = useState(true);
+  const [initialPosition, setInitialPosition] = useState({ x: 120, y: 160 });
+  const [selectedSticker, setSelectedSticker] = useState(null);
+  const diaryRef = useRef(null);
+
+  const handleDeleteTextBox = () => {
+    setShowTextBox(false);
+  };
+
+  const handleTextButtonClick = () => {
+    setShowTextBox(true);
+    setInitialPosition({ x: 120, y: 160 }); // 'Diary' 컴포넌트 내부 위치로 초기화
+  };
+
+  const handleStickerSelect = (image) => {
+    setSelectedSticker(image); // 선택한 이미지 URL을 상태로 저장
+    setInitialPosition({ x: 120, y: 100 });
+  };
+
+  const handleDeleteStickers = () => {
+    setShowStickers(false);
+  };
+
+  const [innerPageNum, setInnerPageNum] = useState(5);
+
+  const InnerPaperRotate = () => {
+    switch (innerPageNum) {
+      case 1:
+        return <InnerPaperImg src={MainInnerImg1} />;
+      case 2:
+        return <InnerPaperImg src={MainInnerImg2} />;
+      case 3:
+        return <InnerPaperImg src={MainInnerImg3} />;
+      case 4:
+        return <InnerPaperImg src={MainInnerImg4} />;
+      case 5:
+        return <InnerPaperImg src={MainInnerImg5} />;
+      case 6:
+        return <InnerPaperImg src={MainInnerImg6} />;
+      default:
+        return <InnerPaperImg src={MainInnerImg1} />;
+    }
+  };
 
   return (
     <BackLayout>
@@ -47,7 +83,13 @@ function CalendarPage({
           <BasicSticker />
         </WrapperBasicSticker>
 
-        {InnerPaperRotate}
+        <DiaryWrapper>
+          {InnerPaperRotate()}
+          <PaintingDog src={DiaryInnerPaintingDog} />
+          <PaintingInfo src={DiaryInnerPaintingInfo} />
+        </DiaryWrapper>
+
+        <Diary ref={diaryRef} />
 
         <WrapperRightSticker>
           <RightSticker />
@@ -61,16 +103,26 @@ function CalendarPage({
           <SaveButton />
         </WrapperSaveButton>
 
-        <TextButton />
+        <WrapperBasicSticker>
+          <BasicSticker onStickerSelect={handleStickerSelect} />
+        </WrapperBasicSticker>
+        {selectedSticker && (
+          <Stickers
+            onDelete={handleDeleteStickers}
+            image={selectedSticker}
+            bounds={diaryRef}
+            initialPosition={initialPosition}
+          />
+        )}
 
-        {/* NicknameInput, TextSave는 직관적으로 보기 위해 임의로 나타냄 */}
-        <NicknameInputContainer>
-          <NicknameInput />
-        </NicknameInputContainer>
-
-        <TextSaveContainer>
-          <TextSave />
-        </TextSaveContainer>
+        <TextButton onClick={handleTextButtonClick} />
+        {showTextBox && (
+          <TextBox
+            onDelete={handleDeleteTextBox}
+            bounds={diaryRef}
+            initialPosition={initialPosition}
+          />
+        )}
       </PageFrame>
     </BackLayout>
   );
@@ -98,11 +150,19 @@ const PageFrame = styled.div`
 `;
 const InnerPaperImg = styled.img`
   position: absolute;
-  width: 65.0625rem;
-  height: 50.875rem;
-  top: 14.6rem;
+  width: 100%;
+  height: 100%;
   flex-shrink: 0;
-  z-index: 2;
+  flex-shrink: 0;
+`;
+
+const DiaryWrapper = styled.div`
+  position: absolute;
+  width: 62.875rem;
+  height: 47.66113rem;
+  flex-shrink: 0;
+  top: 15.62rem;
+  flex-shrink: 0;
 `;
 const WrapperNavigateBar = styled.div`
   position: absolute;
@@ -154,4 +214,23 @@ const TextSaveContainer = styled.div`
   display: flex;
   z-index: 10;
 `;
-export default CalendarPage;
+
+const PaintingDog = styled.img`
+  position: absolute;
+  width: 11.3125rem;
+  height: 7.75rem;
+  flex-shrink: 0;
+  margin-left: 1rem;
+  margin-top: 3rem;
+`;
+
+const PaintingInfo = styled.img`
+  position: absolute;
+  width: 14.5rem;
+  height: 10.625rem;
+  flex-shrink: 0;
+  margin-left: 46rem;
+  margin-top: 3rem;
+`;
+
+export default DiaryPage;

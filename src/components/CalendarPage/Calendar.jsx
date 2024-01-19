@@ -1,5 +1,6 @@
 // Calendar.jsx
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { baseInstance } from '../../api/config.js';
 import {
   format,
@@ -28,7 +29,7 @@ const RenderDays = () => {
   const daysOfWeek = [
     'SUNDAY',
     'MONDAY',
-    'THUESDAY',
+    'TUESDAY',
     'WEDNESDAY',
     'THURSDAY',
     'FRIDAY',
@@ -54,6 +55,8 @@ const RenderCells = ({
   onDateClick,
   setDiarySettingPage,
   diaryInfoArray,
+  diaryDay,
+
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -71,11 +74,11 @@ const RenderCells = ({
     const isNextMonth = isAfter(day, endOfMonth(currentMonth));
     const shouldShowDiaryBtn =
       !isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day);
-
+  
     const diaryInfo = diaryInfoArray.find(
       (diary) => diary.day === formattedDate,
     );
-
+  
     return (
       <div
         className={`bodycol cell ${
@@ -88,7 +91,7 @@ const RenderCells = ({
                 : 'valid'
         }`}
         key={day}
-        onClick={() => onDateClick(day)}>
+        onClick={() => onDateClick(day, shouldShowDiaryBtn)}>
         <span className="date">{formattedDate}</span>
         {Array.isArray(list) &&
           list
@@ -102,11 +105,14 @@ const RenderCells = ({
               </span>
             ))}
         {shouldShowDiaryBtn && !diaryInfo && (
-          <img
+          <img //연필 아이콘
             className="GoToSelectInnerPaperBtn"
             src={DiaryWriteIcon}
             alt="Go to Diary"
-            onClick={() => setDiarySettingPage(2)}
+            onClick={() => {
+              onDateClick(day);
+              setDiarySettingPage(2);
+            }}
           />
         )}
         {diaryInfo &&
@@ -125,9 +131,13 @@ const RenderCells = ({
               className="GoToShareURLBtn"
               src={DiaryEditIcon}
               alt="Go to Diary"
-              onClick={() => setDiarySettingPage(3)}
+              onClick={() => {
+                console.log('GoToShareURLBtn clicked');
+                onDateClick(day); 
+              }}
             />
           ))}
+
       </div>
     );
   };
@@ -168,6 +178,9 @@ const Calendar = ({
   setDiarySettingPage,
   setDiaryMonth,
   setDiaryDay,
+  diaryDay,
+  shareURL,
+  setShareURL
 }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -176,13 +189,34 @@ const Calendar = ({
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
   const today = new Date();
   const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
-
+  
+  //일기 조회 
+  const createDiary = async () => {
+    try {
+      const response = await baseInstance.get('/diaries/link', {
+        params: { day: `${diaryDay}` },
+      });
+  
+      if (response.status === 200) {
+        setShareURL(response.data.sns_link); 
+        setDiarySettingPage(3); // 페이지 변경
+        console.log(shareURL);
+      } else {
+        console.log('일기장 확인 실패');
+      }
+    } catch (error) {
+      console.error('API 호출 중 오류 발생 : ', error);
+    }
+  };
   const onDateClick = (day) => {
     setSelectedDate(day);
     setDiaryMonth(format(day, 'M'));
     setDiaryDay(format(day, 'd'));
     console.log(day);
+    createDiary();
   };
+
+ 
 
   const [diaryInfoArray, setDiaryInfoArray] = useState([]);
 

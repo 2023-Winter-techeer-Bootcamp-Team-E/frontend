@@ -5,9 +5,14 @@ import Sun from '../assets/img/Sun.png';
 import upbutton from '../assets/img/upbutton.png';
 import downbutton from '../assets/img/downbutton.png';
 
-function BasicSticker() {
+function BasicSticker({ onStickerSelect }) {
   const [stickerPageNum, setStickerPageNum] = useState(1);
   const [stickerImages, setStickerImages] = useState([]);
+
+  const handleStickerClick = (image) => {
+    // 여기서 onStickerSelect는 상위 컴포넌트로부터 전달받은 함수입니다.
+    onStickerSelect(image);
+  };
 
   useEffect(() => {
     // API 호출 함수
@@ -45,7 +50,7 @@ function BasicSticker() {
   return (
     <BasicStickerContainer>
       {stickerImages.map((image, index) => (
-        <StaticStickerBox key={index}>
+        <StaticStickerBox key={index} onClick={() => handleStickerClick(image)}>
           <StaticSticker src={image} alt={`Sticker ${index + 1}`} />
         </StaticStickerBox>
       ))}

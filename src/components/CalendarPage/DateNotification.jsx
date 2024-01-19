@@ -31,17 +31,18 @@ const DateNotification = ({
   diaryMonth,
   setDiaryMonth,
   diaryDay,
-  setDiaryDay,
+  setShareURL,
+  shareURL,
 }) => {
   const navigate = useNavigate();
 
+  // const [diarySettingPage, setDiarySettingPage] = useState(2);
   const [pageNum, setPageNum] = useState(1);
 
   //날짜 임시 설정
-  const [diaryYear, setDiaryYear] = useState(2024);
-  //   const [diaryMonth, setDiaryMonth] = useState(12);
-  //   const [diaryDay, setDiaryDay] = useState(12);
-  const [shareURL, setShareURL] = useState('https://blog.naver.com/hijinoo_');
+  // const[diaryYear, setDiaryYear] = useState(2024);
+  // const [shareURL, setShareURL] = useState(null);
+
   const [diaryId, setDiaryId] = useState(null);
 
   const diarySettingRef = useRef(null);
@@ -134,12 +135,11 @@ const DateNotification = ({
 
   const createDiary = async () => {
     try {
-      const response = await baseInstance.post('/diaries', {
-        year_month: `${diaryYear}-${diaryMonth}`,
+      const response = await baseInstance.post('/diaries/', {
         day: `${diaryDay}`,
         diary_bg_id: pageNum,
       });
-      if (response.data.code === 'D001' && response.status === 200) {
+      if (response.status === 200) {
         console.log('일기장 생성 성공');
         setShareURL(response.data.sns_link); // sns_link를 state에 저장
         setDiaryId(response.data.diary_id); //diary_id를 state에 저장
@@ -200,7 +200,8 @@ const DateNotification = ({
             <CopyBtn onClick={copyToClipboard}>복사</CopyBtn>
             <Line />
             <LetsWriteText>일기를 작성하러 가볼까요?</LetsWriteText>
-            <WriteDiaryBtn onClick={() => navigate('/diary')}>
+            <WriteDiaryBtn
+              onClick={() => (window.location.href = `http://${shareURL}`)}>
               작성하기 <DiaryWritePenIcon src={DiaryWritePen} />
             </WriteDiaryBtn>
           </DiarySettingWindow>
