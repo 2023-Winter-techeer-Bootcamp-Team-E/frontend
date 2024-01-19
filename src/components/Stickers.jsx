@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ResizableRect from 'react-resizable-rotatable-draggable';
-// import cloud from '../assets/img/cloud.png';
 import styled from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
@@ -39,14 +38,13 @@ const ImgSaveClick = () => {
     });
 };
 
-function Stickers({ onDelete, image, bounds, initialPosition }) {
+function Stickers({ onDelete, image, bounds }) {
   const [position, setPosition] = useState({
     width2: 100,
     height2: 100,
-    top: initialPosition.y,
-    left: initialPosition.x,
+    top2: 100,
+    left2: 100,
     rotate2: 0,
-    initialPosition,
   });
 
   // eslint-disable-next-line no-unused-vars
@@ -65,6 +63,7 @@ function Stickers({ onDelete, image, bounds, initialPosition }) {
     }));
   };
   const handleRotate = (rotateAngle2) => {
+    console.log('회전');
     setPosition((prevState) => ({
       ...prevState,
       rotate2: rotateAngle2,
@@ -72,10 +71,33 @@ function Stickers({ onDelete, image, bounds, initialPosition }) {
   };
 
   const handleDrag = (deltaX, deltaY) => {
+    const boundsRect = bounds.current.getBoundingClientRect();
+
+    // 범위를 확장합니다.
+    const expandedBounds = {
+      left: boundsRect.left - 386,
+      top: boundsRect.top - 184,
+      right: boundsRect.right - 385,
+      bottom: boundsRect.bottom - 185,
+    };
+
+    let newTop = position.top2 + deltaY;
+    let newLeft = position.left2 + deltaX;
+
+    // 확장된 범위 내에서만 이동하도록 조정합니다.
+    if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
+    if (newTop < expandedBounds.top) newTop = expandedBounds.top;
+    if (newLeft + position.width2 > expandedBounds.right) {
+      newLeft = expandedBounds.right - position.width2;
+    }
+    if (newTop + position.height2 > expandedBounds.bottom) {
+      newTop = expandedBounds.bottom - position.height2;
+    }
+
     setPosition((prevState) => ({
       ...prevState,
-      top2: position.top + deltaY,
-      left2: position.left + deltaX,
+      top2: newTop,
+      left2: newLeft,
     }));
   };
 
@@ -83,61 +105,50 @@ function Stickers({ onDelete, image, bounds, initialPosition }) {
     <>
       <div
         style={{
-          left: position.left,
-          top: position.top,
+          width: position.width2,
+          height: position.height2,
           position: 'absolute',
           zIndex: 1,
         }}>
         <CloseButton
           onClick={onDelete}
           style={{
-            left: position.left + position.width2 - 20,
-            top: position.top - 10,
+            left: position.left2 + position.width2 - 20,
+            top: position.top2 - 10,
             zIndex: 200,
           }}
         />
         <ImgSaveBtn
           onClick={ImgSaveClick}
           style={{
-            left: position.left + position.width2 - 35,
-            top: position.top + position.height2 + 10,
+            left: position.left2 + position.width2 - 35,
+            top: position.top2 + position.height2 + 10,
           }}>
           저장
         </ImgSaveBtn>
         <img
           src={image}
           style={{
-            zIndex: 100,
             width: position.width2,
             height: position.height2,
-            left: position.left + 1,
-            top: position.top + 1,
+            left: position.left2 + 1,
+            top: position.top2 + 1,
             rotate: `${position.rotate2}deg`,
             position: 'absolute',
           }}
           alt="Selected Sticker"
         />
         <ResizableRect
-          bounds={bounds.current}
-          left={position.left}
-          top={position.top}
+          style={{ zIndex: 1000 }}
+          left={position.left2}
+          top={position.top2}
           width={position.width2}
           height={position.height2}
           rotateAngle={position.rotate2}
-          // minWidth={100} // 최소크기
-          // aspectRatio={false}
-          // minHeight={100}
           zoomable="n, w, s, e, nw, ne, se, sw"
-          // rotatable={true}
-          // onRotateStart={this.handleRotateStart}
           onRotate={handleRotate}
-          // onRotateEnd={this.handleRotateEnd}
-          // onResizeStart={this.handleResizeStart}
           onResize={handleResize}
-          // onResizeEnd={this.handleUp}
-          // onDragStart={this.handleDragStart}
           onDrag={handleDrag}
-          // onDragEnd={this.handleDragEnd}
         />
       </div>
     </>
