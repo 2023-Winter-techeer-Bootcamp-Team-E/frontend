@@ -8,8 +8,6 @@ import RightSticker from '../components/DiaryPage/RightSticker';
 import DHomeButton from '../components/DiaryPage/DHomeButton';
 import SaveButton from '../components/DiaryPage/SaveButton';
 import TextButton from '../components/DiaryPage/TextButton';
-import NicknameInput from '../components/DiaryPage/NicknameInput';
-import TextSave from '../components/DiaryPage/TextSaveButton';
 import MainInnerImg1 from '../assets/img/InnerImg/MainInnerImg1.png';
 import MainInnerImg2 from '../assets/img/InnerImg/MainInnerImg2.png';
 import MainInnerImg3 from '../assets/img/InnerImg/MainInnerImg3.png';

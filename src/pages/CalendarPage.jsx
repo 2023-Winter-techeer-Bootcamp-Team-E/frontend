@@ -8,7 +8,7 @@ import Calendar from '../components/CalendarPage/Calendar';
 
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   const [diarySettingPage, setDiarySettingPage] = useState(1);
-  const [shareURL, setShareURL] = useState("https://www.naver.com");
+  const [shareURL, setShareURL] = useState('https://www.naver.com');
   const [diaryMonth, setDiaryMonth] = useState(0);
   const [diaryDay, setDiaryDay] = useState(0);
 
@@ -34,8 +34,8 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
             setDiaryMonth={setDiaryMonth}
             diaryDay={diaryDay}
             setDiaryDay={setDiaryDay}
-            setShareURL={setShareURL} 
-            shareURL={shareURL} 
+            setShareURL={setShareURL}
+            shareURL={shareURL}
           />
         </WrapperCalendar>
 
@@ -47,9 +47,8 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
             setDiaryMonth={setDiaryMonth}
             diaryDay={diaryDay}
             setDiaryDay={setDiaryDay}
-            shareURL={shareURL} 
-            setShareURL={setShareURL} 
-
+            shareURL={shareURL}
+            setShareURL={setShareURL}
           />
         </WrapperDateNotification>
       </PageFrame>
