@@ -1,4 +1,3 @@
-// DateNotification.jsx
 import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -42,7 +41,6 @@ const DateNotification = ({
   //날짜 임시 설정
   // const[diaryYear, setDiaryYear] = useState(2024);
   // const [shareURL, setShareURL] = useState(null);
-
   const [diaryId, setDiaryId] = useState(null);
 
   const diarySettingRef = useRef(null);

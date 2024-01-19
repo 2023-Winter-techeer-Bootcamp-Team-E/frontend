@@ -47,24 +47,24 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
     setShowStickers(false);
   };
 
-  const [innerPageNum, setInnerPageNum] = useState(5);
+  const [innerPageNum, setInnerPageNum] = useState(2); //속지 ID 설정 여거 수정하면 돼 유진쓰
 
   const InnerPaperRotate = () => {
     switch (innerPageNum) {
       case 1:
-        return <InnerPaperImg src={MainInnerImg1} />;
+        return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
       case 2:
-        return <InnerPaperImg src={MainInnerImg2} />;
+        return <InnerPaperImg src={MainInnerImg2} ref={diaryRef} />;
       case 3:
-        return <InnerPaperImg src={MainInnerImg3} />;
+        return <InnerPaperImg src={MainInnerImg3} ref={diaryRef} />;
       case 4:
-        return <InnerPaperImg src={MainInnerImg4} />;
+        return <InnerPaperImg src={MainInnerImg4} ref={diaryRef} />;
       case 5:
-        return <InnerPaperImg src={MainInnerImg5} />;
+        return <InnerPaperImg src={MainInnerImg5} ref={diaryRef} />;
       case 6:
-        return <InnerPaperImg src={MainInnerImg6} />;
+        return <InnerPaperImg src={MainInnerImg6} ref={diaryRef} />;
       default:
-        return <InnerPaperImg src={MainInnerImg1} />;
+        return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
     }
   };
 
@@ -74,35 +74,28 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
         <WrapperNavigateBar>
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
-
         <WrapperLargeSketchbook>
           <LargeSketchbook />
         </WrapperLargeSketchbook>
-
         <WrapperBasicSticker>
           <BasicSticker />
         </WrapperBasicSticker>
-
         <DiaryWrapper>
           {InnerPaperRotate()}
           <PaintingDog src={DiaryInnerPaintingDog} />
           <PaintingInfo src={DiaryInnerPaintingInfo} />
         </DiaryWrapper>
-
-        <Diary ref={diaryRef} />
-
+        {/* <Diary ref={diaryRef} /> */}
         <WrapperRightSticker>
           <RightSticker />
         </WrapperRightSticker>
-
         <WrapperDHomeButton>
           <DHomeButton move={move} />
         </WrapperDHomeButton>
-
         <WrapperSaveButton>
           <SaveButton />
         </WrapperSaveButton>
-
+        ƒ
         <WrapperBasicSticker>
           <BasicSticker onStickerSelect={handleStickerSelect} />
         </WrapperBasicSticker>
@@ -114,7 +107,6 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
             initialPosition={initialPosition}
           />
         )}
-
         <TextButton onClick={handleTextButtonClick} />
         {showTextBox && (
           <TextBox
@@ -162,6 +154,15 @@ const DiaryWrapper = styled.div`
   height: 47.66113rem;
   flex-shrink: 0;
   top: 15.62rem;
+  flex-shrink: 0;
+`;
+const Diary = styled.div`
+  border-radius: 1.875rem;
+  background: #fffee1;
+  position: absolute;
+  width: 65.0625rem;
+  height: 50.875rem;
+  top: 14.6rem;
   flex-shrink: 0;
 `;
 const WrapperNavigateBar = styled.div`
