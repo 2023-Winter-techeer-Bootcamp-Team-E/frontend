@@ -5,12 +5,14 @@ import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
 import Calendar from '../components/CalendarPage/Calendar';
+import DiaryPage from './DiaryPage';
 
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   const [diarySettingPage, setDiarySettingPage] = useState(1);
   const [shareURL, setShareURL] = useState("https://www.naver.com");
   const [diaryMonth, setDiaryMonth] = useState(0);
   const [diaryDay, setDiaryDay] = useState(0);
+  const currentDate = new Date();
 
   return (
     <BackLayout>
@@ -51,6 +53,7 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
             setShareURL={setShareURL} 
 
           />
+          
         </WrapperDateNotification>
       </PageFrame>
     </BackLayout>

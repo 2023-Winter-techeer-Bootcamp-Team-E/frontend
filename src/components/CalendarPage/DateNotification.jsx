@@ -39,9 +39,8 @@ const DateNotification = ({
   const [pageNum, setPageNum] = useState(1);
 
   //날짜 임시 설정
-  // const[diaryYear, setDiaryYear] = useState(2024);
-  // const [shareURL, setShareURL] = useState(null);
   const [diaryId, setDiaryId] = useState(null);
+  const [InnerPageNum, setInnerPageNum] = useState(1);
 
 
   const diarySettingRef = useRef(null);
@@ -63,6 +62,10 @@ const DateNotification = ({
     };
   }, [diarySettingRef]);
 
+  const handleWriteDiaryClick = () => {
+    navigate('../diary', { state: { innerPageNum: InnerPageNum } });
+  };
+  
   const PageNumSub = () => {
     if (pageNum > 1) {
       setPageNum((PageNum) => PageNum - 1); // 이전 상태를 가져와서 변경
@@ -145,6 +148,7 @@ const DateNotification = ({
         console.log('일기장 생성 성공');
         setShareURL(response.data.sns_link); // sns_link를 state에 저장
         setDiaryId(response.data.diary_id); //diary_id를 state에 저장
+        setInnerPageNum(response.data.diary_bg_id); // inner_page_num를 state에
         setDiarySettingPage(3); // 페이지 변경
     } else {
       console.log('일기장 생성 실패');
@@ -184,7 +188,7 @@ const DateNotification = ({
             <SelectImgLeftBtn src={SelectImgBtn} onClick={PageNumSub} />
             <SelectImgRightBtn src={SelectImgBtn} onClick={PageNumAdd} />
 
-            <CheckBtn onClick={createDiary}>확인</CheckBtn>
+            <CheckBtn onClick={() => { createDiary()}}>확인</CheckBtn>
           </DiarySettingWindow>
         );
       case 3:
@@ -204,7 +208,9 @@ const DateNotification = ({
             <Line />
             <LetsWriteText>일기를 작성하러 가볼까요?</LetsWriteText>
             <WriteDiaryBtn
-              onClick={() => (window.location.href = `http://${shareURL}`)}>
+            onClick={handleWriteDiaryClick}>
+             {/* onClick={() => (window.location.href = `http://${shareURL}`)}> */}
+            {/* onClick={() =>  navigate('../diary')} */}
               작성하기 <DiaryWritePenIcon src={DiaryWritePen} />
             </WriteDiaryBtn>
 
@@ -213,6 +219,26 @@ const DateNotification = ({
         );
       default:
         return <p>오류 코드 : '{diarySettingPage}'</p>;
+    }
+  };
+
+
+  const InnerPaperRotate = () => {
+    switch (innerPageNum) {
+      case 1:
+        return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
+      case 2:
+        return <InnerPaperImg src={MainInnerImg2} ref={diaryRef} />;
+      case 3:
+        return <InnerPaperImg src={MainInnerImg3} ref={diaryRef} />;
+      case 4:
+        return <InnerPaperImg src={MainInnerImg4} ref={diaryRef} />;
+      case 5:
+        return <InnerPaperImg src={MainInnerImg5} ref={diaryRef} />;
+      case 6:
+        return <InnerPaperImg src={MainInnerImg6} ref={diaryRef} />;
+      default:
+        return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
     }
   };
 
