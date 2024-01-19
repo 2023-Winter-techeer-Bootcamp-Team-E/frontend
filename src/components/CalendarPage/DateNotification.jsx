@@ -1,4 +1,3 @@
-// DateNotification.jsx
 import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -204,7 +203,8 @@ const DateNotification = ({
             <CopyBtn onClick={copyToClipboard}>복사</CopyBtn>
             <Line />
             <LetsWriteText>일기를 작성하러 가볼까요?</LetsWriteText>
-            <WriteDiaryBtn onClick={() => window.location.href = `http://${shareURL}`}>
+            <WriteDiaryBtn
+              onClick={() => (window.location.href = `http://${shareURL}`)}>
               작성하기 <DiaryWritePenIcon src={DiaryWritePen} />
             </WriteDiaryBtn>
 

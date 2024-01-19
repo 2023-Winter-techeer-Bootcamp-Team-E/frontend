@@ -1,4 +1,3 @@
-// CalendarPage.jsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
@@ -50,6 +49,7 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
             setDiaryDay={setDiaryDay}
             shareURL={shareURL} 
             setShareURL={setShareURL} 
+
           />
         </WrapperDateNotification>
       </PageFrame>

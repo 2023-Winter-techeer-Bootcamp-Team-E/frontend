@@ -1,4 +1,3 @@
-// Calendar.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { baseInstance } from '../../api/config.js';
@@ -22,9 +21,7 @@ import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
 import DiaryEditIcon from '../../assets/img/Calendar/DiaryEditIcon.png';
-
 const getFormattedDate = (date, formatStr = 'd') => format(date, formatStr);
-
 const RenderDays = () => {
   const daysOfWeek = [
     'SUNDAY',
@@ -35,7 +32,6 @@ const RenderDays = () => {
     'FRIDAY',
     'SATURDAY',
   ];
-
   return (
     <div className="days row">
       {daysOfWeek.map((day, index) => (
@@ -46,7 +42,6 @@ const RenderDays = () => {
     </div>
   );
 };
-
 const RenderCells = ({
   currentMonth,
   today,
@@ -56,17 +51,14 @@ const RenderCells = ({
   setDiarySettingPage,
   diaryInfoArray,
   diaryDay,
-
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
-
   const isDateInMonth = (date) => isSameMonth(date, monthStart);
   const isDateSelected = (date) => isSameDay(date, selectedDate);
   const isDateToday = (date) => isSameDay(date, today);
-
   const generateDateCell = (day) => {
     const formattedDate = getFormattedDate(day);
     const isFutureDate = isAfter(day, new Date());
@@ -74,11 +66,9 @@ const RenderCells = ({
     const isNextMonth = isAfter(day, endOfMonth(currentMonth));
     const shouldShowDiaryBtn =
       !isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day);
-  
     const diaryInfo = diaryInfoArray.find(
       (diary) => diary.day === formattedDate,
     );
-  
     return (
       <div
         className={`bodycol cell ${
@@ -133,46 +123,37 @@ const RenderCells = ({
               alt="Go to Diary"
               onClick={() => {
                 console.log('GoToShareURLBtn clicked');
-                onDateClick(day); 
+                onDateClick(day);
               }}
             />
           ))}
-
       </div>
     );
   };
-
   const generateDateRow = (startDay) => {
     const days = [];
     let day = startDay;
-
     for (let i = 0; i < 7; i++) {
       days.push(generateDateCell(day));
       day = addDays(day, 1);
     }
-
     return (
       <div className="bodyrow" key={startDay}>
         {days}
       </div>
     );
   };
-
   const generateCalendarRows = () => {
     const rows = [];
     let startDay = startDate;
-
     while (startDay <= endDate) {
       rows.push(generateDateRow(startDay));
       startDay = addDays(startDay, 7);
     }
-
     return rows;
   };
-
   return <div className="calendarbody">{generateCalendarRows()}</div>;
 };
-
 const Calendar = ({
   list,
   setDiarySettingPage,
@@ -180,25 +161,22 @@ const Calendar = ({
   setDiaryDay,
   diaryDay,
   shareURL,
-  setShareURL
+  setShareURL,
 }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [diaryData, setDiaryData] = useState([]);
-
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
   const today = new Date();
   const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
-  
-  //일기 조회 
+  //일기 조회
   const createDiary = async () => {
     try {
       const response = await baseInstance.get('/diaries/link', {
         params: { day: `${diaryDay}` },
       });
-  
       if (response.status === 200) {
-        setShareURL(response.data.sns_link); 
+        setShareURL(response.data.sns_link);
         setDiarySettingPage(3); // 페이지 변경
         console.log(shareURL);
       } else {
@@ -215,11 +193,7 @@ const Calendar = ({
     console.log(day);
     createDiary();
   };
-
- 
-
   const [diaryInfoArray, setDiaryInfoArray] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       const yearMonth = format(currentMonth, 'yyyy-MM');
@@ -230,13 +204,11 @@ const Calendar = ({
         if (response.data) {
           console.log(`${yearMonth} 달력 조회 성공!`);
           setDiaryData(response.data.diaries);
-
           // Extracting day and is_expiry values and updating diaryInfoArray state
           const updatedDiaryInfoArray = response.data.diaries.map((diary) => ({
             day: diary.day,
             isExpiry: diary.is_expiry,
           }));
-
           setDiaryInfoArray(updatedDiaryInfoArray);
         }
       } catch (error) {
@@ -244,10 +216,8 @@ const Calendar = ({
         setDiaryInfoArray([]);
       }
     };
-
     fetchData();
   }, [currentMonth]);
-
   return (
     <div className="listcontainer">
       <div className="calendar">
@@ -282,5 +252,4 @@ const Calendar = ({
     </div>
   );
 };
-
 export default Calendar;
