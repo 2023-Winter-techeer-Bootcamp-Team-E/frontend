@@ -4,7 +4,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import { useNavigate } from 'react-router-dom';
 import './DateNotification.css';
-import axios from 'axios';
 import { baseInstance } from '../../api/config';
 
 // 이미지 import
@@ -19,7 +18,7 @@ import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
 import SelectImgBtn from '../../assets/img/SelectImgBtn.png';
 import MaskingTape1 from '../../assets/img/MaskingTape1.png';
 import MaskingTape2 from '../../assets/img/MaskingTape2.png';
-import BackBtn from '../../assets/img/BackBtn.png';
+// import BackBtn from '../../assets/img/BackBtn.png';
 import DiaryWritePen from '../../assets/img/DiaryWritePen.png';
 import RightNotificationImgLogo from '../../assets/img/RightNotificationImgLogo.png';
 import RightNotificationImgBubble from '../../assets/img/RightNotificationImgBubble.png';
@@ -42,7 +41,6 @@ const DateNotification = ({
   // const[diaryYear, setDiaryYear] = useState(2024);
   // const [shareURL, setShareURL] = useState(null);
   const [diaryId, setDiaryId] = useState(null);
-
 
   const diarySettingRef = useRef(null);
   const maxInnerPaper = 6; //속지 종류 수
@@ -134,31 +132,27 @@ const DateNotification = ({
 
   const createDiary = async () => {
     try {
-      const response = await baseInstance.post(
-        '/diaries/',
-        {
-          day: `${diaryDay}`,
-          diary_bg_id: pageNum,
-        },
-      );
-      if ( response.status === 200) {
+      const response = await baseInstance.post('/diaries/', {
+        day: `${diaryDay}`,
+        diary_bg_id: pageNum,
+      });
+      if (response.status === 200) {
         console.log('일기장 생성 성공');
         setShareURL(response.data.sns_link); // sns_link를 state에 저장
         setDiaryId(response.data.diary_id); //diary_id를 state에 저장
         setDiarySettingPage(3); // 페이지 변경
-    } else {
-      console.log('일기장 생성 실패');
+      } else {
+        console.log('일기장 생성 실패');
+      }
+    } catch (error) {
+      console.error('API 호출 중 오류 발생 : ', error);
     }
-  } catch (error) {
-    console.error('API 호출 중 오류 발생 : ', error);
-  }
-};
- 
+  };
+
   const renderDiarySettingPage = () => {
     switch (diarySettingPage) {
-    case 1:
-    return (
-    
+      case 1:
+        return (
           <DiarySettingWindow>
             <DiarySettingImgLogo src={RightNotificationImgLogo} />
             <DiarySettingImgBubble src={RightNotificationImgBubble} />
@@ -190,7 +184,7 @@ const DateNotification = ({
       case 3:
         return (
           <DiarySettingWindow>
-            <BackButton src={BackBtn} onClick={() => setDiarySettingPage(2)} />
+            {/* <BackButton src={BackBtn} onClick={() => setDiarySettingPage(2)} /> */}
 
             <SelectDateText2>
               <div>
@@ -207,8 +201,6 @@ const DateNotification = ({
               onClick={() => (window.location.href = `http://${shareURL}`)}>
               작성하기 <DiaryWritePenIcon src={DiaryWritePen} />
             </WriteDiaryBtn>
-
-
           </DiarySettingWindow>
         );
       default:
@@ -300,10 +292,10 @@ const NotifyText = styled.div`
 
 const SelectDateText = styled.p`
   position: absolute;
-  margin-top: 4.69rem;
+  margin-top: 5.5rem;
   color: #2c199f;
-  font-family: Inter;
-  font-size: 1rem;
+  font-family: 'mong';
+  font-size: 1.5rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -314,8 +306,8 @@ const SelectInnerPaperText = styled.p`
   position: absolute;
   margin-top: 8.75rem;
   color: #9f9f9f;
-  font-family: Inter;
-  font-size: 0.75rem;
+  font-family: 'mong';
+  font-size: 1rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -390,11 +382,8 @@ const CheckBtn = styled.div`
   align-items: center;
 
   color: #fff;
-  font-family: Arial Black;
+  font-family: 'bmjua';
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
   &:hover {
@@ -421,15 +410,12 @@ const SelectDateText2 = styled.p`
   position: absolute;
   margin-top: 6rem;
   color: #2c199f;
-  font-family: Inter;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-family: 'mong';
+  font-size: 1.5rem;
   left: 1.19rem;
 `;
 
-const ShareURL = styled.div`
+const ShareURL = styled.p`
   position: absolute;
   margin-top: 11rem;
   margin-right: 4rem;
@@ -445,10 +431,10 @@ const ShareURL = styled.div`
   color: #000;
   font-family: Inter;
   font-size: 0.75rem;
-  font-style: normal;
   font-weight: 400;
-  line-height: normal;
-  overflow: hidden;
+  white-space: nowrap; // 글자가 한 줄로 표시되도록
+  overflow: hidden; // 넘치는 부분을 감춤
+  text-overflow: ellipsis; // 넘치는 부분에 ... 표시
 `;
 
 const CopyBtn = styled.button`
@@ -462,8 +448,8 @@ const CopyBtn = styled.button`
   background: #cad9ff;
 
   color: #fff;
-  font-family: Inter;
-  font-size: 0.75rem;
+  font-family: 'bmjua';
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -490,11 +476,8 @@ const LetsWriteText = styled.p`
   align-items: center;
   justify-content: center;
 
-  font-family: Inter;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-family: 'mong';
+  font-size: 1.25rem;
 `;
 
 const WriteDiaryBtn = styled.div`
@@ -512,11 +495,8 @@ const WriteDiaryBtn = styled.div`
   align-items: center;
 
   color: #fff;
-  font-family: Inter;
+  font-family: 'bmjua';
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
   &:hover {
@@ -524,19 +504,19 @@ const WriteDiaryBtn = styled.div`
   }
 `;
 
-const BackButton = styled.img`
-  position: absolute;
-  margin-top: 1rem;
-  margin-right: 12rem;
-  width: 1.625rem;
-  height: 1.625rem;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out;
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
+// const BackButton = styled.img`
+//   position: absolute;
+//   margin-top: 1rem;
+//   margin-right: 12rem;
+//   width: 1.625rem;
+//   height: 1.625rem;
+//   flex-shrink: 0;
+//   cursor: pointer;
+//   transition: transform 0.3s ease-in-out;
+//   &:hover {
+//     transform: scale(1.1);
+//   }
+// `;
 
 const DiaryWritePenIcon = styled.img`
   position: absolute;

@@ -50,7 +50,6 @@ const RenderCells = ({
   onDateClick,
   setDiarySettingPage,
   diaryInfoArray,
-  diaryDay,
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
