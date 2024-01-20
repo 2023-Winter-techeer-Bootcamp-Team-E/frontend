@@ -9,6 +9,7 @@ import DHomeButton from '../components/DiaryPage/DHomeButton';
 import SaveButton from '../components/DiaryPage/SaveButton';
 import TextButton from '../components/DiaryPage/TextButton';
 
+
 import InnerImg from '../components/DiaryPage/InnerImg';
 
 function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
