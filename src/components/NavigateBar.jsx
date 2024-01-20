@@ -1,6 +1,8 @@
 //NavigateBar.jsx
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import Swal from 'sweetalert2';
 import bell from '../assets/img/NavigateBar_bell.png';
 import arrow from '../assets/img/NavigateBar_arrow.png';
 import ProfileMenu from './CalendarPage/ProfileMenu';
@@ -13,18 +15,36 @@ const NavigateBar = () => {
   const profMenuRef = useRef(null);
   const notifyMenuRef = useRef(null);
   const userInfoStore = useUserInfoStore();
-  const { userInfoList, addUserInfo } = userInfoStore;
+  const { userInfoList } = userInfoStore;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loggedInUserId = localStorage.getItem('loggedInUserId');
     const loggedInUserNickname = localStorage.getItem('loggedInUserNickname');
 
     if (loggedInUserId && loggedInUserNickname) {
+      // 기존 정보를 제거하고 새로운 정보를 추가
       userInfoStore.removeUserInfo(loggedInUserId);
       userInfoStore.addUserInfo(loggedInUserId, loggedInUserNickname);
     }
   }, [userInfoStore.addUserInfo]);
 
+  console.log(userInfoStore.userInfoList.length);
+  useEffect(() => {
+    if (userInfoStore.userInfoList.length === 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: '로그인이 필요합니다!',
+        text: '로그인을 하고 일기를 작성해 주세요! 😜',
+        confirmButtonText: '확인',
+        allowOutsideClick: false,
+      }).then(() => {
+        navigate('/login');
+      });
+    }
+  }, []);
+
+  // userInfoList 배열에서 첫 번째 사용자 정보를 가져옴
   const user =
     userInfoList.length > 0
       ? userInfoList[0]

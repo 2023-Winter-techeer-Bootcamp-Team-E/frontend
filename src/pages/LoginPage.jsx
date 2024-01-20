@@ -4,6 +4,7 @@ import { keyframes, css } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import useUserInfoStore from '../store/UserInfoStore';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import SignInBtn from '../components/SignIn_Up';
 import SmallSketchbook from '../components/SmallSketchbook';
 import sketbook from '../assets/img/HaruConnectingBook.png';
@@ -19,6 +20,21 @@ const LoginPage = () => {
   const [shake, setShake] = useState(false);
   const userInfoStore = useUserInfoStore();
   const navigate = useNavigate();
+  // 로그인 상태인 경우 /calendar 페이지로 자동 리다이렉트
+  useEffect(() => {
+    const loggedInUserId = localStorage.getItem('loggedInUserId');
+    const loggedInUserNickname = localStorage.getItem('loggedInUserNickname');
+
+    if (loggedInUserId && loggedInUserNickname) {
+      // 기존 정보를 제거하고 새로운 정보를 추가
+      userInfoStore.removeUserInfo(loggedInUserId);
+      userInfoStore.addUserInfo(loggedInUserId, loggedInUserNickname);
+    }
+  }, [userInfoStore.addUserInfo]);
+
+  if (userInfoStore.userInfoList.length > 0) {
+    navigate('/calendar');
+  }
 
   const handleIdChange = (e) => setId(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -36,11 +52,14 @@ const LoginPage = () => {
         userInfoStore.removeUserInfo(localStorage.getItem('loggedInUserId'));
 
         const { nickname } = response.data; // API 응답에서 nickname 추출
-
+        Swal.fire({
+          icon: 'success',
+          title: `환영합니다. ${nickname}님!`,
+          confirmButtonText: '확인',
+        });
         localStorage.setItem('loggedInUserId', id);
         localStorage.setItem('loggedInUserNickname', nickname);
         userInfoStore.addUserInfo(id, nickname); // nickname으로 업데이트
-
         navigate('/calendar');
         setWrongPwAlert('로그인 중...');
         setWrongPwAlertColor('#00A656');
