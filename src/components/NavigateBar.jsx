@@ -1,4 +1,3 @@
-//NavigateBar.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
@@ -17,6 +16,7 @@ const NavigateBar = () => {
   const userInfoStore = useUserInfoStore();
   const { userInfoList } = userInfoStore;
   const navigate = useNavigate();
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
 
   useEffect(() => {
     const loggedInUserId = localStorage.getItem('loggedInUserId');
@@ -27,11 +27,9 @@ const NavigateBar = () => {
       userInfoStore.removeUserInfo(loggedInUserId);
       userInfoStore.addUserInfo(loggedInUserId, loggedInUserNickname);
     }
-  }, [userInfoStore.addUserInfo]);
 
-  console.log(userInfoStore.userInfoList.length);
-  useEffect(() => {
-    if (userInfoStore.userInfoList.length === 0) {
+    // 화면이 처음 마운트될 때는 SweetAlert 창을 띄우지 않도록 추가
+    if (userInfoStore.userInfoList.length === 0 && showLoginAlert) {
       Swal.fire({
         icon: 'warning',
         title: '로그인이 필요합니다!',
@@ -42,6 +40,9 @@ const NavigateBar = () => {
         navigate('/login');
       });
     }
+  }, [userInfoStore.userInfoList.length, navigate, showLoginAlert]);
+  useEffect(() => {
+    setShowLoginAlert(true);
   }, []);
 
   // userInfoList 배열에서 첫 번째 사용자 정보를 가져옴
