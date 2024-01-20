@@ -38,16 +38,13 @@ const ImgSaveClick = () => {
     });
 };
 
-function Stickers({ onDelete, image, bounds, initialPosition }) {
+function Stickers({ onDelete, image, bounds }) {
   const [position, setPosition] = useState({
     width2: 100,
     height2: 100,
-    // top: initialPosition.y,
-    // left: initialPosition.x,
     top2: 100,
     left2: 100,
     rotate2: 0,
-    // initialPosition,
   });
 
   // eslint-disable-next-line no-unused-vars
@@ -74,23 +71,33 @@ function Stickers({ onDelete, image, bounds, initialPosition }) {
   };
 
   const handleDrag = (deltaX, deltaY) => {
-    // 현재 드래그 이동량을 출력합니다.
-    console.log('Drag delta:', deltaX, deltaY);
+    const boundsRect = bounds.current.getBoundingClientRect();
 
-    // 새로운 위치를 계산합니다.
-    const newPosition = {
-      top2: position.top2 + deltaY,
-      left2: position.left2 + deltaX,
+    // 범위를 확장합니다.
+    const expandedBounds = {
+      left: boundsRect.left - 386,
+      top: boundsRect.top - 184,
+      right: boundsRect.right - 385,
+      bottom: boundsRect.bottom - 185,
     };
 
-    // 새 위치를 출력합니다.
-    console.log('New position:', newPosition);
+    let newTop = position.top2 + deltaY;
+    let newLeft = position.left2 + deltaX;
 
-    // 상태를 업데이트합니다.
+    // 확장된 범위 내에서만 이동하도록 조정합니다.
+    if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
+    if (newTop < expandedBounds.top) newTop = expandedBounds.top;
+    if (newLeft + position.width2 > expandedBounds.right) {
+      newLeft = expandedBounds.right - position.width2;
+    }
+    if (newTop + position.height2 > expandedBounds.bottom) {
+      newTop = expandedBounds.bottom - position.height2;
+    }
+
     setPosition((prevState) => ({
       ...prevState,
-      top2: position.top2 + deltaY,
-      left2: position.left2 + deltaX,
+      top2: newTop,
+      left2: newLeft,
     }));
   };
 
@@ -133,26 +140,15 @@ function Stickers({ onDelete, image, bounds, initialPosition }) {
         />
         <ResizableRect
           style={{ zIndex: 1000 }}
-          bounds={bounds.current}
           left={position.left2}
           top={position.top2}
           width={position.width2}
           height={position.height2}
           rotateAngle={position.rotate2}
-          // minWidth={100} // 최소크기
-          // aspectRatio={false}
-          // minHeight={100}
           zoomable="n, w, s, e, nw, ne, se, sw"
-          // rotatable={true}
-          // onRotateStart={this.handleRotateStart}
           onRotate={handleRotate}
-          // onRotateEnd={this.handleRotateEnd}
-          // onResizeStart={this.handleResizeStart}
           onResize={handleResize}
-          // onResizeEnd={this.handleUp}
-          // onDragStart={this.handleDragStart}
           onDrag={handleDrag}
-          // onDragEnd={this.handleDragEnd}
         />
       </div>
     </>
