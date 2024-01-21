@@ -50,7 +50,6 @@ const RenderCells = ({
   onDateClick,
   setDiarySettingPage,
   diaryInfoArray,
-  diaryDay,
 }) => {
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -73,7 +72,7 @@ const RenderCells = ({
       <div
         className={`bodycol cell ${
           !isDateInMonth(day)
-            ? 'out-of-month'
+            ? 'not-valid'
             : isDateSelected(day)
               ? 'selected'
               : isDateToday(day)
