@@ -165,7 +165,10 @@ const DateNotification = ({
         return (
           <DiarySettingWindow>
             <SelectDateText>
-              {diaryMonth}월 {diaryDay}일 일기를 작성해요!
+              <span className="writeDiaryDate">
+                {diaryMonth}월 {diaryDay}일{' '}
+              </span>
+              일기를 작성해요!
             </SelectDateText>
             <SelectInnerPaperText>
               일기 배경지를 선택해 주세요
@@ -293,7 +296,7 @@ const NotifyText = styled.div`
 const SelectDateText = styled.p`
   position: absolute;
   margin-top: 5.5rem;
-  color: #2c199f;
+  color: #000000;
   font-family: 'mong';
   font-size: 1.5rem;
   font-style: normal;
@@ -305,9 +308,9 @@ const SelectDateText = styled.p`
 const SelectInnerPaperText = styled.p`
   position: absolute;
   margin-top: 8.75rem;
-  color: #9f9f9f;
+  color: #bbb;
   font-family: 'mong';
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

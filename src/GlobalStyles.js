@@ -15,6 +15,13 @@ const GlobalStyles = createGlobalStyle`
         font-size: 0.74rem;
         vertical-align: baseline;
     }
+    img, div {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
     body{
         line-height: 1;
         font-family: 'Noto Sans KR', sans-serif;

@@ -100,9 +100,10 @@ const slideUp = keyframes`
 const StyledPapers = styled.img`
   position: absolute;
   width: 111.05256rem;
-  height: 70.87131rem;
-  left: -1.3rem;
-  top: -13rem;
+  height: 60.87131rem;
+
+  left: 0rem;
+  top: -3rem;
   z-index: 1;
   animation: ${slideUp} 0.5s ease-out;
 `;

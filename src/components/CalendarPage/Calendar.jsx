@@ -72,7 +72,7 @@ const RenderCells = ({
       <div
         className={`bodycol cell ${
           !isDateInMonth(day)
-            ? 'out-of-month'
+            ? 'not-valid'
             : isDateSelected(day)
               ? 'selected'
               : isDateToday(day)

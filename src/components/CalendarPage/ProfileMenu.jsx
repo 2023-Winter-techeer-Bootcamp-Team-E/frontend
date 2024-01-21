@@ -64,108 +64,102 @@ function ProfileMenu({
   };
   return (
     <ProfileMenuFrame>
-      <ProfileMenuTop>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 228 86"
-          fill="#C6F1FF">
-          <rect width="228" height="86" rx="20" fill="#C6F1FF" />
-          <rect y="30.0996" width="228" height="54.825" fill="#C6F1FF" />
-        </svg>
-      </ProfileMenuTop>
-      <UserId>{userId}</UserId>
       <UserName>{userName}</UserName>
-      <HaruConnectingTutorial onClick={handleHaruConnectingTutorialClick}>
-        하루 연결 도움말
-      </HaruConnectingTutorial>
-      <LogOut onClick={handleLogOutClick}>로그아웃</LogOut>
+      <UserId>{userId}</UserId>
+      <BottomFrame>
+        <HaruConnectingTutorial onClick={handleHaruConnectingTutorialClick}>
+          Tutorial
+        </HaruConnectingTutorial>
+        <LogOut onClick={handleLogOutClick}>Logout</LogOut>
+      </BottomFrame>
     </ProfileMenuFrame>
   );
 }
 const ProfileMenuFrame = styled.div`
-  width: 14.25rem;
-  height: 15.625rem;
-  flex-shrink: 0;
-  border-radius: 1.25rem;
-  background: #e8f7fc;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 12.75rem;
+  height: 10rem;
   display: flex;
+  flex-direction: column;
+  border-radius: 0.625rem;
+  background: #ebf2fc;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.2);
   justify-content: center;
 `;
-const ProfileMenuTop = styled.div`
-  position: absolute;
-  width: 14.25rem;
-  height: 5.375rem;
-  flex-shrink: 0;
-  z-index: 1;
-  svg {
-    width: 100%;
-    height: 100%;
-    fill: none;
-  }
+const UserName = styled.div`
+  z-index: 2;
+  margin-top: 1rem;
+  color: #000;
+  text-align: center;
+  font-family: 'bmjua';
+  font-size: 1rem;
 `;
 const UserId = styled.div`
-  position: absolute;
-  margin-top: 1.13rem;
-  left: 1.06rem;
   z-index: 2;
+  margin-top: 0.375rem;
   color: #aaa;
   text-align: center;
-  font-family: Arial Black;
+  font-family: 'bmjua';
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
 `;
-const UserName = styled.div`
-  position: absolute;
-  margin-top: 3.06rem;
-  left: 1.06rem;
-  z-index: 2;
-  color: #aaa;
-  text-align: center;
-  font-family: Arial Black;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
+const BottomFrame = styled.div`
+  display: flex;
+  margin-top: 1.675rem;
+  width: 100%;
+  height: 2.5rem;
+  justify-content: center;
+  flex-direction: row;
 `;
 const HaruConnectingTutorial = styled.div`
-  position: absolute;
-  margin-top: 6.94rem;
-  left: 1.06rem;
+  width: 5.375rem;
+  height: 2.5rem;
   z-index: 2;
+  margin: 0.375rem;
   color: #aaa;
   text-align: center;
-  font-family: Arial Black;
+  font-family: 'bmjua';
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.3s ease-in-out;
   &:hover {
     transform: scale(1.1);
   }
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.2)
+  );
 `;
 const LogOut = styled.div`
-  position: absolute;
-  margin-top: 9.88rem;
-  left: 1.06rem;
+  width: 5.375rem;
+  height: 2.5rem;
+  margin: 0.375rem;
   z-index: 2;
   color: #dd0000;
-  text-align: center;
-  font-family: Arial Black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'bmjua';
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
+  border-radius: 0.5rem;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.3s ease-in-out;
   &:hover {
     transform: scale(1.1);
   }
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.2)
+  );
 `;
 export default ProfileMenu;
