@@ -24,15 +24,12 @@ const MainBtn = styled.button`
 `;
 
 const PlaceText = styled.p`
-  position: absolute;
   color: #fff;
-  font-family: Arial Black;
+  font-family: 'bmjua';
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
-  left: 50%;
-  transform: translateX(-50%);
 `;
 
 export default SignIn_Up;
