@@ -1,102 +1,100 @@
 import React, { useRef, useEffect } from 'react';
 import { styled } from 'styled-components';
-import BackBtn from '../../assets/img/BackBtn.png';
 import DiaryWritePen from '../../assets/img/DiaryWritePen.png';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
+import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore'; 
+import { useNavigate } from 'react-router-dom';
+import { useDiaryURL } from '../../store/useDiaryURL';
+import { useDateNotificationStore } from '../../store/useDateNotificationStore';
 
-const Case3 = ({
-    diarySettingPage,
-    setDiarySettingPage,
-    diaryMonth,
-    setDiaryMonth,
-    diaryDay,
-    setShareURL,
-    shareURL,
-}) => {
+const Case3 = ({ diaryMonth, diaryDay }) => {
+  const { shareURL } = useDiaryURL();
+  const navigate = useNavigate();
+  //이거 나중에 웹소켓 링크로 변경?
+  const handleWriteDiaryClick = () => {
+    navigate('../diary', { state: { innerPageNum: InnerPageNum } });
+  };
 
-    //이거 나중에 웹소켓 링크로 변경?
-    const handleWriteDiaryClick = () => {
-        navigate('../diary', { state: { innerPageNum: InnerPageNum } });
-      };
+  useEffect(() => {
+    //shareURL이 잘 담겼는지 확인용입니당
+    console.log(shareURL);
+  }, [shareURL]);
 
-      const copyToClipboard = () => {
-        navigator.clipboard
-          .writeText(shareURL)
-          .then(() => {
-            Swal.fire({
-              toast: true,
-              position: 'top',
-              icon: 'success',
-              title: 'URL 복사 완료',
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: false,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer);
-                toast.addEventListener('mouseleave', Swal.resumeTimer);
-              },
-              html: '친구에게 공유해 보세요!',
-            });
-          })
-          .catch((error) => {
-            console.error('클립보드 복사 실패:', error);
-            Swal.fire({
-              position: 'top-end',
-              icon: 'error',
-              title: 'URL 복사 실패',
-              showConfirmButton: false,
-              timer: 3000,
-              timerProgressBar: false,
-              didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer);
-                toast.addEventListener('mouseleave', Swal.resumeTimer);
-              },
-            });
-          });
-      };
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(shareURL)
+      .then(() => {
+        Swal.fire({
+          toast: true,
+          position: 'top',
+          icon: 'success',
+          title: 'URL 복사 완료',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: false,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+          html: '친구에게 공유해 보세요!',
+        });
+      })
+      .catch((error) => {
+        console.error('클립보드 복사 실패:', error);
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'URL 복사 실패',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: false,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+        });
+      });
+  };
 
   const diarySettingRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
       // diarySettingRef가 존재하고 클릭된 요소가 ref 밖에 있다면 실행
-      if (diarySettingRef.current && !diarySettingRef.current.contains(event.target)) {
+      if (
+        diarySettingRef.current &&
+        !diarySettingRef.current.contains(event.target)
+      ) {
         useDateNotificationStore.getState().resetPage();
       }
     }
-  
-  document.addEventListener('mousedown', handleClickOutside);
-  return () => {
-    document.removeEventListener('mousedown', handleClickOutside);
-  };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [diarySettingRef]);
-  
-      
 
   return (
-  <RightStickerContainer ref={diarySettingRef}>
-    <DiarySettingWindow >
+    <RightStickerContainer ref={diarySettingRef}>
+      <DiarySettingWindow>
+        <SelectDateText2>
+          <div>
+            {diaryMonth}월 {diaryDay}일 일기를
+          </div>
+          <div>친구들에게 공유해 봐요!</div>
+        </SelectDateText2>
 
-    <SelectDateText2>
-      <div>
-        {diaryMonth}월 {diaryDay}일 일기를
-      </div>
-      <div>친구들에게 공유해 봐요!</div>
-    </SelectDateText2>
-
-    <ShareURL>{shareURL}</ShareURL>
-    <CopyBtn onClick={copyToClipboard}>복사</CopyBtn>
-    <Line />
-    <LetsWriteText>일기를 작성하러 가볼까요?</LetsWriteText>
-    <WriteDiaryBtn
-    onClick={handleWriteDiaryClick}>
-     {/* onClick={() => (window.location.href = `http://${shareURL}`)}> */}
-      작성하기 <DiaryWritePenIcon src={DiaryWritePen} />
-    </WriteDiaryBtn>
-  </DiarySettingWindow>
-  </RightStickerContainer>
+        <ShareURL>{shareURL}</ShareURL>
+        <CopyBtn onClick={copyToClipboard}>복사</CopyBtn>
+        <Line />
+        <LetsWriteText>일기를 작성하러 가볼까요?</LetsWriteText>
+        <WriteDiaryBtn onClick={handleWriteDiaryClick}>
+          {/* onClick={() => (window.location.href = `http://${shareURL}`)}> */}
+          작성하기 <DiaryWritePenIcon src={DiaryWritePen} />
+        </WriteDiaryBtn>
+      </DiarySettingWindow>
+    </RightStickerContainer>
   );
 };
 

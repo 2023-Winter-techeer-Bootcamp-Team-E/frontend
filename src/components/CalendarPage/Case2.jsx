@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import './DateNotification.css';
-import axios from 'axios';
 import { baseInstance } from '../../api/config';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore'; 
+import { useDateNotificationStore } from '../../store/useDateNotificationStore';
+import { useDiaryURL } from '../../store/useDiaryURL';
 import MaskingTape1 from '../../assets/img/MaskingTape1.png';
 import MaskingTape2 from '../../assets/img/MaskingTape2.png';
 import SelectImgBtn from '../../assets/img/SelectImgBtn.png';
@@ -14,128 +14,119 @@ import InnerImg4 from '../../assets/img/InnerImg/SelectInnerImg4.png';
 import InnerImg5 from '../../assets/img/InnerImg/SelectInnerImg5.png';
 import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
 
-function Case2({
-    diaryMonth,
-    setDiaryMonth,
-    diaryDay,
-    // setShareURL,
-  }) {
+function Case2({ diaryMonth, diaryDay }) {
+  const [inpageNum, setinPageNum] = useState(1);
+  const { shareURL, setShareURL } = useDiaryURL();
+  const { page, setPage } = useDateNotificationStore();
+  const diarySettingRef = useRef(null);
+  const maxInnerPaper = 6;
 
-const { page, setPage } = useDateNotificationStore();
-const [diaryId, setDiaryId] = useState(null);
-const [inpageNum,setinPageNum] =useState(1);
-const [shareURL,setShareURL] = useState('');
-const [pageNum, setPageNum] = useState(1);
-//page: 오른쪽 그 친구 1,2,3번
-//pageNum: 배경지 넘버
-
-
-const diarySettingRef = useRef(null);
-const maxInnerPaper = 6; //속지 종류 수
-
-//일기생성
-const createDiary = async () => {
-  try {
-    const response = await baseInstance.post(
-      '/diaries/',
-      {
+  //일기생성
+  const createDiary = async () => {
+    try {
+      const response = await baseInstance.post('/diaries/', {
         day: `${diaryDay}`,
-        diary_bg_id: pageNum,
-      },
-    );
-    if (response.status === 200) {
-      console.log('일기장 생성 성공');
-      setShareURL(response.data.sns_link);
-      setPageNum(response.data.diary_bg_id);
-      useDateNotificationStore.setState({ page: 3});
-      // console.log('page', useDateNotificationStore.getState().page);
-      // console.log('shareURL', response.data.sns_link);
-      // console.log('pageNum: ', response.data.diary_bg_id);
-      console.log('page', useDateNotificationStore.getState().page);
-      console.log('shareURL', shareURL);
-      console.log('pageNum: ', pageNum);
-    } else {
-      console.log('일기장 생성 실패');
+        diary_bg_id: inpageNum,
+      });
+      if (response.status === 200) {
+        console.log('일기장 생성 성공');
+        setShareURL(response.data.sns_link);
+        setPage(3);
+        console.log(
+          'DateNotification page',
+          useDateNotificationStore.getState().page,
+          '페이지로 넘어감',
+        );
+        console.log('background Num: ', response.data.diary_bg_id);
+      } else {
+        console.log('일기장 생성 실패');
+      }
+    } catch (error) {
+      console.error('API 호출 중 오류 발생 : ', error);
     }
-  } catch (error) {
-    console.error('API 호출 중 오류 발생 : ', error);
-  }
-};
+  };
 
-const PageNumSub = () => {
-  if (inpageNum > 1) {
-    setinPageNum((inpageNum) => inpageNum - 1); // 이전 상태를 가져와서 변경
-  }
-};
+  const PageNumSub = () => {
+    if (inpageNum > 1) {
+      setinPageNum((inpageNum) => inpageNum - 1); // 이전 상태를 가져와서 변경
+    }
+  };
 
-const PageNumAdd = () => {
-if (inpageNum < maxInnerPaper) {
-  setinPageNum((inpageNum) => inpageNum + 1); // 이전 상태를 가져와서 변경
-  }
-};
+  const PageNumAdd = () => {
+    if (inpageNum < maxInnerPaper) {
+      setinPageNum((inpageNum) => inpageNum + 1); // 이전 상태를 가져와서 변경
+    }
+  };
 
-const RotateImg = (inpageNum) => {
-  switch (inpageNum) {
+  const RotateImg = (inpageNum) => {
+    switch (inpageNum) {
       case 1:
-      return <InnerImg src={InnerImg1} />;
+        return <InnerImg src={InnerImg1} />;
       case 2:
-      return <InnerImg src={InnerImg2} />;
+        return <InnerImg src={InnerImg2} />;
       case 3:
-      return <InnerImg src={InnerImg3} />;
+        return <InnerImg src={InnerImg3} />;
       case 4:
-      return <InnerImg src={InnerImg4} />;
+        return <InnerImg src={InnerImg4} />;
       case 5:
-      return <InnerImg src={InnerImg5} />;
+        return <InnerImg src={InnerImg5} />;
       case 6:
-      return <InnerImg src={InnerImg6} />;
+        return <InnerImg src={InnerImg6} />;
       default:
-      return null;
-  }
-};
-
-
-useEffect(() => {
-  function handleClickOutside(event) {
-    if (diarySettingRef.current && !diarySettingRef.current.contains(event.target)) {
-      useDateNotificationStore.getState().resetPage();
+        return null;
     }
-  }
+  };
 
-document.addEventListener('mousedown', handleClickOutside);
-return () => {
-  document.removeEventListener('mousedown', handleClickOutside);
-};
-}, [diarySettingRef]);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        diarySettingRef.current &&
+        !diarySettingRef.current.contains(event.target)
+      ) {
+        useDateNotificationStore.getState().resetPage();
+      }
+    }
 
-return (
-  <RightStickerContainer ref={diarySettingRef}>
-    <DiarySettingWindow >
-    <SelectDateText>
-        {diaryMonth}월 {diaryDay}일 일기를 작성해요!
-    </SelectDateText>
-    <SelectInnerPaperText>
-        일기 배경지를 선택해 주세요
-    </SelectInnerPaperText>
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [diarySettingRef]);
 
-    <TopMaskingTape src={MaskingTape1} />
-    {RotateImg(inpageNum)}
-    <BottomMaskingTape src={MaskingTape2} />
+  return (
+    <RightStickerContainer ref={diarySettingRef}>
+      <DiarySettingWindow>
+        <SelectDateText>
+          {diaryMonth}월 {diaryDay}일 일기를 작성해요!
+        </SelectDateText>
+        <SelectInnerPaperText>일기 배경지를 선택해 주세요</SelectInnerPaperText>
 
-    <SelectImgLeftBtn src={SelectImgBtn} 
-    onClick={()=> {
-      PageNumSub()
-      }} />
-    <SelectImgRightBtn src={SelectImgBtn} 
-    onClick={() => {
-      PageNumAdd()
-    }} />
+        <TopMaskingTape src={MaskingTape1} />
+        {RotateImg(inpageNum)}
+        <BottomMaskingTape src={MaskingTape2} />
 
-    <CheckBtn onClick={() => {
-            createDiary()
-            }}>확인</CheckBtn>
-    </DiarySettingWindow>
+        <SelectImgLeftBtn
+          src={SelectImgBtn}
+          onClick={() => {
+            PageNumSub();
+          }}
+        />
+        <SelectImgRightBtn
+          src={SelectImgBtn}
+          onClick={() => {
+            PageNumAdd();
+          }}
+        />
+
+        <CheckBtn
+          onClick={() => {
+            createDiary();
+          }}>
+          확인
+        </CheckBtn>
+      </DiarySettingWindow>
     </RightStickerContainer>
-);
+  );
 }
 
 export default Case2;
@@ -147,7 +138,7 @@ const RightStickerContainer = styled.div`
   background: #e7eef9;
 `;
 
-  const InnerImg = styled.img`
+const InnerImg = styled.img`
   position: absolute;
   width: 12.3125rem;
   height: 18.9375rem;
@@ -156,7 +147,7 @@ const RightStickerContainer = styled.div`
   z-index: 2;
 `;
 
-  const DiarySettingWindow = styled.div`
+const DiarySettingWindow = styled.div`
   width: 100%;
   height: 100%;
   display: flex;

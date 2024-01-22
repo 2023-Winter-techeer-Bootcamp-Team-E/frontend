@@ -2,28 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-import { useNavigate } from 'react-router-dom';
 import './DateNotification.css';
-import { baseInstance } from '../../api/config';
 
 // 이미지 import
 import Cloud1 from '../../assets/img/Cloud1.png';
 import Cloud2 from '../../assets/img/Cloud2.png';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore'; 
+import { useDateNotificationStore } from '../../store/useDateNotificationStore';
 import Case1 from './Case1';
 import Case2 from './Case2';
 import Case3 from './Case3';
 
 // DateNotification 컴포넌트 정의
-const DateNotification = ({
-  // diarySettingPage,
-  // setDiarySettingPage,
-  diaryMonth,
-  setDiaryMonth,
-  diaryDay,
-  setShareURL,
-  shareURL,
-}) => {
+const DateNotification = ({ diaryMonth, diaryDay, setShareURL, shareURL }) => {
   // 기타 코드 생략
 
   const { page, setPage } = useDateNotificationStore();
@@ -32,21 +22,23 @@ const DateNotification = ({
 
   const diarySettingRef = useRef(null);
 
- //diarySettingRef가 변경될 때마다 
+  //diarySettingRef가 변경될 때마다
   useEffect(() => {
     function handleClickOutside(event) {
       // diarySettingRef가 존재하고 클릭된 요소가 ref 밖에 있다면 실행
-      if (diarySettingRef.current && !diarySettingRef.current.contains(event.target)) {
+      if (
+        diarySettingRef.current &&
+        !diarySettingRef.current.contains(event.target)
+      ) {
         setDiarySettingPage(1);
       }
     }
 
-  document.addEventListener('mousedown', handleClickOutside);
-  return () => {
-    document.removeEventListener('mousedown', handleClickOutside);
-  };
-}, [diarySettingRef]);
-
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [diarySettingRef]);
 
   // 클립보드에 텍스트 복사하는 함수
   const copyToClipboard = () => {
@@ -87,46 +79,33 @@ const DateNotification = ({
       });
   };
 
-  const InnerPaperRotate = () => {
-    switch (inpageNum) {
-      case 1:
-        return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
-      case 2:
-        return <InnerPaperImg src={MainInnerImg2} ref={diaryRef} />;
-      case 3:
-        return <InnerPaperImg src={MainInnerImg3} ref={diaryRef} />;
-      case 4:
-        return <InnerPaperImg src={MainInnerImg4} ref={diaryRef} />;
-      case 5:
-        return <InnerPaperImg src={MainInnerImg5} ref={diaryRef} />;
-      case 6:
-        return <InnerPaperImg src={MainInnerImg6} ref={diaryRef} />;
-      default:
-        return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
-    }
-    };
-    
   return (
     <RightStickerContainer ref={diarySettingRef}>
       <StyledCloud1 src={Cloud1} alt="Cloud 1" />
       <StyledCloud2 src={Cloud2} alt="Cloud 2" />
-      {page === 1 && <Case1 
-      diaryMonth={diaryMonth}
-      diaryDay={diaryDay}
-      setShareURL={setShareURL}
-      />}
+      {page === 1 && (
+        <Case1
+          diaryMonth={diaryMonth}
+          diaryDay={diaryDay}
+          setShareURL={setShareURL}
+        />
+      )}
 
-      {page === 2 && <Case2 
-      diaryMonth={diaryMonth}
-      diaryDay={diaryDay}
-      setShareURL={setShareURL}
-      />}
+      {page === 2 && (
+        <Case2
+          diaryMonth={diaryMonth}
+          diaryDay={diaryDay}
+          setShareURL={setShareURL}
+        />
+      )}
 
-      {page === 3 && <Case3 
-      diaryMonth={diaryMonth}
-      diaryDay={diaryDay}
-      setShareURL={setShareURL}
-      />}
+      {page === 3 && (
+        <Case3
+          diaryMonth={diaryMonth}
+          diaryDay={diaryDay}
+          setShareURL={setShareURL}
+        />
+      )}
     </RightStickerContainer>
   );
 };
