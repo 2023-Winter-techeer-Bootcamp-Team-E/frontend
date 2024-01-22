@@ -1,18 +1,56 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import Swal from 'sweetalert2';
 import bell from '../assets/img/NavigateBar_bell.png';
 import arrow from '../assets/img/NavigateBar_arrow.png';
 import ProfileMenu from './CalendarPage/ProfileMenu';
 import NotificationMenu from './CalendarPage/NotificationMenu';
+import useUserInfoStore from '../store/UserInfoStore';
 
-const NavigateBar = ({
-  userName = 'NavigatgeBarUserNameNull',
-  userId = 'NavigateBarUserIdNull',
-}) => {
+const NavigateBar = () => {
   const [isProfMenuOpen, setIsProfMenuOpen] = useState(false);
   const [isNotifyMenuOpen, setIsNotifyMenuOpen] = useState(false);
   const profMenuRef = useRef(null);
   const notifyMenuRef = useRef(null);
+  const userInfoStore = useUserInfoStore();
+  const { userInfoList } = userInfoStore;
+  const navigate = useNavigate();
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+
+  useEffect(() => {
+    const loggedInUserId = localStorage.getItem('loggedInUserId');
+    const loggedInUserNickname = localStorage.getItem('loggedInUserNickname');
+
+    if (loggedInUserId && loggedInUserNickname) {
+      // 기존 정보를 제거하고 새로운 정보를 추가
+      userInfoStore.removeUserInfo(loggedInUserId);
+      userInfoStore.addUserInfo(loggedInUserId, loggedInUserNickname);
+    }
+
+    // 화면이 처음 마운트될 때는 SweetAlert 창을 띄우지 않도록 추가
+    if (userInfoStore.userInfoList.length === 0 && showLoginAlert) {
+      Swal.fire({
+        icon: 'warning',
+        title: '로그인이 필요합니다!',
+        text: '로그인을 하고 일기를 작성해 주세요! 😜',
+        confirmButtonText: '확인',
+        allowOutsideClick: false,
+      }).then(() => {
+        navigate('/login');
+      });
+    }
+  }, [userInfoStore.userInfoList.length, navigate, showLoginAlert]);
+  useEffect(() => {
+    setShowLoginAlert(true);
+  }, []);
+
+  // userInfoList 배열에서 첫 번째 사용자 정보를 가져옴
+  const user =
+    userInfoList.length > 0
+      ? userInfoList[0]
+      : { id: 'null', nickname: 'null' };
+  const { id, nickname } = user;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -59,7 +97,7 @@ const NavigateBar = ({
         isopen={isNotifyMenuOpen}
       />
       <ProfWrapper>
-        <ProfName>환영합니다. {userName}님</ProfName>
+        <ProfName>환영합니다. {nickname}님</ProfName>
         <ProfArrow
           src={arrow}
           onClick={handleProfArrowClick}
@@ -68,7 +106,7 @@ const NavigateBar = ({
       </ProfWrapper>
 
       <ProfileMenuWrapper ref={profMenuRef} isopen={isProfMenuOpen}>
-        <ProfileMenu userId={userId} userName={userName} />
+        <ProfileMenu userId={id} userName={nickname} />
       </ProfileMenuWrapper>
 
       <NotificationMenuWrapper ref={notifyMenuRef} isopen={isNotifyMenuOpen}>
@@ -144,8 +182,8 @@ const ProfWrapper = styled.div`
 
 const ProfName = styled.div`
   color: #fff;
-  font-family: Arial Black;
-  font-size: 1.5rem;
+  font-family: 'bmjua';
+  font-size: 1.625rem;
   font-style: normal;
   font-weight: 900;
   line-height: normal;

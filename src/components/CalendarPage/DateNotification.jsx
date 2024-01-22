@@ -4,7 +4,6 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import { useNavigate } from 'react-router-dom';
 import './DateNotification.css';
-import axios from 'axios';
 import { baseInstance } from '../../api/config';
 
 // 이미지 import
@@ -30,11 +29,6 @@ const DateNotification = ({
   const { page, setPage } = useDateNotificationStore();
   // const [InnerPageNum, setInnerPageNum] = useState(1);
   const [diarySettingPage, setDiarySettingPage] = useState(null);
-
-  // 날짜 설정 페이지를 클릭했을 때의 동작을 처리하는 함수
-  // const handleWriteDiaryClick = () => {
-  //   navigate('../diary', { state: { innerPageNum: InnerPageNum } });
-  // };
 
   const diarySettingRef = useRef(null);
 

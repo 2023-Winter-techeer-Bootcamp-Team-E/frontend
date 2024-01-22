@@ -1,16 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
-import 'sweetalert2/src/sweetalert2.scss';
-import axios from 'axios';  // axios 추가
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-
+import { baseInstance } from '../../api/config';
+import useUserInfoStore from '../../store/UserInfoStore';
 function ProfileMenu({
   userId = 'ProfileUserIdNull',
   userName = 'ProfileUserIdNull',
 }) {
   const navigate = useNavigate();
-
+  const userInfoStore = useUserInfoStore();
   const handleHaruConnectingTutorialClick = () => {
     navigate('/tutorial');
   };
@@ -21,27 +20,30 @@ function ProfileMenu({
       text: '로그아웃 후에는 다시 되돌릴 수 없습니다!',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
+      confirmButtonColor: '#3085D6',
       cancelButtonColor: '#d33',
       confirmButtonText: '네, 로그아웃합니다',
       cancelButtonText: '취소',
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios.post(
-            'http://127.0.0.1:8000/api/v1/members/logout/',
-            {},
-          );
-
+          const response = await baseInstance.post('/members/logout/', {});
+          // 여기서 로그아웃 성공 여부 확인
           if (response.data.code === 'A002' && response.status === 200) {
             Swal.fire({
               title: '로그아웃되었습니다!',
               text: '로그아웃이 성공적으로 처리되었습니다.',
               icon: 'success',
+            }).then(() => {
+              userInfoStore.removeUserInfo(
+                localStorage.getItem('loggedInUserId'),
+              );
+              localStorage.removeItem('loggedInUserId');
+              navigate('/'); // 여기서 네비게이션 호출
+              deleteCookie('sessionId'); // 쿠키 삭제 함수 호출
             });
-            navigate('/login');
           } else {
-            console.error('로그아웃 실패:', response.data.message);
+            // 로그아웃 실패 시 처리
             Swal.fire({
               title: '로그아웃 실패',
               text: '로그아웃 중에 문제가 발생했습니다.',
@@ -49,6 +51,7 @@ function ProfileMenu({
             });
           }
         } catch (error) {
+          // API 호출 중 오류 처리
           console.error('API 호출 중 오류 발생:', error);
           Swal.fire({
             title: '로그아웃 실패',
@@ -59,126 +62,104 @@ function ProfileMenu({
       }
     });
   };
-
   return (
     <ProfileMenuFrame>
-      <ProfileMenuTop>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 228 86"
-          fill="#C6F1FF">
-          <rect width="228" height="86" rx="20" fill="#C6F1FF" />
-          <rect y="30.0996" width="228" height="54.825" fill="#C6F1FF" />
-        </svg>
-      </ProfileMenuTop>
-
-      <UserId>{userId}</UserId>
-
       <UserName>{userName}</UserName>
-
-      <HaruConnectingTutorial onClick={handleHaruConnectingTutorialClick}>
-        하루 연결 도움말
-      </HaruConnectingTutorial>
-
-      <LogOut onClick={handleLogOutClick}>로그아웃</LogOut>
+      <UserId>{userId}</UserId>
+      <BottomFrame>
+        <HaruConnectingTutorial onClick={handleHaruConnectingTutorialClick}>
+          Tutorial
+        </HaruConnectingTutorial>
+        <LogOut onClick={handleLogOutClick}>Logout</LogOut>
+      </BottomFrame>
     </ProfileMenuFrame>
   );
 }
-
 const ProfileMenuFrame = styled.div`
-  width: 14.25rem;
-  height: 15.625rem;
-  flex-shrink: 0;
-  border-radius: 1.25rem;
-  background: #e8f7fc;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  width: 12.75rem;
+  height: 10rem;
   display: flex;
+  flex-direction: column;
+  border-radius: 0.625rem;
+  background: #ebf2fc;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.2);
   justify-content: center;
 `;
-
-const ProfileMenuTop = styled.div`
-  position: absolute;
-  width: 14.25rem;
-  height: 5.375rem;
-  flex-shrink: 0;
-  z-index: 1;
-  svg {
-    width: 100%;
-    height: 100%;
-    fill: none;
-  }
-`;
-
-const UserId = styled.div`
-  position: absolute;
-  margin-top: 1.13rem;
-  left: 1.06rem;
-  z-index: 2;
-
-  color: #aaa;
-  text-align: center;
-  font-family: Arial Black;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
-`;
-
 const UserName = styled.div`
-  position: absolute;
-  margin-top: 3.06rem;
-  left: 1.06rem;
   z-index: 2;
-
+  margin-top: 1rem;
+  color: #000;
+  text-align: center;
+  font-family: 'bmjua';
+  font-size: 1rem;
+`;
+const UserId = styled.div`
+  z-index: 2;
+  margin-top: 0.375rem;
   color: #aaa;
   text-align: center;
-  font-family: Arial Black;
+  font-family: 'bmjua';
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
 `;
-
+const BottomFrame = styled.div`
+  display: flex;
+  margin-top: 1.675rem;
+  width: 100%;
+  height: 2.5rem;
+  justify-content: center;
+  flex-direction: row;
+`;
 const HaruConnectingTutorial = styled.div`
-  position: absolute;
-  margin-top: 6.94rem;
-  left: 1.06rem;
+  width: 5.375rem;
+  height: 2.5rem;
   z-index: 2;
-
+  margin: 0.375rem;
   color: #aaa;
   text-align: center;
-  font-family: Arial Black;
+  font-family: 'bmjua';
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.3s ease-in-out;
   &:hover {
     transform: scale(1.1);
   }
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.2)
+  );
 `;
-
 const LogOut = styled.div`
-  position: absolute;
-  margin-top: 9.88rem;
-  left: 1.06rem;
+  width: 5.375rem;
+  height: 2.5rem;
+  margin: 0.375rem;
   z-index: 2;
-
   color: #dd0000;
-  text-align: center;
-  font-family: Arial Black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'bmjua';
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
+  border-radius: 0.5rem;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.3s ease-in-out;
   &:hover {
     transform: scale(1.1);
   }
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.2)
+  );
 `;
-
 export default ProfileMenu;

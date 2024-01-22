@@ -26,9 +26,6 @@ import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
 import DiaryEditIcon from '../../assets/img/Calendar/DiaryEditIcon.png';
-import Case3 from './Case3.jsx';
-import Case2 from './Case2.jsx';
-import Case1 from './Case1.jsx';
 import { useDateNotificationStore } from '../store/useDateNotificationStore.js';
 
 // 날짜를 형식에 맞게 포맷팅하는 함수를 정의합니다.
@@ -136,7 +133,7 @@ const RenderCells = ({
       <div
         className={`bodycol cell ${
           !isDateInMonth(day)
-            ? 'out-of-month'
+            ? 'not-valid'
             : isDateSelected(day)
               ? 'selected'
               : isDateToday(day)
