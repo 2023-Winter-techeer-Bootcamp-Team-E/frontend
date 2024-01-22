@@ -5,6 +5,10 @@ import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
 import Calendar from '../components/CalendarPage/Calendar';
+import DiaryPage from './DiaryPage';
+import { useDateNotificationStore } from '../store/useDateNotificationStore'; 
+import Case2 from '../components/CalendarPage/Case2';
+import Case1 from '../components/CalendarPage/Case1';
 
 function CalendarPage() {
   const [diarySettingPage, setDiarySettingPage] = useState(1);
@@ -47,9 +51,8 @@ function CalendarPage() {
             setDiaryMonth={setDiaryMonth}
             diaryDay={diaryDay}
             setDiaryDay={setDiaryDay}
-            shareURL={shareURL}
-            setShareURL={setShareURL}
-          />
+            shareURL={shareURL} 
+          />     
         </WrapperDateNotification>
       </PageFrame>
     </BackLayout>
