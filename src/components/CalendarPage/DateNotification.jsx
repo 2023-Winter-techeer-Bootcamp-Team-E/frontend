@@ -40,44 +40,6 @@ const DateNotification = ({ diaryMonth, diaryDay, setShareURL, shareURL }) => {
     };
   }, [diarySettingRef]);
 
-  // 클립보드에 텍스트 복사하는 함수
-  const copyToClipboard = () => {
-    navigator.clipboard
-      .writeText(shareURL)
-      .then(() => {
-        // 성공적으로 복사되었을 때의 알림
-        Swal.fire({
-          toast: true,
-          position: 'top',
-          icon: 'success',
-          title: 'URL 복사 완료',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: false,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer);
-            toast.addEventListener('mouseleave', Swal.resumeTimer);
-          },
-          html: '친구에게 공유해 보세요!',
-        });
-      })
-      .catch((error) => {
-        // 복사 실패 시의 알림
-        console.error('클립보드 복사 실패:', error);
-        Swal.fire({
-          position: 'top-end',
-          icon: 'error',
-          title: 'URL 복사 실패',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: false,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer);
-            toast.addEventListener('mouseleave', Swal.resumeTimer);
-          },
-        });
-      });
-  };
 
   return (
     <RightStickerContainer ref={diarySettingRef}>
