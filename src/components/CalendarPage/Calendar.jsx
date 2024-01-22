@@ -26,7 +26,7 @@ import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
 import DiaryEditIcon from '../../assets/img/Calendar/DiaryEditIcon.png';
-import { useDateNotificationStore } from '../store/useDateNotificationStore.js';
+import { useDateNotificationStore } from '../../store/useDateNotificationStore.js';
 
 // 날짜를 형식에 맞게 포맷팅하는 함수를 정의합니다.
 const getFormattedDate = (date, formatStr = 'd') => format(date, formatStr);

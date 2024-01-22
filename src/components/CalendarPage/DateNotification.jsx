@@ -9,7 +9,7 @@ import { baseInstance } from '../../api/config';
 // 이미지 import
 import Cloud1 from '../../assets/img/Cloud1.png';
 import Cloud2 from '../../assets/img/Cloud2.png';
-import { useDateNotificationStore } from '../store/useDateNotificationStore'; 
+import { useDateNotificationStore } from '../../store/useDateNotificationStore'; 
 import Case1 from './Case1';
 import Case2 from './Case2';
 import Case3 from './Case3';

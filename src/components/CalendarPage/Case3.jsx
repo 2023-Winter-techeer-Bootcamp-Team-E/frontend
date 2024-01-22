@@ -4,7 +4,7 @@ import BackBtn from '../../assets/img/BackBtn.png';
 import DiaryWritePen from '../../assets/img/DiaryWritePen.png';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-import { useDateNotificationStore } from '../store/useDateNotificationStore'; 
+import { useDateNotificationStore } from '../../store/useDateNotificationStore'; 
 
 const Case3 = ({
     diarySettingPage,

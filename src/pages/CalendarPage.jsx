@@ -6,7 +6,7 @@ import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
 import Calendar from '../components/CalendarPage/Calendar';
 import DiaryPage from './DiaryPage';
-import { useDateNotificationStore } from '../components/store/useDateNotificationStore'; 
+import { useDateNotificationStore } from '../store/useDateNotificationStore'; 
 import Case2 from '../components/CalendarPage/Case2';
 import Case1 from '../components/CalendarPage/Case1';
 

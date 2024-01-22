@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import './DateNotification.css';
 import axios from 'axios';
 import { baseInstance } from '../../api/config';
-import { useDateNotificationStore } from '../store/useDateNotificationStore'; 
+import { useDateNotificationStore } from '../../store/useDateNotificationStore'; 
 import MaskingTape1 from '../../assets/img/MaskingTape1.png';
 import MaskingTape2 from '../../assets/img/MaskingTape2.png';
 import SelectImgBtn from '../../assets/img/SelectImgBtn.png';

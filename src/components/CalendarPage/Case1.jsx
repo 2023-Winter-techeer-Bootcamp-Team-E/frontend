@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import './DateNotification.css';
-import { useDateNotificationStore } from '../store/useDateNotificationStore'; 
+import { useDateNotificationStore } from '../../store/useDateNotificationStore'; 
 import RightNotificationImgLogo from '../../assets/img/RightNotificationImgLogo.png';
 import RightNotificationImgBubble from '../../assets/img/RightNotificationImgBubble.png';
 
