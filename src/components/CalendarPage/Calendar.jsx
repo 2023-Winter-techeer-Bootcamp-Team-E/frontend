@@ -74,40 +74,23 @@ const RenderCells = ({
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
 
-  //페이지 
   const page = useDateNotificationStore((state) => state.page);
-
-  // 주어진 날짜가 현재 월에 속하는지 확인하는 함수입니다.
   const isDateInMonth = (date) => isSameMonth(date, monthStart);
-
-  // 주어진 날짜가 선택된 날짜인지 확인하는 함수입니다.
   const isDateSelected = (date) => isSameDay(date, selectedDate);
-
-  // 주어진 날짜가 오늘인지 확인하는 함수입니다.
   const isDateToday = (date) => isSameDay(date, today);
-
-  // 날짜 셀을 생성하는 함수입니다.
   const generateDateCell = (day) => {
-    // 날짜를 형식에 맞게 포맷팅합니다.
+  
     const formattedDate = getFormattedDate(day);
-
-    // 선택된 날짜가 미래의 날짜인지 확인합니다.
-    const isFutureDate = isAfter(day, new Date());
-
-    // 선택된 날짜가 현재 월 이전의 날짜인지 확인합니다.
-    const isPastMonth = isBefore(day, startOfMonth(currentMonth));
-
-    // 선택된 날짜가 현재 월 이후의 날짜인지 확인합니다.
-    const isNextMonth = isAfter(day, endOfMonth(currentMonth));
-
-    // 다이어리 버튼을 표시해야 하는지 여부를 확인합니다.
-    const shouldShowDiaryBtn =
-      !isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day);
-
-    // 다이어리 정보를 찾습니다.
+  const isFutureDate = isAfter(day, new Date());
+  const isPastMonth = isBefore(day, startOfMonth(currentMonth));
+  const isNextMonth = isAfter(day, endOfMonth(currentMonth));
+ 
+  const shouldShowDiaryBtn =
+    !isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day);
+  
     const diaryInfo = diaryInfoArray.find(
-      (diary) => diary.day === formattedDate,
-    );
+    (diary) => diary.day === formattedDate,
+  );
 
   // 일기 조회 함수
   const readDiary = async () => {

@@ -8,8 +8,6 @@ import RightSticker from '../components/DiaryPage/RightSticker';
 import DHomeButton from '../components/DiaryPage/DHomeButton';
 import SaveButton from '../components/DiaryPage/SaveButton';
 import TextButton from '../components/DiaryPage/TextButton';
-
-
 import InnerImg from '../components/DiaryPage/InnerImg';
 
 function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
@@ -19,7 +17,6 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   const handleTextButtonClick = () => {
     setSelectedTextBox(true);
   };
-
   const handleStickerSelect = (image) => {
     setSelectedSticker(image); // 선택한 이미지 URL을 상태로 저장
   };
@@ -50,7 +47,6 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
         <WrapperSaveButton>
           <SaveButton />
         </WrapperSaveButton>
-        ƒ
         <WrapperBasicSticker>
           <BasicSticker onStickerSelect={handleStickerSelect} />
         </WrapperBasicSticker>
@@ -59,6 +55,7 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
     </BackLayout>
   );
 }
+
 const BackLayout = styled.div`
   position: absolute;
   top: 0;

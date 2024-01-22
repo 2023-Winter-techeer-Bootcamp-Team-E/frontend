@@ -13,11 +13,13 @@ import InnerImg3 from '../../assets/img/InnerImg/SelectInnerImg3.png';
 import InnerImg4 from '../../assets/img/InnerImg/SelectInnerImg4.png';
 import InnerImg5 from '../../assets/img/InnerImg/SelectInnerImg5.png';
 import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
+import { useInnerPage } from '../../store/useInnerPage';
 
 function Case2({ diaryMonth, diaryDay }) {
   const [inpageNum, setinPageNum] = useState(1);
   const { shareURL, setShareURL } = useDiaryURL();
   const { page, setPage } = useDateNotificationStore();
+  const { innerPage, setInnerPage } = useInnerPage();
   const diarySettingRef = useRef(null);
   const maxInnerPaper = 6;
 
@@ -31,9 +33,11 @@ function Case2({ diaryMonth, diaryDay }) {
       if (response.status === 200) {
         console.log('일기장 생성 성공');
         setShareURL(response.data.sns_link);
+        setInnerPage(response.data.diary_bg_id);
         setPage(3);
         console.log(
           'DateNotification page',
+          useInnerPage.getState().innerPage,
           useDateNotificationStore.getState().page,
           '페이지로 넘어감',
         );
