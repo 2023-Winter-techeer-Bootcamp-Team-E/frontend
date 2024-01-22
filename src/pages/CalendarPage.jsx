@@ -6,13 +6,15 @@ import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
 import Calendar from '../components/CalendarPage/Calendar';
 import DiaryPage from './DiaryPage';
+import { useDateNotificationStore } from '../components/store/useDateNotificationStore'; 
+import Case2 from '../components/CalendarPage/Case2';
+import Case1 from '../components/CalendarPage/Case1';
 
 function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
   const [diarySettingPage, setDiarySettingPage] = useState(1);
   const [shareURL, setShareURL] = useState("https://www.naver.com");
   const [diaryMonth, setDiaryMonth] = useState(0);
   const [diaryDay, setDiaryDay] = useState(0);
-  const currentDate = new Date();
 
   return (
     <BackLayout>
@@ -50,10 +52,7 @@ function CalendarPage({ userName = 'userNameNull', userId = 'userIdNull' }) {
             diaryDay={diaryDay}
             setDiaryDay={setDiaryDay}
             shareURL={shareURL} 
-            setShareURL={setShareURL} 
-
-          />
-          
+          />     
         </WrapperDateNotification>
       </PageFrame>
     </BackLayout>
