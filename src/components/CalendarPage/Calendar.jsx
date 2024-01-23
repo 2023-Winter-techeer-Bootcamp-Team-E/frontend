@@ -4,6 +4,7 @@ import { useDateNotificationStore } from '../../store/useDateNotificationStore';
 import { useDiaryURL } from '../../store/useDiaryURL';
 import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
 import useIconUpdate from '../../store/useIconUpdate';
+import { useNavigate } from 'react-router-dom';
 import {
   format,
   addMonths,
@@ -33,6 +34,7 @@ const Calendar = () => {
   const [diaryDay, setDiaryDay] = useState();
   const { setPage } = useDateNotificationStore.getState();
   const iconUpdate = useIconUpdate((state) => state.iconUpdate);
+  const navigate = useNavigate();
 
   const changeMonth = (modifier) =>
     setCurrentMonth((prevMonth) => modifier(prevMonth, 1));
@@ -96,7 +98,7 @@ const Calendar = () => {
 
   const RenderCells = () => {
     const startDate = startOfWeek(startOfMonth(currentMonth));
-    const endDate = endOfWeek(endOfMonth(currentMonth));
+    // const endDate = endOfWeek(endOfMonth(currentMonth));
 
     const isDateInMonth = (date) => isSameMonth(date, currentMonth);
     const isDateSelected = (date) => isSameDay(date, selectedDate);
@@ -179,7 +181,7 @@ const Calendar = () => {
               alt="Go to Diary"
               onClick={() => {
                 if (diaryInfo.isExpiry) {
-                  console.log('작성이 끝난 다이어리 조회(미완성)');
+                  navigate('../diary');
                 } else {
                   readDiary();
                 }
