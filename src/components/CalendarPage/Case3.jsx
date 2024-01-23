@@ -10,9 +10,9 @@ import { useDateNotificationStore } from '../../store/useDateNotificationStore';
 const Case3 = ({ diaryMonth, diaryDay }) => {
   const { shareURL } = useDiaryURL();
   const navigate = useNavigate();
-  //이거 나중에 웹소켓 링크로 변경?
+
   const handleWriteDiaryClick = () => {
-    navigate('../diary', { state: { innerPageNum: InnerPageNum } });
+    navigate('../diary');
   };
 
   useEffect(() => {
