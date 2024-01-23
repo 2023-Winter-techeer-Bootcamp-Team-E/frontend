@@ -1,34 +1,31 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { styled } from 'styled-components';
 import './DateNotification.css';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore'; 
 import RightNotificationImgLogo from '../../assets/img/RightNotificationImgLogo.png';
 import RightNotificationImgBubble from '../../assets/img/RightNotificationImgBubble.png';
 
-const Case1 = ({
-    
-}) => {
-    return (
-  <RightStickerContainer>
-        <DiarySettingWindow>
+const Case1 = ({}) => {
+  return (
+    <RightStickerContainer>
+      <DiarySettingWindow>
         <DiarySettingImgLogo src={RightNotificationImgLogo} />
         <DiarySettingImgBubble src={RightNotificationImgBubble} />
         <DiarySettingText>
           <div>친구들과 나의 특별한 순간을 작성할 날짜를 선택해주세요!</div>
         </DiarySettingText>
       </DiarySettingWindow>
-      </RightStickerContainer>
-    );
-  };
-  
-  const RightStickerContainer = styled.div`
+    </RightStickerContainer>
+  );
+};
+
+const RightStickerContainer = styled.div`
   width: 15.1875rem;
   height: 41.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
 `;
 
-  const DiarySettingWindow = styled.div`
+const DiarySettingWindow = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -74,4 +71,4 @@ const DiarySettingText = styled.div`
   margin-top: 11.12rem;
 `;
 
-  export default Case1;
+export default Case1;

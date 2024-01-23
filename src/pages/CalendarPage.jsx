@@ -5,14 +5,8 @@ import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
 import Calendar from '../components/CalendarPage/Calendar';
-import DiaryPage from './DiaryPage';
-import { useDateNotificationStore } from '../store/useDateNotificationStore'; 
-import Case2 from '../components/CalendarPage/Case2';
-import Case1 from '../components/CalendarPage/Case1';
 
 function CalendarPage() {
-  const [diarySettingPage, setDiarySettingPage] = useState(1);
-  const [shareURL, setShareURL] = useState('https://www.naver.com');
   const [diaryMonth, setDiaryMonth] = useState(0);
   const [diaryDay, setDiaryDay] = useState(0);
 
@@ -32,27 +26,11 @@ function CalendarPage() {
         </WrapperBasicSticker>
 
         <WrapperCalendar>
-          <Calendar
-            setDiarySettingPage={setDiarySettingPage}
-            diaryMonth={diaryMonth}
-            setDiaryMonth={setDiaryMonth}
-            diaryDay={diaryDay}
-            setDiaryDay={setDiaryDay}
-            setShareURL={setShareURL}
-            shareURL={shareURL}
-          />
+          <Calendar setDiaryMonth={setDiaryMonth} setDiaryDay={setDiaryDay} />
         </WrapperCalendar>
 
         <WrapperDateNotification>
-          <DateNotification
-            diarySettingPage={diarySettingPage}
-            setDiarySettingPage={setDiarySettingPage}
-            diaryMonth={diaryMonth}
-            setDiaryMonth={setDiaryMonth}
-            diaryDay={diaryDay}
-            setDiaryDay={setDiaryDay}
-            shareURL={shareURL} 
-          />     
+          <DateNotification diaryMonth={diaryMonth} diaryDay={diaryDay} />
         </WrapperDateNotification>
       </PageFrame>
     </BackLayout>

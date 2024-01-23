@@ -1,7 +1,10 @@
-//Calendar.jsx
+// Calendar.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { baseInstance } from '../../api/config.js';
+import { useNavigate } from 'react-router-dom';
+import { useDiaryURL } from '../../store/useDiaryURL';
+import { useDateNotificationStore } from '../../store/useDateNotificationStore';
+import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
 import {
   format,
   addMonths,
@@ -16,22 +19,15 @@ import {
   isAfter,
   isBefore,
 } from 'date-fns';
-
-// 캘린더 스타일을 정의하는 CSS 파일을 가져옵니다.
 import './Calendar.css';
-
-// 캘린더에 사용되는 이미지 파일들을 가져옵니다.
 import CalendarRightBtn from '../../assets/img/CalendarRightBtn.png';
 import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
 import DiaryEditIcon from '../../assets/img/Calendar/DiaryEditIcon.png';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore.js';
 
-// 날짜를 형식에 맞게 포맷팅하는 함수를 정의합니다.
 const getFormattedDate = (date, formatStr = 'd') => format(date, formatStr);
 
-// 주어진 날짜 배열을 토대로 요일을 렌더링하는 컴포넌트입니다.
 const RenderDays = () => {
   const daysOfWeek = [
     'SUNDAY',
@@ -45,7 +41,6 @@ const RenderDays = () => {
 
   return (
     <div className="days row">
-      {/* 각 요일을 표시합니다. */}
       {daysOfWeek.map((day, index) => (
         <div className="dayscol" key={index}>
           {day}
@@ -55,79 +50,57 @@ const RenderDays = () => {
   );
 };
 
-// 날짜 셀을 렌더링하는 컴포넌트입니다.
 const RenderCells = ({
   currentMonth,
   today,
-  list,
   selectedDate,
   onDateClick,
-  setDiarySettingPage,
   diaryInfoArray,
   diaryDay,
-  setShareURL,
-  setDiaryId,
 }) => {
-  // 현재 월의 시작일과 마지막일을 계산합니다.
-  const monthStart = startOfMonth(currentMonth);
-  const monthEnd = endOfMonth(monthStart);
-  const startDate = startOfWeek(monthStart);
-  const endDate = endOfWeek(monthEnd);
+  const startDate = startOfWeek(startOfMonth(currentMonth));
+  const endDate = endOfWeek(endOfMonth(currentMonth));
 
-  //페이지 
-  const page = useDateNotificationStore((state) => state.page);
-
-  // 주어진 날짜가 현재 월에 속하는지 확인하는 함수입니다.
-  const isDateInMonth = (date) => isSameMonth(date, monthStart);
-
-  // 주어진 날짜가 선택된 날짜인지 확인하는 함수입니다.
+  const isDateInMonth = (date) => isSameMonth(date, currentMonth);
   const isDateSelected = (date) => isSameDay(date, selectedDate);
-
-  // 주어진 날짜가 오늘인지 확인하는 함수입니다.
   const isDateToday = (date) => isSameDay(date, today);
 
-  // 날짜 셀을 생성하는 함수입니다.
   const generateDateCell = (day) => {
-    // 날짜를 형식에 맞게 포맷팅합니다.
     const formattedDate = getFormattedDate(day);
-
-    // 선택된 날짜가 미래의 날짜인지 확인합니다.
     const isFutureDate = isAfter(day, new Date());
-
-    // 선택된 날짜가 현재 월 이전의 날짜인지 확인합니다.
     const isPastMonth = isBefore(day, startOfMonth(currentMonth));
-
-    // 선택된 날짜가 현재 월 이후의 날짜인지 확인합니다.
     const isNextMonth = isAfter(day, endOfMonth(currentMonth));
-
-    // 다이어리 버튼을 표시해야 하는지 여부를 확인합니다.
     const shouldShowDiaryBtn =
       !isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day);
 
-    // 다이어리 정보를 찾습니다.
     const diaryInfo = diaryInfoArray.find(
       (diary) => diary.day === formattedDate,
     );
-
-  // 일기 조회 함수
-  const readDiary = async () => {
-    try {
-      const response = await baseInstance.get('/diaries/link', {
-        params: { day: `${diaryDay}` },
-      });
-      if (response.status === 200) {
-        setShareURL(response.data.sns_link);
-        setDiaryId(response.data.diary_id);
-        useDateNotificationStore.setState({ page: 3 });
-        console.log(useDateNotificationStore.getState().page);
-        console.log(page);
-      } else {
-        console.log('일기장 확인 실패');
+    const navigate = useNavigate();
+    const { shareURL, setShareURL } = useDiaryURL();
+    const readDiary = async () => {
+      try {
+        console.log('day :', diaryDay); // 이제 day 변수를 사용하도록 변경
+        const response = await baseInstance.get('/diaries/link', {
+          params: { day: `${diaryDay}` },
+        });
+        if (response.status === 200) {
+          setShareURL(response.data.sns_link);
+          useDateNotificationStore.setState({ page: 3 });
+          console.log(useDateNotificationStore.getState().page);
+        } else {
+          console.log('일기장 확인 실패');
+        }
+      } catch (error) {
+        console.error('API 호출 중 오류 발생 : ', error);
       }
-    } catch (error) {
-      console.error('API 호출 중 오류 발생 : ', error);
-    }
-  };
+    };
+
+    useEffect(() => {
+      if (diaryDay !== undefined) {
+        readDiary();
+      }
+    }, [diaryDay]);
 
     return (
       <div
@@ -142,68 +115,37 @@ const RenderCells = ({
         }`}
         key={day}
         onClick={() => onDateClick(day, shouldShowDiaryBtn)}>
-        {/* 날짜를 표시합니다. */}
         <span className="date">{formattedDate}</span>
 
-        {/* 해당 날짜에 속하는 다이어리 목록을 표시합니다. */}
-        {Array.isArray(list) &&
-          list
-            .filter(
-              (x) =>
-                new Date(x.diary_date).toDateString() === day.toDateString(),
-            )
-            .map((data, index) => (
-              <span key={index} className="listemoji">
-                {data.emoji}
-              </span>
-            ))}
-
-        
         {shouldShowDiaryBtn && !diaryInfo && (
-          <img    //일기작성
+          <img
             className="GoToSelectInnerPaperBtn"
             src={DiaryWriteIcon}
             alt="Go to Diary"
             onClick={() => {
               onDateClick(day);
               useDateNotificationStore.setState({ page: 2 });
-              console.log(useDateNotificationStore.getState().page);
-              console.log('clicked')
             }}
           />
         )}
 
-        {/* 다이어리 정보가 있고 유효한 날짜인 경우, 다이어리 뷰 또는 편집 버튼을 표시합니다. */}
-        {diaryInfo &&
-          !isFutureDate &&
-          !isPastMonth &&
-          !isNextMonth &&
-          (diaryInfo.isExpiry ? (
-            <img
-            //작성 완료 이미지
-              className="GoToShareURLBtn"
-              src={DiaryViewIcon}
-              alt="Go to Diary"
-              onClick={() => console.log('view 버튼 눌림')}
-            />
-          ) : (
-            <img
-            //작성중 이미지
-              className="GoToShareURLBtn"
-              src={DiaryEditIcon}
-              alt="Go to Diary"
-              onClick={() => {
-                console.log('GoToShareURLBtn clicked');
-                onDateClick(day);
+        {diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth && (
+          <img
+            className="GoToShareURLBtn"
+            src={diaryInfo.isExpiry ? DiaryViewIcon : DiaryEditIcon}
+            alt="Go to Diary"
+            onClick={() => {
+              // onDateClick(day);
+
+              if (diaryInfo.isExpiry) {
+                // isExpiry가 true이면 /diary 페이지로 이동
+                navigate('/diary');
+              } else {
                 readDiary();
-                <Case3 
-                diaryMonth={diaryMonth}
-                diaryDay={diaryDay}
-                setShareURL={setShareURL}
-                />
-              }}
-            />
-          ))}
+              }
+            }}
+          />
+        )}
       </div>
     );
   };
@@ -221,6 +163,7 @@ const RenderCells = ({
       </div>
     );
   };
+
   const generateCalendarRows = () => {
     const rows = [];
     let startDay = startDate;
@@ -230,46 +173,31 @@ const RenderCells = ({
     }
     return rows;
   };
+
   return <div className="calendarbody">{generateCalendarRows()}</div>;
 };
 
-// 캘린더 컴포넌트 정의
-const Calendar = ({
-  list,
-  setDiarySettingPage,
-  setDiaryMonth,
-  setDiaryDay,
-  diaryDay,
-  shareURL,
-  setShareURL,
-}) => {
-  // State 정의
+const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [diaryData, setDiaryData] = useState([]);
   const [diaryInfoArray, setDiaryInfoArray] = useState([]);
-  const pageNum = useDateNotificationStore((state) => state.page);
+  const [diaryDay, setDiaryDay] = useState();
+  const [diaryMonth, setDiaryMonth] = useState();
 
-  // 이전 달로 이동하는 함수
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
-
-  // 다음 달로 이동하는 함수
   const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
 
-
-
-  // 날짜를 클릭했을 때 실행되는 함수
   const onDateClick = (day) => {
-    // 선택된 날짜를 업데이트하고 해당 날짜의 월과 일을 설정합니다.
+    console.log('onDateClick : ', day);
     setSelectedDate(day);
-    setDiaryMonth(format(day, 'M'));
     setDiaryDay(format(day, 'd'));
-    console.log(day);
+    setDiaryMonth(format(day, 'M'));
   };
 
-  // 컴포넌트가 처음 마운트될 때와 currentMonth가 업데이트될 때 실행되는 useEffect
+  const { selectedMonth, selectedDay } = useSelectDateInfoStore.getState();
+
+  // 달력 데이터를 불러오는 useEffect 추가
   useEffect(() => {
-    // API를 통해 현재 월의 일기 데이터를 가져오는 함수
     const fetchData = async () => {
       const yearMonth = format(currentMonth, 'yyyy-MM');
       try {
@@ -278,13 +206,12 @@ const Calendar = ({
         );
         if (response.data) {
           console.log(`${yearMonth} 달력 조회 성공!`);
-          // 일기 데이터 및 일기 정보 배열 업데이트
-          setDiaryData(response.data.diaries);
-          const updatedDiaryInfoArray = response.data.diaries.map((diary) => ({
-            day: diary.day,
-            isExpiry: diary.is_expiry,
-          }));
-          setDiaryInfoArray(updatedDiaryInfoArray);
+          setDiaryInfoArray(
+            response.data.diaries.map((diary) => ({
+              day: diary.day,
+              isExpiry: diary.is_expiry,
+            })),
+          );
         }
       } catch (error) {
         console.log(`${yearMonth} 달력 조회 실패`);
@@ -292,55 +219,40 @@ const Calendar = ({
       }
     };
 
-    // fetchData 함수 호출
     fetchData();
-  }, [currentMonth]);
+  }, [currentMonth]); // currentMonth가 변경될 때마다 useEffect 실행
 
-  // 컴포넌트 렌더링
   return (
     <div className="listcontainer">
       <div className="calendar">
-        {/* 달력 상단에 현재 년도와 월을 표시하는 부분 */}
         <div className="listname">
           <span className="topyear">{format(currentMonth, 'yyyy')}</span>
           {format(currentMonth, 'MMMMMMMM')}
         </div>
-
-        {/* 이전 달로 이동하는 버튼 */}
         <img
           src={CalendarLeftBtn}
           className="leftBtn"
           onClick={prevMonth}
           alt="Previous Month"
         />
-
-        {/* 다음 달로 이동하는 버튼 */}
         <img
           src={CalendarRightBtn}
           className="rightBtn"
           onClick={nextMonth}
           alt="Next Month"
         />
-
-        {/* 요일을 렌더링하는 컴포넌트 */}
         <RenderDays />
-
-        {/* 각 날짜 셀을 렌더링하는 컴포넌트 */}
         <RenderCells
           currentMonth={currentMonth}
           today={new Date()}
-          list={list}
           selectedDate={selectedDate}
           onDateClick={onDateClick}
-          diaryData={diaryData}
-          setDiarySettingPage={pageNum}
           diaryInfoArray={diaryInfoArray}
-          // pageNum={pageNum}
+          diaryDay={diaryDay}
         />
       </div>
     </div>
   );
 };
 
-// Calendar 컴포넌트를 내보냄
 export default Calendar;
