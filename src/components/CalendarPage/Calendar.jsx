@@ -1,10 +1,6 @@
 // Calendar.jsx
 import React, { useState, useEffect } from 'react';
 import { baseInstance } from '../../api/config.js';
-import { useNavigate } from 'react-router-dom';
-import { useDiaryURL } from '../../store/useDiaryURL';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore';
-import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
 import {
   format,
   addMonths,
@@ -25,6 +21,7 @@ import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
 import DiaryEditIcon from '../../assets/img/Calendar/DiaryEditIcon.png';
+import { useDateNotificationStore } from '../../store/useDateNotificationStore.js';
 
 const getFormattedDate = (date, formatStr = 'd') => format(date, formatStr);
 
@@ -57,6 +54,8 @@ const RenderCells = ({
   onDateClick,
   diaryInfoArray,
   diaryDay,
+  setShareURL,
+  setDiaryId,
 }) => {
   const startDate = startOfWeek(startOfMonth(currentMonth));
   const endDate = endOfWeek(endOfMonth(currentMonth));
@@ -76,16 +75,15 @@ const RenderCells = ({
     const diaryInfo = diaryInfoArray.find(
       (diary) => diary.day === formattedDate,
     );
-    const navigate = useNavigate();
-    const { shareURL, setShareURL } = useDiaryURL();
+
     const readDiary = async () => {
       try {
-        console.log('day :', diaryDay); // 이제 day 변수를 사용하도록 변경
         const response = await baseInstance.get('/diaries/link', {
           params: { day: `${diaryDay}` },
         });
         if (response.status === 200) {
           setShareURL(response.data.sns_link);
+          setDiaryId(response.data.diary_id);
           useDateNotificationStore.setState({ page: 3 });
           console.log(useDateNotificationStore.getState().page);
         } else {
@@ -95,12 +93,6 @@ const RenderCells = ({
         console.error('API 호출 중 오류 발생 : ', error);
       }
     };
-
-    useEffect(() => {
-      if (diaryDay !== undefined) {
-        readDiary();
-      }
-    }, [diaryDay]);
 
     return (
       <div
@@ -135,14 +127,8 @@ const RenderCells = ({
             src={diaryInfo.isExpiry ? DiaryViewIcon : DiaryEditIcon}
             alt="Go to Diary"
             onClick={() => {
-              // onDateClick(day);
-
-              if (diaryInfo.isExpiry) {
-                // isExpiry가 true이면 /diary 페이지로 이동
-                navigate('/diary');
-              } else {
-                readDiary();
-              }
+              onDateClick(day);
+              readDiary();
             }}
           />
         )}
@@ -151,52 +137,38 @@ const RenderCells = ({
   };
 
   const generateDateRow = (startDay) => {
-    const days = [];
-    let day = startDay;
-    for (let i = 0; i < 7; i++) {
-      days.push(generateDateCell(day));
-      day = addDays(day, 1);
-    }
+    const days = Array.from({ length: 7 }, (_, i) => addDays(startDay, i));
     return (
       <div className="bodyrow" key={startDay}>
-        {days}
+        {days.map((day) => generateDateCell(day))}
       </div>
     );
   };
 
   const generateCalendarRows = () => {
-    const rows = [];
-    let startDay = startDate;
-    while (startDay <= endDate) {
-      rows.push(generateDateRow(startDay));
-      startDay = addDays(startDay, 7);
-    }
-    return rows;
+    const startDay = startDate;
+    return Array.from({ length: 6 }, (_, i) => addDays(startDay, i * 7)).map(
+      (startDay) => generateDateRow(startDay),
+    );
   };
 
   return <div className="calendarbody">{generateCalendarRows()}</div>;
 };
 
-const Calendar = () => {
+const Calendar = ({ setDiaryMonth, setDiaryDay }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [diaryInfoArray, setDiaryInfoArray] = useState([]);
-  const [diaryDay, setDiaryDay] = useState();
-  const [diaryMonth, setDiaryMonth] = useState();
 
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
   const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
 
   const onDateClick = (day) => {
-    console.log('onDateClick : ', day);
     setSelectedDate(day);
-    setDiaryDay(format(day, 'd'));
     setDiaryMonth(format(day, 'M'));
+    setDiaryDay(format(day, 'd'));
   };
 
-  const { selectedMonth, selectedDay } = useSelectDateInfoStore.getState();
-
-  // 달력 데이터를 불러오는 useEffect 추가
   useEffect(() => {
     const fetchData = async () => {
       const yearMonth = format(currentMonth, 'yyyy-MM');
@@ -220,7 +192,7 @@ const Calendar = () => {
     };
 
     fetchData();
-  }, [currentMonth]); // currentMonth가 변경될 때마다 useEffect 실행
+  }, [currentMonth]);
 
   return (
     <div className="listcontainer">
@@ -248,7 +220,6 @@ const Calendar = () => {
           selectedDate={selectedDate}
           onDateClick={onDateClick}
           diaryInfoArray={diaryInfoArray}
-          diaryDay={diaryDay}
         />
       </div>
     </div>
