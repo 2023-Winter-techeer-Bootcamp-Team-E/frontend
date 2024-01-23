@@ -1,19 +1,67 @@
 import React from 'react';
 import styled from 'styled-components';
+import { baseInstance } from '../../api/config';
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import 'sweetalert2/src/sweetalert2.scss';
 
-const SaveButtonClick = () => {
-    //기능 넣기
-    console.log('SaveButton clicked!');
+function SaveButton() {
+
+  // 최종저장
+  const SaveAll = async () => {
+    try {
+      const response = await baseInstance.put('/diaries/save');
+      if (response.status === 200) {
+        console.log('일기 저장 성공');
+      } else {
+        console.log('일기장 저장 실패');
+      }
+    } catch (error) {
+      console.error('API 호출 중 오류 발생 : ', error);
+    }
   };
 
-function SaveButton(){
+  const SaveClick = async () => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: true,
+    });
 
-   return (
-    <SaveButtonContainer onClick={SaveButtonClick}>
-        저장하기
+    swalWithBootstrapButtons
+      .fire({
+        title: '저장하실 건가요?',
+        text: '일기 내용을 완전히 저장하실 건가요?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '네, 저장할게요!',
+        cancelButtonText: '아니요, 나중에 할게요!',
+        reverseButtons: true,
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          await SaveAll();
+          swalWithBootstrapButtons.fire({
+            title: '일기가 저장되었어요!',
+            icon: 'success',
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire({
+            title: '일기가 저장되지 않았어요',
+            icon: 'error',
+          });
+        }
+      });
+  };
+
+  return (
+    <SaveButtonContainer onClick={SaveClick}>
+      저장하기
     </SaveButtonContainer>
-   ); 
+  );
 }
+
 
 const SaveButtonContainer = styled.div`
     width: 10.375rem;
