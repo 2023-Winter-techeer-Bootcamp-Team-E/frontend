@@ -3,6 +3,7 @@ import { baseInstance } from '../../api/config';
 import { useDateNotificationStore } from '../../store/useDateNotificationStore';
 import { useDiaryURL } from '../../store/useDiaryURL';
 import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
+import useIconUpdate from '../../store/useIconUpdate';
 import {
   format,
   addMonths,
@@ -30,6 +31,8 @@ const Calendar = () => {
   const [diaryInfoArray, setDiaryInfoArray] = useState([]);
   const [diaryMonth, setDiaryMonth] = useState();
   const [diaryDay, setDiaryDay] = useState();
+  const { setPage } = useDateNotificationStore.getState();
+  const iconUpdate = useIconUpdate((state) => state.iconUpdate);
 
   const changeMonth = (modifier) =>
     setCurrentMonth((prevMonth) => modifier(prevMonth, 1));
@@ -69,7 +72,7 @@ const Calendar = () => {
     };
 
     fetchData();
-  }, [currentMonth]);
+  }, [currentMonth, iconUpdate]);
 
   const getFormattedDate = (date, formatStr = 'd') => format(date, formatStr);
 
@@ -110,6 +113,7 @@ const Calendar = () => {
       const diaryInfo = diaryInfoArray.find(
         (diary) => diary.day === formattedDate,
       );
+
       const { shareURL, setShareURL } = useDiaryURL();
 
       const readDiary = async () => {
@@ -121,7 +125,7 @@ const Calendar = () => {
           if (response.status === 200) {
             console.log('일기장 확인 성공!');
             setShareURL(response.data.sns_link);
-            useDateNotificationStore.setState({ page: 3 });
+            setPage(3);
             console.log(
               'useDateNotificationStore : ',
               useDateNotificationStore.getState().page,
@@ -133,6 +137,13 @@ const Calendar = () => {
           console.error('API 호출 중 오류 발생 : ', error);
         }
       };
+
+      const diaryIcon =
+        diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth
+          ? diaryInfo.isExpiry
+            ? DiaryViewIcon
+            : DiaryEditIcon
+          : DiaryWriteIcon;
 
       return (
         <div
@@ -156,7 +167,7 @@ const Calendar = () => {
               alt="Go to Diary"
               onClick={() => {
                 onDateClick(day);
-                useDateNotificationStore.setState({ page: 2 });
+                setPage(2);
               }}
             />
           )}
@@ -164,7 +175,7 @@ const Calendar = () => {
           {diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth && (
             <img
               className="GoToShareURLBtn"
-              src={diaryInfo.isExpiry ? DiaryViewIcon : DiaryEditIcon}
+              src={diaryIcon}
               alt="Go to Diary"
               onClick={() => {
                 if (diaryInfo.isExpiry) {
