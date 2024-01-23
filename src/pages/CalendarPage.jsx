@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useSelectDateInfoStore } from '../store/useSelectDateInfoStore';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
@@ -7,9 +8,10 @@ import DateNotification from '../components/CalendarPage/DateNotification';
 import Calendar from '../components/CalendarPage/Calendar';
 
 function CalendarPage() {
-  const [diaryMonth, setDiaryMonth] = useState(0);
-  const [diaryDay, setDiaryDay] = useState(0);
-
+  const selectedDateInfo = useSelectDateInfoStore((state) => state);
+  useEffect(() => {
+    console.log('Page Selected Date Info:', selectedDateInfo);
+  }, [selectedDateInfo]);
   return (
     <BackLayout>
       <PageFrame>
@@ -26,11 +28,14 @@ function CalendarPage() {
         </WrapperBasicSticker>
 
         <WrapperCalendar>
-          <Calendar setDiaryMonth={setDiaryMonth} setDiaryDay={setDiaryDay} />
+          <Calendar />
         </WrapperCalendar>
 
         <WrapperDateNotification>
-          <DateNotification diaryMonth={diaryMonth} diaryDay={diaryDay} />
+          <DateNotification
+            diaryMonth={selectedDateInfo.selectedMonth}
+            diaryDay={selectedDateInfo.selectedDay}
+          />
         </WrapperDateNotification>
       </PageFrame>
     </BackLayout>

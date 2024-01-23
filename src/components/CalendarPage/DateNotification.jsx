@@ -1,4 +1,5 @@
-import React from 'react';
+// DateNotification.jsx
+import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
 import 'sweetalert2/src/sweetalert2.scss';
 import './DateNotification.css';
@@ -14,6 +15,11 @@ import Case3 from './Case3';
 // DateNotification 컴포넌트 정의
 const DateNotification = ({ diaryMonth, diaryDay }) => {
   const { page, setPage } = useDateNotificationStore();
+
+  useEffect(() => {
+    // selectedMonth 또는 selectedDay가 변경될 때 실행되는 코드
+    console.log('selectedMonth or selectedDay changed:', diaryMonth, diaryDay);
+  }, [diaryMonth, diaryDay]);
 
   return (
     <DateNotificationFrame>

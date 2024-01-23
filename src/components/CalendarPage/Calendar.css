@@ -169,7 +169,7 @@
 }
 .today {
   cursor: pointer;
-  color: #e55218;
+  color: #8f6abe;
   background: #f2edff;
   font-weight: 600;
   margin-bottom: 0.1rem;
@@ -180,7 +180,7 @@
 }
 .bodycol.cell.selected {
   background: #b9ade4;
-  color: #e55218;
+  color: #2e8c3e;
   font-weight: 600;
 }
 
