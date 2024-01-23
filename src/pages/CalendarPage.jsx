@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useSelectDateInfoStore } from '../store/useSelectDateInfoStore';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
 import DateNotification from '../components/CalendarPage/DateNotification';
 import Calendar from '../components/CalendarPage/Calendar';
-import DiaryPage from './DiaryPage';
-import { useDateNotificationStore } from '../store/useDateNotificationStore'; 
-import Case2 from '../components/CalendarPage/Case2';
-import Case1 from '../components/CalendarPage/Case1';
 
 function CalendarPage() {
-  const [diarySettingPage, setDiarySettingPage] = useState(1);
-  const [shareURL, setShareURL] = useState('https://www.naver.com');
-  const [diaryMonth, setDiaryMonth] = useState(0);
-  const [diaryDay, setDiaryDay] = useState(0);
-
+  const selectedDateInfo = useSelectDateInfoStore((state) => state);
+  useEffect(() => {
+    console.log('Page Selected Date Info:', selectedDateInfo);
+  }, [selectedDateInfo]);
   return (
     <BackLayout>
       <PageFrame>
@@ -32,27 +28,14 @@ function CalendarPage() {
         </WrapperBasicSticker>
 
         <WrapperCalendar>
-          <Calendar
-            setDiarySettingPage={setDiarySettingPage}
-            diaryMonth={diaryMonth}
-            setDiaryMonth={setDiaryMonth}
-            diaryDay={diaryDay}
-            setDiaryDay={setDiaryDay}
-            setShareURL={setShareURL}
-            shareURL={shareURL}
-          />
+          <Calendar />
         </WrapperCalendar>
 
         <WrapperDateNotification>
           <DateNotification
-            diarySettingPage={diarySettingPage}
-            setDiarySettingPage={setDiarySettingPage}
-            diaryMonth={diaryMonth}
-            setDiaryMonth={setDiaryMonth}
-            diaryDay={diaryDay}
-            setDiaryDay={setDiaryDay}
-            shareURL={shareURL} 
-          />     
+            diaryMonth={selectedDateInfo.selectedMonth}
+            diaryDay={selectedDateInfo.selectedDay}
+          />
         </WrapperDateNotification>
       </PageFrame>
     </BackLayout>

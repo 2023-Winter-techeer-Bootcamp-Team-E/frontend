@@ -101,7 +101,10 @@ function Case2({ diaryMonth, diaryDay }) {
     <RightStickerContainer ref={diarySettingRef}>
       <DiarySettingWindow>
         <SelectDateText>
-          {diaryMonth}월 {diaryDay}일 일기를 작성해요!
+          <span style={{ color: '#2c199f' }}>
+            {diaryMonth}월 {diaryDay}일 {}
+          </span>
+          일기를 작성해요!
         </SelectDateText>
         <SelectInnerPaperText>일기 배경지를 선택해 주세요</SelectInnerPaperText>
 
@@ -169,10 +172,10 @@ const DiarySettingWindow = styled.div`
 
 const SelectDateText = styled.p`
   position: absolute;
-  margin-top: 4.69rem;
-  color: #2c199f;
-  font-family: Inter;
-  font-size: 1rem;
+  margin-top: 5.5rem;
+  color: #000000;
+  font-family: 'mong';
+  font-size: 1.5rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -182,15 +185,18 @@ const SelectDateText = styled.p`
 const SelectInnerPaperText = styled.p`
   position: absolute;
   margin-top: 8.75rem;
-  color: #9f9f9f;
-  font-family: Inter;
-  font-size: 0.75rem;
+  color: #bbb;
+  font-family: 'mong';
+  font-size: 1.2rem;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   left: 1.19rem;
 `;
 
+const WriteDiaryDate = styled.p`
+  color: #2c199f;
+`;
 const TopMaskingTape = styled.img`
   position: absolute;
   width: 3.75rem;
@@ -250,11 +256,8 @@ const CheckBtn = styled.div`
   align-items: center;
 
   color: #fff;
-  font-family: Arial Black;
+  font-family: 'bmjua';
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
   &:hover {
