@@ -4,6 +4,7 @@ import './DateNotification.css';
 import { baseInstance } from '../../api/config';
 import { useDateNotificationStore } from '../../store/useDateNotificationStore';
 import { useDiaryURL } from '../../store/useDiaryURL';
+import useIconUpdate from '../../store/useIconUpdate';
 import MaskingTape1 from '../../assets/img/MaskingTape1.png';
 import MaskingTape2 from '../../assets/img/MaskingTape2.png';
 import SelectImgBtn from '../../assets/img/SelectImgBtn.png';
@@ -22,6 +23,7 @@ function Case2({ diaryMonth, diaryDay }) {
   const { innerPage, setInnerPage } = useInnerPage();
   const diarySettingRef = useRef(null);
   const maxInnerPaper = 6;
+  const { iconUpdate, setIconUpdate } = useIconUpdate();
 
   //일기생성
   const createDiary = async () => {
@@ -35,6 +37,7 @@ function Case2({ diaryMonth, diaryDay }) {
         setShareURL(response.data.sns_link);
         setInnerPage(response.data.diary_bg_id);
         setPage(3);
+        setIconUpdate((prev) => prev + 1);
         console.log(
           'DateNotification page',
           useInnerPage.getState().innerPage,
