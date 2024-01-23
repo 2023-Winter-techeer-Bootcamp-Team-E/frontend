@@ -4,7 +4,6 @@ import { baseInstance } from '../../api/config';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 
-//이거 is_expiry가 true로 바뀌도록 수정하면 한번 다시 보기
 function SaveButton() {
 
   // 최종저장
@@ -13,7 +12,6 @@ function SaveButton() {
       const response = await baseInstance.put('/diaries/save');
       if (response.status === 200) {
         console.log('일기 저장 성공');
-        SaveClick();
       } else {
         console.log('일기장 저장 실패');
       }
@@ -43,6 +41,7 @@ function SaveButton() {
       })
       .then(async (result) => {
         if (result.isConfirmed) {
+          await SaveAll();
           swalWithBootstrapButtons.fire({
             title: '일기가 저장되었어요!',
             icon: 'success',
@@ -57,7 +56,7 @@ function SaveButton() {
   };
 
   return (
-    <SaveButtonContainer onClick={SaveAll}>
+    <SaveButtonContainer onClick={SaveClick}>
       저장하기
     </SaveButtonContainer>
   );
