@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { keyframes, css } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import useUserInfoStore from '../store/UserInfoStore';
+import useUserInfoStore from '../stores/userInfoStore';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import SignInBtn from '../components/SignIn_Up';

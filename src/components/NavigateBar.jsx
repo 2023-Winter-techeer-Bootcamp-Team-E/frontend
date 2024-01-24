@@ -6,7 +6,7 @@ import bell from '../assets/img/NavigateBar_bell.png';
 import arrow from '../assets/img/NavigateBar_arrow.png';
 import ProfileMenu from './CalendarPage/ProfileMenu';
 import NotificationMenu from './CalendarPage/NotificationMenu';
-import useUserInfoStore from '../store/UserInfoStore';
+import useUserInfoStore from '../stores/userInfoStore';
 
 const NavigateBar = () => {
   const [isProfMenuOpen, setIsProfMenuOpen] = useState(false);

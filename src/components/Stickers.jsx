@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ResizableRect from 'react-resizable-rotatable-draggable';
 import styled from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import useDiaryStore from '../stores/diaryStore';
 
 const ImgSaveClick = () => {
   const swalWithBootstrapButtons = Swal.mixin({
@@ -38,36 +39,70 @@ const ImgSaveClick = () => {
     });
 };
 
-function Stickers({ onDelete, image, bounds }) {
+function Stickers({ stickerId, onDelete, image, bounds, websocket }) {
+  const stickers = useDiaryStore((state) => state.stickers);
+  const sticker = stickers.find((s) => s.id === stickerId);
+
   const [position, setPosition] = useState({
-    width2: 100,
-    height2: 100,
-    top2: 100,
-    left2: 100,
-    rotate2: 0,
+    width2: sticker?.width || 100,
+    height2: sticker?.height || 100,
+    top2: sticker?.top || 100,
+    left2: sticker?.left || 100,
+    rotate2: sticker?.rotate || 0,
   });
+
+  // 스티커 상태 업데이트 함수
+  const updateStickerPosition = (newPosition) => {
+    setPosition((prevState) => ({ ...prevState, ...newPosition }));
+    useDiaryStore.getState().updateSticker({ id: stickerId, ...newPosition });
+  };
+
+  // WebSocket 메시지 전송 함수
+  const sendWebSocketMessage = (type, updatedPosition) => {
+    console.log(
+      `Sending message: Type: ${type}, stickerId: ${stickerId}, Position:`,
+      updatedPosition,
+    );
+    websocket.current.send(
+      JSON.stringify({ type, id: stickerId, position: updatedPosition }),
+    );
+  };
 
   // eslint-disable-next-line no-unused-vars
   const handleResize = (style, isShiftKey, type) => {
-    let { top, left, width, height } = style;
-    top = Math.round(top);
-    left = Math.round(left);
-    width = Math.round(width);
-    height = Math.round(height);
-    setPosition((prevState) => ({
-      ...prevState,
-      width2: width,
-      top2: top,
-      height2: height,
-      left2: left,
-    }));
+    const position = {
+      width2: Math.round(style.width),
+      height2: Math.round(style.height),
+      top2: Math.round(style.top),
+      left2: Math.round(style.left),
+    };
+
+    updateStickerPosition(position);
+    sendWebSocketMessage('image_resize', position);
+
+    // top = Math.round(top);
+    // left = Math.round(left);
+    // width = Math.round(width);
+    // height = Math.round(height);
+    // setPosition((prevState) => ({
+    //   ...prevState,
+    //   width2: width,
+    //   top2: top,
+    //   height2: height,
+    //   left2: left,
+    // }));
   };
-  const handleRotate = (rotateAngle2) => {
+  const handleRotate = (rotateAngle) => {
     console.log('회전');
-    setPosition((prevState) => ({
-      ...prevState,
-      rotate2: rotateAngle2,
-    }));
+    // setPosition((prevState) => ({
+    //   ...prevState,
+    //   rotate2: rotateAngle2,
+    // }));
+    // websocket.current.send(
+    //   JSON.stringify({ type: 'image.rotate', rotate: position }),
+    // );
+    updateStickerPosition({ rotate2: rotateAngle });
+    sendWebSocketMessage('image_rotate', { rotate2: rotateAngle });
   };
 
   const handleDrag = (deltaX, deltaY) => {
@@ -94,11 +129,14 @@ function Stickers({ onDelete, image, bounds }) {
       newTop = expandedBounds.bottom - position.height2;
     }
 
-    setPosition((prevState) => ({
-      ...prevState,
-      top2: newTop,
-      left2: newLeft,
-    }));
+    // setPosition((prevState) => ({
+    //   ...prevState,
+    //   top2: newTop,
+    //   left2: newLeft,
+    // }));
+
+    updateStickerPosition({ top2: newTop, left2: newLeft });
+    sendWebSocketMessage('image_drag', { top2: newTop, left2: newLeft });
   };
 
   return (

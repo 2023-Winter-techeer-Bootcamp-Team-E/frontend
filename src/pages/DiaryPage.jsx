@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import LargeSketchbook from '../components/LargeSketchbook';
@@ -9,20 +9,89 @@ import DHomeButton from '../components/DiaryPage/DHomeButton';
 import SaveButton from '../components/DiaryPage/SaveButton';
 import TextButton from '../components/DiaryPage/TextButton';
 
-
 import InnerImg from '../components/DiaryPage/InnerImg';
+import useDiaryStore from '../stores/diaryStore';
+
+const WEBSOCKET_URL = 'ws://127.0.0.1:8000/ws/harurooms/1/';
+// const socket = new WebSocket(`${WEBSOCKET_URL}/ws/harurooms/${roomIndex}`);
 
 function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState(null);
-
+  const [sharedText, setSharedText] = useState(''); // 모든 사용자에게 공유될 텍스트
+  const websocket = useRef(null);
+  const addSticker = useDiaryStore((state) => state.addSticker);
   const handleTextButtonClick = () => {
     setSelectedTextBox(true);
   };
 
+  // 날려버리기(스티커 두개뜸, 서버 보내주는거, 우리가 만든거)
+  // 서버에서 보내주는 id로 이용중인지
   const handleStickerSelect = (image) => {
     setSelectedSticker(image); // 선택한 이미지 URL을 상태로 저장
   };
+
+  useEffect(() => {
+    const newSocket = new WebSocket(WEBSOCKET_URL);
+
+    websocket.current = newSocket;
+    // WebSocket 연결 설정
+
+    // 웹소켓 연결이 성공했을 때
+    newSocket.onopen = () => {
+      console.log('WebSocket 연결됨');
+    };
+
+    // 웹소켓 연결이 끊어졌을 때
+    newSocket.onclose = (event) => {
+      if (event.wasClean) {
+        console.log(`WebSocket 연결이 정상적으로 종료됨: ${event.code}`);
+      }
+    };
+
+    // WebSocket 이벤트 리스너 설정
+    newSocket.onmessage = (event) => {
+      console.log('이벤트 발생');
+      const data = JSON.parse(event.data);
+      if (data.type === 'create_sticker') {
+        // 서버로부터 받은 스티커 정보를 상태에 추가
+        useDiaryStore.getState().addSticker({
+          id: data.sticker_id,
+          image: data.image,
+          ...data.position,
+        });
+      } else if (data.type === 'image_drag') {
+        console.log('드래그 발생');
+        // 드래그 이벤트 처리
+        // const { id, top2, left2 } = data.drag;
+        useDiaryStore
+          .getState()
+          .updateSticker({ id: data.sticker_id, ...data.position });
+      } else if (data.type === 'image_resize') {
+        console.log('리사이즈 발생');
+
+        // 리사이즈 이벤트 처리
+        // const { id, width2, height2, top2, left2 } = data.resize;
+        useDiaryStore.getState().updateSticker({
+          id: data.sticker_id,
+          ...data.position,
+        });
+      } else if (data.type === 'image_rotate') {
+        console.log('로테이트 발생');
+
+        // 회전 이벤트 처리
+        // const { id, rotate2 } = data.rotate;
+        useDiaryStore
+          .getState()
+          .updateSticker({ id: data.sticker_id, ...data.position });
+      }
+    };
+
+    return () => {
+      newSocket.close();
+      console.log('WebSocket 연결 종료');
+    };
+  }, []);
 
   return (
     <BackLayout>
@@ -39,6 +108,8 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
             setSelectedSticker={setSelectedSticker}
             selectedTextBox={selectedTextBox}
             setSelectedTextBox={setSelectedTextBox}
+            sharedText={sharedText}
+            websocket={websocket}
           />
         </WrapperInnerImg>
         <WrapperRightSticker>
@@ -52,7 +123,10 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
         </WrapperSaveButton>
         ƒ
         <WrapperBasicSticker>
-          <BasicSticker onStickerSelect={handleStickerSelect} />
+          <BasicSticker
+            onStickerSelect={handleStickerSelect}
+            websocket={websocket}
+          />
         </WrapperBasicSticker>
         <TextButton onClick={handleTextButtonClick} />
       </PageFrame>

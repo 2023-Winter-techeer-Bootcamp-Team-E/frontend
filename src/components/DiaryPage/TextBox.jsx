@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -41,6 +41,8 @@ const TextSaveClick = () => {
 function TextBox({ username, dirmonth, dirday, onDelete, bounds }) {
   const [size, setSize] = useState({ width: 300, height: 100 });
   const [position, setPosition] = useState({ x: 100, y: 100 });
+  // const [text, setText] = useState(''); // 사용자의 텍스트를 관리하는 상태
+  // const websocket = useRef(null); // 웹소켓 인스턴스를 저장하는 ref
 
   const placeholder = `${username}님과 ${dirmonth}월 ${dirday}일의 일상을 공유해봐요!`;
 
@@ -59,6 +61,12 @@ function TextBox({ username, dirmonth, dirday, onDelete, bounds }) {
     setPosition(position);
     console.log('Resize stopped at:', position.x, position.y);
   };
+
+  // const sendMessage = (message) => {
+  //   if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
+  //     websocket.current.send(message);
+  //   }
+  // };
 
   return (
     <>
@@ -80,7 +88,12 @@ function TextBox({ username, dirmonth, dirday, onDelete, bounds }) {
         bounds={bounds.current}>
         <CloseButton onClick={onDelete} />
         <ContainerDiv>
-          <TextInput placeholder={placeholder} style={{ width: '100%' }} />
+          <TextInput
+            value={text}
+            onChange={handleTextChange}
+            placeholder={placeholder}
+            style={{ width: '100%' }}
+          />
 
           <BtnWrap style={{ width: '100%' }}>
             {' '}
@@ -88,7 +101,7 @@ function TextBox({ username, dirmonth, dirday, onDelete, bounds }) {
               placeholder="닉네임을 입력하세요"
               style={{ width: '70%' }}
             />
-            <TextSaveBtn onClick={TextSaveClick}>입력</TextSaveBtn>
+            <TextSaveBtn onClick={sendMessage}>입력</TextSaveBtn>
           </BtnWrap>
         </ContainerDiv>
       </Rnd>

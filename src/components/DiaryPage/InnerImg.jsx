@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 import MainInnerImg1 from '../../assets/img/InnerImg/MainInnerImg1.png';
@@ -12,14 +12,17 @@ import DiaryInnerPaintingInfo from '../../assets/img/InnerImg/DiaryInnerPainting
 
 import Stickers from '../../components/Stickers';
 import TextBox from '../../components/DiaryPage/TextBox';
+import useDiaryStore from '../../stores/diaryStore';
 
 function InnerImg({
   selectedSticker,
   selectedTextBox,
   setSelectedSticker,
   setSelectedTextBox,
+  websocket,
 }) {
   const diaryRef = useRef(null);
+  const stickers = useDiaryStore((state) => state.stickers);
 
   const handleDeleteTextBox = () => {
     setSelectedTextBox(false);
@@ -49,20 +52,22 @@ function InnerImg({
         return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
     }
   };
-
   return (
     <div>
       <DiaryWrapper>
         {InnerPaperRotate()}
         <PaintingDog src={DiaryInnerPaintingDog} />
         <PaintingInfo src={DiaryInnerPaintingInfo} />
-        {selectedSticker && (
+        {stickers.map((sticker) => (
           <Stickers
             onDelete={handleDeleteStickers}
-            image={selectedSticker}
+            key={sticker.id}
+            stickerId={sticker.id}
+            image={sticker.image}
             bounds={diaryRef}
+            websocket={websocket}
           />
-        )}
+        ))}
         {selectedTextBox && (
           <TextBox onDelete={handleDeleteTextBox} bounds={diaryRef} />
         )}
