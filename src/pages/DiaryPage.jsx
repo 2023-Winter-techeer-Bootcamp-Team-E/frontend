@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
-import styled from 'styled-components';
+import { useSelectDateInfoStore } from '../store/useSelectDateInfoStore';
 
+import styled from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
@@ -10,9 +11,10 @@ import SaveButton from '../components/DiaryPage/SaveButton';
 import TextButton from '../components/DiaryPage/TextButton';
 import InnerImg from '../components/DiaryPage/InnerImg';
 
-function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
+function DiaryPage() {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState(null);
+  const selectedDateInfo = useSelectDateInfoStore((state) => state);
 
   const handleTextButtonClick = () => {
     setSelectedTextBox(true);
@@ -25,7 +27,7 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
-          <NavigateBar userName={userName} userId={userId} />
+          <NavigateBar />
         </WrapperNavigateBar>
         <WrapperLargeSketchbook>
           <LargeSketchbook />
@@ -42,7 +44,7 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
           <RightSticker />
         </WrapperRightSticker>
         <WrapperDHomeButton>
-          <DHomeButton move={move} />
+          <DHomeButton />
         </WrapperDHomeButton>
         <WrapperSaveButton>
           <SaveButton />

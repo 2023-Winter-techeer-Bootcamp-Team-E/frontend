@@ -1,6 +1,6 @@
 // useDiaryURL.js
 
-import create from 'zustand';
+import { create } from 'zustand';
 
 const useDiaryURL = create((set) => ({
   shareURL: '',

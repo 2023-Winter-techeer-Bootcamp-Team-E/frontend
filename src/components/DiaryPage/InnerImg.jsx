@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useInnerPage } from '../../store/useInnerPage';
 
@@ -20,7 +20,6 @@ function InnerImg({
   setSelectedSticker,
   setSelectedTextBox,
 }) {
-  const {innerPage} = useInnerPage();
   const diaryRef = useRef(null);
 
   const handleDeleteTextBox = () => {
@@ -31,8 +30,8 @@ function InnerImg({
     setSelectedSticker(false);
   };
 
-  const innerPageNum =useInnerPage.getState().innerPage;
-  
+  const innerPageNum = useInnerPage.getState().innerPage;
+
   useEffect(() => {
     useInnerPage.setState({ innerPage: innerPageNum });
   }, [innerPageNum]);
@@ -55,13 +54,11 @@ function InnerImg({
         return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
     }
   };
-  
+
   return (
     <div>
       <DiaryWrapper>
-        <InnerImgWrapper>
-        {InnerPaperRotate()}
-        </InnerImgWrapper>
+        <InnerImgWrapper>{InnerPaperRotate()}</InnerImgWrapper>
         <PaintingDog src={DiaryInnerPaintingDog} />
         <PaintingInfo src={DiaryInnerPaintingInfo} />
         {selectedSticker && (
@@ -115,9 +112,8 @@ const PaintingDog = styled.img`
 
 const PaintingInfo = styled.img`
   position: absolute;
-  width: 14.5rem;
-  height: 10.625rem;
+  width: 17rem;
   flex-shrink: 0;
-  margin-left: 46rem;
+  margin-left: 44rem;
   margin-top: 3rem;
 `;

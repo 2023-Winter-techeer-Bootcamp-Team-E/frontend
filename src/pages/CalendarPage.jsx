@@ -9,9 +9,7 @@ import Calendar from '../components/CalendarPage/Calendar';
 
 function CalendarPage() {
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
-  useEffect(() => {
-    console.log('Page Selected Date Info:', selectedDateInfo);
-  }, [selectedDateInfo]);
+
   return (
     <BackLayout>
       <PageFrame>

@@ -1,6 +1,6 @@
 // useSelectDateInfoStore.js
 
-import create from 'zustand';
+import { create } from 'zustand';
 
 export const useSelectDateInfoStore = create((set) => ({
   selectedMonth: '',
