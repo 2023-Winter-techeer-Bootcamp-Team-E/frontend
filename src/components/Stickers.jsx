@@ -94,15 +94,9 @@ function Stickers({ stickerId, onDelete, image, bounds, websocket }) {
   };
   const handleRotate = (rotateAngle) => {
     console.log('회전');
-    // setPosition((prevState) => ({
-    //   ...prevState,
-    //   rotate2: rotateAngle2,
-    // }));
-    // websocket.current.send(
-    //   JSON.stringify({ type: 'image.rotate', rotate: position }),
-    // );
-    updateStickerPosition({ rotate2: rotateAngle });
-    sendWebSocketMessage('image_rotate', { rotate2: rotateAngle });
+    const roundedRotate = Math.round(rotateAngle);
+    updateStickerPosition({ rotate2: roundedRotate });
+    sendWebSocketMessage('image_rotate', { rotate2: roundedRotate });
   };
 
   const handleDrag = (deltaX, deltaY) => {
@@ -129,14 +123,14 @@ function Stickers({ stickerId, onDelete, image, bounds, websocket }) {
       newTop = expandedBounds.bottom - position.height2;
     }
 
-    // setPosition((prevState) => ({
-    //   ...prevState,
-    //   top2: newTop,
-    //   left2: newLeft,
-    // }));
+    const roundedTop = Math.round(newTop);
+    const roundedLeft = Math.round(newLeft);
 
-    updateStickerPosition({ top2: newTop, left2: newLeft });
-    sendWebSocketMessage('image_drag', { top2: newTop, left2: newLeft });
+    updateStickerPosition({ top2: roundedTop, left2: roundedLeft });
+    sendWebSocketMessage('image_drag', {
+      top2: roundedTop,
+      left2: roundedLeft,
+    });
   };
 
   return (
