@@ -97,14 +97,20 @@ const Case3 = ({ diaryMonth, diaryDay }) => {
     </RightStickerContainer>
   );
 };
-
 const RightStickerContainer = styled.div`
   width: 15.1875rem;
   height: 41.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
 `;
-
+const SelectDateText2 = styled.p`
+  position: absolute;
+  margin-top: 6rem;
+  color: #2c199f;
+  font-family: 'mong';
+  font-size: 1.5rem;
+  left: 1.19rem;
+`;
 const DiarySettingWindow = styled.div`
   width: 100%;
   height: 100%;
@@ -121,19 +127,7 @@ const DiarySettingWindow = styled.div`
   line-height: normal;
 `;
 
-const SelectDateText2 = styled.p`
-  position: absolute;
-  margin-top: 6rem;
-  color: #2c199f;
-  font-family: Inter;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  left: 1.19rem;
-`;
-
-const ShareURL = styled.div`
+const ShareURL = styled.p`
   position: absolute;
   margin-top: 11rem;
   margin-right: 4rem;
@@ -149,10 +143,10 @@ const ShareURL = styled.div`
   color: #000;
   font-family: Inter;
   font-size: 0.75rem;
-  font-style: normal;
   font-weight: 400;
-  line-height: normal;
-  overflow: hidden;
+  white-space: nowrap; // 글자가 한 줄로 표시되도록
+  overflow: hidden; // 넘치는 부분을 감춤
+  text-overflow: ellipsis; // 넘치는 부분에 ... 표시
 `;
 
 const CopyBtn = styled.button`
@@ -166,8 +160,8 @@ const CopyBtn = styled.button`
   background: #cad9ff;
 
   color: #fff;
-  font-family: Inter;
-  font-size: 0.75rem;
+  font-family: 'bmjua';
+  font-size: 0.875rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -194,11 +188,8 @@ const LetsWriteText = styled.p`
   align-items: center;
   justify-content: center;
 
-  font-family: Inter;
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  font-family: 'mong';
+  font-size: 1.25rem;
 `;
 
 const WriteDiaryBtn = styled.div`
@@ -216,11 +207,8 @@ const WriteDiaryBtn = styled.div`
   align-items: center;
 
   color: #fff;
-  font-family: Inter;
+  font-family: 'bmjua';
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
   &:hover {
