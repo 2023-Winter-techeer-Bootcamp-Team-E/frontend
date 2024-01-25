@@ -27,6 +27,9 @@ const TextSaveClick = () => {
     })
     .then((result) => {
       if (result.isConfirmed) {
+        const userText = document.querySelector('#textInput').value; // TextInput의 id를 지정해야 함
+        useDiaryContent.setState({ diaryContent: userText });
+        console.log('저장된 content:', userText);
         swalWithBootstrapButtons.fire({
           title: '저장되었어요!',
           icon: 'success',
@@ -44,7 +47,6 @@ function TextBox({ username, onDelete, bounds }) {
   const [size, setSize] = useState({ width: 300, height: 100 });
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
-
   const placeholder = `${username}님과 ${selectedDateInfo.selectedMonth}월 ${selectedDateInfo.selectedDay}일의 일상을 공유해봐요!`;
 
   const handleDragStop = (e, d) => {
@@ -83,7 +85,11 @@ function TextBox({ username, onDelete, bounds }) {
         bounds={bounds.current}>
         <CloseButton onClick={onDelete} />
         <ContainerDiv>
-          <TextInput placeholder={placeholder} style={{ width: '100%' }} />
+          <TextInput
+            id="textInput"
+            placeholder={placeholder}
+            style={{ width: '100%' }}
+          />
 
           <BtnWrap style={{ width: '100%' }}>
             {' '}
@@ -91,7 +97,7 @@ function TextBox({ username, onDelete, bounds }) {
               placeholder="닉네임을 입력하세요"
               style={{ width: '70%' }}
             />
-            <TextSaveBtn onClick={TextSaveClick}>입력</TextSaveBtn>
+            <TextSaveBtn onClick={() => TextSaveClick()}>입력</TextSaveBtn>
           </BtnWrap>
         </ContainerDiv>
       </Rnd>
@@ -139,7 +145,7 @@ const CloseButton = styled.span`
   }
 `;
 
-const TextInput = styled.textarea`
+const TextInput = styled.input`
   flex-grow: 1; // flex-grow 속성으로 높이 조절
   margin-bottom: 0.5rem;
   margin-right: 0.5rem;

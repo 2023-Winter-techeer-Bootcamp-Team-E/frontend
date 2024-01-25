@@ -3,38 +3,41 @@ import { baseInstance } from '../../api/config';
 import { styled } from 'styled-components';
 import Cloud1 from '../../assets/img/Cloud1.png';
 import Cloud2 from '../../assets/img/Cloud2.png';
+import { useDiaryContent } from '../../store/useDiaryContent';
 
 const RightSticker = () => {
   const [stickerImages, setStickerImages] = useState([]);
-
+  const diaryContent = useDiaryContent((state) => state.diaryContent);
+  useEffect(() => {
+    console.log('diary content :', diaryContent);
+  });
   useEffect(() => {
     const fetchStickerImages = async () => {
       try {
-        // content 값을 생성
-        const content = '너무 배고프다. 초밥 먹으러 가야지!';
-        console.log('Dall-e 스티커 생성중...');
+        if (diaryContent != '') {
+          console.log('TextBox에서 저장한 content:', diaryContent);
+          console.log('Dall-e 스티커 생성중...');
 
-        // const response = await baseInstance.post('/diaries/stickers', {
-        //   content,
-        // });
+          const response = await baseInstance.post('/diaries/stickers', {
+            content: diaryContent,
+          }); //1번
 
-        const response = await baseInstance.get(`/static/stickers?page=1`);
+          // const response = await baseInstance.get(`/static/stickers?page=1`); //2번
 
-        const data = response.data.data;
+          const data = response.data.data;
 
-        // API에서 받아온 이미지 URL을 상태에 업데이트
-        // setStickerImages(data.sticker_image_urls);
-        setStickerImages(data.st_image_urls);
+          setStickerImages(data.sticker_image_urls); //1번
 
-        console.log('Dall-e 스티커 생성 완료!');
+          // setStickerImages(data.st_image_urls.slice(0, 2)); //2번
+
+          console.log('Dall-e 스티커 생성 완료!');
+        }
       } catch (error) {
         console.error('Dall-e 스티커 API 호출 에러! :', error);
       }
     };
-
-    // 컴포넌트가 마운트될 때 한 번 호출
     fetchStickerImages();
-  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때만 호출
+  }, [diaryContent]);
 
   return (
     <div>
@@ -62,8 +65,8 @@ const RightStickerContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  align-items: center; /* 수직 정렬 중앙 */
-  justify-content: center; /* 수평 정렬 중앙 */
+  align-items: center;
+  justify-content: center;
   display: flex;
   flex-direction: column;
   position: relative;
