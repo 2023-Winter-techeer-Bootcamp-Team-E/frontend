@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
 
 const TextSaveClick = () => {
   const swalWithBootstrapButtons = Swal.mixin({
@@ -38,11 +39,12 @@ const TextSaveClick = () => {
     });
 };
 
-function TextBox({ username, dirmonth, dirday, onDelete, bounds }) {
+function TextBox({ username, onDelete, bounds }) {
   const [size, setSize] = useState({ width: 300, height: 100 });
   const [position, setPosition] = useState({ x: 100, y: 100 });
+  const selectedDateInfo = useSelectDateInfoStore((state) => state);
 
-  const placeholder = `${username}님과 ${dirmonth}월 ${dirday}일의 일상을 공유해봐요!`;
+  const placeholder = `${username}님과 ${selectedDateInfo.selectedMonth}월 ${selectedDateInfo.selectedDay}일의 일상을 공유해봐요!`;
 
   const handleDragStop = (e, d) => {
     setPosition({ x: d.x, y: d.y });

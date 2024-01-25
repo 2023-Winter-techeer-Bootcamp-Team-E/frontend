@@ -7,28 +7,24 @@ import Cloud2 from '../../assets/img/Cloud2.png';
 const RightSticker = () => {
   const [stickerImages, setStickerImages] = useState([]);
 
-  const handleStickerClick = (image) => {
-    onStickerSelect(image);
-  };
-
   useEffect(() => {
     const fetchStickerImages = async () => {
       try {
         // content 값을 생성
-        const content =
-          '나는 맥도날드에서 코카콜라를 먹었다. 콜라랑 감자튀김도 추가해서 세트로 먹었다. 참 맛있었다.'; // 실제로 사용할 content 값을 넣어주세요
+        const content = '너무 배고프다. 초밥 먹으러 가야지!';
         console.log('Dall-e 스티커 생성중...');
 
-        const response = await baseInstance.post('/diaries/stickers', {
-          content,
-        });
+        // const response = await baseInstance.post('/diaries/stickers', {
+        //   content,
+        // });
 
-        // const response = await baseInstance.get(`/static/stickers?page=1`);
+        const response = await baseInstance.get(`/static/stickers?page=1`);
 
         const data = response.data.data;
+
         // API에서 받아온 이미지 URL을 상태에 업데이트
-        setStickerImages(data.sticker_image_urls);
-        // setStickerImages(data.st_image_urls);
+        // setStickerImages(data.sticker_image_urls);
+        setStickerImages(data.st_image_urls);
 
         console.log('Dall-e 스티커 생성 완료!');
       } catch (error) {
@@ -44,9 +40,7 @@ const RightSticker = () => {
     <div>
       <RightStickerContainer>
         {stickerImages.map((image, index) => (
-          <DalleStickerBox
-            key={index}
-            onClick={() => handleStickerClick(image)}>
+          <DalleStickerBox key={index}>
             <DalleSticker src={image} alt={`Sticker ${index + 1}`} />
           </DalleStickerBox>
         ))}
@@ -81,15 +75,13 @@ const DalleStickerBox = styled.div`
   align-items: center;
   justify-content: center;
   display: flex;
-  background: #4c4c4c;
-  width: 7.625rem;
   height: 100%;
   z-index: 10;
 `;
 
 const DalleSticker = styled.img`
   position: absolute;
-  width: 6.5rem;
+  width: 10rem;
   transition: transform 0.3s ease;
   cursor: pointer;
   &:hover {
