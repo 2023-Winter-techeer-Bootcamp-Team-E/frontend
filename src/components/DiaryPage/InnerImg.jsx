@@ -19,6 +19,7 @@ function InnerImg({
   selectedTextBox,
   setSelectedSticker,
   setSelectedTextBox,
+  diaryData, 
 }) {
   const {innerPage} = useInnerPage();
   const diaryRef = useRef(null);
@@ -56,26 +57,67 @@ function InnerImg({
     }
   };
   
+  const renderTextBoxes = () => {
+    return diaryData.diaryTextBoxs.map((textBox) => (
+      <div
+        key={textBox.textbox_id}
+        style={{
+          position: 'absolute',
+          left: `${textBox.xcoor}px`,
+          top: `${textBox.ycoor}px`,
+          width: `${textBox.width}px`,
+          height: `${textBox.height}px`,
+          transform: `rotate(${textBox.rotate || 0}deg)`,
+          border: selectedTextBox === textBox.textbox_id ? '2px solid red' : 'none',
+        }}
+        onClick={() => setSelectedTextBox(textBox.textbox_id)}
+      >
+        {textBox.content}
+      </div>
+    ));
+  };
+
+  // 스티커 렌더링 함수
+  const renderStickers = () => {
+    return diaryData.diaryStickers.map((sticker) => (
+      <img
+        key={sticker.sticker_id}
+        src={sticker.sticker_image_url}
+        alt={`sticker-${sticker.sticker_id}`}
+        style={{
+          position: 'absolute',
+          left: `${sticker.xcoor}px`,
+          top: `${sticker.ycoor}px`,
+          width: `${sticker.width}px`,
+          height: `${sticker.height}px`,
+          transform: `rotate(${sticker.rotate || 0}deg)`,
+          border: selectedSticker === sticker.sticker_id ? '2px solid blue' : 'none',
+        }}
+        onClick={() => setSelectedSticker(sticker.sticker_id)}
+      />
+    ));
+  };
+
   return (
-    <div>
-      <DiaryWrapper>
-        <InnerImgWrapper>
+    <DiaryWrapper>
+      <InnerImgWrapper>
         {InnerPaperRotate()}
-        </InnerImgWrapper>
-        <PaintingDog src={DiaryInnerPaintingDog} />
-        <PaintingInfo src={DiaryInnerPaintingInfo} />
-        {selectedSticker && (
-          <Stickers
-            onDelete={handleDeleteStickers}
-            image={selectedSticker}
-            bounds={diaryRef}
-          />
-        )}
-        {selectedTextBox && (
-          <TextBox onDelete={handleDeleteTextBox} bounds={diaryRef} />
-        )}
-      </DiaryWrapper>
-    </div>
+        {diaryData && renderTextBoxes()}
+        {diaryData && renderStickers()}
+      </InnerImgWrapper>
+      <PaintingDog src={DiaryInnerPaintingDog} />
+      <PaintingInfo src={DiaryInnerPaintingInfo} />
+      {selectedSticker && (
+        <Stickers
+          onDelete={handleDeleteStickers}
+          image={selectedSticker}
+          bounds={diaryRef}
+        />
+      )}
+      {selectedTextBox && (
+        <TextBox onDelete={handleDeleteTextBox} bounds={diaryRef} />
+      )}
+    </DiaryWrapper>
   );
 }
 

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { baseInstance } from '../../api/config';
 import { useDateNotificationStore } from '../../store/useDateNotificationStore';
+import { useNavigate } from 'react-router-dom';
 import { useDiaryURL } from '../../store/useDiaryURL';
+import { useInnerPage } from '../../store/useInnerPage';
 import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
 import {
   format,
@@ -94,6 +96,8 @@ const Calendar = () => {
   const RenderCells = () => {
     const startDate = startOfWeek(startOfMonth(currentMonth));
     const endDate = endOfWeek(endOfMonth(currentMonth));
+    const navigate = useNavigate();
+    const { innerPage, setInnerPage } = useInnerPage();
 
     const isDateInMonth = (date) => isSameMonth(date, currentMonth);
     const isDateSelected = (date) => isSameDay(date, selectedDate);
@@ -126,6 +130,29 @@ const Calendar = () => {
               'useDateNotificationStore : ',
               useDateNotificationStore.getState().page,
             );
+          } else {
+            console.log('일기장 확인 실패');
+          }
+        } catch (error) {
+          console.error('API 호출 중 오류 발생 : ', error);
+        }
+      };
+
+      const readPast = async () => {
+        try {
+          // API 호출 시 포맷팅된 날짜를 사용하도록 변경
+          const response = await baseInstance.get('/diaries/', {
+            params: { day: `${formattedDate}` },
+          });
+    
+          if (response.status === 200) {
+            // API 응답이 성공할 경우 diary_bg_id를 InnerPage 상태로 업데이트
+            setInnerPage(response.data.diary_bg_id);
+    
+            // day 값을 setSelectDateInfo 함수로 전달하여 상태로 저장
+            // setSelectDateInfo(month, formattedDate);
+            
+            console.log(useInnerPage.getState().innerPage);
           } else {
             console.log('일기장 확인 실패');
           }
@@ -168,7 +195,9 @@ const Calendar = () => {
               alt="Go to Diary"
               onClick={() => {
                 if (diaryInfo.isExpiry) {
-                  console.log('작성이 끝난 다이어리 조회(미완성)');
+                  console.log('작성이 끝난 다이어리 조회');
+                  readPast()
+                  navigate('../past')
                 } else {
                   readDiary();
                 }
