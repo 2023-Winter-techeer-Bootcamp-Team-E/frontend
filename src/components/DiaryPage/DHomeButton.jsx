@@ -2,17 +2,16 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import home from '../../assets/img/home.png';
+  
+function DHomeButton() {
 
+  const navigate = useNavigate();
 
-
-const handleDHomeButtonClick = (navigate) => {
+  const handleDHomeButtonClick = (navigate) => {
     navigate('../../login');
     console.log('Dhomebutton clicked!');
     move();
   };
-  
-  function DHomeButton() {
-  
     return (
       <DHomeButtonContainer onClick={() => handleDHomeButtonClick(navigate)}>
         <StyledDHomeButton
