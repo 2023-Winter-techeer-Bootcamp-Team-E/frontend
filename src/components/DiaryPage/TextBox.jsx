@@ -4,6 +4,7 @@ import { Rnd } from 'react-rnd';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
+import { useDiaryContent } from '../../store/useDiaryContent';
 
 const TextSaveClick = () => {
   const swalWithBootstrapButtons = Swal.mixin({
