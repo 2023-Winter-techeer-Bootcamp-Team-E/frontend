@@ -11,7 +11,7 @@ function OpenDiary({ diaryId }) {
         setLoading(true);
         const response = await baseInstance.post(
             `/diaries/${diaryId}`,
-            {//이거 되려나
+            {
               diary_id: diaryId,
             }
           );
@@ -41,7 +41,6 @@ function OpenDiary({ diaryId }) {
     return diaryData.diaryTextBoxs.map((textbox) => (
       <div key={textbox.textbox_id}>
         <p>{textbox.content}</p>
-        {/* 기타 텍스트박스 관련 정보를 표시 */}
       </div>
     ));
   };
@@ -54,7 +53,6 @@ function OpenDiary({ diaryId }) {
     return diaryData.diaryStickers.map((sticker) => (
       <div key={sticker.sticker_id}>
         <img src={sticker.sticker_image_url} alt="스티커 이미지" />
-        {/* 기타 스티커 관련 정보를 표시 */}
       </div>
     ));
   };
