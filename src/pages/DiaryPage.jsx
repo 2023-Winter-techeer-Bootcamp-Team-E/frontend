@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useSelectDateInfoStore } from '../store/useSelectDateInfoStore';
 
 import styled from 'styled-components';
@@ -38,10 +38,15 @@ function DiaryPage() {
             setSelectedSticker={setSelectedSticker}
             selectedTextBox={selectedTextBox}
             setSelectedTextBox={setSelectedTextBox}
+            diaryMonth={selectedDateInfo.selectedMonth}
+            diaryDay={selectedDateInfo.selectedDay}
           />
         </WrapperInnerImg>
         <WrapperRightSticker>
-          <RightSticker />
+          <RightSticker
+            diaryMonth={selectedDateInfo.selectedMonth}
+            diaryDay={selectedDateInfo.selectedDay}
+          />
         </WrapperRightSticker>
         <WrapperDHomeButton>
           <DHomeButton />

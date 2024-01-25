@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useInnerPage } from '../../store/useInnerPage';
+import { baseInstance } from '../../api/config';
+import { useNavigate } from 'react-router-dom';
 
 import MainInnerImg1 from '../../assets/img/InnerImg/MainInnerImg1.png';
 import MainInnerImg2 from '../../assets/img/InnerImg/MainInnerImg2.png';
@@ -19,8 +20,12 @@ function InnerImg({
   selectedTextBox,
   setSelectedSticker,
   setSelectedTextBox,
+  diaryMonth,
+  diaryDay,
 }) {
   const diaryRef = useRef(null);
+  const [innerPage, setInnerPage] = useState(1);
+  const navigate = useNavigate();
 
   const handleDeleteTextBox = () => {
     setSelectedTextBox(false);
@@ -30,14 +35,27 @@ function InnerImg({
     setSelectedSticker(false);
   };
 
-  const innerPageNum = useInnerPage.getState().innerPage;
-
   useEffect(() => {
-    useInnerPage.setState({ innerPage: innerPageNum });
-  }, [innerPageNum]);
+    const fetchData = async () => {
+      try {
+        const response = await baseInstance.get(`/diaries/?day=${diaryDay}`);
+        if (true) {
+          console.log(`${diaryMonth}월 ${diaryDay}일 다이어리 조회 성공!`);
+          const diaryBgId = response.data.diary_bg_id;
+          setInnerPage(diaryBgId);
+        }
+      } catch (error) {
+        console.log(
+          `catch ${diaryMonth}월 ${diaryDay}일 다이어리 조회 실패 : ${error.message}`,
+        );
+        navigate('/calendar');
+      }
+    };
+    fetchData();
+  }, []);
 
   const InnerPaperRotate = () => {
-    switch (innerPageNum) {
+    switch (innerPage) {
       case '1':
         return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
       case '2':
@@ -51,7 +69,7 @@ function InnerImg({
       case '6':
         return <InnerPaperImg src={MainInnerImg6} ref={diaryRef} />;
       default:
-        return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
+        return <InnerPaperImg src={MainInnerImg2} ref={diaryRef} />;
     }
   };
 
@@ -68,6 +86,10 @@ function InnerImg({
             bounds={diaryRef}
           />
         )}
+        <DirName>조진우</DirName>
+        <DirDate>
+          {diaryMonth}월 {diaryDay}일
+        </DirDate>
         {selectedTextBox && (
           <TextBox onDelete={handleDeleteTextBox} bounds={diaryRef} />
         )}
@@ -116,4 +138,25 @@ const PaintingInfo = styled.img`
   flex-shrink: 0;
   margin-left: 44rem;
   margin-top: 3rem;
+`;
+
+const DirName = styled.div`
+  position: absolute;
+  margin-top: 3.5rem;
+  margin-left: 50rem;
+  color: #000000;
+  font-family: 'dachelove';
+  width: 100%;
+  font-size: 2rem;
+`;
+
+const DirDate = styled.div`
+  width: 100%;
+  position: absolute;
+  margin-top: 6.5rem;
+  margin-left: 50rem;
+  color: #000000;
+  width: 100%;
+  font-family: 'dachelove';
+  font-size: 2rem;
 `;

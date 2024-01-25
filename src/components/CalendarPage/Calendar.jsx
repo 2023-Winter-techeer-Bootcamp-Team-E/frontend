@@ -3,7 +3,7 @@ import { baseInstance } from '../../api/config';
 import { useDateNotificationStore } from '../../store/useDateNotificationStore';
 import { useDiaryURL } from '../../store/useDiaryURL';
 import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
-import { useIconUpdate } from '../../store/useIconUpdate';
+import useIconUpdate from '../../store/useIconUpdate';
 import { useNavigate } from 'react-router-dom';
 import {
   format,
