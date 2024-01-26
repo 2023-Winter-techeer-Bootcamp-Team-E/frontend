@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   font-family: mong;
 }
 /*일기 리스트 이름*/
@@ -65,7 +65,7 @@
   position: absolute;
   width: 2rem;
   height: auto;
-  margin-top: 3.2rem;
+  margin-top: 2rem;
   margin-right: 30rem;
   color: rgba(gray, 0.3);
 }
@@ -74,7 +74,7 @@
   position: absolute;
   width: 2rem;
   height: auto;
-  margin-top: 3.2rem;
+  margin-top: 2rem;
   margin-left: 30rem;
   color: rgba(gray, 0.3);
 }
@@ -95,13 +95,13 @@
 
 /*요일*/
 .days {
-  width: 100%;
-  height: 3rem;
+  width: 99.5%;
+  height: 2.5rem;
   display: flex;
   align-items: center;
   font-weight: 700;
   font-size: 1rem;
-  margin-left: 4px;
+  margin-left: 5px;
 }
 
 /*  */
@@ -112,7 +112,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   background: #ffffff;
 }
 .dayscol:nth-child(1) {
@@ -128,7 +128,7 @@
 /*날짜(바디부분)*/
 .calendarbody {
   width: 100%;
-  height: 89%;
+  height: 75%;
   padding-left: 5px;
   z-index: 40;
 }
@@ -145,15 +145,15 @@
 
 /* 캘린더  내부*/
 .bodycol {
-  width: 15%;
-  height: 97%;
+  width: 14.6%;
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   border: 0.125rem solid #fff;
   border-top: none;
-  font-size: 1.2rem;
+  font-size: 1rem;
   background: #d8d8f0;
 }
 
@@ -162,14 +162,14 @@
   margin-bottom: 3.5rem;
 }
 .not-valid {
-  color: #a5a5a5;
+  color: #aaaaaa;
 }
 .bodycol > img {
   opacity: 1;
 }
 .today {
   cursor: pointer;
-  color: #e55218;
+  color: #8f6abe;
   background: #f2edff;
   font-weight: 600;
   margin-bottom: 0.1rem;
@@ -180,7 +180,7 @@
 }
 .bodycol.cell.selected {
   background: #b9ade4;
-  color: #e55218;
+  color: #2e8c3e;
   font-weight: 600;
 }
 
@@ -232,7 +232,7 @@
   border-radius: 0.625rem;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.3s ease;
 }
 
 .GoToSelectInnerPaperBtn:hover {
@@ -243,16 +243,16 @@
 
 .GoToShareURLBtn {
   /* width: 2.875rem; */
-  height: 2.8125rem;
+  height: 3.125rem;
   flex-shrink: 0;
   position: absolute;
-  margin-top: 1rem;
+  margin-top: 0.625rem;
   /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.3s ease;
 }
 
 .GoToShareURLBtn:hover {
-  height: 3.125rem;
+  height: 3.5rem;
   /* box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.25); */
 }

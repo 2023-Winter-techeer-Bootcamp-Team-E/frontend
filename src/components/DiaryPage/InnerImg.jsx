@@ -1,5 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+
 import styled from 'styled-components';
+import { useInnerPage } from '../../store/useInnerPage';
 
 import MainInnerImg1 from '../../assets/img/InnerImg/MainInnerImg1.png';
 import MainInnerImg2 from '../../assets/img/InnerImg/MainInnerImg2.png';
@@ -21,6 +23,7 @@ function InnerImg({
   setSelectedTextBox,
   websocket,
 }) {
+  const { innerPage } = useInnerPage();
   const diaryRef = useRef(null);
   const stickers = useDiaryStore((state) => state.stickers);
 
@@ -32,47 +35,90 @@ function InnerImg({
     setSelectedSticker(false);
   };
 
-  const [innerPageNum, setInnerPageNum] = useState(2); //속지 ID 설정 여거 수정하면 돼 유진쓰
+  const innerPageNum = useInnerPage.getState().innerPage;
+
+  useEffect(() => {
+    useInnerPage.setState({ innerPage: innerPageNum });
+  }, [innerPageNum]);
 
   const InnerPaperRotate = () => {
     switch (innerPageNum) {
-      case 1:
+      case '1':
         return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
-      case 2:
+      case '2':
         return <InnerPaperImg src={MainInnerImg2} ref={diaryRef} />;
-      case 3:
+      case '3':
         return <InnerPaperImg src={MainInnerImg3} ref={diaryRef} />;
-      case 4:
+      case '4':
         return <InnerPaperImg src={MainInnerImg4} ref={diaryRef} />;
-      case 5:
+      case '5':
         return <InnerPaperImg src={MainInnerImg5} ref={diaryRef} />;
-      case 6:
+      case '6':
         return <InnerPaperImg src={MainInnerImg6} ref={diaryRef} />;
       default:
         return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
     }
   };
+
+  const renderTextBoxes = () => {
+    return diaryData.diaryTextBoxs.map((textBox) => (
+      <div
+        key={textBox.textbox_id}
+        style={{
+          position: 'absolute',
+          left: `${textBox.xcoor}px`,
+          top: `${textBox.ycoor}px`,
+          width: `${textBox.width}px`,
+          height: `${textBox.height}px`,
+          transform: `rotate(${textBox.rotate || 0}deg)`,
+        }}>
+        {textBox.content}
+      </div>
+    ));
+  };
+
+  // 스티커 렌더링 함수
+  const renderStickers = () => {
+    return diaryData.diaryStickers.map((sticker) => (
+      <img
+        key={sticker.sticker_id}
+        src={sticker.sticker_image_url}
+        alt={`sticker-${sticker.sticker_id}`}
+        style={{
+          position: 'absolute',
+          left: `${sticker.xcoor}px`,
+          top: `${sticker.ycoor}px`,
+          width: `${sticker.width}px`,
+          height: `${sticker.height}px`,
+          transform: `rotate(${sticker.rotate || 0}deg)`,
+        }}
+      />
+    ));
+  };
+
   return (
-    <div>
-      <DiaryWrapper>
+    <DiaryWrapper>
+      <InnerImgWrapper>
         {InnerPaperRotate()}
-        <PaintingDog src={DiaryInnerPaintingDog} />
-        <PaintingInfo src={DiaryInnerPaintingInfo} />
-        {stickers.map((sticker) => (
-          <Stickers
-            onDelete={handleDeleteStickers}
-            key={sticker.id}
-            stickerId={sticker.id}
-            image={sticker.image}
-            bounds={diaryRef}
-            websocket={websocket}
-          />
-        ))}
-        {selectedTextBox && (
-          <TextBox onDelete={handleDeleteTextBox} bounds={diaryRef} />
-        )}
-      </DiaryWrapper>
-    </div>
+        {diaryData && renderTextBoxes()}
+        {diaryData && renderStickers()}
+      </InnerImgWrapper>
+      <PaintingDog src={DiaryInnerPaintingDog} />
+      <PaintingInfo src={DiaryInnerPaintingInfo} />
+      {stickers.map((sticker) => (
+        <Stickers
+          onDelete={handleDeleteStickers}
+          key={sticker.id}
+          stickerId={sticker.id}
+          image={sticker.image}
+          bounds={diaryRef}
+          websocket={websocket}
+        />
+      ))}
+      {selectedTextBox && (
+        <TextBox onDelete={handleDeleteTextBox} bounds={diaryRef} />
+      )}
+    </DiaryWrapper>
   );
 }
 
@@ -87,11 +133,17 @@ const DiaryWrapper = styled.div`
   flex-shrink: 0;
 `;
 
-const InnerPaperImg = styled.img`
+const InnerImgWrapper = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
   flex-shrink: 0;
+  flex-shrink: 0;
+`;
+
+const InnerPaperImg = styled.img`
+  width: 100%;
+  height: 100%;
   flex-shrink: 0;
 `;
 

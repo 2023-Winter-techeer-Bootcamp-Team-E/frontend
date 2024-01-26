@@ -1,8 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import reset from 'styled-reset';
 
 const GlobalStyles = createGlobalStyle`
-  ${reset}
     a{
       text-decoration: none;
       color: inherit;
@@ -10,14 +8,20 @@ const GlobalStyles = createGlobalStyle`
     *{
         box-sizing: border-box;
     }
-    html, body, div, span, h1, h2, h3, h4, h5, h6, p, 
-    a, dl, dt, dd, ol, ul, li, form, label, table {
+    html{
         margin: 0;
         padding: 0;
         border: 0;
         font-size: 0.74rem;
         vertical-align: baseline;
     }
+    img, div {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
     body{
         line-height: 1;
         font-family: 'Noto Sans KR', sans-serif;
@@ -40,6 +44,7 @@ const GlobalStyles = createGlobalStyle`
     input:focus {
       outline: none;
     }
+    //여기까지
     // Break Point
     /* $tablet: 500px; */
     $desktop: 1024px;

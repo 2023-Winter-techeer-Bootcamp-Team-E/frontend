@@ -25,8 +25,6 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
     setSelectedTextBox(true);
   };
 
-  // 날려버리기(스티커 두개뜸, 서버 보내주는거, 우리가 만든거)
-  // 서버에서 보내주는 id로 이용중인지
   const handleStickerSelect = (image) => {
     setSelectedSticker(image); // 선택한 이미지 URL을 상태로 저장
   };
@@ -121,7 +119,6 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
         <WrapperSaveButton>
           <SaveButton />
         </WrapperSaveButton>
-        ƒ
         <WrapperBasicSticker>
           <BasicSticker
             onStickerSelect={handleStickerSelect}
@@ -133,6 +130,7 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
     </BackLayout>
   );
 }
+
 const BackLayout = styled.div`
   position: absolute;
   top: 0;

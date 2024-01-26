@@ -136,14 +136,26 @@ function SignUpPage(props) {
 
       if (response.data.code === 'M001' && response.status === 201) {
         console.log('회원가입 완료');
+        Swal.fire({
+          title: '회원가입 완료!',
+          text: '회원가입이 성공적으로 완료되었습니다.',
+          icon: 'success',
+          confirmButtonText: '확인',
+        });
         navigate('/login');
       } else {
         console.error('회원가입 실패:', response.data.message);
-        Swal.fire("이미 존재하는 로그인 ID입니다. ");
-
+        Swal.fire('이미 존재하는 로그인 ID입니다. ');
       }
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error);
+      if (usernameWrite && idWrite && pwWrite && pwMatchWrite) {
+        Swal.fire({
+          text: '이미 존재하는 ID입니다.',
+          icon: 'error',
+          confirmButtonText: '확인',
+        });
+      }
     }
   };
 
@@ -197,7 +209,7 @@ function SignUpPage(props) {
     if (e.key === 'Enter') {
       handleSignUp();
     }
-  };  
+  };
 
   return (
     <BackLayout>
