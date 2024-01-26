@@ -1,6 +1,6 @@
 // useDateNotificationStore.js
 
-import create from 'zustand';
+import { create } from 'zustand';
 
 const useDateNotificationStore = create((set) => ({
   page: 1,
