@@ -72,30 +72,68 @@ function InnerImg({
         return <InnerPaperImg src={MainInnerImg2} ref={diaryRef} />;
     }
   };
+  
+  const renderTextBoxes = () => {
+    return diaryData.diaryTextBoxs.map((textBox) => (
+      <div
+        key={textBox.textbox_id}
+        style={{
+          position: 'absolute',
+          left: `${textBox.xcoor}px`,
+          top: `${textBox.ycoor}px`,
+          width: `${textBox.width}px`,
+          height: `${textBox.height}px`,
+          transform: `rotate(${textBox.rotate || 0}deg)`,
+        }}
+      >
+        {textBox.content}
+      </div>
+    ));
+  };
+
+  // 스티커 렌더링 함수
+  const renderStickers = () => {
+    return diaryData.diaryStickers.map((sticker) => (
+      <img
+        key={sticker.sticker_id}
+        src={sticker.sticker_image_url}
+        alt={`sticker-${sticker.sticker_id}`}
+        style={{
+          position: 'absolute',
+          left: `${sticker.xcoor}px`,
+          top: `${sticker.ycoor}px`,
+          width: `${sticker.width}px`,
+          height: `${sticker.height}px`,
+          transform: `rotate(${sticker.rotate || 0}deg)`,
+        }}
+      />
+    ));
+  };
 
   return (
-    <div>
-      <DiaryWrapper>
-        <InnerImgWrapper>{InnerPaperRotate()}</InnerImgWrapper>
-        <PaintingDog src={DiaryInnerPaintingDog} />
-        <PaintingInfo src={DiaryInnerPaintingInfo} />
-        {selectedSticker && (
-          <Stickers
-            onDelete={handleDeleteStickers}
-            image={selectedSticker}
-            bounds={diaryRef}
-          />
-        )}
-        <DirName>조진우</DirName>
+    <DiaryWrapper>
+      <InnerImgWrapper>
+        {InnerPaperRotate()}
+        {diaryData && renderTextBoxes()}
+        {diaryData && renderStickers()}
+      </InnerImgWrapper>
+      <PaintingDog src={DiaryInnerPaintingDog} />
+      <PaintingInfo src={DiaryInnerPaintingInfo} />
+      {selectedSticker && (
+        <Stickers
+          onDelete={handleDeleteStickers}
+          image={selectedSticker}
+          bounds={diaryRef}
+        />
+      )}
+              <DirName>조진우</DirName>
         <DirDate>
           {diaryMonth}월 {diaryDay}일
         </DirDate>
-        {selectedTextBox && (
-          <TextBox onDelete={handleDeleteTextBox} bounds={diaryRef} />
-        )}
-        {/* 작업 들어갈 곳 */}
-      </DiaryWrapper>
-    </div>
+      {selectedTextBox && (
+        <TextBox onDelete={handleDeleteTextBox} bounds={diaryRef} />
+      )}
+    </DiaryWrapper>
   );
 }
 

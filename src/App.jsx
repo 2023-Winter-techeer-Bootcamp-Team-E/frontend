@@ -7,6 +7,7 @@ import SignUpPage from './pages/SignUpPage';
 import TutorialPage from './pages/TutorialPage';
 import DiaryPage from './pages/DiaryPage';
 import GlobalStyles from './GlobalStyles';
+import PastPage from './pages/PastPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/tutorial" element={<TutorialPage />} />
         <Route path="/diary" element={<DiaryPage />} />
+        <Route path="/past" element={<PastPage />} />
       </Routes>
     </Router>
   );
