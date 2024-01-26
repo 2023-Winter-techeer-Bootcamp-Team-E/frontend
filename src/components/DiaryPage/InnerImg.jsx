@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { baseInstance } from '../../api/config';
 import { useNavigate } from 'react-router-dom';
-import { useDiaryContent } from '../../store/useDiaryContent';
 
 import MainInnerImg1 from '../../assets/img/InnerImg/MainInnerImg1.png';
 import MainInnerImg2 from '../../assets/img/InnerImg/MainInnerImg2.png';
@@ -27,8 +26,6 @@ function InnerImg({
   const diaryRef = useRef(null);
   const [innerPage, setInnerPage] = useState(1);
   const navigate = useNavigate();
-  const diaryContent = useDiaryContent((state) => state.diaryContent);
-  const [contentArr, setContentArr] = useState([]);
 
   const handleDeleteTextBox = () => {
     setSelectedTextBox(false);
@@ -46,13 +43,7 @@ function InnerImg({
           console.log(`${diaryMonth}월 ${diaryDay}일 다이어리 조회 성공!`);
           const diaryBgId = response.data.diary_bg_id;
           setInnerPage(diaryBgId);
-
-          // diaryContent가 빈 문자열이 아닌 경우에만 추가
-          if (diaryContent !== '') {
-            setContentArr((prevArr) => [...prevArr, diaryContent]);
-          }
         }
-        console.log('contentArr :', contentArr);
       } catch (error) {
         console.log(
           `catch ${diaryMonth}월 ${diaryDay}일 다이어리 조회 실패 : ${error.message}`,
@@ -61,12 +52,7 @@ function InnerImg({
       }
     };
     fetchData();
-    console.log('contentArr :', contentArr);
-  }, [diaryContent, contentArr]); // contentArr를 의존성 배열에 추가
-
-  useEffect(() => {
-    console.log('contentArr :', contentArr);
-  }, [contentArr]); // contentArr가 업데이트될 때마다 실행
+  }, []);
 
   const InnerPaperRotate = () => {
     switch (innerPage) {
