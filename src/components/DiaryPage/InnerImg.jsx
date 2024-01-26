@@ -25,6 +25,7 @@ function InnerImg({
   diaryMonth,
   diaryDay,
   websocket,
+  diaryData,
 }) {
   const diaryRef = useRef(null);
   const stickers = useStickerStore((state) => state.stickers);
