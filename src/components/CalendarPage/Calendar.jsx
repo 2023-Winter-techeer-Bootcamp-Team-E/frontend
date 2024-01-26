@@ -6,7 +6,6 @@ import { useDiaryURL } from '../../store/useDiaryURL';
 import { useInnerPage } from '../../store/useInnerPage';
 import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
 import useIconUpdate from '../../store/useIconUpdate';
-import { useNavigate } from 'react-router-dom';
 import {
   format,
   addMonths,

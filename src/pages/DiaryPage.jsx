@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { useSelectDateInfoStore } from '../store/useSelectDateInfoStore';
 
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
@@ -10,17 +11,24 @@ import SaveButton from '../components/DiaryPage/SaveButton';
 import TextButton from '../components/DiaryPage/TextButton';
 
 import InnerImg from '../components/DiaryPage/InnerImg';
-import useDiaryStore from '../stores/diaryStore';
+import useStickerStore from '../stores/stickerStore';
+import useTextStore from '../stores/textStore';
 
 const WEBSOCKET_URL = 'ws://127.0.0.1:8000/ws/harurooms/1/';
-// const socket = new WebSocket(`${WEBSOCKET_URL}/ws/harurooms/${roomIndex}`);
+// const socket = new WebSocket(`${WEBSOCKET_URL}/ws/harurooms/${diaryId}`);
 
-function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
+function DiaryPage() {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState(null);
   const [sharedText, setSharedText] = useState(''); // 모든 사용자에게 공유될 텍스트
+  const selectedDateInfo = useSelectDateInfoStore((state) => state);
+
   const websocket = useRef(null);
-  const addSticker = useDiaryStore((state) => state.addSticker);
+  const addSticker = useStickerStore((state) => state.addSticker);
+  const stickers = useStickerStore((state) => state.stickers);
+  const texts = useTextStore((state) => state.texts);
+  const addText = useTextStore((state) => state.addText);
+
   const handleTextButtonClick = () => {
     setSelectedTextBox(true);
   };
@@ -29,6 +37,8 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
     setSelectedSticker(image); // 선택한 이미지 URL을 상태로 저장
   };
 
+  // console.log(stickers);
+  console.log(texts);
   useEffect(() => {
     const newSocket = new WebSocket(WEBSOCKET_URL);
 
@@ -49,39 +59,65 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
 
     // WebSocket 이벤트 리스너 설정
     newSocket.onmessage = (event) => {
-      console.log('이벤트 발생');
       const data = JSON.parse(event.data);
       if (data.type === 'create_sticker') {
-        // 서버로부터 받은 스티커 정보를 상태에 추가
-        useDiaryStore.getState().addSticker({
+        console.log('스티커 생성');
+        useStickerStore.getState().addSticker({
           id: data.sticker_id,
           image: data.image,
           ...data.position,
         });
       } else if (data.type === 'image_drag') {
         console.log('드래그 발생');
-        // 드래그 이벤트 처리
-        // const { id, top2, left2 } = data.drag;
-        useDiaryStore
+        useStickerStore
           .getState()
           .updateSticker({ id: data.sticker_id, ...data.position });
       } else if (data.type === 'image_resize') {
         console.log('리사이즈 발생');
-
-        // 리사이즈 이벤트 처리
-        // const { id, width2, height2, top2, left2 } = data.resize;
-        useDiaryStore.getState().updateSticker({
+        useStickerStore.getState().updateSticker({
           id: data.sticker_id,
           ...data.position,
         });
       } else if (data.type === 'image_rotate') {
         console.log('로테이트 발생');
-
-        // 회전 이벤트 처리
-        // const { id, rotate2 } = data.rotate;
-        useDiaryStore
+        useStickerStore
           .getState()
           .updateSticker({ id: data.sticker_id, ...data.position });
+      } else if (data.type === 'delete_object') {
+        console.log('삭제');
+        useStickerStore.getState().deleteSticker(data.object_id);
+        useTextStore.getState().deleteText(data.object_id);
+      }
+
+      // 텍스트 박스
+      if (data.type === 'create_textbox') {
+        console.log('텍스트 박스 생성');
+        useTextStore.getState().addText({
+          id: data.text_id,
+          ...data.position,
+        });
+      } else if (data.type === 'text_drag') {
+        console.log('텍스트 드래그 발생');
+        useTextStore
+          .getState()
+          .updateText({ id: data.text_id, ...data.position });
+      } else if (data.type === 'text_resize') {
+        console.log('텍스트 리사이즈 발생');
+        useTextStore
+          .getState()
+          .updateText({ id: data.text_id, ...data.position });
+      } else if (data.type === 'text_input') {
+        console.log('텍스트 입력 발생');
+        console.log('입력값:', data.content);
+        useTextStore
+          .getState()
+          .updateText({ id: data.text_id, content: data.content });
+      } else if (data.type === 'nickname_input') {
+        console.log('닉네임 입력 발생');
+        console.log('입력값:', data.nickname);
+        useTextStore
+          .getState()
+          .updateText({ id: data.text_id, nickname: data.nickname });
       }
     };
 
@@ -95,7 +131,7 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
-          <NavigateBar userName={userName} userId={userId} />
+          <NavigateBar />
         </WrapperNavigateBar>
         <WrapperLargeSketchbook>
           <LargeSketchbook />
@@ -108,13 +144,18 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
             setSelectedTextBox={setSelectedTextBox}
             sharedText={sharedText}
             websocket={websocket}
+            diaryMonth={selectedDateInfo.selectedMonth}
+            diaryDay={selectedDateInfo.selectedDay}
           />
         </WrapperInnerImg>
         <WrapperRightSticker>
-          <RightSticker />
+          <RightSticker
+            diaryMonth={selectedDateInfo.selectedMonth}
+            diaryDay={selectedDateInfo.selectedDay}
+          />
         </WrapperRightSticker>
         <WrapperDHomeButton>
-          <DHomeButton move={move} />
+          <DHomeButton />
         </WrapperDHomeButton>
         <WrapperSaveButton>
           <SaveButton />
@@ -125,7 +166,7 @@ function DiaryPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
             websocket={websocket}
           />
         </WrapperBasicSticker>
-        <TextButton onClick={handleTextButtonClick} />
+        <TextButton onClick={handleTextButtonClick} websocket={websocket} />
       </PageFrame>
     </BackLayout>
   );

@@ -17,7 +17,13 @@ function BasicSticker({ onStickerSelect, websocket }) {
         type: 'create_sticker',
         image: image,
         // 초기 위치 및 크기 정보 전송
-        position: { top: 100, left: 100, width: 100, height: 100, rotate: 0 },
+        position: {
+          top2: 100,
+          left2: 100,
+          width2: 100,
+          height2: 100,
+          rotate2: 0,
+        },
       }),
     );
   };

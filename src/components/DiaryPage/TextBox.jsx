@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
+import { useDiaryContent } from '../../store/useDiaryContent';
+import useTextStore from '../../stores/textStore';
 
 const TextSaveClick = () => {
   const swalWithBootstrapButtons = Swal.mixin({
@@ -25,6 +28,9 @@ const TextSaveClick = () => {
     })
     .then((result) => {
       if (result.isConfirmed) {
+        const userText = document.querySelector('#textInput').value; // TextInput의 id를 지정해야 함
+        useDiaryContent.setState({ diaryContent: userText });
+        console.log('저장된 content:', userText);
         swalWithBootstrapButtons.fire({
           title: '저장되었어요!',
           icon: 'success',
@@ -38,43 +44,95 @@ const TextSaveClick = () => {
     });
 };
 
-function TextBox({ username, dirmonth, dirday, onDelete, bounds }) {
-  const [size, setSize] = useState({ width: 300, height: 100 });
-  const [position, setPosition] = useState({ x: 100, y: 100 });
-  // const [text, setText] = useState(''); // 사용자의 텍스트를 관리하는 상태
-  // const websocket = useRef(null); // 웹소켓 인스턴스를 저장하는 ref
+function TextBox({ username, onDelete, textId, bounds, websocket }) {
+  const texts = useTextStore((state) => state.texts);
+  const text = texts.find((t) => t.id === textId);
+  const [isComposing, setIsComposing] = useState(false);
+  const selectedDateInfo = useSelectDateInfoStore((state) => state);
+  const placeholder = `${username}님과 ${selectedDateInfo.selectedMonth}월 ${selectedDateInfo.selectedDay}일의 일상을 공유해봐요!`;
 
-  const placeholder = `${username}님과 ${dirmonth}월 ${dirday}일의 일상을 공유해봐요!`;
+  // WebSocket 메시지 전송 함수
+  const sendWebSocketMessage = (
+    type,
+    updatedPosition,
+    content = null,
+    nickname = null,
+  ) => {
+    const message = {
+      type,
+      id: textId,
+      position: updatedPosition,
+    };
 
-  const handleDragStop = (e, d) => {
-    setPosition({ x: d.x, y: d.y });
-    // 여기에 추가적인 상태 저장 로직을 넣을 수 있음
-    console.log('Drag stopped at:', d.x, d.y);
+    if (content !== null) {
+      message.content = content;
+    }
+
+    if (nickname !== null) {
+      message.nickname = nickname;
+    }
+
+    websocket.current.send(JSON.stringify(message));
+  };
+
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  };
+
+  const handleCompositionEnd = (e) => {
+    setIsComposing(false);
+    sendWebSocketMessage('text_input', null, e.target.value);
+  };
+
+  const handleDrag = (e, d) => {
+    sendWebSocketMessage('text_drag', { x: d.x, y: d.y });
   };
 
   // ContainerDiv 크기에 따라 내부 요소들의 크기 조절
-  const handleResizeStop = (e, direction, ref, delta, position) => {
-    setSize({
+  const handleResize = (e, direction, ref, delta, position) => {
+    // object_type = 'text';
+    // useTextStore.getState().updateText({
+    //   width: ref.style.width,
+    //   height: ref.style.height,
+    // });
+    sendWebSocketMessage('text_resize', {
       width: ref.style.width,
       height: ref.style.height,
     });
-    setPosition(position);
-    console.log('Resize stopped at:', position.x, position.y);
   };
 
-  // const sendMessage = (message) => {
-  //   if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
-  //     websocket.current.send(message);
-  //   }
-  // };
+  const handleTextChange = (e) => {
+    if (!isComposing || e.nativeEvent.isComposing === false) {
+      // const content = value;
+      // useTextStore.getState().updateText({
+      //   id: textId,
+      //   content: updatedText,
+      // });
+      console.log(typeof content);
+      sendWebSocketMessage('text_input', null, e.target.value);
+    }
+  };
+
+  const handleNicknameChange = (e) => {
+    if (!isComposing) {
+      const nickname = e.target.value;
+      // useTextStore.getState().updateText({
+      //   id: textId,
+      //   nickname,
+      // });
+      sendWebSocketMessage('nickname_input', null, null, nickname);
+    }
+  };
 
   return (
     <>
       <Rnd
-        size={{ width: size.width, height: size.height }}
-        position={{ x: position.x, y: position.y }}
-        onDragStop={handleDragStop}
-        onResizeStop={handleResizeStop}
+        size={{ width: text.width, height: text.height }}
+        position={{ x: text.x, y: text.y }}
+        onDrag={handleDrag}
+        onResize={handleResize}
+        // onDragStop={handleDragStop}
+        // onResizeStop={handleResizeStop}
         enableResizing={{
           top: true,
           right: true,
@@ -87,21 +145,34 @@ function TextBox({ username, dirmonth, dirday, onDelete, bounds }) {
         }}
         bounds={bounds.current}>
         <CloseButton onClick={onDelete} />
+
         <ContainerDiv>
           <TextInput
-            value={text}
+            value={text.content}
             onChange={handleTextChange}
+            // id="textInput"
+            onCompositionStart={handleCompositionStart}
+            onCompositionEnd={handleCompositionEnd}
             placeholder={placeholder}
             style={{ width: '100%' }}
+            // onKeyUp={(e) => {
+            //   if (e.key === ' ') {
+            //     handleTextChange(e);
+            //   }
+            // }}
           />
 
           <BtnWrap style={{ width: '100%' }}>
             {' '}
             <NicknameInput
+              value={text.nickname}
               placeholder="닉네임을 입력하세요"
               style={{ width: '70%' }}
+              onChange={handleNicknameChange}
+              onCompositionStart={handleCompositionStart}
+              onCompositionEnd={handleCompositionEnd}
             />
-            <TextSaveBtn onClick={sendMessage}>입력</TextSaveBtn>
+            <TextSaveBtn onClick={TextSaveClick}>입력</TextSaveBtn>
           </BtnWrap>
         </ContainerDiv>
       </Rnd>
@@ -149,7 +220,7 @@ const CloseButton = styled.span`
   }
 `;
 
-const TextInput = styled.textarea`
+const TextInput = styled.input`
   flex-grow: 1; // flex-grow 속성으로 높이 조절
   margin-bottom: 0.5rem;
   margin-right: 0.5rem;

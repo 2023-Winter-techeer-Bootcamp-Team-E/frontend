@@ -1,8 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function TextButton({ onClick }) {
-  return <TextButtonContainer onClick={onClick}>T</TextButtonContainer>;
+function TextButton({ onClick, websocket }) {
+  const handleTextButtonClick = () => {
+    onClick();
+    websocket.current.send(
+      JSON.stringify({
+        type: 'create_textbox',
+        position: {
+          width: 300,
+          height: 100,
+          x: 100,
+          y: 100,
+        },
+      }),
+    );
+  };
+  return (
+    <TextButtonContainer onClick={handleTextButtonClick}>T</TextButtonContainer>
+  );
 }
 
 const TextButtonContainer = styled.div`

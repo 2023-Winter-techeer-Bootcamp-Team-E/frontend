@@ -3,7 +3,7 @@ import ResizableRect from 'react-resizable-rotatable-draggable';
 import styled from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-import useDiaryStore from '../stores/diaryStore';
+import useStickerStore from '../stores/stickerStore';
 
 const ImgSaveClick = () => {
   const swalWithBootstrapButtons = Swal.mixin({
@@ -39,32 +39,23 @@ const ImgSaveClick = () => {
     });
 };
 
-function Stickers({ stickerId, onDelete, image, bounds, websocket }) {
-  const stickers = useDiaryStore((state) => state.stickers);
+function Stickers({ stickerId, image, bounds, websocket }) {
+  const stickers = useStickerStore((state) => state.stickers);
   const sticker = stickers.find((s) => s.id === stickerId);
 
-  const [position, setPosition] = useState({
-    width2: sticker?.width || 100,
-    height2: sticker?.height || 100,
-    top2: sticker?.top || 100,
-    left2: sticker?.left || 100,
-    rotate2: sticker?.rotate || 0,
-  });
-
-  // 스티커 상태 업데이트 함수
-  const updateStickerPosition = (newPosition) => {
-    setPosition((prevState) => ({ ...prevState, ...newPosition }));
-    useDiaryStore.getState().updateSticker({ id: stickerId, ...newPosition });
-  };
-
   // WebSocket 메시지 전송 함수
-  const sendWebSocketMessage = (type, updatedPosition) => {
+  const sendWebSocketMessage = (type, updatedPosition, objectType) => {
     console.log(
       `Sending message: Type: ${type}, stickerId: ${stickerId}, Position:`,
       updatedPosition,
     );
     websocket.current.send(
-      JSON.stringify({ type, id: stickerId, position: updatedPosition }),
+      JSON.stringify({
+        type,
+        id: stickerId,
+        object_type: objectType,
+        position: updatedPosition,
+      }),
     );
   };
 
@@ -77,25 +68,12 @@ function Stickers({ stickerId, onDelete, image, bounds, websocket }) {
       left2: Math.round(style.left),
     };
 
-    updateStickerPosition(position);
     sendWebSocketMessage('image_resize', position);
-
-    // top = Math.round(top);
-    // left = Math.round(left);
-    // width = Math.round(width);
-    // height = Math.round(height);
-    // setPosition((prevState) => ({
-    //   ...prevState,
-    //   width2: width,
-    //   top2: top,
-    //   height2: height,
-    //   left2: left,
-    // }));
   };
+
   const handleRotate = (rotateAngle) => {
     console.log('회전');
     const roundedRotate = Math.round(rotateAngle);
-    updateStickerPosition({ rotate2: roundedRotate });
     sendWebSocketMessage('image_rotate', { rotate2: roundedRotate });
   };
 
@@ -110,77 +88,132 @@ function Stickers({ stickerId, onDelete, image, bounds, websocket }) {
       bottom: boundsRect.bottom - 185,
     };
 
-    let newTop = position.top2 + deltaY;
-    let newLeft = position.left2 + deltaX;
+    let newTop = sticker.top2 + deltaY;
+    let newLeft = sticker.left2 + deltaX;
 
     // 확장된 범위 내에서만 이동하도록 조정합니다.
     if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
     if (newTop < expandedBounds.top) newTop = expandedBounds.top;
-    if (newLeft + position.width2 > expandedBounds.right) {
-      newLeft = expandedBounds.right - position.width2;
+    if (newLeft + sticker.width2 > expandedBounds.right) {
+      newLeft = expandedBounds.right - sticker.width2;
     }
-    if (newTop + position.height2 > expandedBounds.bottom) {
-      newTop = expandedBounds.bottom - position.height2;
+    if (newTop + sticker.height2 > expandedBounds.bottom) {
+      newTop = expandedBounds.bottom - sticker.height2;
     }
 
     const roundedTop = Math.round(newTop);
     const roundedLeft = Math.round(newLeft);
 
-    updateStickerPosition({ top2: roundedTop, left2: roundedLeft });
     sendWebSocketMessage('image_drag', {
       top2: roundedTop,
       left2: roundedLeft,
     });
   };
 
+  const handleDragStop = () => {
+    object_type = 'sticker';
+    const stickerData = {
+      image: image,
+      width2: sticker.width2,
+      height2: sticker.height2,
+      top2: sticker.top2,
+      left2: sticker.left2,
+      rotate2: sticker.rotate2,
+    };
+    useStickerStore.getState().updateSticker(stickerData);
+    sendWebSocketMessage('drag_stop', object_type, stickerData);
+  };
+
+  const handleResizeStop = () => {
+    object_type = 'sticker';
+    const stickerData = {
+      image: image,
+      width2: sticker.width2,
+      height2: sticker.height2,
+      top2: sticker.top2,
+      left2: sticker.left2,
+      rotate2: sticker.rotate2,
+    };
+    useStickerStore.getState().updateSticker(stickerData);
+    sendWebSocketMessage('resize_stop', object_type, stickerData);
+  };
+
+  const handleRotateStop = () => {
+    object_type = 'sticker';
+    const stickerData = {
+      image: image,
+      width2: sticker.width2,
+      height2: sticker.height2,
+      top2: sticker.top2,
+      left2: sticker.left2,
+      rotate2: sticker.rotate2,
+    };
+    useStickerStore.getState().updateSticker(stickerData);
+    sendWebSocketMessage('rotate_stop', object_type, stickerData);
+  };
+
+  const onDelete = () => {
+    // 서버로 삭제 요청 보내기
+    websocket.current.send(
+      JSON.stringify({
+        type: 'delete_object',
+        object_type: 'sticker',
+        object_id: stickerId,
+      }),
+    );
+  };
+
   return (
     <>
       <div
         style={{
-          width: position.width2,
-          height: position.height2,
+          width: sticker.width2,
+          height: sticker.height2,
           position: 'absolute',
           zIndex: 1,
         }}>
         <CloseButton
           onClick={onDelete}
           style={{
-            left: position.left2 + position.width2 - 20,
-            top: position.top2 - 10,
+            left: sticker.left2 + sticker.width2 - 20,
+            top: sticker.top2 - 10,
             zIndex: 200,
           }}
         />
         <ImgSaveBtn
           onClick={ImgSaveClick}
           style={{
-            left: position.left2 + position.width2 - 35,
-            top: position.top2 + position.height2 + 10,
+            left: sticker.left2 + sticker.width2 - 35,
+            top: sticker.top2 + sticker.height2 + 10,
           }}>
           저장
         </ImgSaveBtn>
         <img
           src={image}
           style={{
-            width: position.width2,
-            height: position.height2,
-            left: position.left2 + 1,
-            top: position.top2 + 1,
-            rotate: `${position.rotate2}deg`,
+            width: sticker.width2,
+            height: sticker.height2,
+            left: sticker.left2 + 1,
+            top: sticker.top2 + 1,
+            rotate: `${sticker.rotate2}deg`,
             position: 'absolute',
           }}
           alt="Selected Sticker"
         />
         <ResizableRect
           style={{ zIndex: 1000 }}
-          left={position.left2}
-          top={position.top2}
-          width={position.width2}
-          height={position.height2}
-          rotateAngle={position.rotate2}
+          left={sticker.left2}
+          top={sticker.top2}
+          width={sticker.width2}
+          height={sticker.height2}
+          rotateAngle={sticker.rotate2}
           zoomable="n, w, s, e, nw, ne, se, sw"
           onRotate={handleRotate}
           onResize={handleResize}
           onDrag={handleDrag}
+          onDragStop={handleDragStop}
+          onResizeStop={handleResizeStop}
+          onRotateStop={handleRotateStop}
         />
       </div>
     </>

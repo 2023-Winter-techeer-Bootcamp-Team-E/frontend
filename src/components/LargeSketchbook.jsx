@@ -27,6 +27,7 @@ const LargeSketch = styled.div`
   height: 58.6875rem; // 75.7rem
   flex-shrink: 0;
   background: #fff;
+  border-radius: 1.5rem;
 `;
 const LargeSpring = styled.img`
   width: 35.25rem;
