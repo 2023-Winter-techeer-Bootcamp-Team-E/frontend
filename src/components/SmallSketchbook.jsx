@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import EmptyLogo2 from '../assets/img/EmptyLogo2.png';
-import spring from '../assets/img/SmallSpring.png';
+import SmallSketchbookImage from '../assets/img/SmallSketchbook.png'; // 변수명 변경
 
 const SmallSketchbook = () => {
   return (
     <SmallSketch>
-      <SmallSpring src={spring} style={{ left: '5.563786008%' }} />
+      <StyledSmallSketchbook src={SmallSketchbookImage} alt="SmallSketchbook" /> {/* 변수명 변경 */}
       <StyledEmptyLogo2>
         <img src={EmptyLogo2} alt="EmptyLogo2" />
         <div>
@@ -17,7 +17,6 @@ const SmallSketchbook = () => {
           </StyledText>
         </div>
       </StyledEmptyLogo2>
-      <SmallSpring src={spring} style={{ left: '70.37037037%' }} />
     </SmallSketch>
   );
 };
@@ -25,25 +24,24 @@ const SmallSketchbook = () => {
 const SmallSketch = styled.div`
   position: absolute;
   width: 60.75rem;
-  height: 59.8125rem;
-  background: #fff;
-  top: 0;
+  height: 50.8125rem;
+  // background: #fff;
+  top: 2rem;
   bottom: 0;
   z-index: 1;
 `;
 
-const SmallSpring = styled.img`
-  width: 14.625rem;
-  height: 3.6875rem;
-  position: absolute;
-  top: 0rem;
-  bottom: 56.1rem;
+const StyledSmallSketchbook = styled.img`
+width: 60.75rem;
+height: 55.8125rem;
+bottom: 0;
+z-index: 1;
 `;
 
 const StyledEmptyLogo2 = styled.div`
   position: absolute;
   left: 22.6rem;
-  top: -6rem;
+  top: -3.5rem;
   img {
     width: 17.125rem;
     height: 12.25rem;

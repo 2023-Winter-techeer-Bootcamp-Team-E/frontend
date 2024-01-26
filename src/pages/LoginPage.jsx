@@ -110,7 +110,6 @@ const LoginPage = () => {
           <SignInInput>
             <SignInBtn text="일기장 펼치기" onClick={handleLogin} />
           </SignInInput>
-          <Line />
           <SignUpText to="/signup">회원 가입</SignUpText>
         </SketDiv>
         <SketBook src={sketbook} />
@@ -165,14 +164,11 @@ const SketDiv = styled.div`
 
 const SignInText = styled.div`
   color: #3cb5fa;
-  font-family: Arial Black;
-  font-size: 6rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
+  font-family: crown;
+  font-size: 8rem;
   position: absolute;
   z-index: 3;
-  margin-top: 10%;
+  margin-top: 15rem;
 `;
 
 const SketBook = styled.img`
@@ -231,15 +227,6 @@ const WrongPasswordAlert = styled.div`
 const SignInInput = styled.div`
   position: absolute;
   margin-top: 62%;
-  z-index: 2;
-`;
-
-const Line = styled.hr`
-  position: absolute;
-  width: 46.93769rem;
-  height: 0.0625rem;
-  background: #e1e1e1;
-  margin-top: 73%;
   z-index: 2;
 `;
 
