@@ -20,13 +20,13 @@ function SignUpPage(props) {
   const [usernameComment, setUsernameComment] = useState('');
   const [usernameCommentColor, setUsernameCommentColor] = useState('#DD0000');
   const [idComment, setIdComment] = useState(' - 영문을 포함해 4자리 이상');
-  const [idCommentColor, setIdCommentColor] = useState('#777777');
+  const [idCommentColor, setIdCommentColor] = useState('#aaa');
   const [pwComment, setPwComment] = useState(
     '- 안전한 일기 보관을 위해 8~16 자의 영문, 숫자, 특수문자를 사용하세요.',
   );
-  const [pwCommentColor, setPwCommentColor] = useState('#777777');
+  const [pwCommentColor, setPwCommentColor] = useState('#aaa');
   const [pwMatchComment, setPwMatchComment] = useState('');
-  const [pwMatchCommentColor, setPwMatchCommentColor] = useState('#777777');
+  const [pwMatchCommentColor, setPwMatchCommentColor] = useState('#aaa');
 
   //흔들리는 애니메이션
   const [usernameShake, setUsernameShake] = useState(false);
@@ -215,11 +215,7 @@ function SignUpPage(props) {
     <BackLayout>
       <PageFrame onKeyDown={handleKeyDown}>
         <SketDiv>
-          <SignUpText>
-            나만의 일기장을 <br />
-            만들어 볼까요?
-            <br />
-          </SignUpText>
+          <SignUpText>Sign up</SignUpText>
 
           <SmallSketchbook />
 
@@ -253,7 +249,7 @@ function SignUpPage(props) {
 
           <PwInput>
             <LoginInput
-              type="password"
+              type="text"
               placeholder="비밀번호"
               text={password}
               handleTextChange={handlePasswordChange}
@@ -362,17 +358,13 @@ const SketDiv = styled.div`
 `;
 
 const SignUpText = styled.div`
-  left: 20%;
+  /* left: 20%; */
   color: #3cb5fa;
-  font-family: Arial Black;
-  font-size: 3rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
+  font-size: 8rem;
+  font-family: 'crown';
   position: absolute;
   z-index: 3;
-  margin-top: 10%;
-  line-height: 1.2;
+  margin-top: 9%;
 `;
 
 const SketBook = styled.img`

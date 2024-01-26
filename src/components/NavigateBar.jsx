@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 import bell from '../assets/img/NavigateBar_bell.png';
 import arrow from '../assets/img/NavigateBar_arrow.png';
 import ProfileMenu from './CalendarPage/ProfileMenu';
-import NotificationMenu from './CalendarPage/NotificationMenu';
 import useUserInfoStore from '../store/UserInfoStore';
 
 const NavigateBar = () => {
@@ -91,11 +90,11 @@ const NavigateBar = () => {
 
   return (
     <NavBar>
-      <BellImg
+      {/* <BellImg
         src={bell}
         onClick={handleNotifyArrowClick}
         isopen={isNotifyMenuOpen}
-      />
+      /> */}
       <ProfWrapper>
         <ProfName>환영합니다. {nickname}님</ProfName>
         <ProfArrow
@@ -109,9 +108,9 @@ const NavigateBar = () => {
         <ProfileMenu userId={id} userName={nickname} />
       </ProfileMenuWrapper>
 
-      <NotificationMenuWrapper ref={notifyMenuRef} isopen={isNotifyMenuOpen}>
+      {/* <NotificationMenuWrapper ref={notifyMenuRef} isopen={isNotifyMenuOpen}>
         <NotificationMenu />
-      </NotificationMenuWrapper>
+      </NotificationMenuWrapper> */}
     </NavBar>
   );
 };

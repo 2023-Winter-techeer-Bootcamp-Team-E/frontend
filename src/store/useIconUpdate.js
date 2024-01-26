@@ -1,5 +1,5 @@
 // useIconUpdate.js
-import create from 'zustand';
+import { create } from 'zustand';
 
 const useIconUpdate = create((set) => ({
   iconUpdate: 0,

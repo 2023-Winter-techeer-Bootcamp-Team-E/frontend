@@ -17,8 +17,7 @@ function StartButton() {
       onClick={() => StartButtonClick(navigate)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      isHovered={isHovered}
-    >
+      isHovered={isHovered}>
       <StartMessage>바로 시작하기</StartMessage>
     </StartButtonContainer>
   );
@@ -42,8 +41,7 @@ const StartButtonContainer = styled.div`
   }
 `;
 const StartMessage = styled.text`
-  color: #FFF;
-  font-family: Arial Black;
+  color: #fff;
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 900;

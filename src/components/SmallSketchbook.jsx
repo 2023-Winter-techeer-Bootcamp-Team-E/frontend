@@ -29,6 +29,7 @@ const SmallSketch = styled.div`
   top: 2rem;
   bottom: 0;
   z-index: 1;
+  border-radius: 1.5rem;
 `;
 
 const StyledSmallSketchbook = styled.img`

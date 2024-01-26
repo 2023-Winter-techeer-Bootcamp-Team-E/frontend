@@ -96,7 +96,7 @@ const LoginPage = () => {
           </IdInput>
           <PwInput>
             <LoginInput
-              type="password"
+              type="text"
               placeholder="비밀번호"
               text={password}
               handleTextChange={handlePasswordChange}
@@ -110,6 +110,7 @@ const LoginPage = () => {
           <SignInInput>
             <SignInBtn text="일기장 펼치기" onClick={handleLogin} />
           </SignInInput>
+          {/* <Line /> */}
           <SignUpText to="/signup">회원 가입</SignUpText>
         </SketDiv>
         <SketBook src={sketbook} />
@@ -189,6 +190,7 @@ const PwInput = styled.div`
   position: absolute;
   margin-top: 48%;
   z-index: 2;
+  color: #000;
 `;
 
 const shakeAnimation = keyframes`
@@ -232,7 +234,6 @@ const SignInInput = styled.div`
 
 const SignUpText = styled(Link)`
   color: #c4c4c4;
-  font-family: Arial;
   font-size: 1.25rem;
   font-weight: 900;
   margin-top: 75%;

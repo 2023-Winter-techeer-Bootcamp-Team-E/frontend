@@ -12,7 +12,7 @@ const SignIn_Up = ({ text, onClick }) => {
   );
 };
 
-const MainBtn = styled.button`
+const MainBtn = styled.div`
   width: 36.5625rem;
   height: 4.8125rem;
   border-radius: 1.25rem;
@@ -21,12 +21,17 @@ const MainBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.02);
+  }
 `;
 
 const PlaceText = styled.p`
   position: absolute;
   color: #fff;
-  font-family: Arial Black;
+  font-family: 'bmjua';
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 900;
