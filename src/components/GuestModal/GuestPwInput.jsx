@@ -36,7 +36,6 @@ const TextInput = styled.input`
   height: 1.93538rem;
   width: 20.25463rem;
   color: #000;
-  font-family: Arial;
   font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;

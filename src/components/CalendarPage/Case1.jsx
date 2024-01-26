@@ -34,7 +34,6 @@ const DiarySettingWindow = styled.div`
   z-index: 15;
 
   color: #000;
-  font-family: Arial Black;
   font-size: 1rem;
   font-style: Bold;
   font-weight: 900;

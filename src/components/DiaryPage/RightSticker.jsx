@@ -17,6 +17,7 @@ const RightSticker = () => {
         if (diaryContent != '') {
           console.log('TextBox에서 저장한 content:', diaryContent);
           console.log('Dall-e 스티커 생성중...');
+          setStickerImages([]);
 
           const response = await baseInstance.post('/diaries/stickers', {
             content: diaryContent,
@@ -31,6 +32,7 @@ const RightSticker = () => {
           // setStickerImages(data.st_image_urls.slice(0, 2)); //2번
 
           console.log('Dall-e 스티커 생성 완료!');
+          useDiaryContent.setState({ diaryContent: '' });
         }
       } catch (error) {
         console.error('Dall-e 스티커 API 호출 에러! :', error);

@@ -25,11 +25,12 @@ const SmallSketchbook = () => {
 const SmallSketch = styled.div`
   position: absolute;
   width: 60.75rem;
-  height: 59.8125rem;
+  height: 50.8125rem;
   background: #fff;
-  top: 0;
+  top: 5rem;
   bottom: 0;
   z-index: 1;
+  border-radius: 1.5rem;
 `;
 
 const SmallSpring = styled.img`

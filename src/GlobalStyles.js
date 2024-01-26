@@ -21,10 +21,11 @@ const GlobalStyles = createGlobalStyle`
     -webkit-user-drag: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    /* font-family:'bmjua'; */
   }
     body{
         line-height: 1;
-        font-family: 'Noto Sans KR', sans-serif;
+        font-family: 'bmjua', sans-serif;
         background-color: #C1E3FF;
     }
     ol, ul{

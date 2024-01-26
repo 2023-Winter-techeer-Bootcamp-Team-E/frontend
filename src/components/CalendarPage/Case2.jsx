@@ -104,12 +104,19 @@ function Case2({ diaryMonth, diaryDay }) {
     <RightStickerContainer ref={diarySettingRef}>
       <DiarySettingWindow>
         <SelectDateText>
-          <span style={{ color: '#2c199f' }}>
+          <span style={{ color: '#FA9B55' }}>
             {diaryMonth}월 {diaryDay}일 {}
           </span>
+          <br />
           일기를 작성해요!
         </SelectDateText>
-        <SelectInnerPaperText>일기 배경지를 선택해 주세요</SelectInnerPaperText>
+        <SelectInnerPaperText>
+          {' '}
+          <span style={{ color: '#FA9B55', fontSize: '2rem' }}>
+            일기 배경지
+          </span>
+          를 선택해 주세요
+        </SelectInnerPaperText>
 
         <TopMaskingTape src={MaskingTape1} />
         {RotateImg(inpageNum)}
@@ -166,7 +173,6 @@ const DiarySettingWindow = styled.div`
   z-index: 15;
 
   color: #000;
-  font-family: Arial Black;
   font-size: 1rem;
   font-style: Bold;
   font-weight: 900;
@@ -175,8 +181,19 @@ const DiarySettingWindow = styled.div`
 
 const SelectDateText = styled.p`
   position: absolute;
-  margin-top: 5.5rem;
+  margin-top: 4rem;
   color: #000000;
+  /* font-family: 'bmjua';
+  font-size: 1.325rem; */
+  font-family: 'mong';
+  font-size: 2rem;
+  left: 1.19rem;
+`;
+
+const SelectInnerPaperText = styled.p`
+  position: absolute;
+  margin-top: 8.75rem;
+  color: #777;
   font-family: 'mong';
   font-size: 1.5rem;
   font-style: normal;
@@ -185,21 +202,6 @@ const SelectDateText = styled.p`
   left: 1.19rem;
 `;
 
-const SelectInnerPaperText = styled.p`
-  position: absolute;
-  margin-top: 8.75rem;
-  color: #bbb;
-  font-family: 'mong';
-  font-size: 1.2rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  left: 1.19rem;
-`;
-
-const WriteDiaryDate = styled.p`
-  color: #2c199f;
-`;
 const TopMaskingTape = styled.img`
   position: absolute;
   width: 3.75rem;

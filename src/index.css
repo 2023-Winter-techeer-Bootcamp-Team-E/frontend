@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inter, system-ui, Avenir, Helvetica, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -51,12 +51,18 @@
 
 @font-face {
   font-family: 'mong';
+  font-weight: black;
   src: url('../src/assets/Fonts/mongmong.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'dachelove';
   src: url('../src/assets/Fonts/Dache_love.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'crown';
+  src: url('../src/assets/Fonts/Crown_Mychew.ttf') format('truetype');
 }
 
 a {

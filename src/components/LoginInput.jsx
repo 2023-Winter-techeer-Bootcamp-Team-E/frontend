@@ -5,7 +5,7 @@ const LoginInput = ({ text, handleTextChange, placeholder, type }) => {
   return (
     <LoginInputContainer>
       <TextInput
-        type={type}
+        type={type === 'password' ? 'password' : 'text'}
         value={text}
         onChange={handleTextChange}
         placeholder={placeholder}
@@ -32,17 +32,14 @@ const TextInput = styled.input`
   width: 33rem;
   background: #fff;
   color: #000;
-  font-family: Arial;
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
+  font-family: 'bmjua';
   border: none;
   outline: none;
   text-align: left; /* 수정된 부분 */
   left: 1rem;
   &::placeholder {
-    color: #aaaaaa; /* 원하는 색상으로 변경하세요 */
+    color: #bbb; /* 원하는 색상으로 변경하세요 */
   }
 `;
 
