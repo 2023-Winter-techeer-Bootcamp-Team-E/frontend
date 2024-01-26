@@ -68,9 +68,7 @@ function InnerImg({
           width: `${textBox.width}px`,
           height: `${textBox.height}px`,
           transform: `rotate(${textBox.rotate || 0}deg)`,
-          border: selectedTextBox === textBox.textbox_id ? '2px solid red' : 'none',
         }}
-        onClick={() => setSelectedTextBox(textBox.textbox_id)}
       >
         {textBox.content}
       </div>
@@ -91,9 +89,7 @@ function InnerImg({
           width: `${sticker.width}px`,
           height: `${sticker.height}px`,
           transform: `rotate(${sticker.rotate || 0}deg)`,
-          border: selectedSticker === sticker.sticker_id ? '2px solid blue' : 'none',
         }}
-        onClick={() => setSelectedSticker(sticker.sticker_id)}
       />
     ));
   };

@@ -7,7 +7,7 @@ import SignUpPage from './pages/SignUpPage';
 import TutorialPage from './pages/TutorialPage';
 import DiaryPage from './pages/DiaryPage';
 import GlobalStyles from './GlobalStyles';
-// import PastPage from './pages/PastPage';
+import PastPage from './pages/PastPage';
 
 function App() {
   return (

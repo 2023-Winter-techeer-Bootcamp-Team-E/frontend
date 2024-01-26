@@ -4,68 +4,44 @@ import { keyframes } from 'styled-components';
 import LargeSketchbook from '../components/LargeSketchbook';
 import LogoIcon from '../assets/img/WebIcon.png';
 import StartButton from '../components/SignIn_Up';
+import arrowlbtn from '../assets/img/Tutorial/arrowlbtn.png';
+import arrowrbtn from '../assets/img/Tutorial/arrowrbtn.png';
 
 function TutorialPage(props) {
   const [pageNum, setPageNum] = useState(1);
 
-  const handleUpButtonClick = () => {
-    if (pageNum > 1) {
-      setPageNum((prevPageNum) => prevPageNum - 1);
+  const PageRender = () => {
+    switch (pageNum) {
+      case 1:
+        return (
+          <Case1Div>
+            <WrapperLargeSketchbook>
+              <LargeSketchbook />
+            </WrapperLargeSketchbook>
+            <SketDiv>
+              <LogoIconImg src={LogoIcon} />
+              <CommentDiv>
+                <CommentDivTitle>하루 연결 튜토리얼</CommentDivTitle>
+                <CommentDivText>
+                  소중한 사람들과 하루를 공유하며 즐길 수 있는 공간, <br />
+                  하루 연결에 오신것을 환영합니다!
+                </CommentDivText>
+                <StartButtonStyled>
+                  <StartButton text="시작하기" onClick={() => setPageNum(1)} />
+                </StartButtonStyled>
+              </CommentDiv>
+            </SketDiv>
+          </Case1Div>
+        );
     }
   };
-  
-  const handleDownButtonClick = () => {
-    if (pageNum < 6) {
-      setPageNum((prevPageNum) => prevPageNum + 1);
-    }
-  };
-
-  const startP = () => (
-    <>
-      <LogoIconImg src={LogoIcon} />
-      <CommentDiv>
-        <CommentDivTitle>하루 연결 튜토리얼</CommentDivTitle>
-        <CommentDivText>
-          소중한 사람들과 하루를 공유하며 즐길 수 있는 공간, <br />
-          하루 연결에 오신 것을 환영합니다!
-        </CommentDivText>
-        <StartButtonStyled>
-          <StartButton text="시작하기" onClick={() => setPageNum(1)} />
-        </StartButtonStyled>
-      </CommentDiv>
-    </>
-  );
-
-  const WrapperarrowlbtnContent = (
-    <Wrapperarrowlbtn>
-      <arrowlbtnStyled 
-        onClick={handleDownButtonClick}
-        src={arrowlbtn} 
-        alt="arrowlbtn"
-      />
-      <arrowrbtnStyled 
-        onClick={handleUpButtonClick}
-        src={arrowrbtn} 
-        alt="arrowrbtn"
-      />
-    </Wrapperarrowlbtn>
-  );
 
   return (
-    <Case1Div>
-      <WrapperLargeSketchbook>
-        <LargeSketchbook />
-      </WrapperLargeSketchbook>
-      <SketDiv>
-        {startP()}
-        {WrapperarrowlbtnContent()}
-      </SketDiv>
-    </Case1Div>
+    <BackLayout>
+      <PageFrame>{PageRender()}</PageFrame>
+    </BackLayout>
   );
 }
-
-// 나머지 코드 생략...
-
 
 const BackLayout = styled.div`
   position: absolute;
@@ -90,16 +66,6 @@ const PageFrame = styled.div`
   justify-content: center;
   z-index: 1;
 `;
-
-const Wrapperarrowlbtn = styled.div`
-  position: absolute;
-  width: 108rem;
-  height: 70rem;
-  display: flex;
-  top: 0;
-  justify-content: center;
-`;
-
 const Case1Div = styled.div`
   display: flex;
   flex-direction: column;

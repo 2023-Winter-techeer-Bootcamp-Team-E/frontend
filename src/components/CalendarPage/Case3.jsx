@@ -15,11 +15,6 @@ const Case3 = ({ diaryMonth, diaryDay }) => {
     navigate('../diary');
   };
 
-  useEffect(() => {
-    //shareURL이 잘 담겼는지 확인용입니당
-    console.log(shareURL);
-  }, [shareURL]);
-
   const copyToClipboard = () => {
     navigator.clipboard
       .writeText(shareURL)
