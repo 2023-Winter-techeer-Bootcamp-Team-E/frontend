@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ResizableRect from 'react-resizable-rotatable-draggable';
 import styled from 'styled-components';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
+import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 
 const ImgSaveClick = () => {
@@ -49,21 +49,22 @@ function Stickers({ onDelete, image, bounds }) {
 
   // eslint-disable-next-line no-unused-vars
   const handleResize = (style, isShiftKey, type) => {
-    let { top, left, width, height } = style;
-    top = Math.round(top);
-    left = Math.round(left);
-    width = Math.round(width);
-    height = Math.round(height);
-    setPosition((prevState) => ({
-      ...prevState,
-      width2: width,
-      top2: top,
-      height2: height,
-      left2: left,
-    }));
+    setPosition((prevState) => {
+      let { top, left, width, height } = style;
+      top = Math.round(top);
+      left = Math.round(left);
+      width = Math.round(width);
+      height = Math.round(height);
+      return {
+        ...prevState,
+        width2: width,
+        top2: top,
+        height2: height,
+        left2: left,
+      };
+    });
   };
   const handleRotate = (rotateAngle2) => {
-    console.log('회전');
     setPosition((prevState) => ({
       ...prevState,
       rotate2: rotateAngle2,
@@ -71,34 +72,30 @@ function Stickers({ onDelete, image, bounds }) {
   };
 
   const handleDrag = (deltaX, deltaY) => {
-    const boundsRect = bounds.current.getBoundingClientRect();
-
-    // 범위를 확장합니다.
-    const expandedBounds = {
-      left: boundsRect.left - 386,
-      top: boundsRect.top - 184,
-      right: boundsRect.right - 385,
-      bottom: boundsRect.bottom - 185,
-    };
-
-    let newTop = position.top2 + deltaY;
-    let newLeft = position.left2 + deltaX;
-
-    // 확장된 범위 내에서만 이동하도록 조정합니다.
-    if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
-    if (newTop < expandedBounds.top) newTop = expandedBounds.top;
-    if (newLeft + position.width2 > expandedBounds.right) {
-      newLeft = expandedBounds.right - position.width2;
-    }
-    if (newTop + position.height2 > expandedBounds.bottom) {
-      newTop = expandedBounds.bottom - position.height2;
-    }
-
-    setPosition((prevState) => ({
-      ...prevState,
-      top2: newTop,
-      left2: newLeft,
-    }));
+    setPosition((prevState) => {
+      const boundsRect = bounds.current.getBoundingClientRect();
+      const expandedBounds = {
+        left: boundsRect.left - 386,
+        top: boundsRect.top - 184,
+        right: boundsRect.right - 385,
+        bottom: boundsRect.bottom - 185,
+      };
+      let newTop = prevState.top2 + deltaY;
+      let newLeft = prevState.left2 + deltaX;
+      if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
+      if (newTop < expandedBounds.top) newTop = expandedBounds.top;
+      if (newLeft + prevState.width2 > expandedBounds.right) {
+        newLeft = expandedBounds.right - prevState.width2;
+      }
+      if (newTop + prevState.height2 > expandedBounds.bottom) {
+        newTop = expandedBounds.bottom - prevState.height2;
+      }
+      return {
+        ...prevState,
+        top2: newTop,
+        left2: newLeft,
+      };
+    });
   };
 
   return (
@@ -149,6 +146,7 @@ function Stickers({ onDelete, image, bounds }) {
           onRotate={handleRotate}
           onResize={handleResize}
           onDrag={handleDrag}
+          bounds="parent"
         />
       </div>
     </>
