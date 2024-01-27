@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { baseInstance } from '../../api/config';
 import { useDateNotificationStore } from '../../store/useDateNotificationStore';
+import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
 import { useNavigate } from 'react-router-dom';
 import { useDiaryURL } from '../../store/useDiaryURL';
 import { useInnerPage } from '../../store/useInnerPage';
@@ -34,6 +35,8 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   const { setPage } = useDateNotificationStore.getState();
   const iconUpdate = useIconUpdate((state) => state.iconUpdate);
   const navigate = useNavigate();
+
+  const diaryRef = useRef(null);
 
   const handleDeleteStickers = () => {
     setSelectedSticker(false);
@@ -101,6 +104,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
     const startDate = startOfWeek(startOfMonth(currentMonth));
     const endDate = endOfWeek(endOfMonth(currentMonth));
 
+    const { innerPage, setInnerPage } = useInnerPage();
     const isDateInMonth = (date) => isSameMonth(date, currentMonth);
     const isDateSelected = (date) => isSameDay(date, selectedDate);
     const isDateToday = (date) => isSameDay(date, new Date());
@@ -239,7 +243,14 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
 
   return (
     <div className="listcontainer">
-      <div className="calendar">
+      {selectedSticker && (
+        <Stickers
+          onDelete={handleDeleteStickers}
+          image={selectedSticker}
+          bounds={diaryRef}
+        />
+      )}
+      <div className="calendar" ref={diaryRef}>
         <div className="listname">
           <span className="topyear">{format(currentMonth, 'yyyy')}</span>
           {format(currentMonth, 'MMMMMMMM')}
@@ -259,13 +270,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         <RenderDays />
         <RenderCells />
       </div>
-      {selectedSticker && (
-        <Stickers
-          onDelete={handleDeleteStickers}
-          image={selectedSticker}
-          bounds={diaryRef}
-        />
-      )}
     </div>
   );
 };
