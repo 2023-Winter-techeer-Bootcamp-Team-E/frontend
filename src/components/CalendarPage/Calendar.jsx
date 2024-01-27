@@ -4,8 +4,8 @@ import { useDateNotificationStore } from '../../store/useDateNotificationStore';
 import { useNavigate } from 'react-router-dom';
 import { useDiaryURL } from '../../store/useDiaryURL';
 import { useInnerPage } from '../../store/useInnerPage';
-import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
 import useIconUpdate from '../../store/useIconUpdate';
+import Stickers from '../../components/Stickers';
 import {
   format,
   addMonths,
@@ -27,15 +27,17 @@ import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
 import DiaryEditIcon from '../../assets/img/Calendar/DiaryEditIcon.png';
 
-const Calendar = () => {
+const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [diaryInfoArray, setDiaryInfoArray] = useState([]);
-  const [diaryMonth, setDiaryMonth] = useState();
-  const [diaryDay, setDiaryDay] = useState();
   const { setPage } = useDateNotificationStore.getState();
   const iconUpdate = useIconUpdate((state) => state.iconUpdate);
   const navigate = useNavigate();
+
+  const handleDeleteStickers = () => {
+    setSelectedSticker(false);
+  };
 
   const changeMonth = (modifier) =>
     setCurrentMonth((prevMonth) => modifier(prevMonth, 1));
@@ -47,8 +49,6 @@ const Calendar = () => {
     setSelectedDate(day);
     const month = format(day, 'M');
     const dayOfMonth = format(day, 'd');
-    setDiaryMonth(month);
-    setDiaryDay(dayOfMonth);
     useSelectDateInfoStore.getState().setSelectDateInfo(month, dayOfMonth);
   };
 
@@ -100,8 +100,6 @@ const Calendar = () => {
   const RenderCells = () => {
     const startDate = startOfWeek(startOfMonth(currentMonth));
     const endDate = endOfWeek(endOfMonth(currentMonth));
-    const navigate = useNavigate();
-    const { innerPage, setInnerPage } = useInnerPage();
 
     const isDateInMonth = (date) => isSameMonth(date, currentMonth);
     const isDateSelected = (date) => isSameDay(date, selectedDate);
@@ -119,7 +117,7 @@ const Calendar = () => {
         (diary) => diary.day === formattedDate,
       );
 
-      const { shareURL, setShareURL } = useDiaryURL();
+      const { setShareURL } = useDiaryURL();
 
       const readDiary = async () => {
         console.log('day: ', diaryInfo.day);
@@ -145,18 +143,12 @@ const Calendar = () => {
 
       const readPast = async () => {
         try {
-          // API 호출 시 포맷팅된 날짜를 사용하도록 변경
           const response = await baseInstance.get('/diaries/', {
             params: { day: `${formattedDate}` },
           });
-    
+
           if (response.status === 200) {
-            // API 응답이 성공할 경우 diary_bg_id를 InnerPage 상태로 업데이트
             setInnerPage(response.data.diary_bg_id);
-    
-            // day 값을 setSelectDateInfo 함수로 전달하여 상태로 저장
-            // setSelectDateInfo(month, formattedDate);
-            
             console.log(useInnerPage.getState().innerPage);
           } else {
             console.log('일기장 확인 실패');
@@ -165,6 +157,7 @@ const Calendar = () => {
           console.error('API 호출 중 오류 발생 : ', error);
         }
       };
+
       const diaryIcon =
         diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth
           ? diaryInfo.isExpiry
@@ -207,7 +200,7 @@ const Calendar = () => {
               onClick={() => {
                 if (diaryInfo.isExpiry) {
                   console.log('작성이 끝난 다이어리 조회');
-                  readPast()
+                  readPast();
                   navigate('../diary');
                 } else {
                   readDiary();
@@ -266,6 +259,13 @@ const Calendar = () => {
         <RenderDays />
         <RenderCells />
       </div>
+      {selectedSticker && (
+        <Stickers
+          onDelete={handleDeleteStickers}
+          image={selectedSticker}
+          bounds={diaryRef}
+        />
+      )}
     </div>
   );
 };
