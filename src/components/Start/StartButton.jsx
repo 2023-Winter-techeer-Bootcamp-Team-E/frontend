@@ -5,7 +5,6 @@ import styled from 'styled-components';
 const StartButtonClick = (navigate) => {
   navigate('././login');
   console.log('StartButton clicked!');
-  move();
 };
 
 function StartButton() {
