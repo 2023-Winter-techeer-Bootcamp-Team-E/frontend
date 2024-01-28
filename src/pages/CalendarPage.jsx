@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useSelectDateInfoStore } from '../store/useSelectDateInfoStore';
 import LargeSketchbook from '../components/LargeSketchbook';
@@ -9,6 +9,11 @@ import Calendar from '../components/CalendarPage/Calendar';
 
 function CalendarPage() {
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
+  const [selectedSticker, setSelectedSticker] = useState(null);
+
+  const handleStickerSelect = (image) => {
+    setSelectedSticker(image); // 선택한 이미지 URL을 상태로 저장
+  };
 
   return (
     <BackLayout>
@@ -22,11 +27,14 @@ function CalendarPage() {
         </WrapperLargeSketchbook>
 
         <WrapperBasicSticker>
-          <BasicSticker />
+          <BasicSticker onStickerSelect={handleStickerSelect} />
         </WrapperBasicSticker>
 
         <WrapperCalendar>
-          <Calendar />
+          <Calendar
+            selectedSticker={selectedSticker}
+            setSelectedSticker={setSelectedSticker}
+          />
         </WrapperCalendar>
 
         <WrapperDateNotification>

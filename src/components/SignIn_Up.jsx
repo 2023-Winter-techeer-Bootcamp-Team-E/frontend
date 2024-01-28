@@ -32,7 +32,7 @@ const PlaceText = styled.p`
   position: absolute;
   color: #fff;
   font-family: 'bmjua';
-  font-size: 1.65rem;
+  font-size: 1.625rem;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
