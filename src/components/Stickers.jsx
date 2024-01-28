@@ -75,10 +75,11 @@ function Stickers({ onDelete, image, bounds }) {
     setPosition((prevState) => {
       const boundsRect = bounds.current.getBoundingClientRect();
       const expandedBounds = {
-        left: boundsRect.left - 386,
-        top: boundsRect.top - 184,
-        right: boundsRect.right - 385,
-        bottom: boundsRect.bottom - 185,
+        // left: boundsRect.left - 386,
+        // top: boundsRect.top - 184,
+        // right: boundsRect.right - 385,
+        // bottom: boundsRect.bottom - 185,
+        // 대체 왜 안되는거야 ㅠ
       };
       let newTop = prevState.top2 + deltaY;
       let newLeft = prevState.left2 + deltaX;
