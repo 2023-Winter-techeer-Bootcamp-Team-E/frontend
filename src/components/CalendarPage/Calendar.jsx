@@ -121,6 +121,11 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         (diary) => diary.day === formattedDate,
       );
 
+      const diaryIconStyle = {
+        zIndex: 101, // 여기에 z-index 값을 설정
+        position: 'absolute',
+      };
+
       const { setShareURL } = useDiaryURL();
 
       const readDiary = async () => {
@@ -186,6 +191,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
 
           {shouldShowDiaryBtn && !diaryInfo && (
             <img
+              style={diaryIconStyle}
               className="GoToSelectInnerPaperBtn"
               src={DiaryWriteIcon}
               alt="Go to Diary"
@@ -198,6 +204,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
 
           {diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth && (
             <img
+              style={{ zIndex: 1500000000 }}
               className="GoToShareURLBtn"
               src={diaryIcon}
               alt="Go to Diary"

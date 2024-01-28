@@ -113,7 +113,7 @@ function Stickers({ onDelete, image, bounds }) {
           style={{
             left: position.left2 + position.width2 - 20,
             top: position.top2 - 10,
-            zIndex: 200,
+            zIndex: 1,
           }}
         />
         <ImgSaveBtn
