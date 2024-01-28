@@ -16,7 +16,6 @@ const MainBtn = styled.div`
   width: 36.5625rem;
   height: 4.8125rem;
   border-radius: 1.25rem;
-  border: 5px solid #c1e3ff;
   background: #b6defd;
   display: flex;
   justify-content: center;
@@ -24,7 +23,8 @@ const MainBtn = styled.div`
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
   &:hover {
-    transform: scale(1.02);
+    /* transform: scale(1.02); */
+    background: #a1d6ff;
   }
 `;
 
@@ -32,7 +32,7 @@ const PlaceText = styled.p`
   position: absolute;
   color: #fff;
   font-family: 'bmjua';
-  font-size: 1.5rem;
+  font-size: 1.625rem;
   font-style: normal;
   font-weight: 900;
   line-height: normal;
