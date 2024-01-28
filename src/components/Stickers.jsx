@@ -38,7 +38,7 @@ const ImgSaveClick = () => {
     });
 };
 
-function Stickers({ onDelete, image, bounds }) {
+function Stickers({ onDelete, image, bounds, locate }) {
   const [position, setPosition] = useState({
     width2: 100,
     height2: 100,
