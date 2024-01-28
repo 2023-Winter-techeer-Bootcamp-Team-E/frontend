@@ -118,7 +118,7 @@ const NavigateBar = () => {
 const NavBar = styled.div`
   top: 0;
   width: 108rem;
-  height: 7.9375rem;
+  height: 6.9375rem;
   background: #c1e3ff;
   display: flex;
   align-items: center;

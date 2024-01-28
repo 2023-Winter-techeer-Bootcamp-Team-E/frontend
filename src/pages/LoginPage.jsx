@@ -20,6 +20,7 @@ const LoginPage = () => {
   const [shake, setShake] = useState(false);
   const userInfoStore = useUserInfoStore();
   const navigate = useNavigate();
+  
   // 로그인 상태인 경우 /calendar 페이지로 자동 리다이렉트
   useEffect(() => {
     const loggedInUserId = localStorage.getItem('loggedInUserId');
@@ -91,6 +92,7 @@ const LoginPage = () => {
               type="text"
               placeholder="아이디"
               text={id}
+              font={'bmjua'}
               handleTextChange={handleIdChange}
             />
           </IdInput>
@@ -99,6 +101,7 @@ const LoginPage = () => {
               type="text"
               placeholder="비밀번호"
               text={password}
+              font={password ? '' : 'bmjua'}
               handleTextChange={handlePasswordChange}
             />
           </PwInput>
@@ -165,24 +168,25 @@ const SketDiv = styled.div`
 
 const SignInText = styled.div`
   color: #3cb5fa;
+  font-family: crown;
   font-size: 8rem;
-  font-family: 'crown';
   position: absolute;
   z-index: 3;
-  margin-top: 15%;
+  margin-top: 13rem;
 `;
 
 const SketBook = styled.img`
   position: absolute;
-  width: 42.6875rem;
+  width: 44.6875rem;
   height: 51.875rem;
   flex-shrink: 0;
-  margin-left: 60%;
+  margin-left: 63rem;
 `;
 
 const IdInput = styled.div`
   position: absolute;
   margin-top: 38%;
+  margin-left: 3rem;
   z-index: 2;
 `;
 
@@ -190,6 +194,7 @@ const PwInput = styled.div`
   position: absolute;
   margin-top: 48%;
   z-index: 2;
+  margin-left: 3rem;
   color: #000;
 `;
 
@@ -232,20 +237,11 @@ const SignInInput = styled.div`
   z-index: 2;
 `;
 
-const Line = styled.hr`
-  position: absolute;
-  width: 46.93769rem;
-  height: 0.0625rem;
-  background: #e1e1e1;
-  margin-top: 73%;
-  z-index: 2;
-`;
-
 const SignUpText = styled(Link)`
   color: #c4c4c4;
   font-size: 1.25rem;
   font-weight: 900;
-  margin-top: 75%;
+  margin-top: 74%;
   z-index: 2;
 `;
 
