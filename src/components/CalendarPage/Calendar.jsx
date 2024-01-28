@@ -167,6 +167,23 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         }
       };
 
+      const readStickers = async () => {
+        try {
+          const response = await baseInstance.get('/diaries/stickers', {
+            params: { day: `${formattedDate}` },
+          });
+
+          if (response.status === 200) {
+            console.log('스티커 조회 성공!');
+            setSelectedSticker(response.data.sticker_id);
+          } else {
+            console.log('스티커 조회 실패');
+          }
+        } catch (error) {
+          console.error('API 호출 중 오류 발생 : ', error);
+        }
+      };
+
       const diaryIcon =
         diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth
           ? diaryInfo.isExpiry
@@ -204,7 +221,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
 
           {diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth && (
             <img
-              style={{ zIndex: 1500000000 }}
+              style={{ zIndex: 150 }}
               className="GoToShareURLBtn"
               src={diaryIcon}
               alt="Go to Diary"
