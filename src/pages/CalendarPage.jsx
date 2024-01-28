@@ -56,39 +56,43 @@ const BackLayout = styled.div`
 
 const PageFrame = styled.div`
   position: absolute;
-  width: 108rem;
+  width: 110rem;
   height: 70rem;
+  justify-content: center;
+  align-items: center;
   display: flex;
   top: 0;
-  justify-content: center;
+  left: 3rem;
 `;
 
 const WrapperCalendar = styled.div`
   position: absolute;
   width: 60rem;
   height: 45rem;
-  margin-top: 17rem;
+  margin-top: 16rem;
   flex-shrink: 0;
   z-index: 2;
   background: #d7d7ef;
   border-radius: 1.5rem;
+  top: -1rem;
 `;
 
 const WrapperNavigateBar = styled.div`
   position: absolute;
+  top: -0.6rem;
 `;
 const WrapperLargeSketchbook = styled.div`
   position: absolute;
-  top: 7.9375rem;
+  top: 6.9375rem;
 `;
 const WrapperBasicSticker = styled.div`
   position: absolute;
-  top: 17rem;
+  top: 14.5rem;
   left: 4.56rem;
 `;
 const WrapperDateNotification = styled.div`
   position: absolute;
-  top: 17.87rem;
+  top: 14.5rem;
   margin-left: 84.19rem;
 `;
 

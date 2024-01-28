@@ -23,10 +23,10 @@ const LargeSketchbook = () => {
 
 const StyledLargeSketchbook = styled.img`
   position: absolute;
-  top: -2rem;
+  top: -2.3rem;
   left: -1rem;
-  width: 104.1875rem; // 130.25rem
-  height: 61.6875rem; // 75.7rem
+  width: 110rem; // 130.25rem
+  height: 58.4rem; // 75.7rem
 `
 const LargeSketch = styled.div`
   width: 103.1875rem; // 130.25rem
