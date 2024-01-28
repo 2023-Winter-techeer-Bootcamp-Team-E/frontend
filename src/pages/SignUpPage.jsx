@@ -225,6 +225,7 @@ function SignUpPage(props) {
               placeholder="닉네임"
               text={username}
               handleTextChange={handleUsernameChange}
+              font={'bmjua'}
             />
           </UsernameInput>
 
@@ -239,6 +240,7 @@ function SignUpPage(props) {
               type="text"
               placeholder="아이디"
               text={id}
+              font={'bmjua'}
               handleTextChange={handleIdChange}
             />
           </IdInput>
@@ -252,6 +254,7 @@ function SignUpPage(props) {
               type="text"
               placeholder="비밀번호"
               text={password}
+              font={'bmjua'}
               handleTextChange={handlePasswordChange}
             />
           </PwInput>
@@ -265,6 +268,7 @@ function SignUpPage(props) {
               type="password"
               placeholder="비밀번호 확인"
               text={passwordMatch}
+              font={passwordMatch ? '' : 'bmjua'}
               handleTextChange={handlePasswordMatchChange}
             />
           </PwMatchInput>
@@ -346,7 +350,7 @@ const shakeAnimation = keyframes`
 `;
 
 const SketDiv = styled.div`
-  position: absolute;
+  position: relative;
   width: 60.75rem;
   height: 59.8125rem;
   display: flex;
@@ -364,7 +368,7 @@ const SignUpText = styled.div`
   font-family: 'crown';
   position: absolute;
   z-index: 3;
-  margin-top: 9%;
+  margin-top: 15%;
 `;
 
 const SketBook = styled.img`
@@ -374,17 +378,18 @@ const SketBook = styled.img`
   flex-shrink: 0;
   margin-left: 60%;
 `;
-
+//닉네임
 const UsernameInput = styled.div`
   position: absolute;
-  margin-top: 27%;
+  margin-top: 33%;
+  margin-left: 3rem;
   z-index: 2;
 `;
 
 const UsernameRequireText = styled.p`
-  left: 20%;
+  left: 23%;
   position: absolute;
-  margin-top: 36%;
+  margin-top: 42%;
   z-index: 2;
   color: ${({ usernameCommentColor }) => usernameCommentColor};
   animation: ${({ shake }) =>
@@ -394,18 +399,19 @@ const UsernameRequireText = styled.p`
         `
       : 'none'};
 `;
-
+//아이디
 const IdInput = styled.div`
   position: absolute;
-  margin-top: 41%;
+  margin-top: 45%;
+  margin-left: 3rem;
   z-index: 2;
   color: ${({ idCommentColor }) => idCommentColor};
 `;
 
 const IdRequireText = styled.p`
-  left: 20%;
+  left: 23%;
   position: absolute;
-  margin-top: 50%;
+  margin-top: 54.2%;
   z-index: 2;
   color: ${({ idCommentColor }) => idCommentColor};
   animation: ${({ shake }) =>
@@ -415,17 +421,18 @@ const IdRequireText = styled.p`
         `
       : 'none'};
 `;
-
+//비밀번호
 const PwInput = styled.div`
   position: absolute;
-  margin-top: 55%;
+  margin-top: 57%;
+  margin-left: 3rem;
   z-index: 2;
 `;
 
 const PwRequireText = styled.p`
-  left: 20%;
+  left: 23%;
   position: absolute;
-  margin-top: 64%;
+  margin-top: 66%;
   z-index: 2;
   color: ${({ pwCommentColor }) => pwCommentColor};
   animation: ${({ shake }) =>
@@ -435,15 +442,21 @@ const PwRequireText = styled.p`
         `
       : 'none'};
 `;
-
+//비밀번호 확인
 const PwMatchInput = styled.div`
   position: absolute;
   margin-top: 69%;
   z-index: 2;
+  margin-left: 3rem;
+  font-family: 'sans-serif';
+  //이거 왜 안돼ㅠㅠ
+  // ${css`
+  //   font-family: Arial Black';
+  // `}
 `;
 
 const PwMatchRequireText = styled.p`
-  left: 20%;
+  left: 23%;
   position: absolute;
   margin-top: 78%;
   z-index: 2;
@@ -455,6 +468,7 @@ const PwMatchRequireText = styled.p`
         `
       : 'none'};
 `;
+
 
 const SignUpWrapper = styled.div`
   position: absolute;

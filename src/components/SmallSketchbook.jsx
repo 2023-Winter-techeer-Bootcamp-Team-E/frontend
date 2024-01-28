@@ -23,8 +23,8 @@ const SmallSketchbook = () => {
 
 const SmallSketch = styled.div`
   position: absolute;
-  width: 60.75rem;
-  height: 50.8125rem;
+  // width: 60.75rem;
+  // height: 50.8125rem;
   // background: #fff;
   top: 2rem;
   bottom: 0;
@@ -33,15 +33,16 @@ const SmallSketch = styled.div`
 `;
 
 const StyledSmallSketchbook = styled.img`
-width: 60.75rem;
+width: 55.75rem;
 height: 55.8125rem;
 bottom: 0;
 z-index: 1;
 `;
 
+//내일 중앙정렬 하기!
 const StyledEmptyLogo2 = styled.div`
   position: absolute;
-  left: 22.6rem;
+  left: 19.8rem;
   top: -3.5rem;
   img {
     width: 17.125rem;

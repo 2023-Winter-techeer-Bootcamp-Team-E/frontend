@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import EmptyLogo2 from '../assets/img/EmptyLogo2.png';
-import spring from '../assets/img/LargeSpring.png';
+import LargeSketchbookImg from '../assets/img/LargeSketchbook.png';
 
 const LargeSketchbook = () => {
   return (
     <LargeSketch>
-      <LargeSpring src={spring} style={{ left: '3.275590551%' }} />
+      <StyledLargeSketchbook src={LargeSketchbookImg} alt='LargeSketchbookImg'/>
       <StyledEmptyLogo2>
         <img src={EmptyLogo2} alt="EmptyLogo2" />
         <div>
@@ -17,24 +17,25 @@ const LargeSketchbook = () => {
           </StyledText>
         </div>
       </StyledEmptyLogo2>
-      <LargeSpring src={spring} style={{ left: '62.56571775%' }} />
     </LargeSketch>
   );
 };
 
+const StyledLargeSketchbook = styled.img`
+  position: absolute;
+  top: -2rem;
+  left: -1rem;
+  width: 104.1875rem; // 130.25rem
+  height: 61.6875rem; // 75.7rem
+`
 const LargeSketch = styled.div`
   width: 103.1875rem; // 130.25rem
   height: 58.6875rem; // 75.7rem
   flex-shrink: 0;
-  background: #fff;
+  // background: #fff;
   border-radius: 1.5rem;
 `;
-const LargeSpring = styled.img`
-  width: 35.25rem;
-  height: 3.6875rem;
-  flex-shrink: 0;
-  position: absolute;
-`;
+
 
 const StyledEmptyLogo2 = styled.div`
   position: absolute;

@@ -22,6 +22,7 @@ function InnerImg({
   setSelectedTextBox,
   diaryMonth,
   diaryDay,
+  diaryData
 }) {
   const diaryRef = useRef(null);
   const [innerPage, setInnerPage] = useState(1);
