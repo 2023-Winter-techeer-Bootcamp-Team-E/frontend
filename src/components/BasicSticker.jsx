@@ -10,13 +10,11 @@ function BasicSticker({ onStickerSelect, websocket }) {
   const [stickerImages, setStickerImages] = useState([]);
 
   const handleStickerClick = (image) => {
-    // 여기서 onStickerSelect는 상위 컴포넌트로부터 전달받은 함수입니다.
     onStickerSelect(image);
     websocket.current.send(
       JSON.stringify({
         type: 'create_sticker',
         image: image,
-        // 초기 위치 및 크기 정보 전송
         position: {
           top2: 100,
           left2: 100,

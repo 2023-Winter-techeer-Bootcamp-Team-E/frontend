@@ -12,7 +12,7 @@ import MainInnerImg6 from '../../assets/img/InnerImg/MainInnerImg6.png';
 import DiaryInnerPaintingDog from '../../assets/img/InnerImg/DiaryInnerPaintingDog.png';
 import DiaryInnerPaintingInfo from '../../assets/img/InnerImg/DiaryInnerPaintingInfo.png';
 
-import Stickers from '../../components/Stickers';
+import Stickers from '../../components/DiaryPage/Stickers';
 import TextBox from '../../components/DiaryPage/TextBox';
 import useStickerStore from '../../stores/stickerStore';
 import useTextStore from '../../stores/textStore';

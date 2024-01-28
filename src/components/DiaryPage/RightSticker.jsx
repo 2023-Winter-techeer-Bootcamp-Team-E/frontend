@@ -3,7 +3,7 @@ import { baseInstance } from '../../api/config';
 import { styled } from 'styled-components';
 import Cloud1 from '../../assets/img/Cloud1.png';
 import Cloud2 from '../../assets/img/Cloud2.png';
-import { useDiaryContent } from '../../store/useDiaryContent';
+import { useDiaryContent } from '../../stores/useDiaryContent';
 
 const RightSticker = () => {
   const [stickerImages, setStickerImages] = useState([]);

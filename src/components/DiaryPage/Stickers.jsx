@@ -3,9 +3,9 @@ import ResizableRect from 'react-resizable-rotatable-draggable';
 import styled from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-import useStickerStore from '../stores/stickerStore';
+import useStickerStore from '../../stores/stickerStore';
 
-const ImgSaveClick = () => {
+const ImgSaveClick = ({ websocket, stickerId, image, postion }) => {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -26,6 +26,14 @@ const ImgSaveClick = () => {
     })
     .then((result) => {
       if (result.isConfirmed) {
+        websocket.current.send(
+          JSON.stringify({
+            type: 'save_sticker',
+            id: stickerId,
+            image: image,
+            position: position,
+          }),
+        );
         swalWithBootstrapButtons.fire({
           title: '저장되었어요!',
           icon: 'success',
@@ -181,7 +189,20 @@ function Stickers({ stickerId, image, bounds, websocket }) {
           }}
         />
         <ImgSaveBtn
-          onClick={ImgSaveClick}
+          onClick={() =>
+            ImgSaveClick({
+              websocket: websocket,
+              stickerId: sticker.id,
+              image: image,
+              position: {
+                width2: sticker.width2,
+                height2: sticker.height2,
+                top2: sticker.top2 + 1,
+                left2: sticker.left2 + 1,
+                rotate2: `${sticker.rotate2}deg`,
+              },
+            })
+          }
           style={{
             left: sticker.left2 + sticker.width2 - 35,
             top: sticker.top2 + sticker.height2 + 10,

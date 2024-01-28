@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { baseInstance } from '../../api/config';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore';
+import { useDateNotificationStore } from '../../stores/useDateNotificationStore';
 import { useNavigate } from 'react-router-dom';
-import { useDiaryURL } from '../../store/useDiaryURL';
-import { useInnerPage } from '../../store/useInnerPage';
-import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
-import useIconUpdate from '../../store/useIconUpdate';
+import { useDiaryURL } from '../../stores/useDiaryURL';
+import { useInnerPage } from '../../stores/useInnerPage';
+import { useSelectDateInfoStore } from '../../stores/useSelectDateInfoStore';
+import useIconUpdate from '../../stores/useIconUpdate';
 import {
   format,
   addMonths,
@@ -149,14 +149,14 @@ const Calendar = () => {
           const response = await baseInstance.get('/diaries/', {
             params: { day: `${formattedDate}` },
           });
-    
+
           if (response.status === 200) {
             // API 응답이 성공할 경우 diary_bg_id를 InnerPage 상태로 업데이트
             setInnerPage(response.data.diary_bg_id);
-    
+
             // day 값을 setSelectDateInfo 함수로 전달하여 상태로 저장
             // setSelectDateInfo(month, formattedDate);
-            
+
             console.log(useInnerPage.getState().innerPage);
           } else {
             console.log('일기장 확인 실패');
@@ -207,7 +207,7 @@ const Calendar = () => {
               onClick={() => {
                 if (diaryInfo.isExpiry) {
                   console.log('작성이 끝난 다이어리 조회');
-                  readPast()
+                  readPast();
                   navigate('../diary');
                 } else {
                   readDiary();

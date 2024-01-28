@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useSelectDateInfoStore } from '../store/useSelectDateInfoStore';
+import { useSelectDateInfoStore } from '../../src/stores/useSelectDateInfoStore';
 
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
@@ -20,6 +20,7 @@ const WEBSOCKET_URL = 'ws://127.0.0.1:8000/ws/harurooms/1/';
 function DiaryPage() {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState(null);
+  const [selectedDalle, setSelectedDalle] = useState(null);
   const [sharedText, setSharedText] = useState(''); // 모든 사용자에게 공유될 텍스트
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
 
@@ -35,6 +36,10 @@ function DiaryPage() {
 
   const handleStickerSelect = (image) => {
     setSelectedSticker(image); // 선택한 이미지 URL을 상태로 저장
+  };
+
+  const handleDalleSelect = (image) => {
+    setSelectedDalle(image);
   };
 
   // console.log(stickers);
@@ -118,6 +123,15 @@ function DiaryPage() {
         useTextStore
           .getState()
           .updateText({ id: data.text_id, nickname: data.nickname });
+      } else if (data.type === 'save_text') {
+        useTextStore.getState().updateText({
+          id: data.text_id,
+          content: data.content,
+          nickname: data.nickname,
+          showOnly: true,
+          ...data.position,
+        });
+        console.log('텍스트 저장', data.content, data.nickname);
       }
     };
 
@@ -152,6 +166,7 @@ function DiaryPage() {
           <RightSticker
             diaryMonth={selectedDateInfo.selectedMonth}
             diaryDay={selectedDateInfo.selectedDay}
+            onDalleSelect={handleDalleSelect}
           />
         </WrapperRightSticker>
         <WrapperDHomeButton>

@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import './DateNotification.css';
 import { baseInstance } from '../../api/config';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore';
-import { useDiaryURL } from '../../store/useDiaryURL';
-import useIconUpdate from '../../store/useIconUpdate';
+import { useDateNotificationStore } from '../../stores/useDateNotificationStore';
+import { useDiaryURL } from '../../stores/useDiaryURL';
+import useIconUpdate from '../../stores/useIconUpdate';
 import MaskingTape1 from '../../assets/img/MaskingTape1.png';
 import MaskingTape2 from '../../assets/img/MaskingTape2.png';
 import SelectImgBtn from '../../assets/img/SelectImgBtn.png';
@@ -14,7 +14,7 @@ import InnerImg3 from '../../assets/img/InnerImg/SelectInnerImg3.png';
 import InnerImg4 from '../../assets/img/InnerImg/SelectInnerImg4.png';
 import InnerImg5 from '../../assets/img/InnerImg/SelectInnerImg5.png';
 import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
-import { useInnerPage } from '../../store/useInnerPage';
+import { useInnerPage } from '../../stores/useInnerPage';
 
 function Case2({ diaryMonth, diaryDay }) {
   const [inpageNum, setinPageNum] = useState(1);

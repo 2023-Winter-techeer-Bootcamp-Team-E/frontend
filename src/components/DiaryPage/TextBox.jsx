@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
-import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
-import { useDiaryContent } from '../../store/useDiaryContent';
+import { useSelectDateInfoStore } from '../../stores/useSelectDateInfoStore';
+import { useDiaryContent } from '../../stores/useDiaryContent';
 import useTextStore from '../../stores/textStore';
 
-const TextSaveClick = () => {
+const TextSaveClick = ({ websocket, textId, content, nickname, position }) => {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -31,6 +31,16 @@ const TextSaveClick = () => {
         const userText = document.querySelector('#textInput').value; // TextInput의 id를 지정해야 함
         useDiaryContent.setState({ diaryContent: userText });
         console.log('저장된 content:', userText);
+        websocket.current.send(
+          JSON.stringify({
+            type: 'save_text',
+            id: textId,
+            content: content,
+            nickname: nickname,
+            position: position,
+          }),
+        );
+        console.log('닉네임:', nickname);
         swalWithBootstrapButtons.fire({
           title: '저장되었어요!',
           icon: 'success',
@@ -44,12 +54,26 @@ const TextSaveClick = () => {
     });
 };
 
-function TextBox({ username, onDelete, textId, bounds, websocket }) {
+function TextBox({ username, textId, bounds, websocket }) {
   const texts = useTextStore((state) => state.texts);
   const text = texts.find((t) => t.id === textId);
   const [isComposing, setIsComposing] = useState(false);
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
   const placeholder = `${username}님과 ${selectedDateInfo.selectedMonth}월 ${selectedDateInfo.selectedDay}일의 일상을 공유해봐요!`;
+
+  if (text.showOnly) {
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          left: text.x + 'px',
+          top: text.y + 'px',
+        }}>
+        <p>{text.content}</p>
+        <span>{text.nickname}</span>
+      </div>
+    );
+  }
 
   // WebSocket 메시지 전송 함수
   const sendWebSocketMessage = (
@@ -88,40 +112,69 @@ function TextBox({ username, onDelete, textId, bounds, websocket }) {
     sendWebSocketMessage('text_drag', { x: d.x, y: d.y });
   };
 
-  // ContainerDiv 크기에 따라 내부 요소들의 크기 조절
   const handleResize = (e, direction, ref, delta, position) => {
-    // object_type = 'text';
-    // useTextStore.getState().updateText({
-    //   width: ref.style.width,
-    //   height: ref.style.height,
-    // });
     sendWebSocketMessage('text_resize', {
       width: ref.style.width,
       height: ref.style.height,
     });
   };
 
+  const handleDragStop = (e, d, nickname) => {
+    object_type = 'text';
+    const textData = {
+      content: e.target.value,
+      nickname: nickname,
+      x: text.x,
+      y: text.y,
+      width: text.width,
+      height: text.height,
+    };
+    useTextStore.getState().updateText(textData);
+    sendWebSocketMessage('drag_stop', object_type, textData);
+  };
+
+  const handleResizeStop = (e, direction, ref, delta, nickname) => {
+    object_type = 'text';
+    const textData = {
+      content: e.target.value,
+      nickname: nickname,
+      x: text.x,
+      y: text.y,
+      width: text.width,
+      height: text.height,
+    };
+    useTextStore.getState().updateText(textData);
+    sendWebSocketMessage('resize_stop', object_type, textData);
+  };
+
+  const onDelete = () => {
+    // 서버로 삭제 요청 보내기
+    websocket.current.send(
+      JSON.stringify({
+        type: 'delete_object',
+        object_type: 'text',
+        object_id: textId,
+      }),
+    );
+  };
+
   const handleTextChange = (e) => {
-    if (!isComposing || e.nativeEvent.isComposing === false) {
-      // const content = value;
-      // useTextStore.getState().updateText({
-      //   id: textId,
-      //   content: updatedText,
-      // });
-      console.log(typeof content);
-      sendWebSocketMessage('text_input', null, e.target.value);
-    }
+    const content = e.target.value;
+    // useTextStore.getState().updateText({
+    //   id: textId,
+    //   content: updatedText,
+    // });
+    console.log(typeof content);
+    sendWebSocketMessage('text_input', null, content);
   };
 
   const handleNicknameChange = (e) => {
-    if (!isComposing) {
-      const nickname = e.target.value;
-      // useTextStore.getState().updateText({
-      //   id: textId,
-      //   nickname,
-      // });
-      sendWebSocketMessage('nickname_input', null, null, nickname);
-    }
+    const nickname = e.target.value;
+    // useTextStore.getState().updateText({
+    //   id: textId,
+    //   nickname,
+    // });
+    sendWebSocketMessage('nickname_input', null, null, nickname);
   };
 
   return (
@@ -145,21 +198,12 @@ function TextBox({ username, onDelete, textId, bounds, websocket }) {
         }}
         bounds={bounds.current}>
         <CloseButton onClick={onDelete} />
-
         <ContainerDiv>
           <TextInput
             value={text.content}
             onChange={handleTextChange}
-            // id="textInput"
-            onCompositionStart={handleCompositionStart}
-            onCompositionEnd={handleCompositionEnd}
             placeholder={placeholder}
             style={{ width: '100%' }}
-            // onKeyUp={(e) => {
-            //   if (e.key === ' ') {
-            //     handleTextChange(e);
-            //   }
-            // }}
           />
 
           <BtnWrap style={{ width: '100%' }}>
@@ -169,8 +213,6 @@ function TextBox({ username, onDelete, textId, bounds, websocket }) {
               placeholder="닉네임을 입력하세요"
               style={{ width: '70%' }}
               onChange={handleNicknameChange}
-              onCompositionStart={handleCompositionStart}
-              onCompositionEnd={handleCompositionEnd}
             />
             <TextSaveBtn onClick={TextSaveClick}>입력</TextSaveBtn>
           </BtnWrap>
@@ -194,11 +236,9 @@ const ContainerDiv = styled.div`
 
 const CloseButton = styled.span`
   background-color: #f26c60;
-  pointer-events: auto;
   color: white;
   width: 2rem;
   height: 2rem;
-  font-size: small;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -206,14 +246,16 @@ const CloseButton = styled.span`
   border-radius: 100%;
   position: absolute;
   z-index: 1000;
-  top: -10px; // 위치 조정
+  top: -10px;
   right: -10px;
 
   &:after {
-    content: '\\00d7';
-    font-size: 15pt;
+    content: '\\00d7'; // X 문자
+    color: white; // 글자색 지정
     display: inline-block;
+    font-size: 15pt;
   }
+
   &:hover {
     transform: scale(1.05);
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
