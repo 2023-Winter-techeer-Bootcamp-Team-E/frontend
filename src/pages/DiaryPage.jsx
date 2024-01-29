@@ -94,6 +94,7 @@ function DiaryPage() {
         console.log('삭제');
         useStickerStore.getState().deleteSticker(data.object_id);
         useTextStore.getState().deleteText(data.object_id);
+        useDalleStore.getState().deleteDalle(data.object_id);
       } else if (data.type === 'save_sticker') {
         console.log('스티커 저장');
         useStickerStore.getState().updateSticker({

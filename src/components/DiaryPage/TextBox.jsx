@@ -75,8 +75,16 @@ function TextBox({ username, textId, bounds, websocket }) {
           left: text.x + 'px',
           top: text.y + 'px',
         }}>
-        <p style={{ fontFamily: 'dachelove' }}>{text.content}</p>
-        <span style={{ fontFamily: 'dachelove' }}>{text.nickname}</span>
+        <p style={{ fontFamily: 'dachelove', fontSize: '1.7rem' }}>
+          {text.content}
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <p style={{ fontFamily: 'dachelove', margin: '0.5rem' }}>-</p>
+          <span style={{ fontFamily: 'dachelove', fontSize: '1.7rem' }}>
+            {text.nickname}
+          </span>
+          <p style={{ fontFamily: 'dachelove', margin: '0.5rem' }}>-</p>
+        </div>
       </div>
     );
   }
@@ -275,12 +283,12 @@ const TextInput = styled.input`
   margin-right: 0.5rem;
   font-family: 'dachelove';
   color: #000;
-  font-size: 1.25rem;
+  font-size: 1.7rem;
   width: 100%; // 너비는 100%로 유지
   resize: none;
   border: none;
   overflow: auto; // 내용이 넘칠 경우 스크롤바 표시
-  background: none;
+  background: transparent;
 `;
 
 const TextSaveBtn = styled.div`
@@ -322,7 +330,7 @@ const NicknameInput = styled.input`
   // font-family: Inter;
   font-family: 'bmjua';
   background-color: #fff;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border: 1px solid #aaa; // 테두리 추가
   border-radius: 0.3125rem; // 모서리 둥글게
   outline: none;

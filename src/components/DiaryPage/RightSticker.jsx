@@ -35,17 +35,17 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
           console.log('Dall-e 스티커 생성중...');
           setStickerImages([]);
 
-          // const response = await baseInstance.post('/diaries/stickers', {
-          //   content: diaryContent,
-          // }); //1번
+          const response = await baseInstance.post('/diaries/stickers', {
+            content: diaryContent,
+          }); //1번
 
-          const response = await baseInstance.get(`/static/stickers?page=1`); //2번
+          // const response = await baseInstance.get(`/static/stickers?page=1`); //2번
 
           const data = response.data.data;
 
-          // setStickerImages(data.sticker_image_urls); //1번
+          setStickerImages(data.sticker_image_urls); //1번
 
-          setStickerImages(data.st_image_urls.slice(0, 2)); //2번
+          // setStickerImages(data.st_image_urls.slice(0, 2)); //2번
 
           console.log('Dall-e 스티커 생성 완료!');
           useDiaryContent.setState({ diaryContent: '' });
