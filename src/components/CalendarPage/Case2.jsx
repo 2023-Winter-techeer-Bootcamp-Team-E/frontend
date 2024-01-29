@@ -149,8 +149,8 @@ function Case2({ diaryMonth, diaryDay }) {
 export default Case2;
 
 const RightStickerContainer = styled.div`
-  width: 15.1875rem;
-  height: 41.0625rem;
+  width: 17.45rem;
+  height: 44.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
 `;
@@ -160,7 +160,7 @@ const InnerImg = styled.img`
   width: 12.3125rem;
   height: 18.9375rem;
   flex-shrink: 0;
-  margin-top: 11.12rem;
+  margin-top: 13.12rem;
   z-index: 2;
 `;
 
@@ -208,8 +208,8 @@ const TopMaskingTape = styled.img`
   height: 1.04506rem;
   transform: rotate(-30deg);
   flex-shrink: 0;
-  margin-top: 11rem;
-  margin-left: -10rem;
+  margin-top: 13.3rem;
+  margin-left: -10.5rem;
   z-index: 3;
 `;
 
@@ -219,8 +219,8 @@ const BottomMaskingTape = styled.img`
   height: 1.04506rem;
   transform: rotate(-30deg);
   flex-shrink: 0;
-  margin-top: 29rem;
-  margin-right: -10rem;
+  margin-top: 31rem;
+  margin-right: -11rem;
   z-index: 3;
 `;
 
@@ -229,7 +229,7 @@ const SelectImgLeftBtn = styled.img`
   flex-shrink: 0;
   height: 2.09863rem;
   width: 1.59675rem;
-  margin-top: 31.06rem;
+  margin-top: 33.5rem;
   margin-left: -4rem;
   z-index: 2;
   cursor: pointer;
@@ -241,7 +241,7 @@ const SelectImgRightBtn = styled.img`
   height: 2.09863rem;
   width: 1.59675rem;
   flex-shrink: 0;
-  margin-top: 31.06rem;
+  margin-top: 33.5rem;
   margin-right: -4rem;
   z-index: 2;
   transform: rotate(-180deg);
@@ -250,7 +250,7 @@ const SelectImgRightBtn = styled.img`
 
 const CheckBtn = styled.div`
   position: absolute;
-  margin-top: 34.81rem;
+  margin-top: 36.81rem;
   width: 5.375rem;
   height: 2.38881rem;
   flex-shrink: 0;

@@ -34,7 +34,11 @@ const DateNotification = ({ diaryMonth, diaryDay }) => {
 
 export default DateNotification;
 
-const DateNotificationFrame = styled.div``;
+const DateNotificationFrame = styled.div`
+width: 15.45rem;
+height: 42.0625rem;
+`;
+
 const StyledCloud1 = styled.img`
   position: absolute;
   width: 9.125rem;

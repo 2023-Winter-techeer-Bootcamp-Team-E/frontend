@@ -70,7 +70,6 @@ const PageFrame = styled.div`
   align-items: center;
   display: flex;
   top: 0;
-  left: 3rem;
 `;
 
 const WrapperCalendar = styled.div`
@@ -95,7 +94,7 @@ const WrapperLargeSketchbook = styled.div`
 `;
 const WrapperBasicSticker = styled.div`
   position: absolute;
-  top: 14.5rem;
+  top: 13.5rem;
   left: 4.56rem;
 `;
 const WrapperDateNotification = styled.div`

@@ -93,8 +93,8 @@ const Case3 = ({ diaryMonth, diaryDay }) => {
   );
 };
 const RightStickerContainer = styled.div`
-  width: 15.1875rem;
-  height: 41.0625rem;
+width: 17.45rem;
+height: 44.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
 `;

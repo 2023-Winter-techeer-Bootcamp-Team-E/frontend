@@ -72,8 +72,8 @@ function BasicSticker({ onStickerSelect }) {
 }
 
 const BasicStickerContainer = styled.div`
-  width: 15.25rem;
-  height: 41.0625rem;
+  width: 15.45rem;
+  height: 42.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
   display: grid;
@@ -129,7 +129,7 @@ const ScrollContainer = styled.div`
   background: #e7eef9;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
   position: absolute;
-  bottom: -4.75rem;
+  bottom: -4.15rem;
   left: 1.1rem;
 `;
 
