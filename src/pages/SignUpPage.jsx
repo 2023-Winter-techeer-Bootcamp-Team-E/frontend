@@ -269,7 +269,7 @@ const BackLayout = styled.div`
   width: 100%;
   height: 100%;
   flex-shrink: 0;
-  background: linear-gradient(to bottom, #C1E3FF 60%, #FFFFFF);
+  background: linear-gradient(to bottom, #c1e3ff 60%, #ffffff);
   overflow-y: hidden;
 `;
 const PageFrame = styled.div`
@@ -321,7 +321,7 @@ const SketDiv = styled.div`
 `;
 const SignUpText = styled.div`
   /* left: 20%; */
-  color: #3CB5FA;
+  color: #3cb5fa;
   font-size: 8rem;
   font-family: 'crown';
   position: absolute;
@@ -403,10 +403,6 @@ const PwMatchInput = styled.div`
   z-index: 2;
   margin-left: 3rem;
   font-family: 'sans-serif';
-  //이거 왜 안돼ㅠㅠ
-  // ${css`
-  //   font-family: Arial Black';
-  // `}
 `;
 const PwMatchRequireText = styled.p`
   left: 23%;
@@ -427,8 +423,3 @@ const SignUpWrapper = styled.div`
   z-index: 2;
 `;
 export default SignUpPage;
-
-
-
-
-

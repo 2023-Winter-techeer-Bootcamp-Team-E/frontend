@@ -4,8 +4,8 @@ import DiaryWritePen from '../../assets/img/DiaryWritePen.png';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import { useNavigate } from 'react-router-dom';
-import { useDiaryURL } from '../../store/useDiaryURL';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore';
+import { useDiaryURL } from '../../stores/useDiaryURL';
+import { useDateNotificationStore } from '../../stores/useDateNotificationStore';
 
 const Case3 = ({ diaryMonth, diaryDay }) => {
   const { shareURL } = useDiaryURL();

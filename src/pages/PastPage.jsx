@@ -7,8 +7,8 @@ import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import DHomeButton from '../components/DiaryPage/DHomeButton';
 import InnerImg from '../components/DiaryPage/InnerImg';
-import { useInnerPage } from '../store/useInnerPage';
-import { useSelectDateInfoStore } from '../store/useSelectDateInfoStore';
+import { useInnerPage } from '../stores/useInnerPage';
+import { useSelectDateInfoStore } from '../stores/useSelectDateInfoStore';
 
 function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
@@ -16,7 +16,8 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   const [diaryData, setDiaryData] = useState(null);
 
   // 사용자가 선택한 날짜 정보 가져오기
-  const { selectedMonth, selectedDay, setSelectDateInfo } = useSelectDateInfoStore();
+  const { selectedMonth, selectedDay, setSelectDateInfo } =
+    useSelectDateInfoStore();
 
   useEffect(() => {
     const readStickers = async () => {
@@ -28,7 +29,6 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
         if (response.status === 200) {
           setDiaryData(response.data);
           console.log('일기장 확인 실패');
-
         } else {
           console.log('일기장 확인 실패');
         }

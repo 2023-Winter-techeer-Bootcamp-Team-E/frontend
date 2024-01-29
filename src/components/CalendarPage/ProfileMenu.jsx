@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import { baseInstance } from '../../api/config';
-import useUserInfoStore from '../../store/UserInfoStore';
+import useUserInfoStore from '../../stores/userInfoStore';
 function ProfileMenu({
   userId = 'ProfileUserIdNull',
   userName = 'ProfileUserIdNull',

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useSelectDateInfoStore } from '../store/useSelectDateInfoStore';
+import { useSelectDateInfoStore } from '../stores/useSelectDateInfoStore';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';

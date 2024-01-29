@@ -12,8 +12,12 @@ import MainInnerImg6 from '../../assets/img/InnerImg/MainInnerImg6.png';
 import DiaryInnerPaintingDog from '../../assets/img/InnerImg/DiaryInnerPaintingDog.png';
 import DiaryInnerPaintingInfo from '../../assets/img/InnerImg/DiaryInnerPaintingInfo.png';
 
-import Stickers from '../../components/Stickers';
+import Stickers from '../../components/DiaryPage/Stickers';
 import TextBox from '../../components/DiaryPage/TextBox';
+import DalleSticker from './DalleSticker';
+import useStickerStore from '../../stores/stickerStore';
+import useTextStore from '../../stores/textStore';
+import useDalleStore from '../../stores/dalleStore';
 
 function InnerImg({
   selectedSticker,
@@ -22,9 +26,14 @@ function InnerImg({
   setSelectedTextBox,
   diaryMonth,
   diaryDay,
-  diaryData
+  websocket,
+  diaryData,
 }) {
   const diaryRef = useRef(null);
+  const stickers = useStickerStore((state) => state.stickers);
+  const texts = useTextStore((state) => state.texts);
+  const dalles = useDalleStore((state) => state.dalles);
+
   const [innerPage, setInnerPage] = useState(1);
   const navigate = useNavigate();
 
@@ -73,7 +82,7 @@ function InnerImg({
         return <InnerPaperImg src={MainInnerImg2} ref={diaryRef} />;
     }
   };
-  
+
   const renderTextBoxes = () => {
     return diaryData.diaryTextBoxs.map((textBox) => (
       <div
@@ -85,8 +94,7 @@ function InnerImg({
           width: `${textBox.width}px`,
           height: `${textBox.height}px`,
           transform: `rotate(${textBox.rotate || 0}deg)`,
-        }}
-      >
+        }}>
         {textBox.content}
       </div>
     ));
@@ -120,20 +128,38 @@ function InnerImg({
       </InnerImgWrapper>
       <PaintingDog src={DiaryInnerPaintingDog} />
       <PaintingInfo src={DiaryInnerPaintingInfo} />
-      {selectedSticker && (
+      {stickers.map((sticker) => (
         <Stickers
           onDelete={handleDeleteStickers}
-          image={selectedSticker}
+          key={sticker.id}
+          stickerId={sticker.id}
+          image={sticker.image}
           bounds={diaryRef}
+          websocket={websocket}
         />
-      )}
-              <DirName>조진우</DirName>
-        <DirDate>
-          {diaryMonth}월 {diaryDay}일
-        </DirDate>
-      {selectedTextBox && (
-        <TextBox onDelete={handleDeleteTextBox} bounds={diaryRef} />
-      )}
+      ))}
+      <DirName>조진우</DirName>
+      <DirDate>
+        {diaryMonth}월 {diaryDay}일
+      </DirDate>
+      {texts.map((text) => (
+        <TextBox
+          onDelete={handleDeleteTextBox}
+          key={text.id}
+          textId={text.id}
+          bounds={diaryRef}
+          websocket={websocket}
+        />
+      ))}
+      {dalles.map((dalle) => (
+        <DalleSticker
+          key={dalle.id}
+          dalleId={dalle.id}
+          image={dalle.image}
+          bounds={diaryRef}
+          websocket={websocket}
+        />
+      ))}
     </DiaryWrapper>
   );
 }
