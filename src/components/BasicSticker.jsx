@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Sun from '../assets/img/Sun.png';
 import upbutton from '../assets/img/upbutton.png';
 import downbutton from '../assets/img/downbutton.png';
+import preBtn from '../assets/img/Calendar/preBtn.png';
+import SelectImgBtn from '../assets/img/SelectImgBtn.png';
 
 function BasicSticker({ onStickerSelect, websocket }) {
   const [stickerPageNum, setStickerPageNum] = useState(1);
@@ -59,6 +61,9 @@ function BasicSticker({ onStickerSelect, websocket }) {
     }
   };
 
+  const [upButtonHovered, setUpButtonHovered] = useState(false);
+  const [downButtonHovered, setDownButtonHovered] = useState(false);
+
   return (
     <BasicStickerContainer>
       {stickerImages.map((image, index) => (
@@ -70,13 +75,17 @@ function BasicSticker({ onStickerSelect, websocket }) {
       <StyledSun src={Sun} alt="Sun" />
       <StyledUpButton
         onClick={handleUpButtonClick}
-        src={upbutton}
-        alt="UpButton"
+        onMouseEnter={() => setUpButtonHovered(true)}
+        onMouseLeave={() => setUpButtonHovered(false)}
+        src={upButtonHovered ? SelectImgBtn : preBtn}
+        alt={upButtonHovered ? 'SelectImgBtn' : 'preBtn'}
       />
       <StyledDownButton
         onClick={handleDownButtonClick}
-        src={downbutton}
-        alt="DownButton"
+        onMouseEnter={() => setDownButtonHovered(true)}
+        onMouseLeave={() => setDownButtonHovered(false)}
+        src={downButtonHovered ? SelectImgBtn : preBtn}
+        alt={downButtonHovered ? 'SelectImgBtn' : 'preBtn'}
       />
       <ScrollContainer />
     </BasicStickerContainer>
@@ -108,12 +117,12 @@ const StyledSun = styled.img`
 `;
 
 const StyledUpButton = styled.img`
-  width: 1.53444rem;
-  height: 1.01106rem;
+  width: 1.63rem;
+  height: 1.59675rem;
   z-index: 10;
   position: absolute;
-  bottom: -3.12356rem;
-  left: 6.65625rem;
+  bottom: -3.356rem;
+  left: 5.25rem;
   cursor: pointer;
   &:hover {
     transform: scale(1.2);
@@ -121,18 +130,19 @@ const StyledUpButton = styled.img`
 `;
 
 const StyledDownButton = styled.img`
-  width: 1.53444rem;
-  height: 1.01106rem;
+  width: 1.63rem;
+  height: 1.59675rem;
   z-index: 10;
   position: absolute;
-  bottom: -4.5rem;
-  left: 6.66625rem;
-
+  bottom: -3.356rem;
+  left: 8.25rem;
   cursor: pointer;
+  transform: rotate(180deg);
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.2) rotate(180deg);
   }
 `;
+
 
 const ScrollContainer = styled.div`
   width: 13.25rem;

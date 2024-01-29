@@ -43,7 +43,7 @@ const StyledCloud1 = styled.img`
   position: absolute;
   width: 9.125rem;
   height: 7.5625rem;
-  right: 1.0625rem;
+  right: -4.0625rem;
   top: -2.9375rem;
   z-index: 1;
 `;
@@ -51,7 +51,7 @@ const StyledCloud2 = styled.img`
   position: absolute;
   width: 10.5625rem;
   height: 8.4375rem;
-  bottom: -3rem;
+  bottom: -5rem;
   left: -4.0625rem;
   z-index: 1;
 `;

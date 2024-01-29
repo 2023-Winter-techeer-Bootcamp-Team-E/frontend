@@ -15,6 +15,8 @@ import InnerImg4 from '../../assets/img/InnerImg/SelectInnerImg4.png';
 import InnerImg5 from '../../assets/img/InnerImg/SelectInnerImg5.png';
 import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
 import { useInnerPage } from '../../stores/useInnerPage';
+import preBtn from '../../assets/img/Calendar/preBtn.png';
+
 
 function Case2({ diaryMonth, diaryDay }) {
   const [inpageNum, setinPageNum] = useState(1);
@@ -24,6 +26,8 @@ function Case2({ diaryMonth, diaryDay }) {
   const diarySettingRef = useRef(null);
   const maxInnerPaper = 6;
   const { iconUpdate, setIconUpdate } = useIconUpdate();
+  const [upButtonHovered, setUpButtonHovered] = useState(false);
+  const [downButtonHovered, setDownButtonHovered] = useState(false);
 
   //일기생성
   const createDiary = async () => {
@@ -112,7 +116,7 @@ function Case2({ diaryMonth, diaryDay }) {
         </SelectDateText>
         <SelectInnerPaperText>
           {' '}
-          <span style={{ color: '#FA9B55', fontSize: '2rem' }}>
+          <span style={{ color: '#FA9B55', fontSize: '1.75rem' }}>
             일기 배경지
           </span>
           를 선택해 주세요
@@ -127,12 +131,20 @@ function Case2({ diaryMonth, diaryDay }) {
           onClick={() => {
             PageNumSub();
           }}
+          onMouseEnter={() => setUpButtonHovered(true)}
+          onMouseLeave={() => setUpButtonHovered(false)}
+          src={upButtonHovered ? SelectImgBtn : preBtn}
+          alt={upButtonHovered ? 'SelectImgBtn' : 'preBtn'}
         />
         <SelectImgRightBtn
           src={SelectImgBtn}
           onClick={() => {
             PageNumAdd();
           }}
+          onMouseEnter={() => setDownButtonHovered(true)}
+          onMouseLeave={() => setDownButtonHovered(false)}
+          src={downButtonHovered ? SelectImgBtn : preBtn}
+          alt={downButtonHovered ? 'SelectImgBtn' : 'preBtn'}
         />
 
         <CheckBtn
@@ -208,8 +220,8 @@ const TopMaskingTape = styled.img`
   height: 1.04506rem;
   transform: rotate(-30deg);
   flex-shrink: 0;
-  margin-top: 13.3rem;
-  margin-left: -10.5rem;
+  margin-top: 12.7rem;
+  margin-left: -11rem;
   z-index: 3;
 `;
 
@@ -219,7 +231,7 @@ const BottomMaskingTape = styled.img`
   height: 1.04506rem;
   transform: rotate(-30deg);
   flex-shrink: 0;
-  margin-top: 31rem;
+  margin-top: 31.3rem;
   margin-right: -11rem;
   z-index: 3;
 `;
@@ -233,6 +245,9 @@ const SelectImgLeftBtn = styled.img`
   margin-left: -4rem;
   z-index: 2;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 
 const SelectImgRightBtn = styled.img`
@@ -246,13 +261,16 @@ const SelectImgRightBtn = styled.img`
   z-index: 2;
   transform: rotate(-180deg);
   cursor: pointer;
+  &:hover {
+    transform: scale(1.2) rotate(180deg);
+  }
 `;
 
 const CheckBtn = styled.div`
   position: absolute;
   margin-top: 36.81rem;
-  width: 5.375rem;
-  height: 2.38881rem;
+  width: 6.375rem;
+  height: 2.8881rem;
   flex-shrink: 0;
   border-radius: 1.25rem;
   background: #c1c3ff;
@@ -262,7 +280,7 @@ const CheckBtn = styled.div`
 
   color: #fff;
   font-family: 'bmjua';
-  font-size: 1rem;
+  font-size: 1.25rem;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
   &:hover {
