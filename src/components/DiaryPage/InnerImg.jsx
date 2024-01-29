@@ -12,7 +12,7 @@ import MainInnerImg6 from '../../assets/img/InnerImg/MainInnerImg6.png';
 import DiaryInnerPaintingDog from '../../assets/img/InnerImg/DiaryInnerPaintingDog.png';
 import DiaryInnerPaintingInfo from '../../assets/img/InnerImg/DiaryInnerPaintingInfo.png';
 
-import Stickers from '../../components/Stickers';
+import CalendarStickers from '../../components/CalendarPage/CalendarStickers';
 import TextBox from '../../components/DiaryPage/TextBox';
 
 function InnerImg({
@@ -22,7 +22,7 @@ function InnerImg({
   setSelectedTextBox,
   diaryMonth,
   diaryDay,
-  diaryData
+  diaryData,
 }) {
   const diaryRef = useRef(null);
   const [innerPage, setInnerPage] = useState(1);
@@ -73,7 +73,7 @@ function InnerImg({
         return <InnerPaperImg src={MainInnerImg2} ref={diaryRef} />;
     }
   };
-  
+
   const renderTextBoxes = () => {
     return diaryData.diaryTextBoxs.map((textBox) => (
       <div
@@ -85,8 +85,7 @@ function InnerImg({
           width: `${textBox.width}px`,
           height: `${textBox.height}px`,
           transform: `rotate(${textBox.rotate || 0}deg)`,
-        }}
-      >
+        }}>
         {textBox.content}
       </div>
     ));
@@ -121,16 +120,16 @@ function InnerImg({
       <PaintingDog src={DiaryInnerPaintingDog} />
       <PaintingInfo src={DiaryInnerPaintingInfo} />
       {selectedSticker && (
-        <Stickers
+        <CalendarStickers
           onDelete={handleDeleteStickers}
           image={selectedSticker}
           bounds={diaryRef}
         />
       )}
-              <DirName>조진우</DirName>
-        <DirDate>
-          {diaryMonth}월 {diaryDay}일
-        </DirDate>
+      <DirName>조진우</DirName>
+      <DirDate>
+        {diaryMonth}월 {diaryDay}일
+      </DirDate>
       {selectedTextBox && (
         <TextBox onDelete={handleDeleteTextBox} bounds={diaryRef} />
       )}

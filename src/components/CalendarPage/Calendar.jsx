@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDiaryURL } from '../../store/useDiaryURL';
 import { useInnerPage } from '../../store/useInnerPage';
 import useIconUpdate from '../../store/useIconUpdate';
-import Stickers from '../../components/Stickers';
+import CalendarStickers from '../../components/CalendarPage/CalendarStickers';
 import {
   format,
   addMonths,
@@ -268,7 +268,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   return (
     <div className="listcontainer">
       {selectedSticker && (
-        <Stickers
+        <CalendarStickers
           onDelete={handleDeleteStickers}
           image={selectedSticker}
           bounds={diaryRef}

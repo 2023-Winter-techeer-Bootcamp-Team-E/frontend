@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ResizableRect from 'react-resizable-rotatable-draggable';
-import { baseInstance } from '../api/config';
+import { baseInstance } from '../../api/config';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
