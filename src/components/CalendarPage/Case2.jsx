@@ -15,6 +15,7 @@ import InnerImg4 from '../../assets/img/InnerImg/SelectInnerImg4.png';
 import InnerImg5 from '../../assets/img/InnerImg/SelectInnerImg5.png';
 import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
 import { useInnerPage } from '../../stores/useInnerPage';
+// import preBtn from '../../assets/img/Calendar/preBtn.png';
 
 function Case2({ diaryMonth, diaryDay }) {
   const [inpageNum, setinPageNum] = useState(1);
@@ -34,7 +35,9 @@ function Case2({ diaryMonth, diaryDay }) {
       });
       if (response.status === 200) {
         console.log('일기장 생성 성공');
-        setShareURL(response.data.sns_link);
+        setShareURL('');
+        // setShareURL(response.data.sns_link);
+        setShareURL('임시값입니다. 나중에 수정해야됨!');
         setInnerPage(response.data.diary_bg_id);
         setPage(3);
         setIconUpdate((prev) => prev + 1);
