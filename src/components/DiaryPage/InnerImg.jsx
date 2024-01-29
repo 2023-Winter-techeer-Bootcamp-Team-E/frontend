@@ -226,8 +226,3 @@ const DirDate = styled.div`
   font-family: 'dachelove';
   font-size: 2rem;
 `;
-const Contents = styled.p`
-  color: #000000;
-  font-family: 'dachelove';
-  font-size: 1rem;
-`;

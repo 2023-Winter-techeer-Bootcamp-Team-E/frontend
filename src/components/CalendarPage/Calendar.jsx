@@ -32,14 +32,35 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [diaryInfoArray, setDiaryInfoArray] = useState([]);
+  const [stickerInfoArr, setStickerInfoArr] = useState([]);
   const { setPage } = useDateNotificationStore.getState();
+  const { setShareURL } = useDiaryURL();
   const iconUpdate = useIconUpdate((state) => state.iconUpdate);
   const navigate = useNavigate();
-
   const diaryRef = useRef(null);
 
   const handleDeleteStickers = () => {
     setSelectedSticker(false);
+  };
+
+  const printSticker = () => {
+    return stickerInfoArr.map((stickerInfo, index) => (
+      <img
+        key={index}
+        src={stickerInfo[0]} // 이미지 URL
+        style={{
+          top: `${stickerInfo[1] + 1}px`, // top 값
+          left: `${stickerInfo[2] + 1}px`, // left 값
+          width: `${stickerInfo[3]}px`, // width 값
+          height: `${stickerInfo[4]}px`, // height 값
+          transform: `rotate(${stickerInfo[5]}deg)`, // rotate 값
+          position: 'absolute',
+          zIndex: 100,
+          // 추가적인 스타일 속성들도 필요에 따라 설정 가능
+        }}
+        alt={`Sticker ${index + 1}`}
+      />
+    ));
   };
 
   const changeMonth = (modifier) =>
@@ -64,12 +85,25 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         );
         if (response.data) {
           console.log(`${yearMonth} 달력 조회 성공!`);
+          const extractedStickerInfo = response.data.sticker_image_url.map(
+            (sticker) => [
+              sticker.sticker_image_url,
+              sticker.top,
+              sticker.left,
+              sticker.width,
+              sticker.height,
+              sticker.rotate,
+            ],
+          );
+
           setDiaryInfoArray(
             response.data.diaries.map((diary) => ({
               day: diary.day,
               isExpiry: diary.is_expiry,
             })),
           );
+          console.log('Extracted Sticker Info:', extractedStickerInfo);
+          setStickerInfoArr(extractedStickerInfo);
         }
       } catch (error) {
         console.log(`${yearMonth} 달력 조회 실패`);
@@ -102,7 +136,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
 
   const RenderCells = () => {
     const startDate = startOfWeek(startOfMonth(currentMonth));
-    const endDate = endOfWeek(endOfMonth(currentMonth));
 
     const { innerPage, setInnerPage } = useInnerPage();
     const isDateInMonth = (date) => isSameMonth(date, currentMonth);
@@ -125,7 +158,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         zIndex: 101, // 여기에 z-index 값을 설정
         position: 'absolute',
       };
-      const { setShareURL } = useDiaryURL();
 
       const readDiary = async () => {
         console.log('day: ', diaryInfo.day);
@@ -161,23 +193,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
             console.log(useInnerPage.getState().innerPage);
           } else {
             console.log('일기장 확인 실패');
-          }
-        } catch (error) {
-          console.error('API 호출 중 오류 발생 : ', error);
-        }
-      };
-
-      const readStickers = async () => {
-        try {
-          const response = await baseInstance.get('/diaries/stickers', {
-            params: { day: `${formattedDate}` },
-          });
-
-          if (response.status === 200) {
-            console.log('스티커 조회 성공!');
-            setSelectedSticker(response.data.sticker_id);
-          } else {
-            console.log('스티커 조회 실패');
           }
         } catch (error) {
           console.error('API 호출 중 오류 발생 : ', error);
@@ -272,9 +287,9 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           onDelete={handleDeleteStickers}
           image={selectedSticker}
           bounds={diaryRef}
-          locate={'calendar'}
         />
       )}
+      {printSticker()}
       <div className="calendar" ref={diaryRef}>
         <div className="listname">
           <span className="topyear">{format(currentMonth, 'yyyy')}</span>

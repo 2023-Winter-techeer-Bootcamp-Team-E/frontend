@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 
-function Stickers({ onDelete, image, bounds, locate }) {
+function Stickers({ onDelete, image, bounds }) {
   const [position, setPosition] = useState({
     width2: 100,
     height2: 100,
@@ -69,28 +69,20 @@ function Stickers({ onDelete, image, bounds, locate }) {
         reverseButtons: true,
       })
       .then((result) => {
-        if (result.isConfirmed && (locate == 'calendar' || locate == 'diary')) {
+        if (result.isConfirmed) {
           swalWithBootstrapButtons.fire({
             title: '저장되었어요!',
             icon: 'success',
           });
-          if (locate == 'calendar') {
-            console.log('캘린더 저장');
-            handleSaveCalendarSticker();
-            console.log('캘린더 저장 끝');
-          }
-        } else {
+          console.log('캘린더 저장');
+          handleSaveCalendarSticker();
+          console.log('캘린더 저장 끝');
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire({
             title: '저장되지 않았어요',
             icon: 'error',
           });
         }
-        // else if (result.dismiss === Swal.DismissReason.cancel) {
-        //   swalWithBootstrapButtons.fire({
-        //     title: '저장되지 않았어요',
-        //     icon: 'error',
-        //   });
-        // }
       });
   };
 
@@ -121,22 +113,22 @@ function Stickers({ onDelete, image, bounds, locate }) {
     setPosition((prevState) => {
       const boundsRect = bounds.current.getBoundingClientRect();
       const expandedBounds = {
-        // left: boundsRect.left - 386,
-        // top: boundsRect.top - 184,
-        // right: boundsRect.right - 385,
-        // bottom: boundsRect.bottom - 185,
-        // 대체 왜 안되는거야 ㅠ
+        // left: boundsRect.left - prevState.width2,
+        // top: boundsRect.top - prevState.height2,
+        // right: boundsRect.right,
+        // bottom: boundsRect.bottom,
       };
       let newTop = prevState.top2 + deltaY;
       let newLeft = prevState.left2 + deltaX;
-      if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
-      if (newTop < expandedBounds.top) newTop = expandedBounds.top;
-      if (newLeft + prevState.width2 > expandedBounds.right) {
-        newLeft = expandedBounds.right - prevState.width2;
-      }
-      if (newTop + prevState.height2 > expandedBounds.bottom) {
-        newTop = expandedBounds.bottom - prevState.height2;
-      }
+      // 위치를 제한하는 부분
+      // if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
+      // if (newTop < expandedBounds.top) newTop = expandedBounds.top;
+      // if (newLeft + prevState.width2 > expandedBounds.right) {
+      //   newLeft = expandedBounds.right - prevState.width2;
+      // }
+      // if (newTop + prevState.height2 > expandedBounds.bottom) {
+      //   newTop = expandedBounds.bottom - prevState.height2;
+      // }
       return {
         ...prevState,
         top2: newTop,
@@ -163,7 +155,7 @@ function Stickers({ onDelete, image, bounds, locate }) {
           }}
         />
         <ImgSaveBtn
-          onClick={() => ImgSaveClick(locate)}
+          onClick={ImgSaveClick}
           style={{
             left: position.left2 + position.width2 - 35,
             top: position.top2 + position.height2 + 10,

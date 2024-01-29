@@ -12,7 +12,7 @@ function CalendarPage() {
   const [selectedSticker, setSelectedSticker] = useState(null);
 
   const handleStickerSelect = (image) => {
-    setSelectedSticker(image); // 선택한 이미지 URL을 상태로 저장
+    setSelectedSticker(image); // 선택한 이미지 URL을 콜백해줌
   };
 
   return (
