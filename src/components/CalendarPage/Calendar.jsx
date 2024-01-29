@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { baseInstance } from '../../api/config';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore';
-import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
+import { useDateNotificationStore } from '../../stores/useDateNotificationStore';
+import { useSelectDateInfoStore } from '../../stores/useSelectDateInfoStore';
 import { useNavigate } from 'react-router-dom';
-import { useDiaryURL } from '../../store/useDiaryURL';
-import { useInnerPage } from '../../store/useInnerPage';
-import useIconUpdate from '../../store/useIconUpdate';
+import { useInnerPage } from '../../stores/useInnerPage';
+import useIconUpdate from '../../stores/useIconUpdate';
 import CalendarStickers from '../../components/CalendarPage/CalendarStickers';
 import {
   format,
@@ -27,6 +26,7 @@ import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
 import DiaryEditIcon from '../../assets/img/Calendar/DiaryEditIcon.png';
+import DiaryPage from '../../pages/DiaryPage';
 
 const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -125,8 +125,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         zIndex: 101, // 여기에 z-index 값을 설정
         position: 'absolute',
       };
-
-      const { setShareURL } = useDiaryURL();
 
       const readDiary = async () => {
         console.log('day: ', diaryInfo.day);

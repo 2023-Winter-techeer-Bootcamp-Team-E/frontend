@@ -1,16 +1,32 @@
+// RightSticker
 import React, { useState, useEffect } from 'react';
 import { baseInstance } from '../../api/config';
 import { styled } from 'styled-components';
 import Cloud1 from '../../assets/img/Cloud1.png';
 import Cloud2 from '../../assets/img/Cloud2.png';
-import { useDiaryContent } from '../../store/useDiaryContent';
+import { useDiaryContent } from '../../stores/useDiaryContent';
 
-const RightSticker = () => {
+const RightSticker = ({ onDalleSelect, websocket }) => {
   const [stickerImages, setStickerImages] = useState([]);
   const diaryContent = useDiaryContent((state) => state.diaryContent);
-  useEffect(() => {
-    console.log('diary content :', diaryContent);
-  });
+
+  const handleDalleClick = (image) => {
+    onDalleSelect(image);
+    websocket.current.send(
+      JSON.stringify({
+        type: 'create_dalle',
+        image: image,
+        position: {
+          top2: 100,
+          left2: 100,
+          width2: 100,
+          height2: 100,
+          rotate2: 0,
+        },
+      }),
+    );
+  };
+
   useEffect(() => {
     const fetchStickerImages = async () => {
       try {
@@ -45,7 +61,7 @@ const RightSticker = () => {
     <div>
       <RightStickerContainer>
         {stickerImages.map((image, index) => (
-          <DalleStickerBox key={index}>
+          <DalleStickerBox key={index} onClick={() => handleDalleClick(image)}>
             <DalleSticker src={image} alt={`Sticker ${index + 1}`} />
           </DalleStickerBox>
         ))}

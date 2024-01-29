@@ -5,13 +5,25 @@ import Sun from '../assets/img/Sun.png';
 import upbutton from '../assets/img/upbutton.png';
 import downbutton from '../assets/img/downbutton.png';
 
-function BasicSticker({ onStickerSelect }) {
+function BasicSticker({ onStickerSelect, websocket }) {
   const [stickerPageNum, setStickerPageNum] = useState(1);
   const [stickerImages, setStickerImages] = useState([]);
 
   const handleStickerClick = (image) => {
-    // 여기서 onStickerSelect는 상위 컴포넌트로부터 전달받은 함수입니다.
     onStickerSelect(image);
+    websocket.current.send(
+      JSON.stringify({
+        type: 'create_sticker',
+        image: image,
+        position: {
+          top2: 100,
+          left2: 100,
+          width2: 100,
+          height2: 100,
+          rotate2: 0,
+        },
+      }),
+    );
   };
 
   useEffect(() => {
