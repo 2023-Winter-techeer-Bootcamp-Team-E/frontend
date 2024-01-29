@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDiaryURL } from '../../store/useDiaryURL';
 import { useInnerPage } from '../../store/useInnerPage';
 import useIconUpdate from '../../store/useIconUpdate';
-import Stickers from '../../components/Stickers';
+import Stickers from '../../components/DiaryPage/Stickers';
 import {
   format,
   addMonths,
@@ -27,6 +27,7 @@ import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
 import DiaryEditIcon from '../../assets/img/Calendar/DiaryEditIcon.png';
+import DiaryPage from '../../pages/DiaryPage';
 
 const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
