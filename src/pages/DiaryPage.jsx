@@ -13,6 +13,7 @@ import TextButton from '../components/DiaryPage/TextButton';
 import InnerImg from '../components/DiaryPage/InnerImg';
 import useStickerStore from '../stores/stickerStore';
 import useTextStore from '../stores/textStore';
+import useDalleStore from '../stores/dalleStore';
 
 const WEBSOCKET_URL = 'ws://127.0.0.1:8000/ws/harurooms/1/';
 // const socket = new WebSocket(`${WEBSOCKET_URL}/ws/harurooms/${diaryId}`);
@@ -29,6 +30,7 @@ function DiaryPage() {
   const stickers = useStickerStore((state) => state.stickers);
   const texts = useTextStore((state) => state.texts);
   const addText = useTextStore((state) => state.addText);
+  const dalles = useDalleStore((state) => state.dalles);
 
   const handleTextButtonClick = () => {
     setSelectedTextBox(true);
@@ -92,6 +94,48 @@ function DiaryPage() {
         console.log('삭제');
         useStickerStore.getState().deleteSticker(data.object_id);
         useTextStore.getState().deleteText(data.object_id);
+      } else if (data.type === 'save_sticker') {
+        console.log('스티커 저장');
+        useStickerStore.getState().updateSticker({
+          id: data.sticker_id,
+          image: data.image,
+          showOnly: true,
+          ...data.position,
+        });
+      }
+
+      // Dalle
+      if (data.type === 'create_dalle') {
+        console.log('Dalle 생성');
+        useDalleStore.getState().addDalle({
+          id: data.dalle_id,
+          image: data.image,
+          ...data.position,
+        });
+      } else if (data.type === 'dalle_drag') {
+        console.log('dalle 드래그 발생');
+        useDalleStore
+          .getState()
+          .updateDalle({ id: data.dalle_id, ...data.position });
+      } else if (data.type === 'dalle_resize') {
+        console.log('dalle 리사이즈 발생');
+        useDalleStore.getState().updateDalle({
+          id: data.dalle_id,
+          ...data.position,
+        });
+      } else if (data.type === 'dalle_rotate') {
+        console.log('dalle 로��이트 발생');
+        useDalleStore
+          .getState()
+          .updateDalle({ id: data.dalle_id, ...data.position });
+      } else if (data.type === 'save_dalle') {
+        console.log('Dalle 저장');
+        useDalleStore.getState().updateDalle({
+          id: data.dalle_id,
+          image: data.image,
+          showOnly: true,
+          ...data.position,
+        });
       }
 
       // 텍스트 박스
@@ -124,6 +168,7 @@ function DiaryPage() {
           .getState()
           .updateText({ id: data.text_id, nickname: data.nickname });
       } else if (data.type === 'save_text') {
+        console.log('save_text');
         useTextStore.getState().updateText({
           id: data.text_id,
           content: data.content,
@@ -167,6 +212,7 @@ function DiaryPage() {
             diaryMonth={selectedDateInfo.selectedMonth}
             diaryDay={selectedDateInfo.selectedDay}
             onDalleSelect={handleDalleSelect}
+            websocket={websocket}
           />
         </WrapperRightSticker>
         <WrapperDHomeButton>

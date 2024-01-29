@@ -1,3 +1,4 @@
+// RightSticker
 import React, { useState, useEffect } from 'react';
 import { baseInstance } from '../../api/config';
 import { styled } from 'styled-components';
@@ -5,12 +6,27 @@ import Cloud1 from '../../assets/img/Cloud1.png';
 import Cloud2 from '../../assets/img/Cloud2.png';
 import { useDiaryContent } from '../../stores/useDiaryContent';
 
-const RightSticker = () => {
+const RightSticker = ({ onDalleSelect, websocket }) => {
   const [stickerImages, setStickerImages] = useState([]);
   const diaryContent = useDiaryContent((state) => state.diaryContent);
-  useEffect(() => {
-    console.log('diary content :', diaryContent);
-  });
+
+  const handleDalleClick = (image) => {
+    onDalleSelect(image);
+    websocket.current.send(
+      JSON.stringify({
+        type: 'create_dalle',
+        image: image,
+        position: {
+          top2: 100,
+          left2: 100,
+          width2: 100,
+          height2: 100,
+          rotate2: 0,
+        },
+      }),
+    );
+  };
+
   useEffect(() => {
     const fetchStickerImages = async () => {
       try {
@@ -19,17 +35,17 @@ const RightSticker = () => {
           console.log('Dall-e 스티커 생성중...');
           setStickerImages([]);
 
-          const response = await baseInstance.post('/diaries/stickers', {
-            content: diaryContent,
-          }); //1번
+          // const response = await baseInstance.post('/diaries/stickers', {
+          //   content: diaryContent,
+          // }); //1번
 
-          // const response = await baseInstance.get(`/static/stickers?page=1`); //2번
+          const response = await baseInstance.get(`/static/stickers?page=1`); //2번
 
           const data = response.data.data;
 
-          setStickerImages(data.sticker_image_urls); //1번
+          // setStickerImages(data.sticker_image_urls); //1번
 
-          // setStickerImages(data.st_image_urls.slice(0, 2)); //2번
+          setStickerImages(data.st_image_urls.slice(0, 2)); //2번
 
           console.log('Dall-e 스티커 생성 완료!');
           useDiaryContent.setState({ diaryContent: '' });
@@ -45,7 +61,7 @@ const RightSticker = () => {
     <div>
       <RightStickerContainer>
         {stickerImages.map((image, index) => (
-          <DalleStickerBox key={index}>
+          <DalleStickerBox key={index} onClick={() => handleDalleClick(image)}>
             <DalleSticker src={image} alt={`Sticker ${index + 1}`} />
           </DalleStickerBox>
         ))}

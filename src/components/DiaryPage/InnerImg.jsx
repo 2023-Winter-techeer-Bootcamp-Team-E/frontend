@@ -14,8 +14,10 @@ import DiaryInnerPaintingInfo from '../../assets/img/InnerImg/DiaryInnerPainting
 
 import Stickers from '../../components/DiaryPage/Stickers';
 import TextBox from '../../components/DiaryPage/TextBox';
+import DalleSticker from './DalleSticker';
 import useStickerStore from '../../stores/stickerStore';
 import useTextStore from '../../stores/textStore';
+import useDalleStore from '../../stores/dalleStore';
 
 function InnerImg({
   selectedSticker,
@@ -30,6 +32,8 @@ function InnerImg({
   const diaryRef = useRef(null);
   const stickers = useStickerStore((state) => state.stickers);
   const texts = useTextStore((state) => state.texts);
+  const dalles = useDalleStore((state) => state.dalles);
+
   const [innerPage, setInnerPage] = useState(1);
   const navigate = useNavigate();
 
@@ -143,6 +147,15 @@ function InnerImg({
           onDelete={handleDeleteTextBox}
           key={text.id}
           textId={text.id}
+          bounds={diaryRef}
+          websocket={websocket}
+        />
+      ))}
+      {dalles.map((dalle) => (
+        <DalleSticker
+          key={dalle.id}
+          dalleId={dalle.id}
+          image={dalle.image}
           bounds={diaryRef}
           websocket={websocket}
         />
