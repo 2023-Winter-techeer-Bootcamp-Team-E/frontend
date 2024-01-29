@@ -13,18 +13,18 @@ const SignIn_Up = ({ text, onClick }) => {
 };
 
 const MainBtn = styled.div`
-  width: 36.5625rem;
+  width: 33.5625rem;
   height: 4.8125rem;
   border-radius: 1.25rem;
-  border: 5px solid #c1e3ff;
   background: #b6defd;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.2s ease-in-out;
   &:hover {
     transform: scale(1.02);
+    background: #A1D6FF;
   }
 `;
 
@@ -32,7 +32,7 @@ const PlaceText = styled.p`
   position: absolute;
   color: #fff;
   font-family: 'bmjua';
-  font-size: 1.5rem;
+  font-size: 1.625rem;
   font-style: normal;
   font-weight: 900;
   line-height: normal;

@@ -11,7 +11,6 @@ import home from '../../assets/img/home.png';
     const handleDHomeButtonClick = (navigate) => {
       navigate('../../calendar');
       console.log('Dhomebutton clicked!');
-      move();
     };
 
     return (

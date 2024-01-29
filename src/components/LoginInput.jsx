@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const LoginInput = ({ text, handleTextChange, placeholder, type }) => {
+const LoginInput = ({ text, handleTextChange, placeholder, type,font , initialText}) => {
+  
   return (
     <LoginInputContainer>
       <TextInput
@@ -9,7 +10,8 @@ const LoginInput = ({ text, handleTextChange, placeholder, type }) => {
         value={text}
         onChange={handleTextChange}
         placeholder={placeholder}
-      />
+        fontFamily={font}
+    />
     </LoginInputContainer>
   );
 };
@@ -18,9 +20,6 @@ const LoginInputContainer = styled.div`
   width: 36.5625rem;
   height: 4.8125rem;
   flex-shrink: 0;
-  border-radius: 1.25rem;
-  border: 3px solid #c1e3ff;
-  background: #fff;
   display: flex;
   align-items: center; /*수직 정렬- 중간*/
   justify-content: flex-start; //내부정렬- 좌로
@@ -28,18 +27,22 @@ const LoginInputContainer = styled.div`
 
 const TextInput = styled.input`
   position: absolute;
-  height: 4rem;
-  width: 33rem;
+  width: 33.5625rem;
+  height: 4.8125rem;
   background: #fff;
-  color: #000;
-  font-size: 1rem;
-  font-family: 'bmjua';
-  border: none;
+  color: #464646;
+  font-size: 1.4rem;
+  font-family: ${({ fontFamily }) => fontFamily};
+  border-radius: 1.25rem;
+  border: 3px solid #c1e3ff;
   outline: none;
-  text-align: left; /* 수정된 부분 */
-  left: 1rem;
+  text-align: left; 
+  padding-left: 1rem;
   &::placeholder {
-    color: #bbb; /* 원하는 색상으로 변경하세요 */
+    color: #bbb; 
+  }
+  &:focus {
+    border: 0.4rem solid #A1D6FF;
   }
 `;
 
