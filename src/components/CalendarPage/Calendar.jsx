@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { baseInstance } from '../../api/config';
-import { useDateNotificationStore } from '../../store/useDateNotificationStore';
-import { useSelectDateInfoStore } from '../../store/useSelectDateInfoStore';
+import { useDateNotificationStore } from '../../stores/useDateNotificationStore';
+import { useSelectDateInfoStore } from '../../stores/useSelectDateInfoStore';
 import { useNavigate } from 'react-router-dom';
-import { useDiaryURL } from '../../store/useDiaryURL';
-import { useInnerPage } from '../../store/useInnerPage';
-import useIconUpdate from '../../store/useIconUpdate';
+import { useDiaryURL } from '../../stores/useDiaryURL';
+import { useInnerPage } from '../../stores/useInnerPage';
+import useIconUpdate from '../../stores/useIconUpdate';
 import Stickers from '../../components/DiaryPage/Stickers';
 import {
   format,
