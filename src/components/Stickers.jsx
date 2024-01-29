@@ -1,42 +1,9 @@
 import React, { useState } from 'react';
 import ResizableRect from 'react-resizable-rotatable-draggable';
+import { baseInstance } from '../api/config';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
-
-const ImgSaveClick = () => {
-  const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-      confirmButton: 'btn btn-success',
-      cancelButton: 'btn btn-danger',
-    },
-    buttonsStyling: true,
-  });
-
-  swalWithBootstrapButtons
-    .fire({
-      title: '저장하실 건가요?',
-      text: '한번 저장하면 내용을 수정할 수 없어요!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: '네, 저장할게요!',
-      cancelButtonText: '아니요, 나중에 할게요!',
-      reverseButtons: true,
-    })
-    .then((result) => {
-      if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire({
-          title: '저장되었어요!',
-          icon: 'success',
-        });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        swalWithBootstrapButtons.fire({
-          title: '저장되지 않았어요',
-          icon: 'error',
-        });
-      }
-    });
-};
 
 function Stickers({ onDelete, image, bounds, locate }) {
   const [position, setPosition] = useState({
@@ -48,6 +15,85 @@ function Stickers({ onDelete, image, bounds, locate }) {
   });
 
   // eslint-disable-next-line no-unused-vars
+
+  const handleSaveCalendarSticker = async () => {
+    const stickerData = {
+      stickers_info: {
+        sticker_image_url: image,
+        top: position.top2,
+        left: position.left2,
+        width: position.width2,
+        height: position.height2,
+        rotate: position.rotate2,
+      },
+    };
+    try {
+      const response = await baseInstance.post(
+        '/calendars/stickers',
+        stickerData,
+      );
+      // Handle the response as needed
+      console.log(response.data);
+
+      if (response.status === 200) {
+        const responseData = response.data;
+        console.log('응답 데이터:', responseData);
+
+        // 여기에서 responseData를 확인하여 필요한 정보를 추출할 수 있습니다.
+      } else {
+        console.error('스티커 추가 실패 : ', response.data);
+      }
+    } catch (error) {
+      console.error('API 호출 오류:', error);
+      console.log('stickerData:', stickerData);
+    }
+  };
+
+  const ImgSaveClick = (locate) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: true,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: '저장하실 건가요?',
+        text: '한번 저장하면 내용을 수정할 수 없어요!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '네, 저장할게요!',
+        cancelButtonText: '아니요, 나중에 할게요!',
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed && (locate == 'calendar' || locate == 'diary')) {
+          swalWithBootstrapButtons.fire({
+            title: '저장되었어요!',
+            icon: 'success',
+          });
+          if (locate == 'calendar') {
+            console.log('캘린더 저장');
+            handleSaveCalendarSticker();
+            console.log('캘린더 저장 끝');
+          }
+        } else {
+          swalWithBootstrapButtons.fire({
+            title: '저장되지 않았어요',
+            icon: 'error',
+          });
+        }
+        // else if (result.dismiss === Swal.DismissReason.cancel) {
+        //   swalWithBootstrapButtons.fire({
+        //     title: '저장되지 않았어요',
+        //     icon: 'error',
+        //   });
+        // }
+      });
+  };
+
   const handleResize = (style, isShiftKey, type) => {
     setPosition((prevState) => {
       let { top, left, width, height } = style;
@@ -117,7 +163,7 @@ function Stickers({ onDelete, image, bounds, locate }) {
           }}
         />
         <ImgSaveBtn
-          onClick={ImgSaveClick}
+          onClick={() => ImgSaveClick(locate)}
           style={{
             left: position.left2 + position.width2 - 35,
             top: position.top2 + position.height2 + 10,

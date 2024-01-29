@@ -272,6 +272,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           onDelete={handleDeleteStickers}
           image={selectedSticker}
           bounds={diaryRef}
+          locate={'calendar'}
         />
       )}
       <div className="calendar" ref={diaryRef}>
