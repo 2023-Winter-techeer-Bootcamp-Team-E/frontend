@@ -108,25 +108,29 @@ function Stickers({ onDelete, image }) {
       rotate2: rotateAngle2,
     }));
   };
-  // CalendarStickers.jsx에서 getParentPosition 함수 추가
-  const getParentPosition = () => {
-    const parentRect = document
-      .getElementById('parentContainer')
-      .getBoundingClientRect();
-    return {
-      top: parentRect.top,
-      left: parentRect.left,
-    };
-  };
 
-  // CalendarStickers.jsx의 handleDrag 함수 수정
   const handleDrag = (deltaX, deltaY) => {
     setPosition((prevState) => {
-      // 부모 컴포넌트에서 CalendarStickers의 위치 정보를 알아내어 더해줍니다.
-      const parentPosition = getParentPosition(); // getParentPosition 함수는 부모 컴포넌트의 위치 정보를 얻어오는 함수입니다.
-      const newTop = prevState.top2 + deltaY + parentPosition.top;
-      const newLeft = prevState.left2 + deltaX + parentPosition.left;
-
+      // const boundsRect = bounds.current.getBoundingClientRect();
+      const expandedBounds = {
+        // left: boundsRect.left - prevState.width2,
+        // top: boundsRect.top - prevState.height2,
+        // right: boundsRect.right,
+        // bottom: boundsRect.bottom,
+      };
+      // let newTop = prevState.top2 + deltaY;
+      // let newLeft = prevState.left2 + deltaX;
+      let newTop = prevState.top2 + deltaY;
+      let newLeft = prevState.left2 + deltaX;
+      // 위치를 제한하는 부분
+      // if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
+      // if (newTop < expandedBounds.top) newTop = expandedBounds.top;
+      // if (newLeft + prevState.width2 > expandedBounds.right) {
+      //   newLeft = expandedBounds.right - prevState.width2;
+      // }
+      // if (newTop + prevState.height2 > expandedBounds.bottom) {
+      //   newTop = expandedBounds.bottom - prevState.height2;
+      // }
       console.log('position', newTop, newLeft);
       return {
         ...prevState,
