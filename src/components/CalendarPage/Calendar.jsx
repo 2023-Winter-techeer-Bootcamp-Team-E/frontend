@@ -115,6 +115,8 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
       const isFutureDate = isAfter(day, new Date());
       const isPastMonth = isBefore(day, startOfMonth(currentMonth));
       const isNextMonth = isAfter(day, endOfMonth(currentMonth));
+      const setSelectDateInfo = useSelectDateInfoStore((state) => state.setSelectDateInfo);
+      
       const shouldShowDiaryBtn =
         !isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day);
 
@@ -156,10 +158,13 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           const response = await baseInstance.get('/diaries/', {
             params: { day: `${formattedDate}` },
           });
-
+    
           if (response.status === 200) {
+            setSelectDateInfo(response.data);
+            console.log(formattedDate);
             setInnerPage(response.data.diary_bg_id);
             console.log(useInnerPage.getState().innerPage);
+            navigate('../past');
           } else {
             console.log('일기장 확인 실패');
           }
@@ -213,9 +218,9 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
                 if (diaryInfo.isExpiry) {
                   console.log('작성이 끝난 다이어리 조회');
                   readPast();
-                  navigate('../diary');
                 } else {
                   readDiary();
+                  console.log('다이어리 조회 실패');
                 }
               }}
             />

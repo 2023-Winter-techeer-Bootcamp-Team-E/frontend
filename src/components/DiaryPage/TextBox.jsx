@@ -283,7 +283,7 @@ const TextInput = styled.input`
   margin-right: 0.5rem;
   font-family: 'dachelove';
   color: #000;
-  font-size: 1.7rem;
+  font-size: 2.3rem;
   width: 100%; // 너비는 100%로 유지
   resize: none;
   border: none;

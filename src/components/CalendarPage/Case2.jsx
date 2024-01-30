@@ -16,6 +16,7 @@ import InnerImg5 from '../../assets/img/InnerImg/SelectInnerImg5.png';
 import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
 import { useInnerPage } from '../../stores/useInnerPage';
 import preBtn from '../../assets/img/Calendar/preBtn.png';
+import preBtn2 from '../../assets/img/Calendar/preBtn2.png';
 
 
 function Case2({ diaryMonth, diaryDay }) {
@@ -38,7 +39,9 @@ function Case2({ diaryMonth, diaryDay }) {
       });
       if (response.status === 200) {
         console.log('일기장 생성 성공');
-        setShareURL(response.data.sns_link);
+        setShareURL('');
+        // setShareURL(response.data.sns_link);
+        setShareURL('임시값입니다. 나중에 수정해야됨!');
         setInnerPage(response.data.diary_bg_id);
         setPage(3);
         setIconUpdate((prev) => prev + 1);
@@ -127,25 +130,25 @@ function Case2({ diaryMonth, diaryDay }) {
         <BottomMaskingTape src={MaskingTape2} />
 
         <SelectImgLeftBtn
-          src={SelectImgBtn}
-          onClick={() => {
-            PageNumSub();
-          }}
-          onMouseEnter={() => setUpButtonHovered(true)}
-          onMouseLeave={() => setUpButtonHovered(false)}
-          src={upButtonHovered ? SelectImgBtn : preBtn}
-          alt={upButtonHovered ? 'SelectImgBtn' : 'preBtn'}
-        />
-        <SelectImgRightBtn
-          src={SelectImgBtn}
-          onClick={() => {
-            PageNumAdd();
-          }}
-          onMouseEnter={() => setDownButtonHovered(true)}
-          onMouseLeave={() => setDownButtonHovered(false)}
-          src={downButtonHovered ? SelectImgBtn : preBtn}
-          alt={downButtonHovered ? 'SelectImgBtn' : 'preBtn'}
-        />
+        onClick={() => {
+          PageNumSub();
+        }}
+        onMouseEnter={() => setUpButtonHovered(true)}
+        onMouseLeave={() => setUpButtonHovered(false)}
+        src={upButtonHovered ? preBtn2 : SelectImgBtn}
+        alt={upButtonHovered ? 'preBtn2' : 'SelectImgBtn'}
+      />
+
+      <SelectImgRightBtn
+        onClick={() => {
+          PageNumAdd();
+        }}
+        onMouseEnter={() => setDownButtonHovered(true)}
+        onMouseLeave={() => setDownButtonHovered(false)}
+        src={downButtonHovered ? preBtn2 : SelectImgBtn}
+        alt={downButtonHovered ? 'preBtn2' : 'SelectImgBtn'}
+      />
+
 
         <CheckBtn
           onClick={() => {
@@ -162,8 +165,9 @@ export default Case2;
 
 const RightStickerContainer = styled.div`
   width: 17.45rem;
-  height: 44.0625rem;
+  height: 42.0625rem;
   border-radius: 1.875rem;
+  margin-top: -1rem;
   background: #e7eef9;
 `;
 

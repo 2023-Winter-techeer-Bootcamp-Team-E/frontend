@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { baseInstance } from '../../api/config';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 
 function SaveButton() {
+  const navigate = useNavigate();
 
   // 최종저장
   const SaveAll = async () => {
@@ -46,6 +48,7 @@ function SaveButton() {
             title: '일기가 저장되었어요!',
             icon: 'success',
           });
+          navigate('../past');
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire({
             title: '일기가 저장되지 않았어요',
@@ -64,8 +67,8 @@ function SaveButton() {
 
 
 const SaveButtonContainer = styled.div`
-    width: 10.375rem;
-    height: 2.8125rem;
+    width: 12.375rem;
+    height: 3.0125rem;
     flex-shrink: 0;
     border-radius: 1.875rem;
     background: #C1C3FF;
@@ -83,7 +86,7 @@ const SaveButtonContainer = styled.div`
     color: #FFF;
     text-align: center;
     font-family: Inter;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-style: normal;
     font-weight: 600;
     line-height: normal;

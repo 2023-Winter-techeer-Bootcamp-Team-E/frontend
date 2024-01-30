@@ -93,7 +93,7 @@ function BasicSticker({ onStickerSelect, websocket }) {
 }
 
 const BasicStickerContainer = styled.div`
-  width: 15.45rem;
+  width: 17.45rem;
   height: 42.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
@@ -105,6 +105,7 @@ const BasicStickerContainer = styled.div`
   position: relative;
   padding-top: 5rem;
   padding-bottom: 5rem;
+  margin-left: -1rem;
 `;
 
 const StyledSun = styled.img`
@@ -122,7 +123,7 @@ const StyledUpButton = styled.img`
   z-index: 10;
   position: absolute;
   bottom: -3.356rem;
-  left: 5.25rem;
+  left: 6.2875rem;
   cursor: pointer;
   &:hover {
     transform: scale(1.2);
@@ -135,7 +136,7 @@ const StyledDownButton = styled.img`
   z-index: 10;
   position: absolute;
   bottom: -3.356rem;
-  left: 8.25rem;
+  left: 9.3375rem;
   cursor: pointer;
   transform: rotate(180deg);
   &:hover {
@@ -143,16 +144,15 @@ const StyledDownButton = styled.img`
   }
 `;
 
-
 const ScrollContainer = styled.div`
-  width: 13.25rem;
+  width: 15.25rem;
   height: 3.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
   position: absolute;
   bottom: -4.15rem;
-  left: 1.1rem;
+  left: 1.2rem;
 `;
 
 const StaticStickerBox = styled.div`

@@ -83,7 +83,7 @@ const Case3 = ({ diaryMonth, diaryDay }) => {
         <ShareURL>{shareURL}</ShareURL>
         <CopyBtn onClick={copyToClipboard}>복사</CopyBtn>
         <Line />
-        <LetsWriteText>일기를 작성하러 가볼까요?</LetsWriteText>
+        <LetsWriteText>일기를 작성하러 가볼까요? </LetsWriteText>
         <WriteDiaryBtn onClick={handleWriteDiaryClick}>
           {/* onClick={() => (window.location.href = `http://${shareURL}`)}> */}
           작성하기 <DiaryWritePenIcon src={DiaryWritePen} />
@@ -93,18 +93,19 @@ const Case3 = ({ diaryMonth, diaryDay }) => {
   );
 };
 const RightStickerContainer = styled.div`
-width: 17.45rem;
-height: 44.0625rem;
+  width: 17.45rem;
+  height: 42.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
+  margin-top: -1rem;
 `;
 const SelectDateText2 = styled.p`
   position: absolute;
   margin-top: 6rem;
   color: #2c199f;
   font-family: 'mong';
-  font-size: 1.5rem;
-  left: 1.19rem;
+  font-size: 1.75rem;
+  left: 2.9rem;
 `;
 const DiarySettingWindow = styled.div`
   width: 100%;
@@ -126,7 +127,7 @@ const ShareURL = styled.p`
   margin-top: 11rem;
   margin-right: 4rem;
   width: 9rem;
-  height: 2rem;
+  height: 2.5rem;
   flex-shrink: 0;
   border-radius: 0.3125rem;
   background: #fff;
@@ -146,16 +147,16 @@ const ShareURL = styled.p`
 const CopyBtn = styled.button`
   position: absolute;
   margin-top: 11rem;
-  margin-left: 10rem;
-  width: 4rem;
-  height: 2rem;
+  margin-left: 11rem;
+  width: 4.5rem;
+  height: 2.5rem;
   flex-shrink: 0;
   border-radius: 0.3125rem;
   background: #cad9ff;
 
   color: #fff;
   font-family: 'bmjua';
-  font-size: 0.875rem;
+  font-size: 1.0rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -183,12 +184,12 @@ const LetsWriteText = styled.p`
   justify-content: center;
 
   font-family: 'mong';
-  font-size: 1.25rem;
+  font-size: 1.75rem;
 `;
 
 const WriteDiaryBtn = styled.div`
   position: absolute;
-  margin-top: 24.5rem;
+  margin-top: 26.5rem;
   width: 12.6875rem;
   height: 2.38881rem;
   flex-shrink: 0;
@@ -202,7 +203,7 @@ const WriteDiaryBtn = styled.div`
 
   color: #fff;
   font-family: 'bmjua';
-  font-size: 1rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
   &:hover {
@@ -214,7 +215,7 @@ const DiaryWritePenIcon = styled.img`
   position: absolute;
   width: 1.625rem;
   margin-bottom: 0.3rem;
-  margin-left: 6rem;
+  margin-left: 7rem;
   height: 1.625rem;
   flex-shrink: 0;
 `;

@@ -100,7 +100,7 @@ const WrapperBasicSticker = styled.div`
 const WrapperDateNotification = styled.div`
   position: absolute;
   top: 14.5rem;
-  margin-left: 84.19rem;
+  margin-left: 83.5025rem;
 `;
 
 export default CalendarPage;

@@ -20,8 +20,9 @@ const Case1 = ({}) => {
 
 const RightStickerContainer = styled.div`
   width: 17.45rem;
-  height: 44.0625rem;
+  height: 42.0625rem;
   border-radius: 1.875rem;
+  margin-top: -1rem;
   background: #e7eef9;
 `;
 
@@ -60,14 +61,16 @@ const DiarySettingImgBubble = styled.img`
 const DiarySettingText = styled.div`
   position: absolute;
   width: 13rem;
+  margin-left: 1.3rem;
   color: #000;
   font-family: 'mong';
-  font-size: 2.0rem;
+  font-size: 1.9rem;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5rem;
   display: flex;
   margin-top: 11.6rem;
+  line-height: 2rem;
 `;
 
 export default Case1;
