@@ -20,7 +20,35 @@ const LoginPage = () => {
   const [shake, setShake] = useState(false);
   const userInfoStore = useUserInfoStore();
   const navigate = useNavigate();
-  
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+
+  useEffect(() => {
+    const loggedInUserId = localStorage.getItem('loggedInUserId');
+    const loggedInUserNickname = localStorage.getItem('loggedInUserNickname');
+
+    if (loggedInUserId && loggedInUserNickname) {
+      // 기존 정보를 제거하고 새로운 정보를 추가
+      userInfoStore.removeUserInfo(loggedInUserId);
+      userInfoStore.addUserInfo(loggedInUserId, loggedInUserNickname);
+    }
+
+    // 화면이 처음 마운트될 때는 SweetAlert 창을 띄우지 않도록 추가
+    if (userInfoStore.userInfoList.length === 0 && showLoginAlert) {
+      Swal.fire({
+        icon: 'warning',
+        title: '로그인이 필요합니다!',
+        text: '로그인을 하고 일기를 작성해 주세요! 😜',
+        confirmButtonText: '확인',
+        allowOutsideClick: false,
+      }).then(() => {
+        navigate('/login');
+      });
+    }
+  }, [userInfoStore.userInfoList.length, navigate, showLoginAlert]);
+  useEffect(() => {
+    setShowLoginAlert(true);
+  }, []);
+
   // 로그인 상태인 경우 /calendar 페이지로 자동 리다이렉트
   useEffect(() => {
     const loggedInUserId = localStorage.getItem('loggedInUserId');

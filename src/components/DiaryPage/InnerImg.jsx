@@ -18,6 +18,7 @@ import DalleSticker from './DalleSticker';
 import useStickerStore from '../../stores/stickerStore';
 import useTextStore from '../../stores/textStore';
 import useDalleStore from '../../stores/dalleStore';
+import useUserInfoStore from '../../stores/userInfoStore';
 
 function InnerImg({
   selectedSticker,
@@ -46,7 +47,9 @@ function InnerImg({
   const handleDeleteStickers = () => {
     setSelectedSticker(false);
   };
-
+  useEffect(() => {
+    //여기 만들어줘 GPT
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -70,7 +73,7 @@ function InnerImg({
         console.log(
           `catch ${numericMonth}월 ${response.data.day}일 다이어리 조회 실패 : ${error.message}`,
         );
-        navigate('/calendar');
+        navigate('/calendar'); //유동적인 URL 작업중인데 나중에 수정 필요할 수도 있음(진우)
       }
     };
     fetchData();
