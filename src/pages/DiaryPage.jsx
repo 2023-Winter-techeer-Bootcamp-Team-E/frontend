@@ -206,6 +206,7 @@ function DiaryPage() {
             websocket={websocket}
             diaryMonth={selectedDateInfo.selectedMonth}
             diaryDay={selectedDateInfo.selectedDay}
+            diaryId={diary_id}
           />
         </WrapperInnerImg>
         <WrapperRightSticker>

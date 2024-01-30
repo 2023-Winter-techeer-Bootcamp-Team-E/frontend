@@ -28,8 +28,10 @@ function InnerImg({
   diaryDay,
   websocket,
   diaryData,
+  diaryId,
 }) {
   const diaryRef = useRef(null);
+  const [hostName, setHostName] = useState('');
   const stickers = useStickerStore((state) => state.stickers);
   const texts = useTextStore((state) => state.texts);
   const dalles = useDalleStore((state) => state.dalles);
@@ -48,15 +50,25 @@ function InnerImg({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await baseInstance.get(`/diaries/?day=${diaryDay}`);
-        if (true) {
-          console.log(`${diaryMonth}월 ${diaryDay}일 다이어리 조회 성공!`);
+        const response = await baseInstance.get(`/diaries/?diaryId=${diaryId}`);
+        if (response.status === 200) {
+          const responseMonth = response.data.year_month;
+
+          const month = responseMonth.split('-')[1]; // 월 정보 추출
+
+          const numericMonth = month.startsWith('0') // "0"으로 시작하는 문자열이라면 "0" 제거하고 정수로 변환, 아니면 그냥 정수로 변환
+            ? parseInt(month[1])
+            : parseInt(month);
+          console.log(
+            `${numericMonth}월 ${response.data.day}일 다이어리 조회 성공!`,
+          );
           const diaryBgId = response.data.diary_bg_id;
           setInnerPage(diaryBgId);
+          setHostName(response.data.nickname);
         }
       } catch (error) {
         console.log(
-          `catch ${diaryMonth}월 ${diaryDay}일 다이어리 조회 실패 : ${error.message}`,
+          `catch ${numericMonth}월 ${response.data.day}일 다이어리 조회 실패 : ${error.message}`,
         );
         navigate('/calendar');
       }
@@ -138,7 +150,7 @@ function InnerImg({
           websocket={websocket}
         />
       ))}
-      <DirName>조진우</DirName>
+      <DirName>{hostName}</DirName>
       <DirDate>
         {diaryMonth}월 {diaryDay}일
       </DirDate>
