@@ -44,13 +44,14 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   };
 
   const printSticker = () => {
+    console.log('stickerInfoArr:', stickerInfoArr);
     return stickerInfoArr.map((stickerInfo, index) => (
       <img
         key={index}
         src={stickerInfo[0]} // 이미지 URL
         style={{
-          top: `${stickerInfo[1] + 1}px`, // top 값
-          left: `${stickerInfo[2] + 1}px`, // left 값
+          top: `${stickerInfo[1]}px`, // top 값
+          left: `${stickerInfo[2]}px`, // left 값
           width: `${stickerInfo[3]}px`, // width 값
           height: `${stickerInfo[4]}px`, // height 값
           transform: `rotate(${stickerInfo[5]}deg)`, // rotate 값
