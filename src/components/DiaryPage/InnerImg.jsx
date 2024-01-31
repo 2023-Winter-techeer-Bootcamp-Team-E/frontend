@@ -171,6 +171,9 @@ function InnerImg({
           textId={text.id}
           bounds={diaryRef}
           websocket={websocket}
+          username={hostName}
+          diaryMonth={diaryMonth}
+          diaryDay={diaryDay}
         />
       ))}
       {dalles.map((dalle) => (
@@ -247,9 +250,4 @@ const DirDate = styled.div`
   width: 100%;
   font-family: 'dachelove';
   font-size: 2rem;
-`;
-const Contents = styled.p`
-  color: #000000;
-  font-family: 'dachelove';
-  font-size: 1rem;
 `;
