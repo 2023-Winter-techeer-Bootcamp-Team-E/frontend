@@ -14,7 +14,10 @@ import InnerImg from '../components/DiaryPage/InnerImg';
 import useStickerStore from '../stores/stickerStore';
 import useTextStore from '../stores/textStore';
 import useDalleStore from '../stores/dalleStore';
-import useDiaryIdStore from '../stores/diaryIdStore';
+import useUserInfoStore from '../stores/userInfoStore';
+
+const WEBSOCKET_URL = 'ws://127.0.0.1:8000/ws/harurooms/1/';
+// const socket = new WebSocket(`${WEBSOCKET_URL}/ws/harurooms/${diaryId}`);
 
 function DiaryPage() {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
@@ -29,7 +32,18 @@ function DiaryPage() {
   const texts = useTextStore((state) => state.texts);
   const addText = useTextStore((state) => state.addText);
   const dalles = useDalleStore((state) => state.dalles);
-  const { diaryId } = useDiaryIdStore();
+
+  const { userInfoList, addUserInfo, getUserInfo, removeUserInfo } =
+    useUserInfoStore();
+  const userId = userInfoList.map((user) => user.id);
+  const [hostCheck, setHostCheck] = useState(true);
+
+  useEffect(() => {
+    if (userId == '') {
+      setHostCheck(false);
+    }
+  }, []);
+
 
   const handleTextButtonClick = () => {
     setSelectedTextBox(true);
@@ -219,12 +233,8 @@ function DiaryPage() {
             websocket={websocket}
           />
         </WrapperRightSticker>
-        <WrapperDHomeButton>
-          <DHomeButton />
-        </WrapperDHomeButton>
-        <WrapperSaveButton>
-          <SaveButton />
-        </WrapperSaveButton>
+        <WrapperDHomeButton>{hostCheck && <DHomeButton />}</WrapperDHomeButton>
+        <WrapperSaveButton>{hostCheck && <SaveButton />}</WrapperSaveButton>
         <WrapperBasicSticker>
           <BasicSticker
             onStickerSelect={handleStickerSelect}

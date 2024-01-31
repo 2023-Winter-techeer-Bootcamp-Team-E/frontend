@@ -171,6 +171,9 @@ function InnerImg({
           textId={text.id}
           bounds={diaryRef}
           websocket={websocket}
+          username={hostName}
+          diaryMonth={diaryMonth}
+          diaryDay={diaryDay}
         />
       ))}
       {dalles.map((dalle) => (
