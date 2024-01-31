@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useSelectDateInfoStore } from '../../src/stores/useSelectDateInfoStore';
-
+import { useParams } from 'react-router-dom';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
@@ -14,6 +14,7 @@ import InnerImg from '../components/DiaryPage/InnerImg';
 import useStickerStore from '../stores/stickerStore';
 import useTextStore from '../stores/textStore';
 import useDalleStore from '../stores/dalleStore';
+import useUserInfoStore from '../stores/userInfoStore';
 
 const WEBSOCKET_URL = 'ws://127.0.0.1:8000/ws/harurooms/1/';
 // const socket = new WebSocket(`${WEBSOCKET_URL}/ws/harurooms/${diaryId}`);
@@ -24,13 +25,25 @@ function DiaryPage() {
   const [selectedDalle, setSelectedDalle] = useState(null);
   const [sharedText, setSharedText] = useState(''); // 모든 사용자에게 공유될 텍스트
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
-
+  const { diary_id } = useParams();
   const websocket = useRef(null);
   const addSticker = useStickerStore((state) => state.addSticker);
   const stickers = useStickerStore((state) => state.stickers);
   const texts = useTextStore((state) => state.texts);
   const addText = useTextStore((state) => state.addText);
   const dalles = useDalleStore((state) => state.dalles);
+
+  const { userInfoList, addUserInfo, getUserInfo, removeUserInfo } =
+    useUserInfoStore();
+  const userId = userInfoList.map((user) => user.id);
+  const [hostCheck, setHostCheck] = useState(true);
+
+  useEffect(() => {
+    if (userId == '') {
+      setHostCheck(false);
+    }
+  }, []);
+
 
   const handleTextButtonClick = () => {
     setSelectedTextBox(true);
@@ -44,13 +57,16 @@ function DiaryPage() {
     setSelectedDalle(image);
   };
 
-  // console.log(stickers);
-  console.log(texts);
   useEffect(() => {
-    const newSocket = new WebSocket(WEBSOCKET_URL);
+    if (!diary_id) {
+      console.log('diaryId가 설정되지 않았습니다.');
+      return;
+    }
 
+    const newSocket = new WebSocket(
+      `ws://127.0.0.1:8000/ws/harurooms/${diary_id}/`,
+    );
     websocket.current = newSocket;
-    // WebSocket 연결 설정
 
     // 웹소켓 연결이 성공했을 때
     newSocket.onopen = () => {
@@ -141,18 +157,18 @@ function DiaryPage() {
 
       // 텍스트 박스
       if (data.type === 'create_textbox') {
-        console.log('텍스트 박스 생성');
+        // console.log('텍스트 박스 생성');
         useTextStore.getState().addText({
           id: data.text_id,
           ...data.position,
         });
       } else if (data.type === 'text_drag') {
-        console.log('텍스트 드래그 발생');
+        // console.log('텍스트 드래그 발생');
         useTextStore
           .getState()
           .updateText({ id: data.text_id, ...data.position });
       } else if (data.type === 'text_resize') {
-        console.log('텍스트 리사이즈 발생');
+        // console.log('텍스트 리사이즈 발생');
         useTextStore
           .getState()
           .updateText({ id: data.text_id, ...data.position });
@@ -191,7 +207,7 @@ function DiaryPage() {
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
-          <NavigateBar />
+          <NavigateBar locate={'diary'} />
         </WrapperNavigateBar>
         <WrapperLargeSketchbook>
           <LargeSketchbook />
@@ -206,6 +222,7 @@ function DiaryPage() {
             websocket={websocket}
             diaryMonth={selectedDateInfo.selectedMonth}
             diaryDay={selectedDateInfo.selectedDay}
+            diaryId={diary_id}
           />
         </WrapperInnerImg>
         <WrapperRightSticker>
@@ -216,12 +233,8 @@ function DiaryPage() {
             websocket={websocket}
           />
         </WrapperRightSticker>
-        <WrapperDHomeButton>
-          <DHomeButton />
-        </WrapperDHomeButton>
-        <WrapperSaveButton>
-          <SaveButton />
-        </WrapperSaveButton>
+        <WrapperDHomeButton>{hostCheck && <DHomeButton />}</WrapperDHomeButton>
+        <WrapperSaveButton>{hostCheck && <SaveButton />}</WrapperSaveButton>
         <WrapperBasicSticker>
           <BasicSticker
             onStickerSelect={handleStickerSelect}
@@ -258,41 +271,43 @@ const PageFrame = styled.div`
 
 const WrapperNavigateBar = styled.div`
   position: absolute;
+  top: -0.6rem;
 `;
 const WrapperLargeSketchbook = styled.div`
   position: absolute;
-  top: 7.9375rem;
+  top: 6.9375rem;
 `;
 const WrapperBasicSticker = styled.div`
   position: absolute;
-  top: 17rem;
-  left: 4.56rem;
+  top: 13.5rem;
+  left: 3.55rem;
 `;
 const WrapperRightSticker = styled.div`
   position: absolute;
-  top: 17.87rem;
-  margin-left: 84.19rem;
+  top: 16.87rem;
+  margin-left: 86.2rem;
+  margin-top: -3.4rem;
 `;
 
 const WrapperDHomeButton = styled.div`
   position: absolute;
-  right: 5.19rem;
-  bottom: 5.4rem;
+  right: 2rem;
+  top: 56.6rem;
   display: flex;
   z-index: 10;
 `;
 
 const WrapperSaveButton = styled.div`
   position: absolute;
-  right: 8.56rem;
-  bottom: 5.31rem;
+  right: 6.4rem;
+  top: 56.8rem;
   display: flex;
   z-index: 10;
 `;
 
 const WrapperInnerImg = styled.div`
   position: absolute;
-  top: 0;
+  margin-top: -4rem;
   left: 22.7rem;
 `;
 

@@ -1,5 +1,3 @@
-// PastPage.js
-
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { baseInstance } from '../api/config';
@@ -16,8 +14,7 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   const [diaryData, setDiaryData] = useState(null);
 
   // 사용자가 선택한 날짜 정보 가져오기
-  const { selectedMonth, selectedDay, setSelectDateInfo } =
-    useSelectDateInfoStore();
+  const { selectedMonth, selectedDay, setSelectDateInfo } = useSelectDateInfoStore();
 
   useEffect(() => {
     const readStickers = async () => {
@@ -29,6 +26,7 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
         if (response.status === 200) {
           setDiaryData(response.data);
           console.log('일기장 확인 실패');
+
         } else {
           console.log('일기장 확인 실패');
         }
