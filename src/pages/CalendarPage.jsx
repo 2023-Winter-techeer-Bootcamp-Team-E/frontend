@@ -19,7 +19,7 @@ function CalendarPage() {
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
-          <NavigateBar />
+          <NavigateBar locate={'calendar'} />
         </WrapperNavigateBar>
 
         <WrapperLargeSketchbook>

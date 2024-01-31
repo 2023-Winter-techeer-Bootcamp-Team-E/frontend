@@ -191,7 +191,7 @@ function DiaryPage() {
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
-          <NavigateBar />
+          <NavigateBar locate={'diary'} />
         </WrapperNavigateBar>
         <WrapperLargeSketchbook>
           <LargeSketchbook />

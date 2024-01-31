@@ -6,17 +6,50 @@ import arrow from '../assets/img/NavigateBar_arrow.png';
 import ProfileMenu from './CalendarPage/ProfileMenu';
 import useUserInfoStore from '../stores/userInfoStore';
 
-const NavigateBar = () => {
+const NavigateBar = ({ locate }) => {
   const [isProfMenuOpen, setIsProfMenuOpen] = useState(false);
   const profMenuRef = useRef(null);
   const userInfoStore = useUserInfoStore();
   const { userInfoList } = userInfoStore;
+  const navigate = useNavigate();
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
+
+  useEffect(() => {
+    const loggedInUserId = localStorage.getItem('loggedInUserId');
+    const loggedInUserNickname = localStorage.getItem('loggedInUserNickname');
+
+    if (loggedInUserId && loggedInUserNickname) {
+      // 기존 정보를 제거하고 새로운 정보를 추가
+      userInfoStore.removeUserInfo(loggedInUserId);
+      userInfoStore.addUserInfo(loggedInUserId, loggedInUserNickname);
+    }
+
+    // 화면이 처음 마운트될 때는 SweetAlert 창을 띄우지 않도록 추가
+    if (
+      userInfoStore.userInfoList.length === 0 &&
+      showLoginAlert &&
+      locate == 'calendar'
+    ) {
+      Swal.fire({
+        icon: 'warning',
+        title: '로그인이 필요합니다!',
+        text: '로그인을 하고 일기를 작성해 주세요! 😜',
+        confirmButtonText: '확인',
+        allowOutsideClick: false,
+      }).then(() => {
+        navigate('/login');
+      });
+    }
+  }, [userInfoStore.userInfoList.length, navigate, showLoginAlert]);
+  useEffect(() => {
+    setShowLoginAlert(true);
+  }, []);
 
   // userInfoList 배열에서 첫 번째 사용자 정보를 가져옴
   const user =
     userInfoList.length > 0
       ? userInfoList[0]
-      : { id: 'null', nickname: 'null' };
+      : { id: 'Guest', nickname: 'Guest' };
   const { id, nickname } = user;
 
   useEffect(() => {
@@ -38,27 +71,18 @@ const NavigateBar = () => {
 
   return (
     <NavBar>
-      {/* <BellImg
-        src={bell}
-        onClick={handleNotifyArrowClick}
-        isopen={isNotifyMenuOpen}
-      /> */}
       <ProfWrapper>
         <ProfName>환영합니다. {nickname}님</ProfName>
         <ProfArrow
           src={arrow}
           onClick={handleProfArrowClick}
-          isopen={isProfMenuOpen}
+          isopen={isProfMenuOpen.toString()}
         />
       </ProfWrapper>
 
-      <ProfileMenuWrapper ref={profMenuRef} isopen={isProfMenuOpen}>
+      <ProfileMenuWrapper ref={profMenuRef} isopen={isProfMenuOpen.toString()}>
         <ProfileMenu userId={id} userName={nickname} />
       </ProfileMenuWrapper>
-
-      {/* <NotificationMenuWrapper ref={notifyMenuRef} isopen={isNotifyMenuOpen}>
-        <NotificationMenu />
-      </NotificationMenuWrapper> */}
     </NavBar>
   );
 };
@@ -71,31 +95,6 @@ const NavBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-`;
-
-const BellImg = styled.img`
-  position: absolute;
-  width: 4.625rem;
-  height: 4.625rem;
-  margin-right: 29.55rem;
-  cursor: pointer;
-  transition: transform 0.3s ease-in-out;
-
-  &:hover {
-    animation: shake 0.5s ease-in-out infinite;
-  }
-
-  @keyframes shake {
-    0% {
-      transform: rotate(-5deg);
-    }
-    50% {
-      transform: rotate(5deg);
-    }
-    100% {
-      transform: rotate(-5deg);
-    }
-  }
 `;
 
 const slideDown = keyframes`
@@ -142,7 +141,8 @@ const ProfArrow = styled.img`
   margin-left: 1rem;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
-  transform: ${({ isopen }) => (isopen ? 'rotate(180deg)' : 'rotate(0)')};
+  transform: ${({ isopen }) =>
+    isopen == 'false' ? 'rotate(0)' : 'rotate(180deg)'};
 `;
 
 const ProfileMenuWrapper = styled.div`
@@ -153,21 +153,7 @@ const ProfileMenuWrapper = styled.div`
   animation-duration: 0.5s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: both;
-  animation-name: ${({ isopen }) => (isopen ? slideDown : slideUp)};
-  display: ${({ isopen }) => (isopen ? 'block' : 'none')};
-`;
-
-const NotificationMenuWrapper = styled.div`
-  position: absolute;
-  z-index: 11;
-  margin-right: 28em;
-  top: 7rem;
-  animation-duration: 0.5s;
-  animation-timing-function: ease-in-out;
-  animation-fill-mode: both;
-  animation-name: ${({ isopen }) => (isopen ? slideDown : slideUp)};
-  display: ${({ isopen }) => (isopen ? 'block' : 'none')};
-  cursor: pointer;
+  animation-name: ${({ isopen }) => (isopen == 'false' ? slideUp : slideDown)};
 `;
 
 export default NavigateBar;

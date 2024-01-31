@@ -18,7 +18,6 @@ import DalleSticker from './DalleSticker';
 import useStickerStore from '../../stores/stickerStore';
 import useTextStore from '../../stores/textStore';
 import useDalleStore from '../../stores/dalleStore';
-import useUserInfoStore from '../../stores/userInfoStore';
 
 function InnerImg({
   selectedSticker,
