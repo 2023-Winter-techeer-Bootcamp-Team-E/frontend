@@ -11,7 +11,7 @@ const Case1 = ({}) => {
         <DiarySettingImgLogo src={RightNotificationImgLogo} />
         <DiarySettingImgBubble src={RightNotificationImgBubble} />
         <DiarySettingText>
-          <div>친구들과 나의 특별한 순간을 작성할 날짜를 선택해주세요!</div>
+          <div>일기를 작성할<br/> 날짜를 선택해주세요!</div>
         </DiarySettingText>
       </DiarySettingWindow>
     </RightStickerContainer>
@@ -19,9 +19,10 @@ const Case1 = ({}) => {
 };
 
 const RightStickerContainer = styled.div`
-  width: 15.1875rem;
-  height: 41.0625rem;
+  width: 17.45rem;
+  height: 42.0625rem;
   border-radius: 1.875rem;
+  margin-top: -1rem;
   background: #e7eef9;
 `;
 
@@ -42,16 +43,16 @@ const DiarySettingWindow = styled.div`
 
 const DiarySettingImgLogo = styled.img`
   position: absolute;
-  width: 15.1875rem;
-  height: 15.80469rem;
+  width: 17.45rem;
+  height: 17.80469rem;
   flex-shrink: 0;
   display: flex;
   margin-top: 20rem;
 `;
 const DiarySettingImgBubble = styled.img`
   position: absolute;
-  width: 14.25rem;
-  height: 13rem;
+  width: 17.25rem;
+  height: 15rem;
   flex-shrink: 0;
   display: flex;
   margin-top: 7.56rem;
@@ -59,15 +60,17 @@ const DiarySettingImgBubble = styled.img`
 
 const DiarySettingText = styled.div`
   position: absolute;
-  width: 10rem;
+  width: 13rem;
+  margin-left: 1.3rem;
   color: #000;
   font-family: 'mong';
-  font-size: 1.125rem;
+  font-size: 1.9rem;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5rem;
   display: flex;
-  margin-top: 11.12rem;
+  margin-top: 11.6rem;
+  line-height: 2rem;
 `;
 
 export default Case1;

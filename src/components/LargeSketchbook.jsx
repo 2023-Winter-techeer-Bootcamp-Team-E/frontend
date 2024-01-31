@@ -24,7 +24,7 @@ const LargeSketchbook = () => {
 const StyledLargeSketchbook = styled.img`
   position: absolute;
   top: -2.3rem;
-  left: -1rem;
+  left: -3.5rem;
   width: 110rem; // 130.25rem
   height: 58.4rem; // 75.7rem
 `

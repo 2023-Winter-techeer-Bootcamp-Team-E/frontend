@@ -258,41 +258,43 @@ const PageFrame = styled.div`
 
 const WrapperNavigateBar = styled.div`
   position: absolute;
+  top: -0.6rem;
 `;
 const WrapperLargeSketchbook = styled.div`
   position: absolute;
-  top: 7.9375rem;
+  top: 6.9375rem;
 `;
 const WrapperBasicSticker = styled.div`
   position: absolute;
-  top: 17rem;
-  left: 4.56rem;
+  top: 13.5rem;
+  left: 3.55rem;
 `;
 const WrapperRightSticker = styled.div`
   position: absolute;
-  top: 17.87rem;
-  margin-left: 84.19rem;
+  top: 16.87rem;
+  margin-left: 86.2rem;
+  margin-top: -3.4rem;
 `;
 
 const WrapperDHomeButton = styled.div`
   position: absolute;
-  right: 5.19rem;
-  bottom: 5.4rem;
+  right: 2.0rem;
+  top: 56.6rem;
   display: flex;
   z-index: 10;
 `;
 
 const WrapperSaveButton = styled.div`
   position: absolute;
-  right: 8.56rem;
-  bottom: 5.31rem;
+  right: 6.4rem;
+  top: 56.8rem;
   display: flex;
   z-index: 10;
 `;
 
 const WrapperInnerImg = styled.div`
   position: absolute;
-  top: 0;
+  margin-top: -4rem;
   left: 22.7rem;
 `;
 
