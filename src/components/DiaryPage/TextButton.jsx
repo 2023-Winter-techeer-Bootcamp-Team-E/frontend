@@ -23,14 +23,14 @@ function TextButton({ onClick, websocket }) {
 
 const TextButtonContainer = styled.div`
   position: absolute;
-  width: 12.375rem;
+  width: 14.375rem;
   height: 3.0125rem;
   flex-shrink: 0;
   border-radius: 1.875rem;
   background: #C1C3FF;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-  right: 6.4rem;
-  bottom: 15.21rem;
+  left: 4.2rem;
+  top: 56.8rem;
   text-align: center;
   display: flex;
   align-items: center;
@@ -42,8 +42,8 @@ const TextButtonContainer = styled.div`
   }
 
   color: #fff;
-  font-family: Inter;
-  font-size: 1.2rem;
+  // font-family: Inter;
+  font-size: 1.4rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;

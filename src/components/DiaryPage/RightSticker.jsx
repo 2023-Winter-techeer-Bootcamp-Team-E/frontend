@@ -77,7 +77,7 @@ export default RightSticker;
 
 const RightStickerContainer = styled.div`
   width: 17.45rem;
-  height: 37.0rem;
+  height: 42.0625rem;
   border-radius: 1.875rem;
   background-color: #e7eef9;
   display: grid;

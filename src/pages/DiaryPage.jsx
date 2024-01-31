@@ -279,7 +279,7 @@ const WrapperRightSticker = styled.div`
 const WrapperDHomeButton = styled.div`
   position: absolute;
   right: 2.0rem;
-  bottom: 11.0rem;
+  top: 56.6rem;
   display: flex;
   z-index: 10;
 `;
@@ -287,7 +287,7 @@ const WrapperDHomeButton = styled.div`
 const WrapperSaveButton = styled.div`
   position: absolute;
   right: 6.4rem;
-  bottom: 10.8rem;
+  top: 56.8rem;
   display: flex;
   z-index: 10;
 `;

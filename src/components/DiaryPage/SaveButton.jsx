@@ -85,8 +85,8 @@ const SaveButtonContainer = styled.div`
     
     color: #FFF;
     text-align: center;
-    font-family: Inter;
-    font-size: 1.2rem;
+    // font-family: Inter;
+    font-size: 1.4rem;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
