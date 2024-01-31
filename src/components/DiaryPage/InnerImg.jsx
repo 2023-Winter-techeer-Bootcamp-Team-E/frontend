@@ -53,7 +53,7 @@ function InnerImg({
       try {
         const response = await baseInstance.get(`/diaries/${diaryId}`);
         if (response.data) {
-          const responseMonth = response.data.diart_data.year_month; //diart로 오타나있는데 api 수정 후 diary로 바꿔야함
+          const responseMonth = response.data.diary_data.year_month; //diart로 오타나있는데 api 수정 후 diary로 바꿔야함
 
           const month = responseMonth.split('-')[1];
           const numericMonth = month.startsWith('0')

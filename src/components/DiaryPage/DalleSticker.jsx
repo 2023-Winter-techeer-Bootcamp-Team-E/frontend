@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import useDalleStore from '../../stores/dalleStore';
+import xclose from '../../assets/img/xclose.png';
 
 function DalleSticker({ dalleId, image, bounds, websocket }) {
   const dalles = useDalleStore((state) => state.dalles);
@@ -93,26 +94,8 @@ function DalleSticker({ dalleId, image, bounds, websocket }) {
   const handleDrag = (deltaX, deltaY) => {
     const boundsRect = bounds.current.getBoundingClientRect();
 
-    // 범위를 확장합니다.
-    const expandedBounds = {
-      left: boundsRect.left - 386,
-      top: boundsRect.top - 184,
-      right: boundsRect.right - 385,
-      bottom: boundsRect.bottom - 185,
-    };
-
     let newTop = dalle.top2 + deltaY;
     let newLeft = dalle.left2 + deltaX;
-
-    // 확장된 범위 내에서만 이동하도록 조정합니다.
-    if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
-    if (newTop < expandedBounds.top) newTop = expandedBounds.top;
-    if (newLeft + dalle.width2 > expandedBounds.right) {
-      newLeft = expandedBounds.right - dalle.width2;
-    }
-    if (newTop + dalle.height2 > expandedBounds.bottom) {
-      newTop = expandedBounds.bottom - v.height2;
-    }
 
     const roundedTop = Math.round(newTop);
     const roundedLeft = Math.round(newLeft);
@@ -208,8 +191,19 @@ function DalleSticker({ dalleId, image, bounds, websocket }) {
             left: dalle.left2 + dalle.width2 - 20,
             top: dalle.top2 - 10,
             zIndex: 200,
-          }}
-        />
+          }}>
+          <img
+            style={{
+              width: '1rem',
+              height: '1rem',
+              top: '0.4rem',
+              left: '0.5rem',
+              position: 'absolute',
+            }}
+            src={xclose}
+            alt="close"
+          />
+        </CloseButton>
         <ImgSaveBtn
           onClick={() =>
             ImgSaveClick({
@@ -267,25 +261,15 @@ export default DalleSticker;
 
 const CloseButton = styled.span`
   background-color: #f26c60;
-  color: white;
   width: 2rem;
   height: 2rem;
-  font-size: small;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 100%;
   position: absolute;
-  top: -10px; // 위치 조정
+  top: -10px;
   right: -10px;
   z-index: 100;
 
-  &:after {
-    content: '\\00d7';
-    font-size: 15pt;
-    display: inline-block;
-  }
   &:hover {
     transform: scale(1.05);
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);

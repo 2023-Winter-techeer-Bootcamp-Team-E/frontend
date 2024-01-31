@@ -32,6 +32,7 @@ function DiaryPage() {
   const texts = useTextStore((state) => state.texts);
   const addText = useTextStore((state) => state.addText);
   const dalles = useDalleStore((state) => state.dalles);
+
   const { userInfoList, addUserInfo, getUserInfo, removeUserInfo } =
     useUserInfoStore();
   const userId = userInfoList.map((user) => user.id);
@@ -41,8 +42,8 @@ function DiaryPage() {
     if (userId == '') {
       setHostCheck(false);
     }
-    console.log('제발 좀 되라 Id : ', userId, 'check : ', hostCheck);
   }, []);
+
 
   const handleTextButtonClick = () => {
     setSelectedTextBox(true);
@@ -56,13 +57,16 @@ function DiaryPage() {
     setSelectedDalle(image);
   };
 
-  // console.log(stickers);
-  console.log(texts);
   useEffect(() => {
-    const newSocket = new WebSocket(WEBSOCKET_URL);
+    if (!diary_id) {
+      console.log('diaryId가 설정되지 않았습니다.');
+      return;
+    }
 
+    const newSocket = new WebSocket(
+      `ws://127.0.0.1:8000/ws/harurooms/${diary_id}/`,
+    );
     websocket.current = newSocket;
-    // WebSocket 연결 설정
 
     // 웹소켓 연결이 성공했을 때
     newSocket.onopen = () => {
@@ -153,18 +157,18 @@ function DiaryPage() {
 
       // 텍스트 박스
       if (data.type === 'create_textbox') {
-        console.log('텍스트 박스 생성');
+        // console.log('텍스트 박스 생성');
         useTextStore.getState().addText({
           id: data.text_id,
           ...data.position,
         });
       } else if (data.type === 'text_drag') {
-        console.log('텍스트 드래그 발생');
+        // console.log('텍스트 드래그 발생');
         useTextStore
           .getState()
           .updateText({ id: data.text_id, ...data.position });
       } else if (data.type === 'text_resize') {
-        console.log('텍스트 리사이즈 발생');
+        // console.log('텍스트 리사이즈 발생');
         useTextStore
           .getState()
           .updateText({ id: data.text_id, ...data.position });
