@@ -9,6 +9,7 @@ import SignInBtn from '../components/SignIn_Up';
 import SmallSketchbook from '../components/SmallSketchbook';
 import sketbook from '../assets/img/HaruConnectingBook.png';
 import LoginInput from '../components/LoginInput';
+import LoginInputTypePW from '../components/LoginInputTypePW';
 import axios from 'axios';
 import { baseInstance } from '../api/config';
 
@@ -89,15 +90,13 @@ const LoginPage = () => {
           <SmallSketchbook />
           <IdInput>
             <LoginInput
-              type="text"
               placeholder="아이디"
               text={id}
-              font={'bmjua'}
               handleTextChange={handleIdChange}
             />
           </IdInput>
           <PwInput>
-            <LoginInput
+            <LoginInputTypePW
               type="text"
               placeholder="비밀번호"
               text={password}

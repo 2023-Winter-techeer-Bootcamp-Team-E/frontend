@@ -9,6 +9,7 @@ import LoginInput from '../components/LoginInput';
 import { baseInstance } from '../api/config';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
+import LoginInputTypePW from '../components/LoginInputTypePW';
 function SignUpPage(props) {
   const [username, setUsername] = useState('');
   const [id, setId] = useState('');
@@ -194,11 +195,9 @@ function SignUpPage(props) {
           <SmallSketchbook />
           <UsernameInput>
             <LoginInput
-              type="text"
               placeholder="닉네임"
               text={username}
               handleTextChange={handleUsernameChange}
-              font={'bmjua'}
             />
           </UsernameInput>
           <UsernameRequireText
@@ -208,10 +207,8 @@ function SignUpPage(props) {
           </UsernameRequireText>
           <IdInput>
             <LoginInput
-              type="text"
               placeholder="아이디"
               text={id}
-              font={'bmjua'}
               handleTextChange={handleIdChange}
             />
           </IdInput>
@@ -219,11 +216,10 @@ function SignUpPage(props) {
             {idComment}
           </IdRequireText>
           <PwInput>
-            <LoginInput
-              type="text"
+            <LoginInputTypePW
               placeholder="비밀번호"
               text={password}
-              font={'bmjua'}
+              font={password ? '' : 'bmjua'}
               handleTextChange={handlePasswordChange}
             />
           </PwInput>
@@ -231,8 +227,7 @@ function SignUpPage(props) {
             {pwComment}
           </PwRequireText>
           <PwMatchInput>
-            <LoginInput
-              type="password"
+            <LoginInputTypePW
               placeholder="비밀번호 확인"
               text={passwordMatch}
               font={passwordMatch ? '' : 'bmjua'}
