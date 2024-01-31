@@ -12,7 +12,8 @@ const Case3 = ({ diaryMonth, diaryDay }) => {
   const navigate = useNavigate();
 
   const handleWriteDiaryClick = () => {
-    navigate('../diary');
+    const relativePathURL = new URL(shareURL).pathname;
+    navigate(relativePathURL);
   };
 
   const copyToClipboard = () => {

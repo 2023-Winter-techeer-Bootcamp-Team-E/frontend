@@ -20,7 +20,7 @@ const LoginPage = () => {
   const [shake, setShake] = useState(false);
   const userInfoStore = useUserInfoStore();
   const navigate = useNavigate();
-  
+
   // 로그인 상태인 경우 /calendar 페이지로 자동 리다이렉트
   useEffect(() => {
     const loggedInUserId = localStorage.getItem('loggedInUserId');

@@ -39,9 +39,7 @@ function Case2({ diaryMonth, diaryDay }) {
       });
       if (response.status === 200) {
         console.log('일기장 생성 성공');
-        setShareURL('');
-        // setShareURL(response.data.sns_link);
-        setShareURL('임시값입니다. 나중에 수정해야됨!');
+        handleMakeURL(response.data.diary_id);
         setInnerPage(response.data.diary_bg_id);
         setPage(3);
         setIconUpdate((prev) => prev + 1);
@@ -58,6 +56,13 @@ function Case2({ diaryMonth, diaryDay }) {
     } catch (error) {
       console.error('API 호출 중 오류 발생 : ', error);
     }
+  };
+
+  const handleMakeURL = (id) => {
+    const location = window.location;
+    const link = `${location.protocol}//${location.host}/diary/${id}`;
+    setShareURL(link);
+    console.log(link);
   };
 
   const PageNumSub = () => {

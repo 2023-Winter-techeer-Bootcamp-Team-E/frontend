@@ -131,6 +131,13 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
 
       const { setShareURL } = useDiaryURL();
 
+      const handleMakeURL = (id) => {
+        const location = window.location;
+        const link = `${location.protocol}//${location.host}/diary/${id}`;
+        setShareURL(link);
+        console.log(link);
+      };
+
       const readDiary = async () => {
         console.log('day: ', diaryInfo.day);
         try {
@@ -139,7 +146,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           });
           if (response.status === 200) {
             console.log('일기장 확인 성공!');
-            setShareURL(response.data.sns_link);
+            handleMakeURL(response.data.diary_id);
             setPage(3);
             console.log(
               'useDateNotificationStore : ',

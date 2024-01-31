@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useSelectDateInfoStore } from '../../src/stores/useSelectDateInfoStore';
-
+import { useParams } from 'react-router-dom';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
@@ -24,7 +24,7 @@ function DiaryPage() {
   const [selectedDalle, setSelectedDalle] = useState(null);
   const [sharedText, setSharedText] = useState(''); // 모든 사용자에게 공유될 텍스트
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
-
+  const { diary_id } = useParams();
   const websocket = useRef(null);
   const addSticker = useStickerStore((state) => state.addSticker);
   const stickers = useStickerStore((state) => state.stickers);
@@ -191,7 +191,7 @@ function DiaryPage() {
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
-          <NavigateBar />
+          <NavigateBar locate={'diary'} />
         </WrapperNavigateBar>
         <WrapperLargeSketchbook>
           <LargeSketchbook />
@@ -206,6 +206,7 @@ function DiaryPage() {
             websocket={websocket}
             diaryMonth={selectedDateInfo.selectedMonth}
             diaryDay={selectedDateInfo.selectedDay}
+            diaryId={diary_id}
           />
         </WrapperInnerImg>
         <WrapperRightSticker>
