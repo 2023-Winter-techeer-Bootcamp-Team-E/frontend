@@ -7,6 +7,7 @@ import Cloud1 from '../../assets/img/Cloud1.png';
 import DiaryTutorial from '../../assets/img/DiaryTutorial.png';
 
 import { useDiaryContent } from '../../stores/useDiaryContent';
+
 import loadingLottie from '../../assets/lottie/LottieRunAnimation.json';
 
 const RightSticker = ({ onDalleSelect, websocket }) => {
@@ -69,7 +70,7 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
           </DalleStickerBox>
         ))}
 
-        {true && (
+        {loading && (
           <LoadingOverlay>
             <Lottie
               animationData={loadingLottie}
@@ -82,8 +83,7 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
         )}
 
         <StyledCloud1 src={Cloud1} alt="Cloud 1" />
-        {/* <StyledCloud2 src={Cloud2} alt="Cloud 2" /> */}
-        {stickerImages == '' && loading && (
+        {stickerImages == '' && !loading && (
           <DalleStickerBlank>
             <TutorialTheme src={DiaryTutorial} alt="Diary Tutorial" />
             <TutorialComment>
@@ -147,14 +147,6 @@ const StyledCloud1 = styled.img`
   z-index: 5;
 `;
 
-const StyledCloud2 = styled.img`
-  position: absolute;
-  width: 10.5625rem;
-  height: 8.4375rem;
-  bottom: -5rem;
-  left: -4.0625rem;
-  z-index: 1;
-`;
 const DalleStickerBlank = styled.div`
   position: absolute;
   width: 17.45rem;
@@ -171,7 +163,8 @@ const TutorialTheme = styled.img`
 `;
 const TutorialComment = styled.p`
   position: absolute;
-  top: 3.5rem;
+  font-family: 'mong';
+  top: 4.5rem;
   margin: 1.5rem;
   font-size: 1.5rem;
   z-index: 10;
@@ -187,6 +180,7 @@ const WriteBtnModel = styled.span`
   height: 1.5125rem;
   flex-shrink: 0;
   color: #fff;
+  font-family: 'bmjua';
   border-radius: 0.85rem;
   background: #c1c3ff;
   text-align: center;
