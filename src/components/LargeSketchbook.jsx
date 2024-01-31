@@ -6,7 +6,10 @@ import LargeSketchbookImg from '../assets/img/LargeSketchbook.png';
 const LargeSketchbook = () => {
   return (
     <LargeSketch>
-      <StyledLargeSketchbook src={LargeSketchbookImg} alt='LargeSketchbookImg'/>
+      <StyledLargeSketchbook
+        src={LargeSketchbookImg}
+        alt="LargeSketchbookImg"
+      />
       <StyledEmptyLogo2>
         <img src={EmptyLogo2} alt="EmptyLogo2" />
         <div>
@@ -27,7 +30,7 @@ const StyledLargeSketchbook = styled.img`
   left: -1rem;
   width: 110rem; // 130.25rem
   height: 58.4rem; // 75.7rem
-`
+`;
 const LargeSketch = styled.div`
   width: 103.1875rem; // 130.25rem
   height: 58.6875rem; // 75.7rem
@@ -35,7 +38,6 @@ const LargeSketch = styled.div`
   // background: #fff;
   border-radius: 1.5rem;
 `;
-
 
 const StyledEmptyLogo2 = styled.div`
   position: absolute;
@@ -47,7 +49,7 @@ const StyledEmptyLogo2 = styled.div`
   }
 `;
 
-const StyledText = styled.text`
+const StyledText = styled.div`
   position: relative;
   color: #2c2c2c;
   bottom: 7rem;
