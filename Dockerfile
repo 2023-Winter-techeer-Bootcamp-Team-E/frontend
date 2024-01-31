@@ -1,5 +1,5 @@
 # Use the specified Node.js version
-FROM node:18.12.1-alpine
+FROM node:18.12.1
 
 # Set the user to root for necessary permissions
 USER root
