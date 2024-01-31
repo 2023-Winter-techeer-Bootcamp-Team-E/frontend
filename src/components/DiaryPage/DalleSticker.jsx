@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import useDalleStore from '../../stores/dalleStore';
+import xclose from '../../assets/img/xclose.png';
 
 function DalleSticker({ dalleId, image, bounds, websocket }) {
   const dalles = useDalleStore((state) => state.dalles);
