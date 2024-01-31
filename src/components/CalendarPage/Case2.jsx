@@ -17,7 +17,7 @@ import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
 import { useInnerPage } from '../../stores/useInnerPage';
 import preBtn from '../../assets/img/Calendar/preBtn.png';
 import preBtn2 from '../../assets/img/Calendar/preBtn2.png';
-
+import useDiaryIdStore from '../../stores/diaryIdStore';
 
 function Case2({ diaryMonth, diaryDay }) {
   const [inpageNum, setinPageNum] = useState(1);
@@ -29,6 +29,7 @@ function Case2({ diaryMonth, diaryDay }) {
   const { iconUpdate, setIconUpdate } = useIconUpdate();
   const [upButtonHovered, setUpButtonHovered] = useState(false);
   const [downButtonHovered, setDownButtonHovered] = useState(false);
+  const { setDiaryId } = useDiaryIdStore();
 
   //일기생성
   const createDiary = async () => {
@@ -43,6 +44,7 @@ function Case2({ diaryMonth, diaryDay }) {
         setInnerPage(response.data.diary_bg_id);
         setPage(3);
         setIconUpdate((prev) => prev + 1);
+        setDiaryId(response.data.diary_id);
         console.log(
           'DateNotification page',
           useInnerPage.getState().innerPage,
@@ -135,25 +137,24 @@ function Case2({ diaryMonth, diaryDay }) {
         <BottomMaskingTape src={MaskingTape2} />
 
         <SelectImgLeftBtn
-        onClick={() => {
-          PageNumSub();
-        }}
-        onMouseEnter={() => setUpButtonHovered(true)}
-        onMouseLeave={() => setUpButtonHovered(false)}
-        src={upButtonHovered ? preBtn2 : SelectImgBtn}
-        alt={upButtonHovered ? 'preBtn2' : 'SelectImgBtn'}
-      />
+          onClick={() => {
+            PageNumSub();
+          }}
+          onMouseEnter={() => setUpButtonHovered(true)}
+          onMouseLeave={() => setUpButtonHovered(false)}
+          src={upButtonHovered ? preBtn2 : SelectImgBtn}
+          alt={upButtonHovered ? 'preBtn2' : 'SelectImgBtn'}
+        />
 
-      <SelectImgRightBtn
-        onClick={() => {
-          PageNumAdd();
-        }}
-        onMouseEnter={() => setDownButtonHovered(true)}
-        onMouseLeave={() => setDownButtonHovered(false)}
-        src={downButtonHovered ? preBtn2 : SelectImgBtn}
-        alt={downButtonHovered ? 'preBtn2' : 'SelectImgBtn'}
-      />
-
+        <SelectImgRightBtn
+          onClick={() => {
+            PageNumAdd();
+          }}
+          onMouseEnter={() => setDownButtonHovered(true)}
+          onMouseLeave={() => setDownButtonHovered(false)}
+          src={downButtonHovered ? preBtn2 : SelectImgBtn}
+          alt={downButtonHovered ? 'preBtn2' : 'SelectImgBtn'}
+        />
 
         <CheckBtn
           onClick={() => {

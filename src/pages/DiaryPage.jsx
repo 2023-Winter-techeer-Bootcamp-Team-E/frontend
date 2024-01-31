@@ -14,9 +14,7 @@ import InnerImg from '../components/DiaryPage/InnerImg';
 import useStickerStore from '../stores/stickerStore';
 import useTextStore from '../stores/textStore';
 import useDalleStore from '../stores/dalleStore';
-
-const WEBSOCKET_URL = 'ws://127.0.0.1:8000/ws/harurooms/1/';
-// const socket = new WebSocket(`${WEBSOCKET_URL}/ws/harurooms/${diaryId}`);
+import useDiaryIdStore from '../stores/diaryIdStore';
 
 function DiaryPage() {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
@@ -31,6 +29,7 @@ function DiaryPage() {
   const texts = useTextStore((state) => state.texts);
   const addText = useTextStore((state) => state.addText);
   const dalles = useDalleStore((state) => state.dalles);
+  const { diaryId } = useDiaryIdStore();
 
   const handleTextButtonClick = () => {
     setSelectedTextBox(true);
@@ -44,13 +43,16 @@ function DiaryPage() {
     setSelectedDalle(image);
   };
 
-  // console.log(stickers);
-  // console.log(texts);
   useEffect(() => {
-    const newSocket = new WebSocket(WEBSOCKET_URL);
+    if (!diary_id) {
+      console.log('diaryId가 설정되지 않았습니다.');
+      return;
+    }
 
+    const newSocket = new WebSocket(
+      `ws://127.0.0.1:8000/ws/harurooms/${diary_id}/`,
+    );
     websocket.current = newSocket;
-    // WebSocket 연결 설정
 
     // 웹소켓 연결이 성공했을 때
     newSocket.onopen = () => {
@@ -279,7 +281,7 @@ const WrapperRightSticker = styled.div`
 
 const WrapperDHomeButton = styled.div`
   position: absolute;
-  right: 2.0rem;
+  right: 2rem;
   top: 56.6rem;
   display: flex;
   z-index: 10;
