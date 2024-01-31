@@ -6,11 +6,12 @@ import 'sweetalert2/src/sweetalert2.scss';
 import { useSelectDateInfoStore } from '../../stores/useSelectDateInfoStore';
 import { useDiaryContent } from '../../stores/useDiaryContent';
 import useTextStore from '../../stores/textStore';
+import xclose from '../../assets/img/xclose.png';
 
 function TextBox({ username, textId, bounds, websocket }) {
   const texts = useTextStore((state) => state.texts);
+  const updateText = useTextStore((state) => state.updateText);
   const text = texts.find((t) => t.id === textId);
-  const [isComposing, setIsComposing] = useState(false);
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
   const placeholder = `${username}님과 ${selectedDateInfo.selectedMonth}월 ${selectedDateInfo.selectedDay}일의 일상을 공유해봐요!`;
   //----------------------------------------------------------------------
@@ -113,15 +114,6 @@ function TextBox({ username, textId, bounds, websocket }) {
     websocket.current.send(JSON.stringify(message));
   };
 
-  const handleCompositionStart = () => {
-    setIsComposing(true);
-  };
-
-  const handleCompositionEnd = (e) => {
-    setIsComposing(false);
-    sendWebSocketMessage('text_input', null, e.target.value);
-  };
-
   const handleDrag = (e, d) => {
     sendWebSocketMessage('text_drag', { x: d.x, y: d.y });
   };
@@ -172,23 +164,26 @@ function TextBox({ username, textId, bounds, websocket }) {
     );
   };
 
+  const handleCompositionEnd = (e) => {
+    console.log('Composition ended');
+    sendWebSocketMessage('text_input', null, e.target.value);
+  };
+
   const handleTextChange = (e) => {
     const content = e.target.value;
-    // useTextStore.getState().updateText({
-    //   id: textId,
-    //   content: updatedText,
-    // });
-    console.log(typeof content);
-    sendWebSocketMessage('text_input', null, content);
+    const newText = { ...text, content };
+    updateText(newText);
+  };
+
+  const handleNicknameCompositionEnd = (e) => {
+    console.log('Nickname composition ended');
+    sendWebSocketMessage('nickname_input', null, null, e.target.value);
   };
 
   const handleNicknameChange = (e) => {
     const nickname = e.target.value;
-    // useTextStore.getState().updateText({
-    //   id: textId,
-    //   nickname,
-    // });
-    sendWebSocketMessage('nickname_input', null, null, nickname);
+    const newNickname = { ...text, nickname };
+    updateText(newNickname);
   };
 
   return (
@@ -211,9 +206,23 @@ function TextBox({ username, textId, bounds, websocket }) {
           topLeft: true,
         }}
         bounds={bounds.current}>
-        <CloseButton onClick={onDelete} />
+        <CloseButton onClick={onDelete}>
+          <img
+            style={{
+              width: '1rem',
+              height: '1rem',
+              top: '0.4rem',
+              left: '0.5rem',
+              position: 'absolute',
+            }}
+            src={xclose}
+            alt="close"
+          />
+        </CloseButton>
         <ContainerDiv>
           <TextInput
+            autoComplete="off"
+            onCompositionEnd={handleCompositionEnd}
             value={text.content}
             onChange={handleTextChange}
             id="textInput"
@@ -224,6 +233,7 @@ function TextBox({ username, textId, bounds, websocket }) {
           <BtnWrap style={{ width: '100%' }}>
             {' '}
             <NicknameInput
+              onCompositionEnd={handleNicknameCompositionEnd}
               value={text.nickname}
               placeholder="닉네임을 입력하세요"
               style={{ width: '70%' }}
@@ -246,49 +256,37 @@ const ContainerDiv = styled.div`
   border: 1px dotted #000;
   box-sizing: border-box;
   padding: 10px;
-  height: 100%; // 전체 높이를 100%로 설정
+  height: 100%;
 `;
 
 const CloseButton = styled.span`
   background-color: #f26c60;
-  color: white;
   width: 2rem;
   height: 2rem;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 100%;
   position: absolute;
   z-index: 1000;
   top: -10px;
   right: -10px;
-
-  &:after {
-    content: '\\00d7'; // X 문자
-    color: white; // 글자색 지정
-    display: inline-block;
-    font-size: 15pt;
-  }
-
   &:hover {
     transform: scale(1.05);
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   }
 `;
 
-const TextInput = styled.input`
-  flex-grow: 1; // flex-grow 속성으로 높이 조절
+const TextInput = styled.textarea`
+  flex-grow: 1;
   margin-bottom: 0.5rem;
   margin-right: 0.5rem;
   font-family: 'dachelove';
   color: #000;
-  font-size: 2.3rem;
-  width: 100%; // 너비는 100%로 유지
+  font-size: 1.7rem;
   resize: none;
   border: none;
-  overflow: auto; // 내용이 넘칠 경우 스크롤바 표시
+  overflow: auto;
   background: transparent;
+  outline: none;
 `;
 
 const TextSaveBtn = styled.div`
@@ -322,17 +320,16 @@ const TextSaveBtn = styled.div`
 `;
 
 const NicknameInput = styled.input`
-  width: 11.5rem; // 너비 조정
-  height: 1.8rem; // 높이 조정
-  padding-left: 1rem; // 내부 여백 추가
-  margin-right: 10px; // 텍스트 저장 버튼과의 간격 조정
+  width: 11.5rem;
+  height: 1.8rem;
+  padding-left: 1rem;
+  margin-right: 10px;
   color: #aaa;
-  // font-family: Inter;
   font-family: 'bmjua';
   background-color: #fff;
   font-size: 1.2rem;
-  border: 1px solid #aaa; // 테두리 추가
-  border-radius: 0.3125rem; // 모서리 둥글게
+  border: 1px solid #aaa;
+  border-radius: 0.3125rem;
   outline: none;
 
   &::placeholder {
