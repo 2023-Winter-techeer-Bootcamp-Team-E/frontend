@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const LoginInput = ({ text, handleTextChange, placeholder }) => {
+const LoginInputTypePW = ({ text, handleTextChange, placeholder, font }) => {
   return (
     <LoginInputContainer>
       <TextInput
-        type="text"
+        type="password"
         value={text}
         onChange={handleTextChange}
         placeholder={placeholder}
+        fontFamily={font}
       />
     </LoginInputContainer>
   );
@@ -36,7 +37,6 @@ const TextInput = styled.input`
   outline: none;
   text-align: left;
   padding-left: 1rem;
-  font-family: 'bmjua';
   &::placeholder {
     color: #bbb;
   }
@@ -45,4 +45,4 @@ const TextInput = styled.input`
   }
 `;
 
-export default LoginInput;
+export default LoginInputTypePW;
