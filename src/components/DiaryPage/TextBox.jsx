@@ -282,7 +282,6 @@ const TextInput = styled.textarea`
   font-family: 'dachelove';
   color: #000;
   font-size: 1.7rem;
-  width: 100%;
   resize: none;
   border: none;
   overflow: auto;

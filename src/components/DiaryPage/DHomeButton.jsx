@@ -24,8 +24,8 @@ import home from '../../assets/img/home.png';
   }
   
   const DHomeButtonContainer = styled.div`
-  width: 2.625rem;
-  height: 2.625rem;
+  width: 3.125rem;
+  height: 3.125rem;
   flex-shrink: 0;
   border-radius: 1.875rem;
   background: #C1C3FF;
@@ -42,8 +42,8 @@ import home from '../../assets/img/home.png';
 `;
 
 const StyledDHomeButton = styled.img`
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 2.05rem;
+    height: 2.05rem;
     flex-shrink: 0;
 `;
 

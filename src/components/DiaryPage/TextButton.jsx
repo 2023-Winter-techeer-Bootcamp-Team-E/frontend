@@ -17,19 +17,20 @@ function TextButton({ onClick, websocket }) {
     );
   };
   return (
-    <TextButtonContainer onClick={handleTextButtonClick}>T</TextButtonContainer>
+    <TextButtonContainer onClick={handleTextButtonClick}>작성하기</TextButtonContainer>
   );
 }
 
 const TextButtonContainer = styled.div`
   position: absolute;
-  width: 3.5625rem;
-  height: 3.5625rem;
+  width: 14.375rem;
+  height: 3.0125rem;
   flex-shrink: 0;
-  border-radius: 0.9375rem;
-  background: #e7eef9;
-  left: 15.69rem;
-  top: 13rem;
+  border-radius: 1.875rem;
+  background: #C1C3FF;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+  left: 4.2rem;
+  top: 56.8rem;
   text-align: center;
   display: flex;
   align-items: center;
@@ -37,14 +38,14 @@ const TextButtonContainer = styled.div`
   cursor: pointer;
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.25);
   }
 
-  color: #000;
-  font-family: BigshotOne;
-  font-size: 1rem;
+  color: #fff;
+  // font-family: Inter;
+  font-size: 1.4rem;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   line-height: normal;
 `;
 

@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Sun from '../assets/img/Sun.png';
 import upbutton from '../assets/img/upbutton.png';
 import downbutton from '../assets/img/downbutton.png';
+import preBtn2 from '../assets/img/Calendar/preBtn2.png';
+import SelectImgBtn from '../assets/img/SelectImgBtn.png';
 
 function BasicSticker({ onStickerSelect, websocket }) {
   const [stickerPageNum, setStickerPageNum] = useState(1);
@@ -59,6 +61,9 @@ function BasicSticker({ onStickerSelect, websocket }) {
     }
   };
 
+  const [upButtonHovered, setUpButtonHovered] = useState(false);
+  const [downButtonHovered, setDownButtonHovered] = useState(false);
+
   return (
     <BasicStickerContainer>
       {stickerImages.map((image, index) => (
@@ -70,22 +75,26 @@ function BasicSticker({ onStickerSelect, websocket }) {
       <StyledSun src={Sun} alt="Sun" />
       <StyledUpButton
         onClick={handleUpButtonClick}
-        src={upbutton}
-        alt="UpButton"
+        onMouseEnter={() => setUpButtonHovered(true)}
+        onMouseLeave={() => setUpButtonHovered(false)}
+        src={upButtonHovered ?  preBtn2 : SelectImgBtn}
+        alt={upButtonHovered ?  'preBtn2' : 'SelectImgBtn'}
       />
       <StyledDownButton
         onClick={handleDownButtonClick}
-        src={downbutton}
-        alt="DownButton"
+        onMouseEnter={() => setDownButtonHovered(true)}
+        onMouseLeave={() => setDownButtonHovered(false)}
+        src={downButtonHovered ? preBtn2 : SelectImgBtn}
+        alt={downButtonHovered ? 'preBtn2' : 'SelectImgBtn'}
       />
-      <ScrollContainer />
+      {/* <ScrollContainer /> */}
     </BasicStickerContainer>
   );
 }
 
 const BasicStickerContainer = styled.div`
-  width: 15.25rem;
-  height: 41.0625rem;
+  width: 17.45rem;
+  height: 42.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
   display: grid;
@@ -94,8 +103,11 @@ const BasicStickerContainer = styled.div`
   align-items: stretch;
   justify-content: center;
   position: relative;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+  padding-left: 0.5rem;
+  margin-left: -1rem;
+  // margin-top: 3rem;
 `;
 
 const StyledSun = styled.img`
@@ -103,17 +115,17 @@ const StyledSun = styled.img`
   z-index: 10;
   width: 10.25rem;
   height: 7.0625rem;
-  top: -1.9375rem;
+  top: -2.9375rem;
   left: -2.6875rem;
 `;
 
 const StyledUpButton = styled.img`
-  width: 1.53444rem;
-  height: 1.01106rem;
+  width: 2.1rem;
+  height: 2.5rem;
   z-index: 10;
   position: absolute;
-  bottom: -3.12356rem;
-  left: 6.65625rem;
+  bottom: 1.6rem;
+  left: 5.2875rem;
   cursor: pointer;
   &:hover {
     transform: scale(1.2);
@@ -121,28 +133,28 @@ const StyledUpButton = styled.img`
 `;
 
 const StyledDownButton = styled.img`
-  width: 1.53444rem;
-  height: 1.01106rem;
+  width: 2.1rem;
+  height: 2.5rem;
   z-index: 10;
   position: absolute;
-  bottom: -4.5rem;
-  left: 6.66625rem;
-
+  bottom: 1.6rem;
+  left: 10.3375rem;
   cursor: pointer;
+  transform: rotate(180deg);
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.2) rotate(180deg);
   }
 `;
 
 const ScrollContainer = styled.div`
-  width: 13.25rem;
+  width: 15.25rem;
   height: 3.0625rem;
   border-radius: 1.875rem;
   background: #e7eef9;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
   position: absolute;
-  bottom: -4.75rem;
-  left: 1.1rem;
+  bottom: -4.15rem;
+  left: 1.2rem;
 `;
 
 const StaticStickerBox = styled.div`

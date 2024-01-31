@@ -19,7 +19,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/tutorial" element={<TutorialPage />} />
-        <Route path="/diary" element={<DiaryPage />} />
+        <Route path="/diary/:diary_id" element={<DiaryPage />} />
         <Route path="/past" element={<PastPage />} />
       </Routes>
     </Router>

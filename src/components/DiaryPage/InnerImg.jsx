@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { baseInstance } from '../../api/config';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import MainInnerImg1 from '../../assets/img/InnerImg/MainInnerImg1.png';
 import MainInnerImg2 from '../../assets/img/InnerImg/MainInnerImg2.png';
@@ -24,12 +25,14 @@ function InnerImg({
   selectedTextBox,
   setSelectedSticker,
   setSelectedTextBox,
-  diaryMonth,
-  diaryDay,
   websocket,
   diaryData,
+  diaryId,
 }) {
   const diaryRef = useRef(null);
+  const [diaryMonth, setDiaryMonth] = useState(0);
+  const [diaryDay, setDiaryDay] = useState(0);
+  const [hostName, setHostName] = useState('');
   const stickers = useStickerStore((state) => state.stickers);
   const texts = useTextStore((state) => state.texts);
   const dalles = useDalleStore((state) => state.dalles);
@@ -48,17 +51,36 @@ function InnerImg({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await baseInstance.get(`/diaries/?day=${diaryDay}`);
-        if (true) {
-          console.log(`${diaryMonth}월 ${diaryDay}일 다이어리 조회 성공!`);
+        const response = await baseInstance.get(`/diaries/${diaryId}`);
+        if (response.data) {
+          const responseMonth = response.data.diart_data.year_month; //diart로 오타나있는데 api 수정 후 diary로 바꿔야함
+
+          const month = responseMonth.split('-')[1];
+          const numericMonth = month.startsWith('0')
+            ? parseInt(month[1])
+            : parseInt(month);
+          setDiaryMonth(numericMonth);
+
+          setDiaryDay(response.data.day);
+          console.log(
+            `${numericMonth}월 ${response.data.day}일 다이어리 조회 성공!`,
+          );
           const diaryBgId = response.data.diary_bg_id;
           setInnerPage(diaryBgId);
+          console.log('nickname : ', response.data.nickname);
+          setHostName(response.data.nickname);
         }
       } catch (error) {
-        console.log(
-          `catch ${diaryMonth}월 ${diaryDay}일 다이어리 조회 실패 : ${error.message}`,
-        );
-        navigate('/calendar');
+        console.log(`catch 다이어리 조회 실패 : ${error.message}`);
+        Swal.fire({
+          icon: 'warning',
+          title: '잘못된 URL입니다!',
+          text: '유효하지 않은 URL이므로 다시 확인해보세요 😢',
+          confirmButtonText: '확인',
+          allowOutsideClick: false,
+        }).then(() => {
+          navigate('/');
+        });
       }
     };
     fetchData();
@@ -138,7 +160,7 @@ function InnerImg({
           websocket={websocket}
         />
       ))}
-      <DirName>조진우</DirName>
+      <DirName>{hostName}</DirName>
       <DirDate>
         {diaryMonth}월 {diaryDay}일
       </DirDate>

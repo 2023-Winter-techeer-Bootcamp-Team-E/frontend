@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useSelectDateInfoStore } from '../../src/stores/useSelectDateInfoStore';
-
+import { useParams } from 'react-router-dom';
 import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import BasicSticker from '../components/BasicSticker';
@@ -24,7 +24,7 @@ function DiaryPage() {
   const [selectedDalle, setSelectedDalle] = useState(null);
   const [sharedText, setSharedText] = useState(''); // 모든 사용자에게 공유될 텍스트
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
-
+  const { diary_id } = useParams();
   const websocket = useRef(null);
   const addSticker = useStickerStore((state) => state.addSticker);
   const stickers = useStickerStore((state) => state.stickers);
@@ -191,7 +191,7 @@ function DiaryPage() {
     <BackLayout>
       <PageFrame>
         <WrapperNavigateBar>
-          <NavigateBar />
+          <NavigateBar locate={'diary'} />
         </WrapperNavigateBar>
         <WrapperLargeSketchbook>
           <LargeSketchbook />
@@ -206,6 +206,7 @@ function DiaryPage() {
             websocket={websocket}
             diaryMonth={selectedDateInfo.selectedMonth}
             diaryDay={selectedDateInfo.selectedDay}
+            diaryId={diary_id}
           />
         </WrapperInnerImg>
         <WrapperRightSticker>
@@ -258,41 +259,43 @@ const PageFrame = styled.div`
 
 const WrapperNavigateBar = styled.div`
   position: absolute;
+  top: -0.6rem;
 `;
 const WrapperLargeSketchbook = styled.div`
   position: absolute;
-  top: 7.9375rem;
+  top: 6.9375rem;
 `;
 const WrapperBasicSticker = styled.div`
   position: absolute;
-  top: 17rem;
-  left: 4.56rem;
+  top: 13.5rem;
+  left: 3.55rem;
 `;
 const WrapperRightSticker = styled.div`
   position: absolute;
-  top: 17.87rem;
-  margin-left: 84.19rem;
+  top: 16.87rem;
+  margin-left: 86.2rem;
+  margin-top: -3.4rem;
 `;
 
 const WrapperDHomeButton = styled.div`
   position: absolute;
-  right: 5.19rem;
-  bottom: 5.4rem;
+  right: 2.0rem;
+  top: 56.6rem;
   display: flex;
   z-index: 10;
 `;
 
 const WrapperSaveButton = styled.div`
   position: absolute;
-  right: 8.56rem;
-  bottom: 5.31rem;
+  right: 6.4rem;
+  top: 56.8rem;
   display: flex;
   z-index: 10;
 `;
 
 const WrapperInnerImg = styled.div`
   position: absolute;
-  top: 0;
+  margin-top: -4rem;
   left: 22.7rem;
 `;
 

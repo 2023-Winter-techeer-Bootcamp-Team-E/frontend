@@ -15,6 +15,9 @@ import InnerImg4 from '../../assets/img/InnerImg/SelectInnerImg4.png';
 import InnerImg5 from '../../assets/img/InnerImg/SelectInnerImg5.png';
 import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
 import { useInnerPage } from '../../stores/useInnerPage';
+import preBtn from '../../assets/img/Calendar/preBtn.png';
+import preBtn2 from '../../assets/img/Calendar/preBtn2.png';
+
 
 function Case2({ diaryMonth, diaryDay }) {
   const [inpageNum, setinPageNum] = useState(1);
@@ -24,6 +27,8 @@ function Case2({ diaryMonth, diaryDay }) {
   const diarySettingRef = useRef(null);
   const maxInnerPaper = 6;
   const { iconUpdate, setIconUpdate } = useIconUpdate();
+  const [upButtonHovered, setUpButtonHovered] = useState(false);
+  const [downButtonHovered, setDownButtonHovered] = useState(false);
 
   //일기생성
   const createDiary = async () => {
@@ -34,7 +39,7 @@ function Case2({ diaryMonth, diaryDay }) {
       });
       if (response.status === 200) {
         console.log('일기장 생성 성공');
-        setShareURL(response.data.sns_link);
+        handleMakeURL(response.data.diary_id);
         setInnerPage(response.data.diary_bg_id);
         setPage(3);
         setIconUpdate((prev) => prev + 1);
@@ -51,6 +56,13 @@ function Case2({ diaryMonth, diaryDay }) {
     } catch (error) {
       console.error('API 호출 중 오류 발생 : ', error);
     }
+  };
+
+  const handleMakeURL = (id) => {
+    const location = window.location;
+    const link = `${location.protocol}//${location.host}/diary/${id}`;
+    setShareURL(link);
+    console.log(link);
   };
 
   const PageNumSub = () => {
@@ -112,7 +124,7 @@ function Case2({ diaryMonth, diaryDay }) {
         </SelectDateText>
         <SelectInnerPaperText>
           {' '}
-          <span style={{ color: '#FA9B55', fontSize: '2rem' }}>
+          <span style={{ color: '#FA9B55', fontSize: '1.75rem' }}>
             일기 배경지
           </span>
           를 선택해 주세요
@@ -123,17 +135,25 @@ function Case2({ diaryMonth, diaryDay }) {
         <BottomMaskingTape src={MaskingTape2} />
 
         <SelectImgLeftBtn
-          src={SelectImgBtn}
-          onClick={() => {
-            PageNumSub();
-          }}
-        />
-        <SelectImgRightBtn
-          src={SelectImgBtn}
-          onClick={() => {
-            PageNumAdd();
-          }}
-        />
+        onClick={() => {
+          PageNumSub();
+        }}
+        onMouseEnter={() => setUpButtonHovered(true)}
+        onMouseLeave={() => setUpButtonHovered(false)}
+        src={upButtonHovered ? preBtn2 : SelectImgBtn}
+        alt={upButtonHovered ? 'preBtn2' : 'SelectImgBtn'}
+      />
+
+      <SelectImgRightBtn
+        onClick={() => {
+          PageNumAdd();
+        }}
+        onMouseEnter={() => setDownButtonHovered(true)}
+        onMouseLeave={() => setDownButtonHovered(false)}
+        src={downButtonHovered ? preBtn2 : SelectImgBtn}
+        alt={downButtonHovered ? 'preBtn2' : 'SelectImgBtn'}
+      />
+
 
         <CheckBtn
           onClick={() => {
@@ -149,9 +169,10 @@ function Case2({ diaryMonth, diaryDay }) {
 export default Case2;
 
 const RightStickerContainer = styled.div`
-  width: 15.1875rem;
-  height: 41.0625rem;
+  width: 17.45rem;
+  height: 42.0625rem;
   border-radius: 1.875rem;
+  margin-top: -1rem;
   background: #e7eef9;
 `;
 
@@ -160,7 +181,7 @@ const InnerImg = styled.img`
   width: 12.3125rem;
   height: 18.9375rem;
   flex-shrink: 0;
-  margin-top: 11.12rem;
+  margin-top: 13.12rem;
   z-index: 2;
 `;
 
@@ -208,8 +229,8 @@ const TopMaskingTape = styled.img`
   height: 1.04506rem;
   transform: rotate(-30deg);
   flex-shrink: 0;
-  margin-top: 11rem;
-  margin-left: -10rem;
+  margin-top: 12.7rem;
+  margin-left: -11rem;
   z-index: 3;
 `;
 
@@ -219,8 +240,8 @@ const BottomMaskingTape = styled.img`
   height: 1.04506rem;
   transform: rotate(-30deg);
   flex-shrink: 0;
-  margin-top: 29rem;
-  margin-right: -10rem;
+  margin-top: 31.3rem;
+  margin-right: -11rem;
   z-index: 3;
 `;
 
@@ -229,10 +250,13 @@ const SelectImgLeftBtn = styled.img`
   flex-shrink: 0;
   height: 2.09863rem;
   width: 1.59675rem;
-  margin-top: 31.06rem;
+  margin-top: 33.5rem;
   margin-left: -4rem;
   z-index: 2;
   cursor: pointer;
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 
 const SelectImgRightBtn = styled.img`
@@ -241,18 +265,21 @@ const SelectImgRightBtn = styled.img`
   height: 2.09863rem;
   width: 1.59675rem;
   flex-shrink: 0;
-  margin-top: 31.06rem;
+  margin-top: 33.5rem;
   margin-right: -4rem;
   z-index: 2;
   transform: rotate(-180deg);
   cursor: pointer;
+  &:hover {
+    transform: scale(1.2) rotate(180deg);
+  }
 `;
 
 const CheckBtn = styled.div`
   position: absolute;
-  margin-top: 34.81rem;
-  width: 5.375rem;
-  height: 2.38881rem;
+  margin-top: 36.81rem;
+  width: 6.375rem;
+  height: 2.8881rem;
   flex-shrink: 0;
   border-radius: 1.25rem;
   background: #c1c3ff;
@@ -262,7 +289,7 @@ const CheckBtn = styled.div`
 
   color: #fff;
   font-family: 'bmjua';
-  font-size: 1rem;
+  font-size: 1.25rem;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
   &:hover {
