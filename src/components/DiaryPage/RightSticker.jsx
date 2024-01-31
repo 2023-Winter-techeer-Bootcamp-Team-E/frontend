@@ -35,17 +35,17 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
           console.log('Dall-e 스티커 생성중...');
           setStickerImages([]);
 
-          const response = await baseInstance.post('/diaries/stickers', {
-            content: diaryContent,
-          }); //1번
+          // const response = await baseInstance.post('/diaries/stickers', {
+          //   content: diaryContent,
+          // }); //1번
 
-          // const response = await baseInstance.get(`/static/stickers?page=1`); //2번
+          const response = await baseInstance.get(`/static/stickers?page=1`); //2번
 
           const data = response.data.data;
 
-          setStickerImages(data.sticker_image_urls); //1번
+          // setStickerImages(data.sticker_image_urls); //1번
 
-          // setStickerImages(data.st_image_urls.slice(0, 2)); //2번
+          setStickerImages(data.st_image_urls.slice(0, 2)); //2번
 
           console.log('Dall-e 스티커 생성 완료!');
           useDiaryContent.setState({ diaryContent: '' });
@@ -67,7 +67,7 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
         ))}
 
         <StyledCloud1 src={Cloud1} alt="Cloud 1" />
-        <StyledCloud2 src={Cloud2} alt="Cloud 2" />
+        {/* <StyledCloud2 src={Cloud2} alt="Cloud 2" /> */}
       </RightStickerContainer>
     </div>
   );
@@ -76,8 +76,8 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
 export default RightSticker;
 
 const RightStickerContainer = styled.div`
-  width: 15.1875rem;
-  height: 41.0625rem;
+  width: 17.45rem;
+  height: 42.0625rem;
   border-radius: 1.875rem;
   background-color: #e7eef9;
   display: grid;
@@ -90,6 +90,7 @@ const RightStickerContainer = styled.div`
   position: relative;
   padding-top: 5rem;
   padding-bottom: 5rem;
+  margin-right: 0.75rem;
 `;
 
 const DalleStickerBox = styled.div`
@@ -112,8 +113,7 @@ const DalleSticker = styled.img`
 const StyledCloud1 = styled.img`
   position: absolute;
   width: 9.125rem;
-  height: 7.5625rem;
-  right: 1.0625rem;
+  right: -2.0625rem;
   top: -2.9375rem;
   z-index: 1;
 `;
@@ -122,7 +122,7 @@ const StyledCloud2 = styled.img`
   position: absolute;
   width: 10.5625rem;
   height: 8.4375rem;
-  bottom: -3rem;
+  bottom: -5rem;
   left: -4.0625rem;
   z-index: 1;
 `;
