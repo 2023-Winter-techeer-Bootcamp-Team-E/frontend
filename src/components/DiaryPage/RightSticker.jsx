@@ -1,15 +1,18 @@
 // RightSticker
 import React, { useState, useEffect } from 'react';
+import Lottie from 'lottie-react';
 import { baseInstance } from '../../api/config';
 import { styled } from 'styled-components';
 import Cloud1 from '../../assets/img/Cloud1.png';
 import DiaryTutorial from '../../assets/img/DiaryTutorial.png';
 
 import { useDiaryContent } from '../../stores/useDiaryContent';
+import loadingLottie from '../../assets/lottie/LottieDrawingAnimation.json';
 
 const RightSticker = ({ onDalleSelect, websocket }) => {
   const [stickerImages, setStickerImages] = useState([]);
   const diaryContent = useDiaryContent((state) => state.diaryContent);
+  const [loading, setLoading] = useState(false);
 
   const handleDalleClick = (image) => {
     onDalleSelect(image);
@@ -35,24 +38,24 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
           console.log('TextBox에서 저장한 content:', diaryContent);
           console.log('Dall-e 스티커 생성중...');
           setStickerImages([]);
+          setLoading(true);
 
-          // const response = await baseInstance.post('/diaries/stickers', {
-          //   content: diaryContent,
-          // }); //1번
-
-          const response = await baseInstance.get(`/static/stickers?page=1`); //2번
-
+          const response = await baseInstance.post('/diaries/stickers', {
+            content: diaryContent,
+          }); //1번
           const data = response.data.data;
+          setStickerImages(data.sticker_image_urls); //1번
 
-          // setStickerImages(data.sticker_image_urls); //1번
-
-          setStickerImages(data.st_image_urls.slice(0, 2)); //2번
-
+          // const response = await baseInstance.get(`/static/stickers?page=1`); //2번
+          // const data = response.data.data;
+          // setStickerImages(data.st_image_urls.slice(0, 2)); //2번
           console.log('Dall-e 스티커 생성 완료!');
           useDiaryContent.setState({ diaryContent: '' });
         }
       } catch (error) {
         console.error('Dall-e 스티커 API 호출 에러! :', error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchStickerImages();
@@ -67,11 +70,29 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
           </DalleStickerBox>
         ))}
 
+        {loading && (
+          <LoadingOverlay>
+            <Lottie
+              animationData={loadingLottie}
+              loop
+              autoplay
+              style={{ width: '100%', height: '100%' }}
+            />
+          </LoadingOverlay>
+        )}
+
         <StyledCloud1 src={Cloud1} alt="Cloud 1" />
         {/* <StyledCloud2 src={Cloud2} alt="Cloud 2" /> */}
-        <DalleStickerBlank>
-          <TutorialTheme src={DiaryTutorial} alt="Diary Tutorial" />
-        </DalleStickerBlank>
+        {stickerImages == '' && !loading && (
+          <DalleStickerBlank>
+            <TutorialTheme src={DiaryTutorial} alt="Diary Tutorial" />
+            <TutorialComment>
+              <WriteBtnModel>작성하기</WriteBtnModel>
+              버튼을 누르면 텍스트 박스가 생성되고, 그 내용을 기반으로 나만의
+              스티커를 만들 수 있어요.
+            </TutorialComment>
+          </DalleStickerBlank>
+        )}
       </RightStickerContainer>
     </div>
   );
@@ -119,7 +140,7 @@ const StyledCloud1 = styled.img`
   width: 9.125rem;
   right: -2.0625rem;
   top: -2.9375rem;
-  z-index: 1;
+  z-index: 5;
 `;
 
 const StyledCloud2 = styled.img`
@@ -135,10 +156,47 @@ const DalleStickerBlank = styled.div`
   width: 17.45rem;
   top: 0;
   left: 0;
+  align-items: center;
+  justify-content: center;
 `;
 const TutorialTheme = styled.img`
   position: absolute;
   top: 0;
   left: 0;
   width: 17.5rem;
+`;
+const TutorialComment = styled.p`
+  position: absolute;
+  top: 3.5rem;
+  margin: 1.5rem;
+  font-size: 1.5rem;
+  z-index: 10;
+  line-height: 1.375;
+`;
+
+const WriteBtnModel = styled.span`
+  /* position: relative; */
+  font-size: 0.75rem;
+  width: 6.375rem;
+  height: 1.5125rem;
+  flex-shrink: 0;
+  color: #fff;
+  border-radius: 0.85rem;
+  background: #c1c3ff;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const LoadingOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
 `;
