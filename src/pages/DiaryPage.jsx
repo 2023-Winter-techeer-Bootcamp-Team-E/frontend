@@ -45,7 +45,7 @@ function DiaryPage() {
   };
 
   // console.log(stickers);
-  console.log(texts);
+  // console.log(texts);
   useEffect(() => {
     const newSocket = new WebSocket(WEBSOCKET_URL);
 
@@ -141,18 +141,18 @@ function DiaryPage() {
 
       // 텍스트 박스
       if (data.type === 'create_textbox') {
-        console.log('텍스트 박스 생성');
+        // console.log('텍스트 박스 생성');
         useTextStore.getState().addText({
           id: data.text_id,
           ...data.position,
         });
       } else if (data.type === 'text_drag') {
-        console.log('텍스트 드래그 발생');
+        // console.log('텍스트 드래그 발생');
         useTextStore
           .getState()
           .updateText({ id: data.text_id, ...data.position });
       } else if (data.type === 'text_resize') {
-        console.log('텍스트 리사이즈 발생');
+        // console.log('텍스트 리사이즈 발생');
         useTextStore
           .getState()
           .updateText({ id: data.text_id, ...data.position });
