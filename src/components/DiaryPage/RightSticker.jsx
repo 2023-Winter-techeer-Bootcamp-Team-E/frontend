@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { baseInstance } from '../../api/config';
 import { styled } from 'styled-components';
 import Cloud1 from '../../assets/img/Cloud1.png';
-import Cloud2 from '../../assets/img/Cloud2.png';
+import DiaryTutorial from '../../assets/img/DiaryTutorial.png';
+
 import { useDiaryContent } from '../../stores/useDiaryContent';
 
 const RightSticker = ({ onDalleSelect, websocket }) => {
@@ -68,6 +69,9 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
 
         <StyledCloud1 src={Cloud1} alt="Cloud 1" />
         {/* <StyledCloud2 src={Cloud2} alt="Cloud 2" /> */}
+        <DalleStickerBlank>
+          <TutorialTheme src={DiaryTutorial} alt="Diary Tutorial" />
+        </DalleStickerBlank>
       </RightStickerContainer>
     </div>
   );
@@ -125,4 +129,16 @@ const StyledCloud2 = styled.img`
   bottom: -5rem;
   left: -4.0625rem;
   z-index: 1;
+`;
+const DalleStickerBlank = styled.div`
+  position: absolute;
+  width: 17.45rem;
+  top: 0;
+  left: 0;
+`;
+const TutorialTheme = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 17.5rem;
 `;

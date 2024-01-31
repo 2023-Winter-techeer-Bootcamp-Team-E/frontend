@@ -1,18 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Rnd } from 'react-rnd';
-import Swal from 'sweetalert2/dist/sweetalert2.js';
+import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import { useSelectDateInfoStore } from '../../stores/useSelectDateInfoStore';
 import { useDiaryContent } from '../../stores/useDiaryContent';
 import useTextStore from '../../stores/textStore';
 
-function TextBox({ username, textId, bounds, websocket }) {
+function TextBox({
+  username,
+  textId,
+  bounds,
+  websocket,
+  diaryMonth,
+  diaryDay,
+}) {
   const texts = useTextStore((state) => state.texts);
   const text = texts.find((t) => t.id === textId);
   const [isComposing, setIsComposing] = useState(false);
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
-  const placeholder = `${username}님과 ${selectedDateInfo.selectedMonth}월 ${selectedDateInfo.selectedDay}일의 일상을 공유해봐요!`;
+  const placeholder = `${username}님과 ${diaryMonth}월 ${diaryDay}일의 일상을 공유해봐요!`;
   //----------------------------------------------------------------------
   const TextSaveClick = ({}) => {
     const swalWithBootstrapButtons = Swal.mixin({
