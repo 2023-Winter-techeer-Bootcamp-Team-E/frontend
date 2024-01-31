@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 import useStickerStore from '../../stores/stickerStore';
+import xclose from '../../assets/img/xclose.png';
 
 function Stickers({ stickerId, image, bounds, websocket }) {
   const stickers = useStickerStore((state) => state.stickers);
@@ -116,25 +117,11 @@ function Stickers({ stickerId, image, bounds, websocket }) {
     const boundsRect = bounds.current.getBoundingClientRect();
 
     // 범위를 확장합니다.
-    const expandedBounds = {
-      left: boundsRect.left - 386,
-      top: boundsRect.top - 184,
-      right: boundsRect.right - 385,
-      bottom: boundsRect.bottom - 185,
-    };
 
     let newTop = sticker.top2 + deltaY;
     let newLeft = sticker.left2 + deltaX;
 
     // 확장된 범위 내에서만 이동하도록 조정합니다.
-    if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
-    if (newTop < expandedBounds.top) newTop = expandedBounds.top;
-    if (newLeft + sticker.width2 > expandedBounds.right) {
-      newLeft = expandedBounds.right - sticker.width2;
-    }
-    if (newTop + sticker.height2 > expandedBounds.bottom) {
-      newTop = expandedBounds.bottom - sticker.height2;
-    }
 
     const roundedTop = Math.round(newTop);
     const roundedLeft = Math.round(newLeft);
@@ -213,8 +200,19 @@ function Stickers({ stickerId, image, bounds, websocket }) {
             left: sticker.left2 + sticker.width2 - 20,
             top: sticker.top2 - 10,
             zIndex: 200,
-          }}
-        />
+          }}>
+          <img
+            style={{
+              width: '1rem',
+              height: '1rem',
+              top: '0.4rem',
+              left: '0.5rem',
+              position: 'absolute',
+            }}
+            src={xclose}
+            alt="close"
+          />
+        </CloseButton>
         <ImgSaveBtn
           onClick={() =>
             ImgSaveClick({
@@ -272,25 +270,15 @@ export default Stickers;
 
 const CloseButton = styled.span`
   background-color: #f26c60;
-  color: white;
   width: 2rem;
   height: 2rem;
-  font-size: small;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 100%;
   position: absolute;
   top: -10px; // 위치 조정
   right: -10px;
   z-index: 100;
 
-  &:after {
-    content: '\\00d7';
-    font-size: 15pt;
-    display: inline-block;
-  }
   &:hover {
     transform: scale(1.05);
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
