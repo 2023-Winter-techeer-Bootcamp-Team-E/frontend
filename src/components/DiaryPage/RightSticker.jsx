@@ -7,7 +7,7 @@ import Cloud1 from '../../assets/img/Cloud1.png';
 import DiaryTutorial from '../../assets/img/DiaryTutorial.png';
 
 import { useDiaryContent } from '../../stores/useDiaryContent';
-import loadingLottie from '../../assets/lottie/LottieDrawingAnimation.json';
+import loadingLottie from '../../assets/lottie/LottieRunAnimation.json';
 
 const RightSticker = ({ onDalleSelect, websocket }) => {
   const [stickerImages, setStickerImages] = useState([]);
@@ -39,7 +39,6 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
           console.log('Dall-e 스티커 생성중...');
           setStickerImages([]);
           setLoading(true);
-
           const response = await baseInstance.post('/diaries/stickers', {
             content: diaryContent,
           }); //1번
@@ -70,7 +69,7 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
           </DalleStickerBox>
         ))}
 
-        {loading && (
+        {true && (
           <LoadingOverlay>
             <Lottie
               animationData={loadingLottie}
@@ -78,18 +77,23 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
               autoplay
               style={{ width: '100%', height: '100%' }}
             />
+            <p style={{ fontSize: '1.5rem' }}>스티커 생성중...</p>
           </LoadingOverlay>
         )}
 
         <StyledCloud1 src={Cloud1} alt="Cloud 1" />
         {/* <StyledCloud2 src={Cloud2} alt="Cloud 2" /> */}
-        {stickerImages == '' && !loading && (
+        {stickerImages == '' && loading && (
           <DalleStickerBlank>
             <TutorialTheme src={DiaryTutorial} alt="Diary Tutorial" />
             <TutorialComment>
-              <WriteBtnModel>작성하기</WriteBtnModel>
-              버튼을 누르면 텍스트 박스가 생성되고, 그 내용을 기반으로 나만의
-              스티커를 만들 수 있어요.
+              <RowDiv>
+                <WriteBtnModel>작성하기</WriteBtnModel> 버튼을 누르면{' '}
+              </RowDiv>
+              <>
+                텍스트 박스가 생성되고, 작성한 일기 내용과 어울리는 나만의
+                스티커를 만들 수 있어요!
+              </>
             </TutorialComment>
           </DalleStickerBlank>
         )}
@@ -177,6 +181,8 @@ const TutorialComment = styled.p`
 const WriteBtnModel = styled.span`
   /* position: relative; */
   font-size: 0.75rem;
+  margin-right: 0.375rem;
+  margin-top: 0.25rem;
   width: 6.375rem;
   height: 1.5125rem;
   flex-shrink: 0;
@@ -188,14 +194,15 @@ const WriteBtnModel = styled.span`
   align-items: center;
   justify-content: center;
 `;
-const LoadingOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0);
+const RowDiv = styled.div`
   display: flex;
+  flex-direction: row;
+`;
+const LoadingOverlay = styled.div`
+  width: 70%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 3;
