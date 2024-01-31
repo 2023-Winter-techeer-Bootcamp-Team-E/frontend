@@ -76,11 +76,11 @@ const NavigateBar = ({ locate }) => {
         <ProfArrow
           src={arrow}
           onClick={handleProfArrowClick}
-          isopen={isProfMenuOpen.toString()}
+          isopen={isProfMenuOpen}
         />
       </ProfWrapper>
 
-      <ProfileMenuWrapper ref={profMenuRef} isopen={isProfMenuOpen.toString()}>
+      <ProfileMenuWrapper ref={profMenuRef} isopen={isProfMenuOpen}>
         <ProfileMenu userId={id} userName={nickname} />
       </ProfileMenuWrapper>
     </NavBar>
@@ -141,8 +141,7 @@ const ProfArrow = styled.img`
   margin-left: 1rem;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
-  transform: ${({ isopen }) =>
-    isopen == 'false' ? 'rotate(0)' : 'rotate(180deg)'};
+  transform: ${({ isopen }) => (isopen ? 'rotate(180deg)' : 'rotate(0)')};
 `;
 
 const ProfileMenuWrapper = styled.div`
@@ -153,7 +152,8 @@ const ProfileMenuWrapper = styled.div`
   animation-duration: 0.5s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: both;
-  animation-name: ${({ isopen }) => (isopen == 'false' ? slideUp : slideDown)};
+  animation-name: ${({ isopen }) => (isopen ? slideDown : slideUp)};
+  display: ${({ isopen }) => (isopen ? 'block' : 'none')};
 `;
 
 export default NavigateBar;
