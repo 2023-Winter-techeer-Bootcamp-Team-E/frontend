@@ -50,8 +50,8 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         key={index}
         src={stickerInfo[0]} // 이미지 URL
         style={{
-          top: `${stickerInfo[1]}px`, // top 값
-          left: `${stickerInfo[2]}px`, // left 값
+          top: `${stickerInfo[1] + 28}px`, // top 값
+          left: `${stickerInfo[2] + 584 - stickerInfo[3]}px`, // left 값
           width: `${stickerInfo[3]}px`, // width 값
           height: `${stickerInfo[4]}px`, // height 값
           transform: `rotate(${stickerInfo[5]}deg)`, // rotate 값
@@ -148,8 +148,10 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
       const isFutureDate = isAfter(day, new Date());
       const isPastMonth = isBefore(day, startOfMonth(currentMonth));
       const isNextMonth = isAfter(day, endOfMonth(currentMonth));
-      const setSelectDateInfo = useSelectDateInfoStore((state) => state.setSelectDateInfo);
-      
+      const setSelectDateInfo = useSelectDateInfoStore(
+        (state) => state.setSelectDateInfo,
+      );
+
       const shouldShowDiaryBtn =
         !isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day);
 
@@ -162,7 +164,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         position: 'absolute',
       };
 
-
       const { setShareURL } = useDiaryURL();
 
       const handleMakeURL = (id) => {
@@ -171,7 +172,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         setShareURL(link);
         console.log(link);
       };
-
 
       const readDiary = async () => {
         console.log('day: ', diaryInfo.day);
@@ -202,7 +202,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           const response = await baseInstance.get('/diaries/', {
             params: { day: `${formattedDate}` },
           });
-    
+
           if (response.status === 200) {
             setSelectDateInfo(response.data);
             console.log(formattedDate);
@@ -304,7 +304,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         <CalendarStickers
           onDelete={handleDeleteStickers}
           image={selectedSticker}
-          bounds={diaryRef}
+          parentRef={diaryRef}
         />
       )}
       {printSticker()}

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 
-function Stickers({ onDelete, image, parentRef }) {
+function Stickers({ onDelete, image }) {
   const [position, setPosition] = useState({
     width2: 100,
     height2: 100,
@@ -110,11 +110,34 @@ function Stickers({ onDelete, image, parentRef }) {
   };
 
   const handleDrag = (deltaX, deltaY) => {
-    setPosition((prevState) => ({
-      ...prevState,
-      top2: prevState.top2 + deltaY,
-      left2: prevState.left2 + deltaX,
-    }));
+    setPosition((prevState) => {
+      // const boundsRect = bounds.current.getBoundingClientRect();
+      const expandedBounds = {
+        // left: boundsRect.left - prevState.width2,
+        // top: boundsRect.top - prevState.height2,
+        // right: boundsRect.right,
+        // bottom: boundsRect.bottom,
+      };
+      // let newTop = prevState.top2 + deltaY;
+      // let newLeft = prevState.left2 + deltaX;
+      let newTop = prevState.top2 + deltaY;
+      let newLeft = prevState.left2 + deltaX;
+      // 위치를 제한하는 부분
+      // if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
+      // if (newTop < expandedBounds.top) newTop = expandedBounds.top;
+      // if (newLeft + prevState.width2 > expandedBounds.right) {
+      //   newLeft = expandedBounds.right - prevState.width2;
+      // }
+      // if (newTop + prevState.height2 > expandedBounds.bottom) {
+      //   newTop = expandedBounds.bottom - prevState.height2;
+      // }
+      console.log('position', newTop, newLeft);
+      return {
+        ...prevState,
+        top2: newTop,
+        left2: newLeft,
+      };
+    });
   };
 
   return (
@@ -165,7 +188,7 @@ function Stickers({ onDelete, image, parentRef }) {
           onRotate={handleRotate}
           onResize={handleResize}
           onDrag={handleDrag}
-          bounds={parentRef.current}
+          // bounds="parent"
         />
       </div>
     </>
