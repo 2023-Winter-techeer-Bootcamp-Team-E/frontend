@@ -20,15 +20,7 @@ import useStickerStore from '../../stores/stickerStore';
 import useTextStore from '../../stores/textStore';
 import useDalleStore from '../../stores/dalleStore';
 
-function InnerImg({
-  setSelectedSticker,
-  setSelectedTextBox,
-  websocket,
-  diaryData,
-  diaryId,
-  hostId,
-  setHostId,
-}) {
+function InnerImg({ websocket, diaryData, diaryId, setHostId }) {
   const diaryRef = useRef(null);
   const [diaryMonth, setDiaryMonth] = useState(0);
   const [diaryDay, setDiaryDay] = useState(0);
@@ -38,14 +30,6 @@ function InnerImg({
   const dalles = useDalleStore((state) => state.dalles);
   const [innerPage, setInnerPage] = useState(1);
   const navigate = useNavigate();
-
-  const handleDeleteTextBox = () => {
-    setSelectedTextBox(false);
-  };
-
-  const handleDeleteStickers = () => {
-    setSelectedSticker(false);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -151,11 +135,9 @@ function InnerImg({
       <PaintingInfo src={DiaryInnerPaintingInfo} />
       {stickers.map((sticker) => (
         <Stickers
-          onDelete={handleDeleteStickers}
           key={sticker.id}
           stickerId={sticker.id}
           image={sticker.image}
-          bounds={diaryRef}
           websocket={websocket}
         />
       ))}
@@ -165,7 +147,6 @@ function InnerImg({
       </DirDate>
       {texts.map((text) => (
         <TextBox
-          onDelete={handleDeleteTextBox}
           key={text.id}
           textId={text.id}
           bounds={diaryRef}
