@@ -59,7 +59,7 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
           )}
         </WrapperInnerImg>
         <WrapperDHomeButton>
-          <DHomeButton move={move} />
+          <DHomeButton/>
         </WrapperDHomeButton>
       </PageFrame>
     </BackLayout>

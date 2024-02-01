@@ -159,7 +159,8 @@ const CopyDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  
   color: #fff;
   font-family: 'bmjua';
   font-size: 1rem;
@@ -169,7 +170,8 @@ const CopyDiv = styled.div`
 
   transition: transform 0.3s ease-in-out;
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
+    background: #A5BBF3;
   }
 `;
 
@@ -211,6 +213,7 @@ const WriteDiaryBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
   color: #fff;
   font-family: 'bmjua';
@@ -218,7 +221,8 @@ const WriteDiaryBtn = styled.div`
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
   &:hover {
-    transform: scale(1.1);
+  background: #B1B4FF;
+  transform: scale(1.1);
   }
 `;
 
