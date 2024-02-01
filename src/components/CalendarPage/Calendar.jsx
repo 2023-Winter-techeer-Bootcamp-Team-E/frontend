@@ -204,7 +204,9 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           });
     
           if (response.status === 200) {
-            setSelectDateInfo(response.data);
+            const { setSelectDateInfo } = useSelectDateInfoStore();
+            setSelectDateInfo(selectedMonth, selectedDay);
+            // setSelectDateInfo(response.data);
             console.log(formattedDate);
             setInnerPage(response.data.diary_bg_id);
             console.log(useInnerPage.getState().innerPage);
