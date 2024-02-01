@@ -37,12 +37,13 @@ function DiaryPage() {
     useUserInfoStore();
   const userId = userInfoList.map((user) => user.id);
   const [hostCheck, setHostCheck] = useState(true);
-
+  const [hostId, setHostId] = useState('');
+  console.log('hostId : ', hostId);
   useEffect(() => {
-    if (userId == '' || userId == 'Guest') {
-      setHostCheck(false);
-    } else {
+    if (userId == hostId) {
       setHostCheck(true);
+    } else {
+      setHostCheck(false);
     }
   }, [userId]);
 
@@ -215,8 +216,6 @@ function DiaryPage() {
         </WrapperLargeSketchbook>
         <WrapperInnerImg>
           <InnerImg
-            selectedSticker={selectedSticker}
-            setSelectedSticker={setSelectedSticker}
             selectedTextBox={selectedTextBox}
             setSelectedTextBox={setSelectedTextBox}
             sharedText={sharedText}
@@ -224,6 +223,8 @@ function DiaryPage() {
             diaryMonth={selectedDateInfo.selectedMonth}
             diaryDay={selectedDateInfo.selectedDay}
             diaryId={diary_id}
+            hostId={hostId}
+            setHostId={setHostId}
           />
         </WrapperInnerImg>
         <WrapperRightSticker>
