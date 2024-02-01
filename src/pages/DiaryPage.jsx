@@ -39,11 +39,12 @@ function DiaryPage() {
   const [hostCheck, setHostCheck] = useState(true);
 
   useEffect(() => {
-    if (userId == '') {
+    if (userId == '' || userId == 'Guest') {
       setHostCheck(false);
+    } else {
+      setHostCheck(true);
     }
-  }, []);
-
+  }, [userId]);
 
   const handleTextButtonClick = () => {
     setSelectedTextBox(true);
