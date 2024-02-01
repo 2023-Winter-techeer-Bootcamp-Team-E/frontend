@@ -21,13 +21,13 @@ import useTextStore from '../../stores/textStore';
 import useDalleStore from '../../stores/dalleStore';
 
 function InnerImg({
-  selectedSticker,
-  selectedTextBox,
   setSelectedSticker,
   setSelectedTextBox,
   websocket,
   diaryData,
   diaryId,
+  hostId,
+  setHostId,
 }) {
   const diaryRef = useRef(null);
   const [diaryMonth, setDiaryMonth] = useState(0);
@@ -36,7 +36,6 @@ function InnerImg({
   const stickers = useStickerStore((state) => state.stickers);
   const texts = useTextStore((state) => state.texts);
   const dalles = useDalleStore((state) => state.dalles);
-
   const [innerPage, setInnerPage] = useState(1);
   const navigate = useNavigate();
 
@@ -68,6 +67,7 @@ function InnerImg({
           const diaryBgId = response.data.diary_data.diary_bg_id;
           setInnerPage(diaryBgId);
           setHostName(response.data.nickname);
+          setHostId(response.data.login_id);
         }
       } catch (error) {
         console.log(`catch 다이어리 조회 실패 : ${error.message}`);

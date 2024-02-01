@@ -13,6 +13,7 @@ const NavigateBar = ({ locate }) => {
   const { userInfoList } = userInfoStore;
   const navigate = useNavigate();
   const [showLoginAlert, setShowLoginAlert] = useState(false);
+  const [hostCheck, setHostCheck] = useState(true);
 
   useEffect(() => {
     const loggedInUserId = localStorage.getItem('loggedInUserId');
@@ -53,6 +54,15 @@ const NavigateBar = ({ locate }) => {
   const { id, nickname } = user;
 
   useEffect(() => {
+    console.log('id : ', user.id);
+    if (user.id == 'Guest') {
+      setHostCheck(false);
+    } else {
+      setHostCheck(true);
+    }
+  }, [user.id]);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (profMenuRef.current && !profMenuRef.current.contains(event.target)) {
         setIsProfMenuOpen(false);
@@ -73,11 +83,13 @@ const NavigateBar = ({ locate }) => {
     <NavBar>
       <ProfWrapper>
         <ProfName>환영합니다. {nickname}님</ProfName>
-        <ProfArrow
-          src={arrow}
-          onClick={handleProfArrowClick}
-          isopen={isProfMenuOpen}
-        />
+        {hostCheck && (
+          <ProfArrow
+            src={arrow}
+            onClick={handleProfArrowClick}
+            isopen={isProfMenuOpen}
+          />
+        )}
       </ProfWrapper>
 
       <ProfileMenuWrapper ref={profMenuRef} isopen={isProfMenuOpen}>
