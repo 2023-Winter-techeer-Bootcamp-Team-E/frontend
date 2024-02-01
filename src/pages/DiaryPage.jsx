@@ -16,29 +16,23 @@ import useTextStore from '../stores/textStore';
 import useDalleStore from '../stores/dalleStore';
 import useUserInfoStore from '../stores/userInfoStore';
 
-const WEBSOCKET_URL = 'ws://127.0.0.1:8000/ws/harurooms/1/';
-// const socket = new WebSocket(`${WEBSOCKET_URL}/ws/harurooms/${diaryId}`);
-
 function DiaryPage() {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState(null);
   const [selectedDalle, setSelectedDalle] = useState(null);
-  const [sharedText, setSharedText] = useState(''); // 모든 사용자에게 공유될 텍스트
   const selectedDateInfo = useSelectDateInfoStore((state) => state);
   const { diary_id } = useParams();
   const websocket = useRef(null);
-  const addSticker = useStickerStore((state) => state.addSticker);
-  const stickers = useStickerStore((state) => state.stickers);
-  const texts = useTextStore((state) => state.texts);
-  const addText = useTextStore((state) => state.addText);
-  const dalles = useDalleStore((state) => state.dalles);
-
   const { userInfoList, addUserInfo, getUserInfo, removeUserInfo } =
     useUserInfoStore();
   const userId = userInfoList.map((user) => user.id);
   const [hostCheck, setHostCheck] = useState(true);
   const [hostId, setHostId] = useState('');
-  console.log('hostId : ', hostId);
+  const [savedData, setSavedData] = useState({
+    textboxs: [],
+    stickers: [],
+  });
+
   useEffect(() => {
     if (userId == hostId) {
       setHostCheck(true);
@@ -121,6 +115,21 @@ function DiaryPage() {
           showOnly: true,
           ...data.position,
         });
+        setSavedData((prevData) => ({
+          ...prevData,
+          stickers: [
+            ...prevData.stickers,
+            {
+              sticker_id: data.sticker_id,
+              sticker_image_url: data.image,
+              top: data.position.top2,
+              left: data.position.left2,
+              height: data.position.height2,
+              width: data.position.width2,
+              rotate: data.position.rotate2 || 0, // rotate가 없는 경우 기본값 0
+            },
+          ],
+        }));
       }
 
       // Dalle
@@ -143,7 +152,7 @@ function DiaryPage() {
           ...data.position,
         });
       } else if (data.type === 'dalle_rotate') {
-        console.log('dalle 로��이트 발생');
+        console.log('dalle 로테이트 발생');
         useDalleStore
           .getState()
           .updateDalle({ id: data.dalle_id, ...data.position });
@@ -155,6 +164,21 @@ function DiaryPage() {
           showOnly: true,
           ...data.position,
         });
+        setSavedData((prevData) => ({
+          ...prevData,
+          stickers: [
+            ...prevData.stickers,
+            {
+              sticker_id: data.dalle_id,
+              sticker_image_url: data.image,
+              top: data.position.top2,
+              left: data.position.left2,
+              height: data.position.height2,
+              width: data.position.width2,
+              rotate: data.position.rotate2 || 0, // rotate가 없는 경우 기본값 0
+            },
+          ],
+        }));
       }
 
       // 텍스트 박스
@@ -195,6 +219,20 @@ function DiaryPage() {
           showOnly: true,
           ...data.position,
         });
+        setSavedData((prevData) => ({
+          ...prevData,
+          textboxs: [
+            ...prevData.textboxs,
+            {
+              textbox_id: data.text_id,
+              writer: data.nickname,
+              xcoor: data.position.x,
+              ycoor: data.position.y,
+              height: data.position.height,
+              width: data.position.width,
+            },
+          ],
+        }));
         console.log('텍스트 저장', data.content, data.nickname);
       }
     };
@@ -216,14 +254,10 @@ function DiaryPage() {
         </WrapperLargeSketchbook>
         <WrapperInnerImg>
           <InnerImg
-            selectedTextBox={selectedTextBox}
-            setSelectedTextBox={setSelectedTextBox}
-            sharedText={sharedText}
             websocket={websocket}
             diaryMonth={selectedDateInfo.selectedMonth}
             diaryDay={selectedDateInfo.selectedDay}
             diaryId={diary_id}
-            hostId={hostId}
             setHostId={setHostId}
           />
         </WrapperInnerImg>
@@ -236,7 +270,9 @@ function DiaryPage() {
           />
         </WrapperRightSticker>
         <WrapperDHomeButton>{hostCheck && <DHomeButton />}</WrapperDHomeButton>
-        <WrapperSaveButton>{hostCheck && <SaveButton />}</WrapperSaveButton>
+        <WrapperSaveButton>
+          {hostCheck && <SaveButton savedData={savedData} />}
+        </WrapperSaveButton>
         <WrapperBasicSticker>
           <BasicSticker
             onStickerSelect={handleStickerSelect}
