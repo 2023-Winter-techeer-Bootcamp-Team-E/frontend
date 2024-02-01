@@ -123,7 +123,7 @@ function Stickers({ onDelete, image, parentRef }) {
           width: position.width2,
           height: position.height2,
           position: 'absolute',
-          zIndex: 1,
+          zIndex: 150,
         }}>
         <CloseButton
           onClick={onDelete}

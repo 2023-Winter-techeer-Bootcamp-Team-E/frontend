@@ -78,6 +78,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   };
 
   useEffect(() => {
+    setStickerInfoArr([]);
     const fetchData = async () => {
       const yearMonth = format(currentMonth, 'yyyy-MM');
       try {
@@ -107,8 +108,8 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           setStickerInfoArr(extractedStickerInfo);
         }
       } catch (error) {
-        console.log(`${yearMonth} 달력 조회 실패`);
         setDiaryInfoArray([]);
+        console.log(`${yearMonth} 달력 조회 실패`);
       }
     };
 
@@ -158,11 +159,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
       const diaryInfo = diaryInfoArray.find(
         (diary) => diary.day === formattedDate,
       );
-
-      const diaryIconStyle = {
-        zIndex: 101, // 여기에 z-index 값을 설정
-        position: 'absolute',
-      };
 
       const handleMakeURL = (id) => {
         const location = window.location;
@@ -239,7 +235,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
 
           {shouldShowDiaryBtn && !diaryInfo && (
             <img
-              style={diaryIconStyle}
               className="GoToSelectInnerPaperBtn"
               src={DiaryWriteIcon}
               alt="Go to Diary"
@@ -252,7 +247,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
 
           {diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth && (
             <img
-              style={{ zIndex: 150 }}
               className="GoToShareURLBtn"
               src={diaryIcon}
               alt="Go to Diary"
@@ -267,6 +261,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
               }}
             />
           )}
+          {printSticker()}
         </div>
       );
     };
@@ -305,24 +300,26 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           parentRef={diaryRef}
         />
       )}
-      {printSticker()}
       <div className="calendar" ref={diaryRef}>
-        <div className="listname">
+        <div className="listname" style={{ zIndex: 100 }}>
           <span className="topyear">{format(currentMonth, 'yyyy')}</span>
           {format(currentMonth, 'MMMMMMMM')}
         </div>
         <img
+          style={{ zIndex: 100 }}
           src={CalendarLeftBtn}
           className="leftBtn"
           onClick={prevMonth}
           alt="Previous Month"
         />
         <img
+          style={{ zIndex: 100 }}
           src={CalendarRightBtn}
           className="rightBtn"
           onClick={nextMonth}
           alt="Next Month"
         />
+
         <RenderDays />
         <RenderCells />
       </div>
