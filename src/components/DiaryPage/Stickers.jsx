@@ -6,7 +6,7 @@ import 'sweetalert2/src/sweetalert2.scss';
 import useStickerStore from '../../stores/stickerStore';
 import xclose from '../../assets/img/xclose.png';
 
-function Stickers({ stickerId, image, bounds, websocket }) {
+function Stickers({ stickerId, image, websocket }) {
   const stickers = useStickerStore((state) => state.stickers);
   const sticker = stickers.find((s) => s.id === stickerId);
 
@@ -114,14 +114,8 @@ function Stickers({ stickerId, image, bounds, websocket }) {
   };
 
   const handleDrag = (deltaX, deltaY) => {
-    const boundsRect = bounds.current.getBoundingClientRect();
-
-    // 범위를 확장합니다.
-
     let newTop = sticker.top2 + deltaY;
     let newLeft = sticker.left2 + deltaX;
-
-    // 확장된 범위 내에서만 이동하도록 조정합니다.
 
     const roundedTop = Math.round(newTop);
     const roundedLeft = Math.round(newLeft);

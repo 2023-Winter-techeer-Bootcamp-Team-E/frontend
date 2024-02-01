@@ -5,13 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 
-function SaveButton() {
+function SaveButton({ savedData }) {
   const navigate = useNavigate();
 
   // 최종저장
   const SaveAll = async () => {
+    console.log('저장할 데이터:', savedData);
     try {
-      const response = await baseInstance.put('/diaries/save');
+      const response = await baseInstance.put('/diaries/save', {
+        saved_data: savedData,
+      });
       if (response.status === 200) {
         console.log('일기 저장 성공');
       } else {
@@ -48,7 +51,7 @@ function SaveButton() {
             title: '일기가 저장되었어요!',
             icon: 'success',
           });
-          navigate('../past');
+          navigate('/past');
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           swalWithBootstrapButtons.fire({
             title: '일기가 저장되지 않았어요',
@@ -59,12 +62,9 @@ function SaveButton() {
   };
 
   return (
-    <SaveButtonContainer onClick={SaveClick}>
-      저장하기
-    </SaveButtonContainer>
+    <SaveButtonContainer onClick={SaveClick}>저장하기</SaveButtonContainer>
   );
 }
-
 
 const SaveButtonContainer = styled.div`
     width: 12.375rem;
