@@ -60,7 +60,7 @@ function DiaryPage() {
     }
 
     const newSocket = new WebSocket(
-      `ws://127.0.0.1:8000/ws/harurooms/${diary_id}/`,
+      `ws://3.35.125.66:8000/ws/harurooms/${diary_id}/`,
     );
     websocket.current = newSocket;
 
