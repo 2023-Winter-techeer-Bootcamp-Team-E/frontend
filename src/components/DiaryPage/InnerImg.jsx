@@ -65,9 +65,8 @@ function InnerImg({
           console.log(
             `${numericMonth}월 ${response.data.day}일 다이어리 조회 성공!`,
           );
-          const diaryBgId = response.data.diary_bg_id;
+          const diaryBgId = response.data.diary_data.diary_bg_id;
           setInnerPage(diaryBgId);
-          console.log('nickname : ', response.data.nickname);
           setHostName(response.data.nickname);
         }
       } catch (error) {
