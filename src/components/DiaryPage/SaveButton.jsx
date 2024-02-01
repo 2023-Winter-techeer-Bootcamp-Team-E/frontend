@@ -12,7 +12,9 @@ function SaveButton({ savedData }) {
   const SaveAll = async () => {
     console.log('저장할 데이터:', savedData);
     try {
-      const response = await baseInstance.put('/diaries/save', { savedData });
+      const response = await baseInstance.put('/diaries/save', {
+        saved_data: savedData,
+      });
       if (response.status === 200) {
         console.log('일기 저장 성공');
       } else {

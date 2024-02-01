@@ -224,6 +224,7 @@ function DiaryPage() {
           textboxs: [
             ...prevData.textboxs,
             {
+              textbox_id: data.text_id,
               writer: data.nickname,
               xcoor: data.position.x,
               ycoor: data.position.y,
