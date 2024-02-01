@@ -67,9 +67,6 @@ function ProfileMenu({
       <UserName>{userName}</UserName>
       <UserId>{userId}</UserId>
       <BottomFrame>
-        <HaruConnectingTutorial onClick={handleHaruConnectingTutorialClick}>
-          Tutorial
-        </HaruConnectingTutorial>
         <LogOut onClick={handleLogOutClick}>Logout</LogOut>
       </BottomFrame>
     </ProfileMenuFrame>
@@ -109,36 +106,9 @@ const BottomFrame = styled.div`
   justify-content: center;
   flex-direction: row;
 `;
-const HaruConnectingTutorial = styled.div`
-  width: 5.375rem;
-  height: 2.5rem;
-  z-index: 2;
-  margin: 0.375rem;
-  color: #aaa;
-  text-align: center;
-  font-family: 'bmjua';
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: 0.5rem;
-  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.3s ease-in-out;
-  &:hover {
-    transform: scale(1.1);
-  }
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0.7),
-    rgba(255, 255, 255, 0.2)
-  );
-`;
+
 const LogOut = styled.div`
-  width: 5.375rem;
+  width: 8rem;
   height: 2.5rem;
   margin: 0.375rem;
   z-index: 2;

@@ -76,7 +76,7 @@ const WrapperCalendar = styled.div`
   position: absolute;
   width: 60rem;
   height: 45rem;
-  margin-top: 16rem;
+  margin-top: 14.5rem;
   flex-shrink: 0;
   z-index: 2;
   background: #d7d7ef;
