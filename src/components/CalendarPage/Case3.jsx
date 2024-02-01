@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import DiaryWritePen from '../../assets/img/DiaryWritePen.png';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
+import CopyURL from '../../assets/img/Calendar/CopyURL.png';
 import { useNavigate } from 'react-router-dom';
 import { useDiaryURL } from '../../stores/useDiaryURL';
 import { useDateNotificationStore } from '../../stores/useDateNotificationStore';
@@ -32,7 +33,7 @@ const Case3 = ({ diaryMonth, diaryDay }) => {
             toast.addEventListener('mouseenter', Swal.stopTimer);
             toast.addEventListener('mouseleave', Swal.resumeTimer);
           },
-          html: '친구에게 공유해 보세요!',
+          html: '친구에게 URL을 공유해 보세요!',
         });
       })
       .catch((error) => {
@@ -81,7 +82,9 @@ const Case3 = ({ diaryMonth, diaryDay }) => {
         </SelectDateText2>
 
         <ShareURL>{shareURL}</ShareURL>
-        <CopyBtn onClick={copyToClipboard}>복사</CopyBtn>
+        <CopyDiv onClick={copyToClipboard}>
+          <CopyBtn src={CopyURL} />
+        </CopyDiv>
         <Line />
         <LetsWriteText>일기를 작성하러 가볼까요? </LetsWriteText>
         <WriteDiaryBtn onClick={handleWriteDiaryClick}>
@@ -125,34 +128,37 @@ const DiarySettingWindow = styled.div`
 const ShareURL = styled.p`
   position: absolute;
   margin-top: 11rem;
-  margin-right: 4.5rem;
-  width: 9rem;
+  margin-right: 3.5rem;
+  width: 10rem;
   height: 2.5rem;
   flex-shrink: 0;
   border-radius: 0.3125rem;
   background: #fff;
   display: flex;
   align-items: center;
-  padding-left: 0.3rem;
+  padding-left: 0.5rem;
 
   color: #000;
   font-family: Inter;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 400;
-  white-space: nowrap; // 글자가 한 줄로 표시되도록
-  overflow: hidden; // 넘치는 부분을 감춤
-  text-overflow: ellipsis; // 넘치는 부분에 ... 표시
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
-const CopyBtn = styled.button`
+const CopyDiv = styled.div`
   position: absolute;
   margin-top: 11rem;
   margin-left: 11rem;
-  width: 4.5rem;
+  width: 3.5rem;
   height: 2.5rem;
   flex-shrink: 0;
   border-radius: 0.3125rem;
   background: #cad9ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   color: #fff;
   font-family: 'bmjua';
@@ -165,6 +171,11 @@ const CopyBtn = styled.button`
   &:hover {
     transform: scale(1.1);
   }
+`;
+
+const CopyBtn = styled.img`
+  width: 1.75rem;
+  height: 1.75rem;
 `;
 
 const Line = styled.hr`
@@ -184,7 +195,7 @@ const LetsWriteText = styled.p`
   justify-content: center;
 
   font-family: 'mong';
-  font-size: 1.75rem;
+  font-size: 1.625rem;
 `;
 
 const WriteDiaryBtn = styled.div`
