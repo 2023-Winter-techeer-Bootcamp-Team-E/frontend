@@ -56,7 +56,6 @@ const Case3 = ({ diaryMonth, diaryDay }) => {
 
   useEffect(() => {
     function handleClickOutside(event) {
-      // diarySettingRef가 존재하고 클릭된 요소가 ref 밖에 있다면 실행
       if (
         diarySettingRef.current &&
         !diarySettingRef.current.contains(event.target)
@@ -106,7 +105,7 @@ const SelectDateText2 = styled.p`
   color: #2c199f;
   font-family: 'mong';
   font-size: 1.75rem;
-  left: 2.9rem;
+  left: 2rem;
 `;
 const DiarySettingWindow = styled.div`
   width: 100%;
@@ -126,7 +125,7 @@ const DiarySettingWindow = styled.div`
 const ShareURL = styled.p`
   position: absolute;
   margin-top: 11rem;
-  margin-right: 4rem;
+  margin-right: 4.5rem;
   width: 9rem;
   height: 2.5rem;
   flex-shrink: 0;
@@ -157,7 +156,7 @@ const CopyBtn = styled.button`
 
   color: #fff;
   font-family: 'bmjua';
-  font-size: 1.0rem;
+  font-size: 1rem;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -179,7 +178,7 @@ const Line = styled.hr`
 const LetsWriteText = styled.p`
   position: absolute;
   margin-top: 20.87rem;
-  width: 11.625rem;
+  /* width: 11.625rem; */
   color: #2c199f;
   align-items: center;
   justify-content: center;

@@ -47,7 +47,6 @@ const RightSticker = ({ onDalleSelect, websocket }) => {
           const data = response.data.data;
           setStickerImages(data.sticker_image_urls); //1번
 
-
           // const response = await baseInstance.get(`/static/stickers?page=1`); //2번
           // const data = response.data.data;
           // setStickerImages(data.st_image_urls.slice(0, 2)); //2번
@@ -123,6 +122,7 @@ const RightStickerContainer = styled.div`
   padding-top: 5rem;
   padding-bottom: 5rem;
   margin-right: 0.75rem;
+  color: #000;
 `;
 
 const DalleStickerBox = styled.div`

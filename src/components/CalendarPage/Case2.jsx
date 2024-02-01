@@ -205,8 +205,6 @@ const SelectDateText = styled.p`
   position: absolute;
   margin-top: 4rem;
   color: #000000;
-  /* font-family: 'bmjua';
-  font-size: 1.325rem; */
   font-family: 'mong';
   font-size: 2rem;
   left: 1.19rem;
