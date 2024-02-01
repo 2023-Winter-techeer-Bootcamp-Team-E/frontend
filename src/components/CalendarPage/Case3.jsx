@@ -174,8 +174,8 @@ const CopyDiv = styled.div`
 `;
 
 const CopyBtn = styled.img`
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.625rem;
+  height: 1.625rem;
 `;
 
 const Line = styled.hr`

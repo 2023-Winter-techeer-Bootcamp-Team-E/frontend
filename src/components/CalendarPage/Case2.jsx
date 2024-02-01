@@ -207,7 +207,7 @@ const SelectDateText = styled.p`
   color: #000000;
   font-family: 'mong';
   font-size: 2rem;
-  left: 1.19rem;
+  left: 1.625rem;
 `;
 
 const SelectInnerPaperText = styled.p`
@@ -219,7 +219,7 @@ const SelectInnerPaperText = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  left: 1.19rem;
+  left: 1.625rem;
 `;
 
 const TopMaskingTape = styled.img`
