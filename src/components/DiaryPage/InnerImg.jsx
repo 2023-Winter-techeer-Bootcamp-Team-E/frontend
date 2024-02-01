@@ -30,7 +30,6 @@ function InnerImg({ websocket, diaryData, diaryId, setHostId }) {
   const dalles = useDalleStore((state) => state.dalles);
   const [innerPage, setInnerPage] = useState(1);
   const navigate = useNavigate();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,7 +53,7 @@ function InnerImg({ websocket, diaryData, diaryId, setHostId }) {
           setHostId(response.data.login_id);
         }
       } catch (error) {
-        console.log(`catch 다이어리 조회 실패 : ${error.message}`);
+        console.log(`InnerImg에서 다이어리 조회 실패 : ${error.message}`);
         Swal.fire({
           icon: 'warning',
           title: '잘못된 URL입니다!',

@@ -152,7 +152,7 @@ function DiaryPage() {
           ...data.position,
         });
       } else if (data.type === 'dalle_rotate') {
-        console.log('dalle 로��이트 발생');
+        console.log('dalle 로테이트 발생');
         useDalleStore
           .getState()
           .updateDalle({ id: data.dalle_id, ...data.position });
