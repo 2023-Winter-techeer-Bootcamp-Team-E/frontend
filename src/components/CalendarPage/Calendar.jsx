@@ -38,7 +38,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   const iconUpdate = useIconUpdate((state) => state.iconUpdate);
   const navigate = useNavigate();
   const diaryRef = useRef(null);
-  const n = -0.5;
 
   const handleDeleteStickers = () => {
     setSelectedSticker(false);
@@ -57,7 +56,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           height: `${stickerInfo[4]}px`, // height 값
           transform: `rotate(${stickerInfo[5]}deg)`, // rotate 값
           position: 'absolute',
-          zIndex: 100,
+          zIndex: 1,
           // 추가적인 스타일 속성들도 필요에 따라 설정 가능
         }}
         alt={`Sticker ${index + 1}`}

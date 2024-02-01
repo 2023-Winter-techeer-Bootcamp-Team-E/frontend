@@ -38,7 +38,7 @@ function Stickers({ onDelete, image, parentRef }) {
         const responseData = response.data;
         console.log('응답 데이터:', responseData);
         iconUpdateStore.setIconUpdate(iconUpdateStore.iconUpdate + 1);
-        // 여기에서 responseData를 확인하여 필요한 정보를 추출할 수 있습니다.
+        onDelete();
       } else {
         console.error('스티커 추가 실패 : ', response.data);
       }
