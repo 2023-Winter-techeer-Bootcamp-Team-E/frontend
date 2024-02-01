@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    proxy: {
+    proxy: { // 배포용 이건 주석 다 해제하기
       // '/api': {
       // target: 'BASE_URL',
       // changeOrigin: true,
