@@ -14,6 +14,7 @@ const GlobalStyles = createGlobalStyle`
         border: 0;
         font-size: 0.74rem;
         vertical-align: baseline;
+
     }
     img, div {
     user-select: none;
