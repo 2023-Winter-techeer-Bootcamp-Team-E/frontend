@@ -14,7 +14,8 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   const [diaryData, setDiaryData] = useState(null);
 
   // 사용자가 선택한 날짜 정보 가져오기
-  const { selectedMonth, selectedDay, setSelectDateInfo } = useSelectDateInfoStore();
+  const { selectedMonth, selectedDay, setSelectDateInfo } =
+    useSelectDateInfoStore();
 
   useEffect(() => {
     const readStickers = async () => {
@@ -26,7 +27,6 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
         if (response.status === 200) {
           setDiaryData(response.data);
           console.log('일기장 확인 실패');
-
         } else {
           console.log('일기장 확인 실패');
         }
@@ -59,7 +59,7 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
           )}
         </WrapperInnerImg>
         <WrapperDHomeButton>
-          <DHomeButton move={move} />
+          <DHomeButton />
         </WrapperDHomeButton>
       </PageFrame>
     </BackLayout>

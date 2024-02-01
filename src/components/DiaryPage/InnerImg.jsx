@@ -20,15 +20,7 @@ import useStickerStore from '../../stores/stickerStore';
 import useTextStore from '../../stores/textStore';
 import useDalleStore from '../../stores/dalleStore';
 
-function InnerImg({
-  setSelectedSticker,
-  setSelectedTextBox,
-  websocket,
-  diaryData,
-  diaryId,
-  hostId,
-  setHostId,
-}) {
+function InnerImg({ websocket, diaryData, diaryId, setHostId }) {
   const diaryRef = useRef(null);
   const [diaryMonth, setDiaryMonth] = useState(0);
   const [diaryDay, setDiaryDay] = useState(0);
@@ -38,15 +30,6 @@ function InnerImg({
   const dalles = useDalleStore((state) => state.dalles);
   const [innerPage, setInnerPage] = useState(1);
   const navigate = useNavigate();
-
-  const handleDeleteTextBox = () => {
-    setSelectedTextBox(false);
-  };
-
-  const handleDeleteStickers = () => {
-    setSelectedSticker(false);
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -70,7 +53,7 @@ function InnerImg({
           setHostId(response.data.login_id);
         }
       } catch (error) {
-        console.log(`catch 다이어리 조회 실패 : ${error.message}`);
+        console.log(`InnerImg에서 다이어리 조회 실패 : ${error.message}`);
         Swal.fire({
           icon: 'warning',
           title: '잘못된 URL입니다!',
@@ -151,11 +134,9 @@ function InnerImg({
       <PaintingInfo src={DiaryInnerPaintingInfo} />
       {stickers.map((sticker) => (
         <Stickers
-          onDelete={handleDeleteStickers}
           key={sticker.id}
           stickerId={sticker.id}
           image={sticker.image}
-          bounds={diaryRef}
           websocket={websocket}
         />
       ))}
@@ -165,7 +146,6 @@ function InnerImg({
       </DirDate>
       {texts.map((text) => (
         <TextBox
-          onDelete={handleDeleteTextBox}
           key={text.id}
           textId={text.id}
           bounds={diaryRef}
