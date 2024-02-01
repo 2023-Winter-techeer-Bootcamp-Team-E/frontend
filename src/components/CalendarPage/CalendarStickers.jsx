@@ -4,6 +4,7 @@ import { baseInstance } from '../../api/config';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
+import useIconUpdate from '../../stores/useIconUpdate';
 
 function Stickers({ onDelete, image, parentRef }) {
   const [position, setPosition] = useState({
@@ -13,6 +14,7 @@ function Stickers({ onDelete, image, parentRef }) {
     left2: 100,
     rotate2: 0,
   });
+  const iconUpdateStore = useIconUpdate();
 
   // eslint-disable-next-line no-unused-vars
 
@@ -32,13 +34,10 @@ function Stickers({ onDelete, image, parentRef }) {
         '/calendars/stickers',
         stickerData,
       );
-      // Handle the response as needed
-      console.log(response.data);
-
       if (response.status === 200) {
         const responseData = response.data;
         console.log('응답 데이터:', responseData);
-
+        iconUpdateStore.setIconUpdate(iconUpdateStore.iconUpdate + 1);
         // 여기에서 responseData를 확인하여 필요한 정보를 추출할 수 있습니다.
       } else {
         console.error('스티커 추가 실패 : ', response.data);

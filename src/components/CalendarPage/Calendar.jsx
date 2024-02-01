@@ -38,6 +38,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   const iconUpdate = useIconUpdate((state) => state.iconUpdate);
   const navigate = useNavigate();
   const diaryRef = useRef(null);
+  const n = -0.5;
 
   const handleDeleteStickers = () => {
     setSelectedSticker(false);
@@ -51,7 +52,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         src={stickerInfo[0]} // 이미지 URL
         style={{
           top: `${stickerInfo[1] + 28}px`, // top 값
-          left: `${stickerInfo[2] + 584 - stickerInfo[3]}px`, // left 값
+          left: `${stickerInfo[2] + 484 + -0.5 * (stickerInfo[3] - 100)}px`, // left 값
           width: `${stickerInfo[3]}px`, // width 값
           height: `${stickerInfo[4]}px`, // height 값
           transform: `rotate(${stickerInfo[5]}deg)`, // rotate 값
@@ -163,8 +164,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         zIndex: 101, // 여기에 z-index 값을 설정
         position: 'absolute',
       };
-
-      const { setShareURL } = useDiaryURL();
 
       const handleMakeURL = (id) => {
         const location = window.location;
