@@ -17,7 +17,7 @@ import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
 import { useInnerPage } from '../../stores/useInnerPage';
 import preBtn from '../../assets/img/Calendar/preBtn.png';
 import preBtn2 from '../../assets/img/Calendar/preBtn2.png';
-import useDiaryIdStore from '../../stores/diaryIdStore';
+import useDiaryIdStore from '../../stores/useDiaryIdStore';
 
 function Case2({ diaryMonth, diaryDay }) {
   const [inpageNum, setinPageNum] = useState(1);
@@ -29,7 +29,10 @@ function Case2({ diaryMonth, diaryDay }) {
   const { iconUpdate, setIconUpdate } = useIconUpdate();
   const [upButtonHovered, setUpButtonHovered] = useState(false);
   const [downButtonHovered, setDownButtonHovered] = useState(false);
-  const { setDiaryId } = useDiaryIdStore();
+  // const [ diaryId, setDiaryId ] = useDiaryIdStore();
+  const diaryIdStore = useDiaryIdStore();
+const diaryId = diaryIdStore.diaryId;
+const setDiaryId = diaryIdStore.setDiaryId;
 
   //일기생성
   const createDiary = async () => {
@@ -40,16 +43,14 @@ function Case2({ diaryMonth, diaryDay }) {
       });
       if (response.status === 200) {
         console.log('일기장 생성 성공');
-        handleMakeURL(response.data.diary_id);
+        handleMakeURL(response.data.sns_link);
         setInnerPage(response.data.diary_bg_id);
-        setPage(3);
         setIconUpdate((prev) => prev + 1);
         setDiaryId(response.data.diary_id);
+        setPage(3);
+
         console.log(
-          'DateNotification page',
-          useInnerPage.getState().innerPage,
-          useDateNotificationStore.getState().page,
-          '페이지로 넘어감',
+          'diaryId:' , diaryId
         );
         console.log('background Num: ', response.data.diary_bg_id);
       } else {

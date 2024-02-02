@@ -5,13 +5,15 @@ import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
 import DHomeButton from '../components/DiaryPage/DHomeButton';
 import InnerImg from '../components/DiaryPage/InnerImg';
-import { useInnerPage } from '../stores/useInnerPage';
 import { useSelectDateInfoStore } from '../stores/useSelectDateInfoStore';
+import useDiaryIdStore from '../stores/useDiaryIdStore';
+import SmallSketchbook from './../components/SmallSketchbook';
 
 function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState(null);
   const [diaryData, setDiaryData] = useState(null);
+  const {diaryId} = useDiaryIdStore();
 
   // 사용자가 선택한 날짜 정보 가져오기
   const { selectedMonth, selectedDay, setSelectDateInfo } =
@@ -20,8 +22,8 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   useEffect(() => {
     const readStickers = async () => {
       try {
-        const response = await baseInstance.get('/diaries/', {
-          params: { day: `${selectedDay}` },
+        const response = await baseInstance.get(`/diaries/${diaryId}`, {
+          params: { diary_id: `${diaryId}` },
         });
 
         if (response.status === 200) {
@@ -32,6 +34,7 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
         }
       } catch (error) {
         console.error('API 호출 중 오류 발생 : ', error);
+
       }
     };
 
@@ -44,9 +47,9 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
         <WrapperNavigateBar>
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
-        <WrapperLargeSketchbook>
-          <LargeSketchbook />
-        </WrapperLargeSketchbook>
+        <WrapperSmallSketchbook>
+          <SmallSketchbook />
+        </WrapperSmallSketchbook>
         <WrapperInnerImg>
           {diaryData && (
             <InnerImg
@@ -91,7 +94,7 @@ const PageFrame = styled.div`
 const WrapperNavigateBar = styled.div`
   position: absolute;
 `;
-const WrapperLargeSketchbook = styled.div`
+const WrapperSmallSketchbook = styled.div`
   position: absolute;
   top: 7.9375rem;
 `;

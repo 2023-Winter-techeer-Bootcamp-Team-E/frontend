@@ -5,6 +5,7 @@ import { useSelectDateInfoStore } from '../../stores/useSelectDateInfoStore';
 import { useNavigate } from 'react-router-dom';
 import { useDiaryURL } from '../../stores/useDiaryURL';
 import { useInnerPage } from '../../stores/useInnerPage';
+import useDiaryIdStore from '../../stores/useDiaryIdStore';
 import useIconUpdate from '../../stores/useIconUpdate';
 import CalendarStickers from '../../components/CalendarPage/CalendarStickers';
 import {
@@ -27,6 +28,7 @@ import CalendarLeftBtn from '../../assets/img/CalendarLeftBtn.png';
 import DiaryViewIcon from '../../assets/img/Calendar/DiaryViewIcon.png';
 import DiaryWriteIcon from '../../assets/img/Calendar/DiaryWriteIcon.png';
 import DiaryEditIcon from '../../assets/img/Calendar/DiaryEditIcon.png';
+// import useDiaryIdStore from './../../stores/diaryIdStore';
 
 const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -35,6 +37,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   const [stickerInfoArr, setStickerInfoArr] = useState([]);
   const { setPage } = useDateNotificationStore.getState();
   const { setShareURL } = useDiaryURL();
+  const {setDiaryId} = useDiaryIdStore();
   const iconUpdate = useIconUpdate((state) => state.iconUpdate);
   const navigate = useNavigate();
   const diaryRef = useRef(null);
@@ -163,6 +166,9 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
       };
 
 
+      const diaryIdStore = useDiaryIdStore();
+      const diaryId = diaryIdStore.diaryId;
+      const setDiaryId = diaryIdStore.setDiaryId;
       const { setShareURL } = useDiaryURL();
 
       const handleMakeURL = (id) => {
@@ -198,24 +204,24 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
       };
 
       const readPast = async () => {
+        
         try {
-          const response = await baseInstance.get('/diaries/', {
-            params: { day: `${formattedDate}` },
+          const response = await baseInstance.get('/diaries/link', {
+            params: { day: `${diaryInfo.day}` },
           });
     
           if (response.status === 200) {
-            const { setSelectDateInfo } = useSelectDateInfoStore();
-            setSelectDateInfo(selectedMonth, selectedDay);
-            // setSelectDateInfo(response.data);
-            console.log(formattedDate);
-            setInnerPage(response.data.diary_bg_id);
-            console.log(useInnerPage.getState().innerPage);
+
+            setDiaryId(response.data.diary_id);
+            console.log('diary_id: ',diaryId);
             navigate('../past');
           } else {
+            console.log('diary_id: ',diaryId);
             console.log('일기장 확인 실패');
           }
         } catch (error) {
-          console.error('API 호출 중 오류 발생 : ', error);
+            console.log('diary_id: ',diaryId);
+            console.error('API 호출 중 오류 발생 : ', error);
         }
       };
 
@@ -264,6 +270,8 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
                 if (diaryInfo.isExpiry) {
                   console.log('작성이 끝난 다이어리 조회');
                   readPast();
+                  // navigate('../past');
+
                 } else {
                   readDiary();
                   console.log('다이어리 조회 실패');
