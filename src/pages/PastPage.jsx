@@ -1,48 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { baseInstance } from '../api/config';
-import LargeSketchbook from '../components/LargeSketchbook';
 import NavigateBar from '../components/NavigateBar';
-import DHomeButton from '../components/DiaryPage/DHomeButton';
-import InnerImg from '../components/DiaryPage/InnerImg';
-import { useSelectDateInfoStore } from '../stores/useSelectDateInfoStore';
+import HomeBtn from '../components/DiaryPage/HomeBtn';
 import useDiaryIdStore from '../stores/useDiaryIdStore';
 import pastSketchbookImg from '../assets/img/pastSketchbook.png';
 import EmptyLogo2 from '../assets/img/EmptyLogo2.png';
-import pencil from '../assets/img/pencil.png'
+import pencil from '../assets/img/pencil.png';
+import PastInner from '../components/DiaryPage/PastInner';
 
 function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
-  const [selectedTextBox, setSelectedTextBox] = useState(false);
-  const [selectedSticker, setSelectedSticker] = useState(null);
-  const [diaryData, setDiaryData] = useState(null);
-  const {diaryId} = useDiaryIdStore();
-
-  // 사용자가 선택한 날짜 정보 가져오기
-  const { selectedMonth, selectedDay, setSelectDateInfo } =
-    useSelectDateInfoStore();
-
-  useEffect(() => {
-    const readStickers = async () => {
-      try {
-        const response = await baseInstance.get(`/diaries/${diaryId}`, {
-          params: { diary_id: `${diaryId}` },
-        });
-
-        if (response.status === 200) {
-          setDiaryData(response.data);
-          console.log(diaryData);
-        } else {
-          console.log('일기장 확인 실패');
-        }
-      } catch (error) {
-        console.error('API 호출 중 오류 발생 : ', error);
-
-      }
-    };
-
-    readStickers();
-  }, [selectedMonth, selectedDay]);
-
+  const { diaryId } = useDiaryIdStore();
 
   return (
     <BackLayout>
@@ -51,7 +18,10 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
         <SmallSketch>
-          <StyledPastSketchbook src={pastSketchbookImg} alt="pastSketchbookImg" />{' '}
+          <StyledPastSketchbook
+            src={pastSketchbookImg}
+            alt="pastSketchbookImg"
+          />{' '}
           <StyledEmptyLogo2>
             <img src={EmptyLogo2} alt="EmptyLogo2" />
             <div>
@@ -62,21 +32,13 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
               </StyledText>
             </div>
           </StyledEmptyLogo2>
-          <Styledpencil src={pencil} alt="pencil"/>
+          <Styledpencil src={pencil} alt="pencil" />
         </SmallSketch>
         <WrapperInnerImg>
-          {diaryData && (
-            <InnerImg
-              diaryData={diaryData}
-              selectedSticker={selectedSticker}
-              setSelectedSticker={setSelectedSticker}
-              selectedTextBox={selectedTextBox}
-              setSelectedTextBox={setSelectedTextBox}
-            />
-          )}
+          <PastInner diaryId={diaryId} />
         </WrapperInnerImg>
         <WrapperDHomeButton>
-          <DHomeButton />
+          <HomeBtn />
         </WrapperDHomeButton>
       </PageFrame>
     </BackLayout>
@@ -119,9 +81,9 @@ const Styledpencil = styled.img`
 
 const SmallSketch = styled.div`
   position: absolute;
-  top: -1rem;
+  top: -2.5rem;
   bottom: 0;
-  z-index: 1;
+  z-index: 0;
   border-radius: 1.5rem;
   justify-content: center;
   align-items: center;
@@ -131,6 +93,7 @@ const SmallSketch = styled.div`
 const StyledPastSketchbook = styled.img`
   width: 73.25rem;
   height: 60.18063rem;
+  top: 10rem;
 `;
 
 const StyledEmptyLogo2 = styled.div`
@@ -162,8 +125,9 @@ const WrapperDHomeButton = styled.div`
 
 const WrapperInnerImg = styled.div`
   position: absolute;
-  top: 0;
+  margin-top: -3rem;
   left: 22.7rem;
+  z-index: 1;
 `;
 
 export default PastPage;

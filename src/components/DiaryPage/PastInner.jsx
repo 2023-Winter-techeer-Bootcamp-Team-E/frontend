@@ -13,23 +13,14 @@ import MainInnerImg6 from '../../assets/img/InnerImg/MainInnerImg6.png';
 import DiaryInnerPaintingDog from '../../assets/img/InnerImg/DiaryInnerPaintingDog.png';
 import DiaryInnerPaintingInfo from '../../assets/img/InnerImg/DiaryInnerPaintingInfo.png';
 
-import Stickers from '../../components/DiaryPage/Stickers';
-import TextBox from '../../components/DiaryPage/TextBox';
-import DalleSticker from './DalleSticker';
-import useStickerStore from '../../stores/stickerStore';
-import useTextStore from '../../stores/textStore';
-import useDalleStore from '../../stores/dalleStore';
-
-function InnerImg({ websocket, diaryData, diaryId, setHostIdm }) {
-  const diaryRef = useRef(null);
+function PastInner({ diaryId }) {
   const [diaryMonth, setDiaryMonth] = useState(0);
   const [diaryDay, setDiaryDay] = useState(0);
   const [hostName, setHostName] = useState('');
-  const stickers = useStickerStore((state) => state.stickers);
-  const texts = useTextStore((state) => state.texts);
-  const dalles = useDalleStore((state) => state.dalles);
   const [innerPage, setInnerPage] = useState(1);
   const navigate = useNavigate();
+  const [diaryData, setDiaryData] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,7 +41,7 @@ function InnerImg({ websocket, diaryData, diaryId, setHostIdm }) {
           const diaryBgId = response.data.diary_data.diary_bg_id;
           setInnerPage(diaryBgId);
           setHostName(response.data.nickname);
-          setHostId(response.data.login_id);
+          setDiaryData(response.data);
         }
       } catch (error) {
         console.log(`InnerImg에서 다이어리 조회 실패 : ${error.message}`);
@@ -71,19 +62,19 @@ function InnerImg({ websocket, diaryData, diaryId, setHostIdm }) {
   const InnerPaperRotate = () => {
     switch (innerPage) {
       case '1':
-        return <InnerPaperImg src={MainInnerImg1} ref={diaryRef} />;
+        return <InnerPaperImg src={MainInnerImg1} />;
       case '2':
-        return <InnerPaperImg src={MainInnerImg2} ref={diaryRef} />;
+        return <InnerPaperImg src={MainInnerImg2} />;
       case '3':
-        return <InnerPaperImg src={MainInnerImg3} ref={diaryRef} />;
+        return <InnerPaperImg src={MainInnerImg3} />;
       case '4':
-        return <InnerPaperImg src={MainInnerImg4} ref={diaryRef} />;
+        return <InnerPaperImg src={MainInnerImg4} />;
       case '5':
-        return <InnerPaperImg src={MainInnerImg5} ref={diaryRef} />;
+        return <InnerPaperImg src={MainInnerImg5} />;
       case '6':
-        return <InnerPaperImg src={MainInnerImg6} ref={diaryRef} />;
+        return <InnerPaperImg src={MainInnerImg6} />;
       default:
-        return <InnerPaperImg src={MainInnerImg2} ref={diaryRef} />;
+        return <InnerPaperImg src={MainInnerImg2} />;
     }
   };
 
@@ -138,43 +129,16 @@ function InnerImg({ websocket, diaryData, diaryId, setHostIdm }) {
       </InnerImgWrapper>
       <PaintingDog src={DiaryInnerPaintingDog} />
       <PaintingInfo src={DiaryInnerPaintingInfo} />
-      {stickers.map((sticker) => (
-        <Stickers
-          key={sticker.id}
-          stickerId={sticker.id}
-          image={sticker.image}
-          websocket={websocket}
-        />
-      ))}
+
       <DirName>{hostName}</DirName>
       <DirDate>
         {diaryMonth}월 {diaryDay}일
       </DirDate>
-      {texts.map((text) => (
-        <TextBox
-          key={text.id}
-          textId={text.id}
-          bounds={diaryRef}
-          websocket={websocket}
-          username={hostName}
-          diaryMonth={diaryMonth}
-          diaryDay={diaryDay}
-        />
-      ))}
-      {dalles.map((dalle) => (
-        <DalleSticker
-          key={dalle.id}
-          dalleId={dalle.id}
-          image={dalle.image}
-          bounds={diaryRef}
-          websocket={websocket}
-        />
-      ))}
     </DiaryWrapper>
   );
 }
 
-export default InnerImg;
+export default PastInner;
 
 const DiaryWrapper = styled.div`
   position: absolute;
