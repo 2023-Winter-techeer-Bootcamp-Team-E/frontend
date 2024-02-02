@@ -4,8 +4,9 @@ import { baseInstance } from '../../api/config';
 import styled from 'styled-components';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
+import useIconUpdate from '../../stores/useIconUpdate';
 
-function Stickers({ onDelete, image }) {
+function Stickers({ onDelete, image, parentRef }) {
   const [position, setPosition] = useState({
     width2: 100,
     height2: 100,
@@ -13,6 +14,7 @@ function Stickers({ onDelete, image }) {
     left2: 100,
     rotate2: 0,
   });
+  const iconUpdateStore = useIconUpdate();
 
   // eslint-disable-next-line no-unused-vars
 
@@ -32,14 +34,11 @@ function Stickers({ onDelete, image }) {
         '/calendars/stickers',
         stickerData,
       );
-      // Handle the response as needed
-      console.log(response.data);
-
       if (response.status === 200) {
         const responseData = response.data;
         console.log('응답 데이터:', responseData);
-
-        // 여기에서 responseData를 확인하여 필요한 정보를 추출할 수 있습니다.
+        iconUpdateStore.setIconUpdate(iconUpdateStore.iconUpdate + 1);
+        onDelete();
       } else {
         console.error('스티커 추가 실패 : ', response.data);
       }
@@ -110,34 +109,11 @@ function Stickers({ onDelete, image }) {
   };
 
   const handleDrag = (deltaX, deltaY) => {
-    setPosition((prevState) => {
-      // const boundsRect = bounds.current.getBoundingClientRect();
-      const expandedBounds = {
-        // left: boundsRect.left - prevState.width2,
-        // top: boundsRect.top - prevState.height2,
-        // right: boundsRect.right,
-        // bottom: boundsRect.bottom,
-      };
-      // let newTop = prevState.top2 + deltaY;
-      // let newLeft = prevState.left2 + deltaX;
-      let newTop = prevState.top2 + deltaY;
-      let newLeft = prevState.left2 + deltaX;
-      // 위치를 제한하는 부분
-      // if (newLeft < expandedBounds.left) newLeft = expandedBounds.left;
-      // if (newTop < expandedBounds.top) newTop = expandedBounds.top;
-      // if (newLeft + prevState.width2 > expandedBounds.right) {
-      //   newLeft = expandedBounds.right - prevState.width2;
-      // }
-      // if (newTop + prevState.height2 > expandedBounds.bottom) {
-      //   newTop = expandedBounds.bottom - prevState.height2;
-      // }
-      console.log('position', newTop, newLeft);
-      return {
-        ...prevState,
-        top2: newTop,
-        left2: newLeft,
-      };
-    });
+    setPosition((prevState) => ({
+      ...prevState,
+      top2: prevState.top2 + deltaY,
+      left2: prevState.left2 + deltaX,
+    }));
   };
 
   return (
@@ -147,7 +123,7 @@ function Stickers({ onDelete, image }) {
           width: position.width2,
           height: position.height2,
           position: 'absolute',
-          zIndex: 1,
+          zIndex: 150,
         }}>
         <CloseButton
           onClick={onDelete}
@@ -188,7 +164,7 @@ function Stickers({ onDelete, image }) {
           onRotate={handleRotate}
           onResize={handleResize}
           onDrag={handleDrag}
-          // bounds="parent"
+          bounds={parentRef.current}
         />
       </div>
     </>
