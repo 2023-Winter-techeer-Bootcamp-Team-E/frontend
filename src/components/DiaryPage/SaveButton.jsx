@@ -67,29 +67,30 @@ function SaveButton({ savedData }) {
 }
 
 const SaveButtonContainer = styled.div`
-  width: 12.375rem;
-  height: 3.0125rem;
-  flex-shrink: 0;
-  border-radius: 1.875rem;
-  background: #c1c3ff;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.25);
-  }
-
-  color: #fff;
-  text-align: center;
-  // font-family: Inter;
-  font-size: 1.4rem;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
+    width: 12.375rem;
+    height: 3.0125rem;
+    flex-shrink: 0;
+    border-radius: 1.875rem;
+    background: #C1C3FF;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.07);
+      box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.25);
+      background: #B1B4FF;
+    }
+    
+    color: #FFF;
+    text-align: center;
+    // font-family: Inter;
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
 `;
 
 export default SaveButton;

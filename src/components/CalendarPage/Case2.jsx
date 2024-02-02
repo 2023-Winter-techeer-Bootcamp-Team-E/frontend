@@ -17,7 +17,7 @@ import InnerImg6 from '../../assets/img/InnerImg/SelectInnerImg6.png';
 import { useInnerPage } from '../../stores/useInnerPage';
 import preBtn from '../../assets/img/Calendar/preBtn.png';
 import preBtn2 from '../../assets/img/Calendar/preBtn2.png';
-import useDiaryIdStore from '../../stores/diaryIdStore';
+import useDiaryIdStore from '../../stores/useDiaryIdStore';
 
 function Case2({ diaryMonth, diaryDay }) {
   const [inpageNum, setinPageNum] = useState(1);

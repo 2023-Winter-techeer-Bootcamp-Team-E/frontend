@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import home from '../../assets/img/home.png';
 
-function DHomeButton() {
+function HomeBtn() {
   const navigate = useNavigate();
 
   const handleDHomeButtonClick = (navigate) => {
@@ -13,14 +13,14 @@ function DHomeButton() {
 
   return (
     <DHomeButtonContainer onClick={() => handleDHomeButtonClick(navigate)}>
-      <StyledDHomeButton src={home} alt="home" />
+      <StyledHomeButton src={home} alt="home" />
     </DHomeButtonContainer>
   );
 }
 
 const DHomeButtonContainer = styled.div`
-  width: 3.125rem;
-  height: 3.125rem;
+  width: 4.125rem;
+  height: 4.125rem;
   flex-shrink: 0;
   border-radius: 1.875rem;
   background: #c1c3ff;
@@ -34,14 +34,14 @@ const DHomeButtonContainer = styled.div`
   &:hover {
     transform: scale(1.07);
     box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.25);
-    background: #B1B4FF;
+    background: #b1b4ff;
   }
 `;
 
-const StyledDHomeButton = styled.img`
+const StyledHomeButton = styled.img`
   width: 2.05rem;
   height: 2.05rem;
   flex-shrink: 0;
 `;
 
-export default DHomeButton;
+export default HomeBtn;
