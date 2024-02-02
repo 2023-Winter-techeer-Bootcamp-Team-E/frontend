@@ -50,13 +50,13 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         key={index}
         src={stickerInfo[0]} // 이미지 URL
         style={{
-          top: `${stickerInfo[1]}px`, // top 값
-          left: `${stickerInfo[2]}px`, // left 값
+          top: `${stickerInfo[1] + 28}px`, // top 값
+          left: `${stickerInfo[2] + 484 + -0.5 * (stickerInfo[3] - 100)}px`, // left 값
           width: `${stickerInfo[3]}px`, // width 값
           height: `${stickerInfo[4]}px`, // height 값
           transform: `rotate(${stickerInfo[5]}deg)`, // rotate 값
           position: 'absolute',
-          zIndex: 100,
+          zIndex: 1,
           // 추가적인 스타일 속성들도 필요에 따라 설정 가능
         }}
         alt={`Sticker ${index + 1}`}
@@ -78,6 +78,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
   };
 
   useEffect(() => {
+    setStickerInfoArr([]);
     const fetchData = async () => {
       const yearMonth = format(currentMonth, 'yyyy-MM');
       try {
@@ -107,8 +108,8 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           setStickerInfoArr(extractedStickerInfo);
         }
       } catch (error) {
-        console.log(`${yearMonth} 달력 조회 실패`);
         setDiaryInfoArray([]);
+        console.log(`${yearMonth} 달력 조회 실패`);
       }
     };
 
@@ -148,8 +149,10 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
       const isFutureDate = isAfter(day, new Date());
       const isPastMonth = isBefore(day, startOfMonth(currentMonth));
       const isNextMonth = isAfter(day, endOfMonth(currentMonth));
-      const setSelectDateInfo = useSelectDateInfoStore((state) => state.setSelectDateInfo);
-      
+      const setSelectDateInfo = useSelectDateInfoStore(
+        (state) => state.setSelectDateInfo,
+      );
+
       const shouldShowDiaryBtn =
         !isFutureDate && !isPastMonth && !isNextMonth && isDateSelected(day);
 
@@ -157,21 +160,12 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         (diary) => diary.day === formattedDate,
       );
 
-      const diaryIconStyle = {
-        zIndex: 101, // 여기에 z-index 값을 설정
-        position: 'absolute',
-      };
-
-
-      const { setShareURL } = useDiaryURL();
-
       const handleMakeURL = (id) => {
         const location = window.location;
         const link = `${location.protocol}//${location.host}/diary/${id}`;
         setShareURL(link);
         console.log(link);
       };
-
 
       const readDiary = async () => {
         console.log('day: ', diaryInfo.day);
@@ -202,7 +196,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
           const response = await baseInstance.get('/diaries/', {
             params: { day: `${formattedDate}` },
           });
-    
+
           if (response.status === 200) {
             setSelectDateInfo(response.data);
             console.log(formattedDate);
@@ -241,7 +235,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
 
           {shouldShowDiaryBtn && !diaryInfo && (
             <img
-              style={diaryIconStyle}
               className="GoToSelectInnerPaperBtn"
               src={DiaryWriteIcon}
               alt="Go to Diary"
@@ -254,7 +247,6 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
 
           {diaryInfo && !isFutureDate && !isPastMonth && !isNextMonth && (
             <img
-              style={{ zIndex: 150 }}
               className="GoToShareURLBtn"
               src={diaryIcon}
               alt="Go to Diary"
@@ -269,6 +261,7 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
               }}
             />
           )}
+          {printSticker()}
         </div>
       );
     };
@@ -304,27 +297,29 @@ const Calendar = ({ selectedSticker, setSelectedSticker }) => {
         <CalendarStickers
           onDelete={handleDeleteStickers}
           image={selectedSticker}
-          bounds={diaryRef}
+          parentRef={diaryRef}
         />
       )}
-      {printSticker()}
       <div className="calendar" ref={diaryRef}>
-        <div className="listname">
+        <div className="listname" style={{ zIndex: 100 }}>
           <span className="topyear">{format(currentMonth, 'yyyy')}</span>
           {format(currentMonth, 'MMMMMMMM')}
         </div>
         <img
+          style={{ zIndex: 100 }}
           src={CalendarLeftBtn}
           className="leftBtn"
           onClick={prevMonth}
           alt="Previous Month"
         />
         <img
+          style={{ zIndex: 100 }}
           src={CalendarRightBtn}
           className="rightBtn"
           onClick={nextMonth}
           alt="Next Month"
         />
+
         <RenderDays />
         <RenderCells />
       </div>
