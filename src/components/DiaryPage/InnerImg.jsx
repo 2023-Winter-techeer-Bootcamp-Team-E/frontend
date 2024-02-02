@@ -20,7 +20,7 @@ import useStickerStore from '../../stores/stickerStore';
 import useTextStore from '../../stores/textStore';
 import useDalleStore from '../../stores/dalleStore';
 
-function InnerImg({ websocket, diaryData, diaryId, setHostIdm }) {
+function InnerImg({ websocket, diaryData, diaryId, setHostId }) {
   const diaryRef = useRef(null);
   const [diaryMonth, setDiaryMonth] = useState(0);
   const [diaryDay, setDiaryDay] = useState(0);

@@ -42,6 +42,7 @@ function PastInner({ diaryId }) {
           setInnerPage(diaryBgId);
           setHostName(response.data.nickname);
           setDiaryData(response.data);
+          console.log(diaryData);
         }
       } catch (error) {
         console.log(`InnerImg에서 다이어리 조회 실패 : ${error.message}`);
