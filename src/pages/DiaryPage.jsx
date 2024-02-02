@@ -18,7 +18,7 @@ import useUserInfoStore from '../stores/userInfoStore';
 
 const setMetaTags = ({
   title = '하루연결', // 기본 타이틀
-  description = '“1월 31일”의 일상을 친구들과 공유해요!', // 기본 설명
+  description = '“1월 30일”의 일상을 공유해요!', // 기본 설명
   imageUrl = 'https://i.postimg.cc/DZYT5Y2J/Share-Icon.png', // 기본 사이트 이미지 경로
 }) => {
   const titleTag = document.querySelector('meta[property="og:title"]'); // document.querySelector를 사용하여 index.html의 해당 메타 태그를 선택
@@ -271,7 +271,7 @@ function DiaryPage() {
     };
     setMetaTags({
       title: '하루연결',
-      description: '“1월 31일”의 일상을 친구들과 공유해요!',
+      description: '“1월 30일”의 일상을 공유해요!',
       imageUrl: 'https://i.postimg.cc/DZYT5Y2J/Share-Icon.png',
     });
 
