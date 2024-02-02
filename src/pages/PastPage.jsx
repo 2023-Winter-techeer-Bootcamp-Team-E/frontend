@@ -30,7 +30,7 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
 
         if (response.status === 200) {
           setDiaryData(response.data);
-          console.log('일기장 확인 실패');
+          console.log(diaryData);
         } else {
           console.log('일기장 확인 실패');
         }
@@ -42,6 +42,7 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
 
     readStickers();
   }, [selectedMonth, selectedDay]);
+
 
   return (
     <BackLayout>
@@ -135,7 +136,7 @@ const StyledPastSketchbook = styled.img`
 const StyledEmptyLogo2 = styled.div`
   position: absolute;
   left: 28.8rem;
-  top: 2.1em;
+  top: 2.8em;
   img {
     width: 17.125rem;
     height: 12.25rem;
