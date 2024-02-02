@@ -4,7 +4,6 @@ import CalendarPage from './pages/CalendarPage';
 import StartPage from './pages/StartPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
-import TutorialPage from './pages/TutorialPage';
 import DiaryPage from './pages/DiaryPage';
 import GlobalStyles from './GlobalStyles';
 import PastPage from './pages/PastPage';
@@ -18,7 +17,6 @@ function App() {
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/tutorial" element={<TutorialPage />} />
         <Route path="/diary/:diary_id" element={<DiaryPage />} />
         <Route path="/past" element={<PastPage />} />
       </Routes>

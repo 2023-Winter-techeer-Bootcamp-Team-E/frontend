@@ -6,7 +6,8 @@ import SmallSketchbookImage from '../assets/img/SmallSketchbook.png'; // 변수�
 const SmallSketchbook = () => {
   return (
     <SmallSketch>
-      <StyledSmallSketchbook src={SmallSketchbookImage} alt="SmallSketchbook" /> {/* 변수명 변경 */}
+      <StyledSmallSketchbook src={SmallSketchbookImage} alt="SmallSketchbook" />{' '}
+      {/* 변수명 변경 */}
       <StyledEmptyLogo2>
         <img src={EmptyLogo2} alt="EmptyLogo2" />
         <div>
@@ -33,10 +34,10 @@ const SmallSketch = styled.div`
 `;
 
 const StyledSmallSketchbook = styled.img`
-width: 55.75rem;
-height: 55.8125rem;
-bottom: 0;
-z-index: 1;
+  width: 55.75rem;
+  height: 55.8125rem;
+  bottom: 0;
+  z-index: 1;
 `;
 
 //내일 중앙정렬 하기!
