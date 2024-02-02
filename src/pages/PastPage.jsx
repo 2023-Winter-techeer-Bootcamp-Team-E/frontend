@@ -7,7 +7,9 @@ import DHomeButton from '../components/DiaryPage/DHomeButton';
 import InnerImg from '../components/DiaryPage/InnerImg';
 import { useSelectDateInfoStore } from '../stores/useSelectDateInfoStore';
 import useDiaryIdStore from '../stores/useDiaryIdStore';
-import SmallSketchbook from './../components/SmallSketchbook';
+import pastSketchbookImg from '../assets/img/pastSketchbook.png';
+import EmptyLogo2 from '../assets/img/EmptyLogo2.png';
+import pencil from '../assets/img/pencil.png'
 
 function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
@@ -47,9 +49,20 @@ function PastPage({ userName = 'userNameNull', userId = 'userIdNull', move }) {
         <WrapperNavigateBar>
           <NavigateBar userName={userName} userId={userId} />
         </WrapperNavigateBar>
-        <WrapperSmallSketchbook>
-          <SmallSketchbook />
-        </WrapperSmallSketchbook>
+        <SmallSketch>
+          <StyledPastSketchbook src={pastSketchbookImg} alt="pastSketchbookImg" />{' '}
+          <StyledEmptyLogo2>
+            <img src={EmptyLogo2} alt="EmptyLogo2" />
+            <div>
+              <StyledText>
+                하루
+                <br />
+                연결
+              </StyledText>
+            </div>
+          </StyledEmptyLogo2>
+          <Styledpencil src={pencil} alt="pencil"/>
+        </SmallSketch>
         <WrapperInnerImg>
           {diaryData && (
             <InnerImg
@@ -94,15 +107,54 @@ const PageFrame = styled.div`
 const WrapperNavigateBar = styled.div`
   position: absolute;
 `;
-const WrapperSmallSketchbook = styled.div`
+
+const Styledpencil = styled.img`
   position: absolute;
-  top: 7.9375rem;
+  right: -18.8rem;
+  bottom: 22.5rem;
+  width: 23.2rem;
+  height: 26.8em;
 `;
 
+const SmallSketch = styled.div`
+  position: absolute;
+  top: -1rem;
+  bottom: 0;
+  z-index: 1;
+  border-radius: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+`;
+
+const StyledPastSketchbook = styled.img`
+  width: 73.25rem;
+  height: 60.18063rem;
+`;
+
+const StyledEmptyLogo2 = styled.div`
+  position: absolute;
+  left: 28.8rem;
+  top: 2.1em;
+  img {
+    width: 17.125rem;
+    height: 12.25rem;
+  }
+`;
+
+const StyledText = styled.text`
+  position: relative;
+  color: #2c2c2c;
+  bottom: 7rem;
+  left: 5rem;
+  font-size: 2.4rem;
+  font-family: 'seolleim';
+  line-height: 1;
+`;
 const WrapperDHomeButton = styled.div`
   position: absolute;
-  right: 5.19rem;
-  bottom: 5.4rem;
+  right: 7.19rem;
+  bottom: 8.8rem;
   display: flex;
   z-index: 10;
 `;

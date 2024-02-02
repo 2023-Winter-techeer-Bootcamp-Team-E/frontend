@@ -40,7 +40,6 @@ const StyledSmallSketchbook = styled.img`
   z-index: 1;
 `;
 
-//내일 중앙정렬 하기!
 const StyledEmptyLogo2 = styled.div`
   position: absolute;
   left: 19.8rem;

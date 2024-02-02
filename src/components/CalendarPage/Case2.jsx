@@ -29,10 +29,7 @@ function Case2({ diaryMonth, diaryDay }) {
   const { iconUpdate, setIconUpdate } = useIconUpdate();
   const [upButtonHovered, setUpButtonHovered] = useState(false);
   const [downButtonHovered, setDownButtonHovered] = useState(false);
-  // const [ diaryId, setDiaryId ] = useDiaryIdStore();
-  const diaryIdStore = useDiaryIdStore();
-const diaryId = diaryIdStore.diaryId;
-const setDiaryId = diaryIdStore.setDiaryId;
+  const { setDiaryId } = useDiaryIdStore();
 
   //일기생성
   const createDiary = async () => {
@@ -43,14 +40,16 @@ const setDiaryId = diaryIdStore.setDiaryId;
       });
       if (response.status === 200) {
         console.log('일기장 생성 성공');
-        handleMakeURL(response.data.sns_link);
+        handleMakeURL(response.data.diary_id);
         setInnerPage(response.data.diary_bg_id);
+        setPage(3);
         setIconUpdate((prev) => prev + 1);
         setDiaryId(response.data.diary_id);
-        setPage(3);
-
         console.log(
-          'diaryId:' , diaryId
+          'DateNotification page',
+          useInnerPage.getState().innerPage,
+          useDateNotificationStore.getState().page,
+          '페이지로 넘어감',
         );
         console.log('background Num: ', response.data.diary_bg_id);
       } else {
