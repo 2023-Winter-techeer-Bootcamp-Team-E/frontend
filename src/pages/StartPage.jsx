@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { keyframes } from 'styled-components';
 import Book2 from '../assets/img/Book2.png';
@@ -6,7 +6,46 @@ import StartButton from '../components/Start/StartButton';
 import EmptyLogo from '../assets/img/EmptyLogo.png';
 import Papers2 from '../assets/img/Papers2.png';
 
+const setMetaTags = ({
+  title = '하루연결', // 기본 타이틀
+  description = '“1월 30일”의 일상을 공유해요!', // 기본 설명
+  imageUrl = 'https://i.postimg.cc/DZYT5Y2J/Share-Icon.png', // 기본 사이트 이미지 경로
+}) => {
+  const titleTag = document.querySelector('meta[property="og:title"]'); // document.querySelector를 사용하여 index.html의 해당 메타 태그를 선택
+
+  // 해당하는 메타 태그가 없다면 document.querySelector는 null을 반환하게 되고, 그러고 .setAttribute 메서드를 호출하려 하면 오류가 발생
+  if (titleTag) {
+    // 따라서 if문으로 메타 태그가 존재하는지 확인한 후에 .setAttribute를 호출해야 함
+    titleTag.setAttribute('content', `${title}`);
+  }
+
+  const descriptionTag = document.querySelector(
+    'meta[property="og:description"]',
+  );
+  if (descriptionTag) {
+    descriptionTag.setAttribute('content', description);
+  }
+
+  const imageTag = document.querySelector('meta[property="og:image"]');
+  if (imageTag) {
+    imageTag.setAttribute('content', imageUrl);
+  }
+
+  const urlTag = document.querySelector('meta[property="og:url"]');
+  if (urlTag) {
+    urlTag.setAttribute('content', window.location.href);
+  }
+};
+//-----------------------------------------------------------------------
+
 function StartPage({ move }) {
+  useEffect(() => {
+    setMetaTags({
+      title: '하루연결',
+      description: '“1월 30일”의 일상을 공유해요!',
+      imageUrl: 'https://i.postimg.cc/DZYT5Y2J/Share-Icon.png',
+    });
+  }, []);
   return (
     <>
       <BackLayout>
