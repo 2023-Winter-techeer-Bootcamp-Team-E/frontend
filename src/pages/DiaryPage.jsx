@@ -60,7 +60,8 @@ function DiaryPage() {
     }
 
     const newSocket = new WebSocket(
-      `ws://127.0.0.1:8000/ws/harurooms/${diary_id}/`,
+      `wss://${window.location.host}/ws/harurooms/${diary_id}/`, // 배포용
+      // `ws://127.0.0.1:8000/ws/harurooms/${diary_id}/`, // 개발용
     );
     websocket.current = newSocket;
 
