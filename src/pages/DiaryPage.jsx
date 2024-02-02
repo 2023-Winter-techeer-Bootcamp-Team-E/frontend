@@ -16,6 +16,38 @@ import useTextStore from '../stores/textStore';
 import useDalleStore from '../stores/dalleStore';
 import useUserInfoStore from '../stores/userInfoStore';
 
+const setMetaTags = ({
+  title = '하루연결', // 기본 타이틀
+  description = '“1월 31일”의 일상을 친구들과 공유해요!', // 기본 설명
+  imageUrl = 'https://i.postimg.cc/DZYT5Y2J/Share-Icon.png', // 기본 사이트 이미지 경로
+}) => {
+  const titleTag = document.querySelector('meta[property="og:title"]'); // document.querySelector를 사용하여 index.html의 해당 메타 태그를 선택
+
+  // 해당하는 메타 태그가 없다면 document.querySelector는 null을 반환하게 되고, 그러고 .setAttribute 메서드를 호출하려 하면 오류가 발생
+  if (titleTag) {
+    // 따라서 if문으로 메타 태그가 존재하는지 확인한 후에 .setAttribute를 호출해야 함
+    titleTag.setAttribute('content', `${title}`);
+  }
+
+  const descriptionTag = document.querySelector(
+    'meta[property="og:description"]',
+  );
+  if (descriptionTag) {
+    descriptionTag.setAttribute('content', description);
+  }
+
+  const imageTag = document.querySelector('meta[property="og:image"]');
+  if (imageTag) {
+    imageTag.setAttribute('content', imageUrl);
+  }
+
+  const urlTag = document.querySelector('meta[property="og:url"]');
+  if (urlTag) {
+    urlTag.setAttribute('content', window.location.href);
+  }
+};
+//-----------------------------------------------------------------------
+
 function DiaryPage() {
   const [selectedTextBox, setSelectedTextBox] = useState(false);
   const [selectedSticker, setSelectedSticker] = useState(null);
@@ -237,6 +269,11 @@ function DiaryPage() {
         console.log('텍스트 저장', data.content, data.nickname);
       }
     };
+    setMetaTags({
+      title: '하루연결',
+      description: '“1월 31일”의 일상을 친구들과 공유해요!',
+      imageUrl: 'https://i.postimg.cc/DZYT5Y2J/Share-Icon.png',
+    });
 
     return () => {
       newSocket.close();
