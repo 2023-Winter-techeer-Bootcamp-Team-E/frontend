@@ -122,42 +122,20 @@ function TextBox({
   };
 
   const handleDrag = (e, d) => {
-    sendWebSocketMessage('text_drag', { x: d.x, y: d.y });
-  };
-
-  const handleResize = (e, direction, ref, delta, position) => {
-    sendWebSocketMessage('text_resize', {
-      width: ref.style.width,
-      height: ref.style.height,
+    sendWebSocketMessage('text_drag', {
+      x: Math.round(d.x),
+      y: Math.round(d.y),
     });
   };
 
-  const handleDragStop = (e, d, nickname) => {
-    object_type = 'text';
-    const textData = {
-      content: e.target.value,
-      nickname: nickname,
-      x: text.x,
-      y: text.y,
-      width: text.width,
-      height: text.height,
-    };
-    useTextStore.getState().updateText(textData);
-    sendWebSocketMessage('drag_stop', object_type, textData);
-  };
+  const handleResize = (e, direction, ref, delta, position) => {
+    const width = Math.round(parseFloat(ref.style.width));
+    const height = Math.round(parseFloat(ref.style.height));
 
-  const handleResizeStop = (e, direction, ref, delta, nickname) => {
-    object_type = 'text';
-    const textData = {
-      content: e.target.value,
-      nickname: nickname,
-      x: text.x,
-      y: text.y,
-      width: text.width,
-      height: text.height,
-    };
-    useTextStore.getState().updateText(textData);
-    sendWebSocketMessage('resize_stop', object_type, textData);
+    sendWebSocketMessage('text_resize', {
+      width: width,
+      height: height,
+    });
   };
 
   const onDelete = () => {
@@ -200,8 +178,6 @@ function TextBox({
         position={{ x: text.x, y: text.y }}
         onDrag={handleDrag}
         onResize={handleResize}
-        // onDragStop={handleDragStop}
-        // onResizeStop={handleResizeStop}
         enableResizing={{
           top: true,
           right: true,
